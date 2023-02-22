@@ -1,0 +1,88 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/php:8.0.13-node
+    steps:
+      - add_ssh_keys
+      - checkout
+      - run:
+          when: always
+          name: Install SSH Key
+          command: |
+            rm ~/.ssh/id_rsa && rm ~/.ssh/id_rsa.pub
+            touch ~/.ssh/id_rsa_tmp
+            echo "${BIGBITE_CI_GH_SSH_KEY}" > ~/.ssh/id_rsa_tmp
+            awk '{gsub(/\\n/,"\n")}1' ~/.ssh/id_rsa_tmp > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            echo -e "Host github.com\n\tIdentityFile ~/.ssh/id_rsa\n\tIdentitiesOnly yes\n" > ~/.ssh/config
+      - run: sudo composer self-update --1
+      - run:
+          when: always
+          name: Setup Composer Auth
+          command: |
+            COMPOSER_PATH=$(composer config home --global)
+            touch $COMPOSER_PATH/auth.json
+            printf '{ "github-oauth": { "github.com": "%s" } }' ${BIGBITE_CI_GH_TOKEN} > $COMPOSER_PATH/auth.json
+      - restore_cache:
+          keys:
+            - composer-deps-{{ .Branch }}-{{ checksum "composer.lock" }}
+      - run: composer install
+      - save_cache:
+          key: composer-deps-{{ .Branch }}-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - restore_cache:
+          keys:
+            - npm-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - run: npm run build:prod
+      - save_cache:
+          key: npm-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/usr/local/lib/node_modules
+            - node_modules
+            - ~/.npm
+            - ~/.node-gyp
+      - run:
+          when: on_success
+          name: Check branch
+          command: |
+            # if [[ "$CIRCLE_PULL_REQUEST" != "false" ]]; then circleci step halt; fi
+            if [[ ! "$CIRCLE_BRANCH" =~ (main|master|develop|release/[0-9.]+|chore/update-ci) ]]; then circleci step halt; fi
+      - run:
+          when: on_success
+          name: Set Git
+          command: |
+            git config --global user.email "${BIGBITE_CI_EMAIL}"
+            git config --global user.name "${BIGBITE_CI_NAME}"
+      - run:
+          when: on_success
+          name: Clean Files
+          command: |
+            rm -rf node_modules
+            FILE=.deployignore
+            if [ -f "$FILE" ]; then
+                rm .gitignore
+                mv .deployignore .gitignore
+            fi
+      - run:
+          when: on_success
+          name: Built Branch
+          command: |
+            BRANCH_NAME=${CIRCLE_BRANCH}
+            git config --global user.email "${BIGBITE_CI_EMAIL}"
+            git config --global user.name "${BIGBITE_CI_NAME}"
+            git remote set-url origin https://${BIGBITE_CI_NAME}:${BIGBITE_CI_GH_TOKEN}@github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}.git
+            git checkout -b $BRANCH_NAME-built
+            git add -A && git commit -m "built from ${CIRCLE_SHA1}"
+            git push --force -u origin $BRANCH_NAME-built
+workflows:
+  workflow:
+    jobs:
+      - build:
+          context: bigbite
+          filters:
+            branches:
+              ignore: /^.*-built$/

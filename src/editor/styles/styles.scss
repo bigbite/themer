@@ -1,0 +1,20 @@
+.colorField {
+    position: relative;
+}
+
+.colorField > * {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.colorPickerPreview {
+    height: 40px;
+    width: 100%;
+}
+
+.colorPicker {
+   position: absolute;
+   top: 0;
+   left: 100%;
+   z-index: 10;
+}

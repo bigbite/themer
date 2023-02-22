@@ -1,0 +1,23 @@
+{
+    "name": "@big-bite/themer",
+    "description": "",
+    "version": "1.0.0-alpha.1",
+    "author": "Big Bite",
+    "prettier": "@bigbite/build-tools/configs/prettier",
+    "scripts": {
+        "build:dev": "build-tools build --once",
+        "build:prod": "build-tools build --once --production",
+        "watch:dev": "build-tools build",
+        "watch:prod": "build-tools build --production"
+    },
+    "dependencies": {
+        "prop-types": "^15.7.0",
+        "@bigbite/build-tools": "git+ssh://git@github.com:bigbite/build-tools.git#1.0.0-rc.6",
+        "@wordpress/block-editor": "^10.4.0",
+        "@wordpress/components": "^21.2.0",
+        "@wordpress/element": "^4.17.0",
+        "@wordpress/i18n": "^4.20.0",
+        "dompurify": "^2.4.0",
+        "handlebars": "^4.7.7"
+    }
+}

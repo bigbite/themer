@@ -1,0 +1,41 @@
+{
+    "name": "big-bite/themer",
+    "description": "",
+    "type": "wordpress-plugin",
+    "version": "1.0.0-alpha.1",
+    "repositories": [
+      {
+          "url": "git@github.com:bigbite/phpcs-config.git",
+          "type": "vcs"
+      }
+    ],
+    "require": {
+      "automattic/jetpack-autoloader": "^2.10.1"
+    },
+    "require-dev": {
+      "bigbite/phpcs-config": "dev-main"
+    },
+    "autoload": {
+      "files": [
+        "inc/constants.php",
+        "inc/asset-settings.php",
+        "inc/utils.php",
+        "inc/class-filters.php",
+        "inc/class-custom-routes.php",
+        "inc/class-admin.php",
+        "inc/setup.php"
+      ],
+      "psr-4": {
+        "Big_Bite\\themer\\": "inc/"
+      },
+      "classmap": [ "inc/" ]
+    },
+    "scripts": {},
+    "config": {
+        "preferred-install": "dist",
+        "allow-plugins": {
+            "automattic/jetpack-autoloader": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+  }
