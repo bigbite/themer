@@ -47,7 +47,8 @@ const ThemeSettings = () => {
 
     setTheme(newTheme);
 
-    console.log('new theme', newTheme);
+    console.log('old theme here', theme);
+    console.log('new theme here', newTheme);
 
     setLoading(true);
 
