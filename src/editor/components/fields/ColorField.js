@@ -1,6 +1,6 @@
 /* eslint-disable react/no-danger */
 const { useState } = wp.element;
-const { TextControl, ColorPalette, ColorPicker, Panel, PanelHeader, PanelRow, PanelBody } =
+const { TextControl, ColorPalette, ColorPicker, Panel, PanelHeader, PanelRow, PanelBody, Button } =
   wp.components;
 const { __ } = wp.i18n;
 

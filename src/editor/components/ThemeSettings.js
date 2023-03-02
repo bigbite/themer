@@ -7,6 +7,7 @@ const { ColorPalette, ColorPicker, Panel, PanelHeader, PanelRow, PanelBody, Butt
   wp.components;
 const { __ } = wp.i18n;
 
+const themeContext = createContext();
 const showContext = createContext();
 const dispatchContext = createContext();
 
@@ -14,13 +15,17 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'showDialog':
       return [action.value];
+    case 'hideDialog':
+      return [action.value];
+    case 'applySettings':
+      return [action.value];
     default:
       throw new Error('invalid toggle');
   }
 };
 
 const states = {
-  value: false,
+  showModal: false,
 };
 
 /** The main app container */
@@ -31,6 +36,12 @@ const ThemeSettings = () => {
   const colorItems = [];
   const mounted = useRef(false);
   const [state, dispatch] = useReducer(reducer, states);
+
+  const fetchCurrentTheme = async () => {
+    const response = await getTheme();
+    console.log('theme', response);
+    setTheme(response);
+  };
 
   useEffect(() => {
     if (!mounted.current) {
@@ -50,24 +61,26 @@ const ThemeSettings = () => {
   return (
     <dispatchContext.Provider value={dispatch}>
       <showContext.Provider value={state}>
-        <Panel>
-          <PanelBody
-            title={__('Global Colours')}
-            icon={''}
-            initialOpen={true}
-            onToggle={(e) => console.log('toggled', e)}
-          >
-            <PanelRow>
-              <ComponentWrapper></ComponentWrapper>
-            </PanelRow>
-          </PanelBody>
-          <PanelBody title={__('Block Settings')}>
-            <PanelRow></PanelRow>
-          </PanelBody>
-        </Panel>
-        <Button isPrimary onClick={() => saveSettings()}>
-          {__('Save')}
-        </Button>
+        <themeContext.Provider value={theme}>
+          <Panel>
+            <PanelBody
+              title={__('Global Colours')}
+              icon={''}
+              initialOpen={true}
+              onToggle={(e) => console.log('toggled', e)}
+            >
+              <PanelRow>
+                <ComponentWrapper></ComponentWrapper>
+              </PanelRow>
+            </PanelBody>
+            <PanelBody title={__('Block Settings')}>
+              <PanelRow></PanelRow>
+            </PanelBody>
+          </Panel>
+          <Button isPrimary onClick={() => saveSettings()}>
+            {__('Save')}
+          </Button>
+        </themeContext.Provider>
       </showContext.Provider>
     </dispatchContext.Provider>
   );
@@ -76,3 +89,4 @@ const ThemeSettings = () => {
 export default ThemeSettings;
 export const dispatchContexts = () => useContext(dispatchContext);
 export const showContexts = () => useContext(showContext);
+export const themeContexts = () => useContext(themeContext);

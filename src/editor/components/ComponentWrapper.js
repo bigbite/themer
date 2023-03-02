@@ -6,8 +6,11 @@ const ComponentWrapper = () => {
   const dispatch = dispatchContexts();
 
   const showDialog = () => {
-    console.log('kkk');
     dispatch({ type: 'showDialog', value: true });
+  };
+
+  const hideDialog = () => {
+    dispatch({ type: 'hideDialog', value: false });
   };
 
   return (
@@ -15,6 +18,7 @@ const ComponentWrapper = () => {
       <div className="App">
         <TextInput />
         <button onClick={showDialog}>show Dialog</button>
+        <button onClick={hideDialog}>hide Dialog</button>
       </div>
     </>
   );
