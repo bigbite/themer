@@ -36,6 +36,9 @@ const ThemeSettings = () => {
   const colorItems = [];
   const mounted = useRef(false);
   const [state, dispatch] = useReducer(reducer, states);
+  const settings = new wp.api.models.Settings();
+  const [apiLoading, setApiLoading] = useState(() => false);
+  const [apiSaving, setApiSaving] = useState(() => false);
 
   const fetchCurrentTheme = async () => {
     const response = await getTheme();
@@ -47,21 +50,33 @@ const ThemeSettings = () => {
     if (!mounted.current) {
       mounted.current = true;
 
+      if (false === apiLoading) {
+        settings.fetch().then((response) => {
+          console.log('this is the current override theme', response.theme_override_settings);
+          //setSelectedFont(response.eps_headline_font);
+          //setApiLoading(true);
+        });
+      }
+
       fetchCurrentTheme();
     }
   }, [true]);
 
   useEffect(() => {
-    console.log('something changes');
+    console.log('something changed');
   }, [theme]);
 
   console.log('theme before render', theme);
   console.log('rerender');
 
+  const saveSettings = () => {
+    console.log('save settings', theme);
+  };
+
   return (
     <dispatchContext.Provider value={dispatch}>
       <showContext.Provider value={state}>
-        <themeContext.Provider value={theme}>
+        <themeContext.Provider value={{ theme, setTheme }}>
           <Panel>
             <PanelBody
               title={__('Global Colours')}

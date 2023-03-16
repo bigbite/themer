@@ -11,6 +11,7 @@ class AdminSetup {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'create_admin_screen' ], 1 );
+		add_action( 'init', [ $this, 'create_theme_options' ] );
 	}
 
 	/**
@@ -27,6 +28,22 @@ class AdminSetup {
 			[ $this, 'theme_render_settings' ],
 		);
 	}
+
+	public function create_theme_options() : void {	
+		add_option( 'theme_override_settings', '' );
+
+		register_setting(
+			'theme_overrides',
+			'theme_override_settings',
+			array(
+				'type'         => 'string',
+				'show_in_rest' => true,
+				'default' => '',
+			)
+		);
+	}
+	
+	
 
     public function theme_render_settings() {
 		?>
