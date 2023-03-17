@@ -10,7 +10,7 @@ class Filters {
 	 * Initialise the hooks and filters.
 	 */
 	public function __construct() {
-      // add_filter( 'wp_theme_json_data_theme', 'filter_theme_json_theme' );
+       add_filter( 'wp_theme_json_data_theme', [$this, 'filter_theme_json_theme' ] );
        add_action( 'init', [ $this, 'bigbite_register_settings' ] );
 	}
 
@@ -19,30 +19,30 @@ class Filters {
 	 * 
 	 */
 	public function filter_theme_json_theme( $theme_json ){
-        $new_data = array(
-            'version'  => 2,
-            'settings' => array(
-                'color' => array(
-                    'text'       => false,
-                    'palette'    => array( /* New palette */
-                        array(
-                            'slug'  => 'foreground',
-                            'color' => 'black',
-                            'name'  => __( 'Foreground', 'theme-domain' ),
-                        ),
-                        array(
-                            'slug'  => 'background',
-                            'color' => 'white',
-                            'name'  => __( 'Background', 'theme-domain' ),
-                        ),
-                    ),
-                ),
-            ),
-        );
+        $theme_override = get_option('theme_override_settings', '');
+        $theme_string = json_decode($theme_override, true);
 
-        var_dump('here', $theme_json->get_theme_data());
+       // $theme_string = json_decode(json_encode($theme_override),true);
+
+        $new_data = array();
+
+        
+
+        if ($theme_string) {
+            $new_data = array(
+                'version'  => 2,
+                'settings' => $theme_string['settings']
+            );
+        }
+
+
+
+        //var_dump($theme_string);
     
-        return $theme_json->get_theme_data();
+        //return $theme_json;
+        return $theme_json->update_with($new_data);
+    
+        //return $theme_json;
     }
 
     public function bigbite_register_settings() {

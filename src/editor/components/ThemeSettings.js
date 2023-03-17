@@ -42,7 +42,7 @@ const ThemeSettings = () => {
 
   const fetchCurrentTheme = async () => {
     const response = await getTheme();
-    console.log('theme', response);
+    console.log('current theme', response);
     setTheme(response);
   };
 
@@ -50,24 +50,42 @@ const ThemeSettings = () => {
     if (!mounted.current) {
       mounted.current = true;
 
-      if (false === apiLoading) {
-        settings.fetch().then((response) => {
-          console.log('this is the current override theme', response.theme_override_settings);
-          //setSelectedFont(response.eps_headline_font);
-          //setApiLoading(true);
-        });
-      }
-
       fetchCurrentTheme();
+
+      // if (false === apiLoading) {
+      //   console.log('go get the override stuff from the db');
+      //   settings.fetch().then((response) => {
+      //     console.log('settings loaded');
+      //     console.log('this is the current override theme', response.theme_override_settings);
+      //     //setTheme(response.theme_override_settings);
+      //     //setApiLoading(true);
+      //     if (response.theme_override_settings === '') {
+      //       fetchCurrentTheme();
+      //     }
+      //   });
+      // }
     }
+
+    //fetchCurrentTheme();
   }, [true]);
+
+  useEffect(async () => {
+    console.log('theme has changed update the DB');
+    const model = new wp.api.models.Settings({
+      ['theme_override_settings']: JSON.stringify(theme),
+    });
+
+    model.save().then((response) => {
+      console.log('db theme now saved', theme);
+      console.log('saved settings', response);
+    });
+  }, [theme]);
 
   useEffect(() => {
     console.log('something changed');
-  }, [theme]);
+  }, []);
 
   console.log('theme before render', theme);
-  console.log('rerender');
 
   const saveSettings = () => {
     console.log('save settings', theme);
@@ -79,7 +97,7 @@ const ThemeSettings = () => {
         <themeContext.Provider value={{ theme, setTheme }}>
           <Panel>
             <PanelBody
-              title={__('Global Colours')}
+              title={__('Content Settings')}
               icon={''}
               initialOpen={true}
               onToggle={(e) => console.log('toggled', e)}

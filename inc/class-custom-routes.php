@@ -53,11 +53,30 @@ class RestRoutes {
 	 * 
 	 */
 	public function get_current_theme() {
+		// theme.json
         $global_settings = wp_get_global_settings( $path = array() , $block_name = array() ,$context = array('origin' => 'theme') );
         $global_styles = wp_get_global_styles( $path = array() , $block_name = array() ,$context = array('origin' => 'theme') );
 
-        $theme['styles'] = $global_styles;
+		$theme['styles'] = $global_styles;
         $theme['settings'] = $global_settings;
+
+		//overrides created in the themer plugin
+		$theme_override = get_option('theme_override_settings', '');
+        $theme_string = json_decode($theme_override);
+		$override_settings = $theme_string->settings;
+        $override_styles = $theme_string->styles;
+
+		//var_dump('global settings', $global_settings);
+		//var_dump('override settings', $override_settings);
+
+		if ($override_settings) {
+			//var_dump('override');
+			$theme['settings'] = $override_settings;
+		}
+
+
+        // $theme['styles'] = $global_styles;
+        // $theme['settings'] = $global_settings;
 
        // var_dump('global styles', $global_styles);
 		return $theme;

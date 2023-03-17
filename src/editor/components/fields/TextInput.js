@@ -21,9 +21,31 @@ const TextInput = (props) => {
       <Button
         isPrimary
         onClick={() => {
-          console.log('theme data', theme);
-          const updateTheme = theme;
-          updateTheme.settings.layout.contentSize = '800px';
+          //console.log('theme data', theme);
+          const updateTheme = { ...theme };
+          updateTheme.settings.layout.contentSize = `400px`;
+          setTheme(updateTheme);
+        }}
+      >
+        Set content width to 400px
+      </Button>
+      <Button
+        isPrimary
+        onClick={() => {
+          //console.log('theme data', theme);
+          const updateTheme = { ...theme };
+          updateTheme.settings.layout.contentSize = `600px`;
+          setTheme(updateTheme);
+        }}
+      >
+        Set content width to 600px
+      </Button>
+      <Button
+        isPrimary
+        onClick={() => {
+          //console.log('theme data', theme);
+          const updateTheme = { ...theme };
+          updateTheme.settings.layout.contentSize = `800px`;
           setTheme(updateTheme);
         }}
       >
