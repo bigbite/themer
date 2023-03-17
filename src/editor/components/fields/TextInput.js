@@ -18,39 +18,41 @@ const TextInput = (props) => {
   return (
     <>
       <div className="field">{showToggle[0] ? console.log('show') : console.log('hide')}</div>
-      <Button
-        isPrimary
-        onClick={() => {
-          //console.log('theme data', theme);
-          const updateTheme = { ...theme };
-          updateTheme.settings.layout.contentSize = `400px`;
-          setTheme(updateTheme);
-        }}
-      >
-        Set content width to 400px
-      </Button>
-      <Button
-        isPrimary
-        onClick={() => {
-          //console.log('theme data', theme);
-          const updateTheme = { ...theme };
-          updateTheme.settings.layout.contentSize = `600px`;
-          setTheme(updateTheme);
-        }}
-      >
-        Set content width to 600px
-      </Button>
-      <Button
-        isPrimary
-        onClick={() => {
-          //console.log('theme data', theme);
-          const updateTheme = { ...theme };
-          updateTheme.settings.layout.contentSize = `800px`;
-          setTheme(updateTheme);
-        }}
-      >
-        Set content width to 800px
-      </Button>
+      <div className="button-group">
+        <Button
+          isPrimary
+          onClick={() => {
+            //console.log('theme data', theme);
+            const updateTheme = { ...theme };
+            updateTheme.settings.layout.contentSize = `400px`;
+            setTheme(updateTheme);
+          }}
+        >
+          Set content width to 400px
+        </Button>
+        <Button
+          isPrimary
+          onClick={() => {
+            //console.log('theme data', theme);
+            const updateTheme = { ...theme };
+            updateTheme.settings.layout.contentSize = `600px`;
+            setTheme(updateTheme);
+          }}
+        >
+          Set content width to 600px
+        </Button>
+        <Button
+          isPrimary
+          onClick={() => {
+            //console.log('theme data', theme);
+            const updateTheme = { ...theme };
+            updateTheme.settings.layout.contentSize = `800px`;
+            setTheme(updateTheme);
+          }}
+        >
+          Set content width to 800px
+        </Button>
+      </div>
     </>
   );
 };

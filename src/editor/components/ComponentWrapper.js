@@ -17,8 +17,8 @@ const ComponentWrapper = () => {
     <>
       <div className="App">
         <TextInput />
-        <button onClick={showDialog}>show Dialog</button>
-        <button onClick={hideDialog}>hide Dialog</button>
+        {/* <button onClick={showDialog}>show Dialog</button>
+        <button onClick={hideDialog}>hide Dialog</button> */}
       </div>
     </>
   );
