@@ -13,8 +13,7 @@ class Loader
     /**
      * Initialise the hooks and filters.
      */
-    public function __construct()
-    {
+    public function __construct() {
         add_action('admin_enqueue_scripts', [ $this, 'enqueue_block_editor_assets' ], 1);
     }
 
@@ -23,8 +22,7 @@ class Loader
      *
      * @return void
      */
-    public function enqueue_block_editor_assets() : void
-    {
+    public function enqueue_block_editor_assets() : void {
         $plugin_name = basename(THEMER_DIR);
 
         wp_enqueue_style('wp-components'); 
