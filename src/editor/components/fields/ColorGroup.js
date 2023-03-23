@@ -14,7 +14,6 @@ const ColorGroup = (props) => {
   const dispatch = dispatchContexts();
 
   const showDialog = () => {
-    console.log('kkk');
     dispatch({ type: 'showDialog', value: true });
   };
 
