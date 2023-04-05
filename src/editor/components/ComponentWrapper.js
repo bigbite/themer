@@ -1,6 +1,7 @@
 const { useState, useRef, useEffect, useReducer, useContext, createContext } = wp.element;
 import TextInput from './fields/TextInput';
 import { dispatchContexts, showContexts } from './ThemeSettings';
+import Fields from './fields/Fields';
 
 const ComponentWrapper = () => {
   const dispatch = dispatchContexts();
@@ -16,7 +17,8 @@ const ComponentWrapper = () => {
   return (
     <>
       <div className="App">
-        <TextInput />
+        {/* <TextInput /> */}
+        <Fields />
         {/* <button onClick={showDialog}>show Dialog</button>
         <button onClick={hideDialog}>hide Dialog</button> */}
       </div>
