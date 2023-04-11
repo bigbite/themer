@@ -52,34 +52,30 @@ const ThemeSettings = () => {
 
       fetchCurrentTheme();
 
-      // if (false === apiLoading) {
-      //   console.log('go get the override stuff from the db');
-      //   settings.fetch().then((response) => {
-      //     console.log('settings loaded');
-      //     console.log('this is the current override theme', response.theme_override_settings);
-      //     //setTheme(response.theme_override_settings);
-      //     //setApiLoading(true);
-      //     if (response.theme_override_settings === '') {
-      //       fetchCurrentTheme();
-      //     }
-      //   });
-      // }
+      if (false === apiLoading) {
+        console.log('go get the override stuff from the db');
+        settings.fetch().then((response) => {
+          // console.log('this is the current override theme', response.theme_override_settings);
+          // setTheme(response.theme_override_settings);
+          //setApiLoading(true);
+          if (response.theme_override_settings === '') {
+            fetchCurrentTheme();
+          }
+        });
+      }
     }
 
-    //fetchCurrentTheme();
   }, [true]);
 
-  useEffect(async () => {
-    console.log('theme has changed update the DB');
+  const saveSettings = () => {
     const model = new wp.api.models.Settings({
       ['theme_override_settings']: JSON.stringify(theme),
     });
-
     model.save().then((response) => {
-      console.log('db theme now saved', theme);
-      console.log('saved settings', response);
-    });
-  }, [theme]);
+    console.log(response);
+    })   
+  };
+  
 
   useEffect(() => {
     console.log('something changed');
@@ -87,9 +83,7 @@ const ThemeSettings = () => {
 
   console.log('theme before render', theme);
 
-  const saveSettings = () => {
-    console.log('save settings', theme);
-  };
+ 
 
   return (
     <dispatchContext.Provider value={dispatch}>

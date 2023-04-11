@@ -7,25 +7,31 @@ const { __ } = wp.i18n;
 
 const SingleField = (props) => {
 
-	const [ structure, setStructure ] = useState();
 	const [ text, setText ] = useState(props.value);
-	const [ valuePath, setValuePath] = useState();
+	const { theme, setTheme } = themeContexts();
 
 	const onChange = (e) => { 
-		console.log(props.parent);
-		const path = `${props.parent}/${props.id}`;
+		var path = `${props.parent}.${props.id}`;
+		if (path.charAt(0)==='.') {
+			path = path.substring(1);
+		}
 
-		// const path = {
-		// 	[props.parent]: {
-		// 		[props.id]: {
-
-		// 		}
-		// 	}
-		// }
 		setText(e.target.value);
-		setValuePath(path);
+		const updateTheme = { ...theme };
 
-		console.log(valuePath);
+		function updateObject(object, newValue, path) {
+			var stack = path.split('.');
+			while(stack.length > 1) {
+				object = object[stack.shift()];
+			}
+			object[stack.shift()] = newValue;
+		}
+		
+		updateObject(updateTheme, e.target.value, path);
+
+		setTheme(updateTheme);
+		console.log(theme);
+
 	;}
 
   return (

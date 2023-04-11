@@ -26,7 +26,7 @@ const Fields = (props) => {
     console.log('saving');
   }
 
-const renderInputs = (data, path) => {
+const renderInputs = (data, path = '') => {
   const inputs = Object.entries(data).map(([key, value]) => {
     if (
       typeof value === "object" && 
