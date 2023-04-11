@@ -47,25 +47,14 @@ const ThemeSettings = () => {
   };
 
   useEffect(() => {
-    if (!mounted.current) {
-      mounted.current = true;
-
-      fetchCurrentTheme();
-
-      if (false === apiLoading) {
-        console.log('go get the override stuff from the db');
         settings.fetch().then((response) => {
-          // console.log('this is the current override theme', response.theme_override_settings);
-          // setTheme(response.theme_override_settings);
-          //setApiLoading(true);
-          if (response.theme_override_settings === '') {
+          if (!response.theme_override_settings) {
             fetchCurrentTheme();
           }
+          const themeObject = JSON.parse(response.theme_override_settings);
+          setTheme(themeObject);
         });
-      }
-    }
-
-  }, [true]);
+  }, []);
 
   const saveSettings = () => {
     const model = new wp.api.models.Settings({
