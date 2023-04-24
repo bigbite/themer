@@ -1,33 +1,9 @@
-import { createContext, useContext } from '@wordpress/element';
 
+const Context = () => {
 
-const BLOCK_STYLE_ATTRIBUTES = [
-	'textColor',
-	'backgroundColor',
-	'style',
-	'color',
-	'fontSize',
-];
+	console.log('test');
 
-const GlobalStylesContext = createContext({style:{}});
-GlobalStylesContext.BLOCK_STYLE_ATTRIBUTES = BLOCK_STYLE_ATTRIBUTES;
-
-export const useGlobalStyles = () => {
-	const globalStyles = useContext(GlobalStylesContext);
-
-	return globalStyles;
+	return null;
 }
 
-
-export const Context = (WrappedComponent) => (props) => {
-	console.log(style);
-	return (
-		<GlobalStylesContext.Consumer>
-			{(globalStyles)=> {
-				<WrappedComponent {...props} globalStyles={globalStyles} />
-			}}
-		</GlobalStylesContext.Consumer>
-	)
-}
-
-export default GlobalStylesContext;
+export default Context;
