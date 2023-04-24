@@ -2,6 +2,8 @@ const { useState, useRef, useEffect, useReducer, useContext, createContext } = w
 import TextInput from './fields/TextInput';
 import { dispatchContexts, showContexts } from './ThemeSettings';
 import Fields from './fields/Fields';
+import { MyComponent } from './fields/MyComponent';
+import { GlobalStylesContext } from './fields/Context';
 
 const ComponentWrapper = () => {
   const dispatch = dispatchContexts();
@@ -18,9 +20,11 @@ const ComponentWrapper = () => {
     <>
       <div className="App">
         {/* <TextInput /> */}
-        <Fields />
+        <MyComponent />
+        {/* <Fields /> */}
         {/* <button onClick={showDialog}>show Dialog</button>
         <button onClick={hideDialog}>hide Dialog</button> */}
+        {/* <GlobalStylesContext /> */}
       </div>
     </>
   );
