@@ -1,13 +1,14 @@
 import { BlockEditorProvider, BlockList, privateApis as blockEditorPrivateApis } from '@wordpress/block-editor';
 import { unlock } from '../../utils/lock-unlock.js';
-import { Button } from '@wordpress/components';
+import { Button, TextControl, PanelBody } from '@wordpress/components';
 import { useMemo, useState, useEffect, useCallback, useContext } from '@wordpress/element';
 import { dispatchContexts, showContexts, themeContexts } from '../ThemeSettings';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
-import { mergeWith } from 'lodash';
+import { mergeWith, isEmpty } from 'lodash';
+import { cleanEmptyObject } from '../../utils/clean-empty-object.js';
 
-const { useGlobalStylesReset, useGlobalStyle, useGlobalSetting, useGlobalStylesOutput, GlobalStylesContext, ExperimentalBlockEditorProvider, cleanEmptyObject } = unlock( blockEditorPrivateApis );
+const { useGlobalStylesReset, useGlobalStyle, useGlobalSetting, useGlobalStylesOutput, GlobalStylesContext, ExperimentalBlockEditorProvider } = unlock( blockEditorPrivateApis );
  
 import { GlobalStylesUI } from '@wordpress/edit-site/build-module/components/global-styles/';
 import { GlobalStylesProvider } from '@wordpress/edit-site/build-module/components/global-styles/global-styles-provider';
@@ -35,7 +36,8 @@ function useGlobalStylesUserConfig() {
 			const { getEditedEntityRecord, hasFinishedResolution } =
 				select( coreStore );
 			const _globalStylesId =
-				select( coreStore ).__experimentalGetCurrentGlobalStylesId();
+				select( coreStore ).__experimentalGetCurrentGlobalStylesId() || wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+				console.log();
 			const record = _globalStylesId
 				? getEditedEntityRecord(
 						'root',
@@ -43,7 +45,6 @@ function useGlobalStylesUserConfig() {
 						_globalStylesId
 				  )
 				: undefined;
-			console.log(record);
 			let hasResolved = false;
 			if (
 				hasFinishedResolution(
@@ -80,18 +81,18 @@ function useGlobalStylesUserConfig() {
 
 	const setConfig = useCallback(
 		( callback, options = {} ) => {
-			const record = getEditedEntityRecord(
+			const record = wp.data.select('core').getEditedEntityRecord(
 				'root',
 				'globalStyles',
 				globalStylesId
 			);
-
+				console.log(record);
 			const currentConfig = {
 				styles: record?.styles ?? {},
 				settings: record?.settings ?? {},
 			};
 			const updatedConfig = callback( currentConfig );
-			editEntityRecord(
+			wp.data.dispatch(coreStore).editEntityRecord(
 				'root',
 				'globalStyles',
 				globalStylesId,
@@ -104,8 +105,6 @@ function useGlobalStylesUserConfig() {
 		},
 		[ globalStylesId ]
 	);
-	console.log(config);
-
 
 	return [ isReady, config, setConfig ];
 }
@@ -118,7 +117,7 @@ const useGlobalStylesBaseConfig = () => {
 	// }, [] );
 
 	//returning null using above current method, gets value using below.
-	const baseConfig = wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles() || [];
+	const baseConfig = wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
 
 	return [ !! baseConfig, baseConfig ];
 }
@@ -155,6 +154,56 @@ function useGlobalStylesContext() {
 	return context;
 }
 
+const getBase = () => {
+	const globalStylesId = wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+	const baseConfig = wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
+	const userConfig =  wp.data.select('core').getEditedEntityRecord(
+		'root',
+		'globalStyles',
+		globalStylesId
+	);
+	const merged = mergeBaseAndUserConfigs( baseConfig, userConfig );
+	return merged;
+}
+
+const renderInputs = (data, path = '') => {
+	const inputs = Object.entries(data).map(([key, value]) => {
+	  if (
+		typeof value === "object" && 
+		value !== null
+	  ) {
+	  const currentPath = path + `.${key}`;
+		return (
+		  <div>
+			<PanelBody
+			title={ key }
+				initialOpen={ true }
+			>
+			<div class="sub-group">
+			  {renderInputs(value, currentPath)}
+			</div>
+			</PanelBody>
+		  </div>
+		)
+	  }
+	  if(typeof value === "string") {
+		const currentPath = path;
+		console.log(currentPath);
+	  return (
+		<div>
+			{key}
+		<TextControl
+		id={key}
+		value = {value}
+		onChange={(v)=> setCon({currentPath})}
+		/>
+		</div>
+	  );
+	  }
+	});
+	return inputs;
+  };
+
 
 
 export const MyComponent = () => {
@@ -163,20 +212,42 @@ const [con, setCon ] = useState();
 
 const context = useGlobalStylesContext();
 
-const run =()=> {
-	setCon(context);
+const run = () => {
+	const globalStylesId = wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+	const data = wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', globalStylesId);
+	setCon(data);
+	console.log(con);
+	console.log(getBase())
+}
 
+
+const save = () => {
+	const globalStylesId = wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+	wp.data.dispatch(coreStore).editEntityRecord(
+		'root',
+		'globalStyles',
+		globalStylesId,
+		con
+
+	);
+	wp.data.dispatch(coreStore).saveEditedEntityRecord('root', 'globalStyles', globalStylesId);
+	run();
 }
 
 if (context && context.isReady) {
 return (
 	<>
-	{console.log(context)}
-	<ExperimentalBlockEditorProvider >
-			<GlobalStylesContext.Provider value={context} >
-				<GlobalStylesUI />
-				</GlobalStylesContext.Provider>
-		</ExperimentalBlockEditorProvider>
+	{renderInputs(getBase())}
+		{/* <TextControl value={con?.styles?.color?.background} onChange={(val) => setCon({
+			styles: {
+				color: {
+					background: val
+				}
+			}
+		})}></TextControl> */}
+	<Button onClick={()=>run()} text='re render'/>
+	<Button onClick={()=>save()} text='Save to db' />
+
 	</>
 	);
 }
@@ -188,6 +259,5 @@ return (
 	<Button onClick={()=>run()} text='re render'/>
 	</>
 	)
-
 } 
 	
