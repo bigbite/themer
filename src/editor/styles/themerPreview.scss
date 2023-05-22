@@ -1,0 +1,25 @@
+.themerPreviewSquare{
+	width: 240px;
+	height: 160px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.themerPreviewColours {
+	width: 32px;
+	padding-left: 24px;
+}
+.themerPreviewCircle {
+	align-items: center;
+	width: 32px;
+	height: 32px;
+	background-color: #000000;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.themerPreviewText {
+	font-size: 64px;
+}
+

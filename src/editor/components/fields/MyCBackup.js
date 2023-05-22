@@ -1,12 +1,18 @@
-import { Button, TextControl, PanelBody } from '@wordpress/components';
-import { useState, useContext } from '@wordpress/element';
+import { Button, PanelBody, Panel, TabPanel } from '@wordpress/components';
+import {
+	__experimentalNavigatorProvider as NavigatorProvider,
+	__experimentalNavigatorScreen as NavigatorScreen,
+	__experimentalNavigatorButton as NavigatorButton,
+	__experimentalNavigatorToParentButton as NavigatorToParentButton,
+  } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 import SingleField from './Field';
-import  CanvasSpinner  from '@wordpress/edit-site/build-module/components/canvas-spinner';
-import { mergeWith, isEmpty } from 'lodash';
 import Preview from './Preview';
+import  CanvasSpinner  from '@wordpress/edit-site/build-module/components/canvas-spinner';
+import { mergeWith } from 'lodash';
 
 export const MyComponent = () => {
-	const [con, setCon ] = useState();
+const [con, setCon ] = useState();
 
 const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
 const getBaseConfig = () => wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
@@ -25,7 +31,6 @@ wp.data.subscribe(() => {
 	if( userConf !== newUserConfig ) {
 		setCon(newUserConfig);
 	}
-
 })
 
 function mergeTreesCustomizer( _, srcValue ) {
@@ -35,12 +40,20 @@ function mergeTreesCustomizer( _, srcValue ) {
 }
 
 function mergeBaseAndUserConfigs( base, user ) {
+
+	if (!user ){
+		 return {};
+	}
 	return mergeWith( {}, base, user, mergeTreesCustomizer );
 }
 
 const getBase = (val) => {
-	const merged = mergeBaseAndUserConfigs( baseConfig?.styles?.color, userConf?.styles?.color );
+	const merged = mergeBaseAndUserConfigs( baseConfig, userConf );
 	return merged;
+}
+
+const navOnClick = (yep) => {
+console.log(yep)
 }
 
 const renderInputs = (data, path = '') => {
@@ -50,53 +63,47 @@ const renderInputs = (data, path = '') => {
 		value !== null
 	  ) {
 	  const currentPath = path + `.${key}`;
+
 		return (
-		  <div>
-			<PanelBody
-			title={ key }
-				initialOpen={ true }
-			>
-			<div class="sub-group">
-			  {renderInputs(value, currentPath)}
+			<div class='themer-nav'>
+			<NavigatorProvider initialPath='/'>
+			<NavigatorScreen path='/'>
+			<NavigatorButton path={`/${key}`} onClick={navOnClick}>{key}</NavigatorButton>
+			</NavigatorScreen>
+			<NavigatorScreen path={`/${key}`}>
+			<span class='nav-top'>
+			<NavigatorToParentButton>{`<`}</NavigatorToParentButton>
+			<p class="themer-nav-title">{key}</p>
+			</span>
+			{renderInputs(value, currentPath)}
+			</NavigatorScreen>
+			</NavigatorProvider>
 			</div>
-			</PanelBody>
-		  </div>
 		)
 	  }
 	  if(typeof value === "string") {
 		const currentPath = path;
-	  return (
-		<div>
-		<SingleField 
-      		parent={currentPath}
-      		id={key}
-      		value = {value}
-			data={data}
-      />
-		</div>
-	  );
-	  }
+			return (
+				<SingleField 
+					  parent={currentPath}
+					  id={key}
+					  value={value}
+			  />
+			  );
+		}
 	});
 	return inputs;
   };
 
 const save = () => {
 	const globalStylesId = wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+	console.log(wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', globalStylesId))
 	wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', globalStylesId);
 }
 
-const reset = () => {
-	wp.data.dispatch('core').editEntityRecord(
-		'root',
-		'globalStyles',
-		getGlobalStylesId(),
-			getBaseConfig()
-		);
-	const value = getUserConf();
 
-}
 
-if (isEmpty(con))
+if (!con)
 return (
 	<>
 	<CanvasSpinner />
@@ -107,18 +114,10 @@ return (
 	<>
 	<Preview 
 	background={con?.styles?.color?.background}
-	textColor={con?.styles?.color?.text}
 	/>
 	{renderInputs(getBase())}
-		{/* <TextControl value={con?.styles?.color?.background} onChange={(val) => setCon({
-			styles: {
-				color: {
-					background: val
-				}
-			}
-		})}></TextControl> */}
 	<Button onClick={()=>save()} text='Save to db' />
-	<Button onClick={()=>reset()} text='reset to theme.json' />
+	<Button onClick={()=>reset()} text='Reset' />
 	</>
 	);
 } 
