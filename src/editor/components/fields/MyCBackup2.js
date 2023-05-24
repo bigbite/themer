@@ -4,12 +4,8 @@ import SingleField from './Field';
 import  CanvasSpinner  from '@wordpress/edit-site/build-module/components/canvas-spinner';
 import { mergeWith, isEmpty } from 'lodash';
 import Preview from './Preview';
-import {
-	__experimentalNavigatorProvider as NavigatorProvider,
-	__experimentalNavigatorScreen as NavigatorScreen,
-	__experimentalNavigatorButton as NavigatorButton,
-	__experimentalNavigatorToParentButton as NavigatorToParentButton,
-  } from '@wordpress/components';
+import { Navigator } from './Navigator';
+
 export const MyComponent = () => {
 	const [con, setCon ] = useState();
 
@@ -20,8 +16,6 @@ const getUserConf = () => wp.data.select('core').getEditedEntityRecord(
 	'globalStyles',
 	getGlobalStylesId()
 );
-
-console.log(getGlobalStylesId());
 
 const baseConfig = getBaseConfig();
 const userConf = getUserConf();
@@ -45,22 +39,8 @@ function mergeBaseAndUserConfigs( base, user ) {
 	return mergeWith( {}, base, user, mergeTreesCustomizer );
 }
 
-const navOnClick = (yep) => {
-	console.log(yep)
-	}
-
-const getBase = () => {
-	if(!userConf) {return}
-	const updatedB = {
-		styles: baseConfig.styles,
-		settings: baseConfig.settings,
-	}
-
-	const updatedU = {
-		styles: userConf.styles,
-		settings: userConf.settings,
-	}
-	const merged = mergeBaseAndUserConfigs( updatedB, updatedU);
+const getBase = (val) => {
+	const merged = mergeBaseAndUserConfigs( baseConfig?.styles, userConf?.styles );
 	return merged;
 }
 
@@ -71,40 +51,42 @@ const renderInputs = (data, path = '') => {
 		value !== null
 	  ) {
 	  const currentPath = path + `.${key}`;
-	  return (
-		<div class='themer-nav'>
-		<NavigatorProvider initialPath='/'>
-		<NavigatorScreen path='/'>
-		<NavigatorButton path={`/${key}`} onClick={navOnClick}>{key}</NavigatorButton>
-		</NavigatorScreen>
-		<NavigatorScreen path={`/${key}`}>
-		<span class='nav-top'>
-		<NavigatorToParentButton>{`<`}</NavigatorToParentButton>
-		<p class="themer-nav-title">{key}</p>
-		</span>
-		{renderInputs(value, currentPath)}
-		</NavigatorScreen>
-		</NavigatorProvider>
-		</div>
-	)
-  }
-  if(typeof value === "string") {
-	const currentPath = path;
 		return (
-			<SingleField 
-				  parent={currentPath}
-				  id={key}
-				  value={value}
-		  />
-		  );
-	}
-});
-return inputs;
+		  <div>
+			<PanelBody
+			title={ key }
+				initialOpen={ true }
+			>
+			<div class="sub-group">
+			  {renderInputs(value, currentPath)}
+			</div>
+			</PanelBody>
+		  </div>
+		)
+	  }
+	  if(typeof value === "string") {
+		const currentPath = path;
+	  return (
+		<div>
+		<SingleField 
+      		parent={currentPath}
+      		id={key}
+      		value = {value}
+			data={data}
+      />
+		</div>
+	  );
+	  }
+	});
+	return inputs;
   };
 
 const save = () => {
-	wp.data.dispatch('core').undo();
-	wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', getGlobalStylesId());
+
+	const globalStylesId = wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+	wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', globalStylesId);
+
+
 }
 
 const reset = () => {
@@ -112,8 +94,12 @@ const reset = () => {
 		'root',
 		'globalStyles',
 		getGlobalStylesId(),
+
 			getBaseConfig()
+
 		);
+	const value = getUserConf();
+
 }
 
 if (isEmpty(con))
@@ -125,13 +111,19 @@ return (
 
 return (
 	<>
-	<Button onClick={()=>console.log(wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()))} text='getEntity'/>
-
+	<Button onClick={()=>console.log(wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', 5)) }text='getcurrent'/>
 	<Preview 
 	background={con?.styles?.color?.background}
 	textColor={con?.styles?.color?.text}
 	/>
 	{renderInputs(getBase())}
+		{/* <TextControl value={con?.styles?.color?.background} onChange={(val) => setCon({
+			styles: {
+				color: {
+					background: val
+				}
+			}
+		})}></TextControl> */}
 	<Button onClick={()=>save()} text='Save to db' />
 	<Button onClick={()=>reset()} text='reset to theme.json' />
 	</>
