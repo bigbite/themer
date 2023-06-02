@@ -15,21 +15,19 @@ export const MyComponent = () => {
 
 const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
 const getBaseConfig = () => wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
-const getUserConf = () => wp.data.select('core').getEditedEntityRecord(
+const getUserConfig = () => wp.data.select('core').getEditedEntityRecord(
 	'root',
 	'globalStyles',
 	getGlobalStylesId()
 );
 
-console.log(getGlobalStylesId());
-
 const baseConfig = getBaseConfig();
-const userConf = getUserConf();
+const userConfig = getUserConfig();
 
 
 wp.data.subscribe(() => {
-	const newUserConfig = getUserConf();
-	if( userConf !== newUserConfig ) {
+	const newUserConfig = getUserConfig();
+	if( userConfig !== newUserConfig ) {
 		setCon(newUserConfig);
 	}
 
@@ -44,27 +42,36 @@ function mergeTreesCustomizer( _, srcValue ) {
 function mergeBaseAndUserConfigs( base, user ) {
 	return mergeWith( {}, base, user, mergeTreesCustomizer );
 }
-
-const navOnClick = (yep) => {
-	console.log(yep)
-	}
-
 const getBase = () => {
-	if(!userConf) {return}
-	const updatedB = {
-		styles: baseConfig.styles,
-		settings: baseConfig.settings,
+	if(!userConfig) {
+		return
 	}
 
-	const updatedU = {
-		styles: userConf.styles,
-		settings: userConf.settings,
+	const baseOptions = {
+		styles: baseConfig.styles,
+		// render only layout from settings
+		settings: (({layout}) => ({layout}))(baseConfig.settings),
 	}
-	const merged = mergeBaseAndUserConfigs( updatedB, updatedU);
+	const userOptions = {
+
+		styles: userConfig.styles,
+		// render only layout from settings
+		settings: (({layout}) => ({layout}))(userConfig.settings),
+	}
+	const merged = mergeBaseAndUserConfigs( baseOptions, userOptions);
 	return merged;
 }
 
-const renderInputs = (data, path = '') => {
+const dataToPass = () => {
+	const base = {
+		settings: baseConfig.settings
+	}
+
+	return base;
+}
+
+
+const renderInputs = (data, path = '', child) => {
 	const inputs = Object.entries(data).map(([key, value]) => {
 	  if (
 		typeof value === "object" && 
@@ -72,17 +79,17 @@ const renderInputs = (data, path = '') => {
 	  ) {
 	  const currentPath = path + `.${key}`;
 	  return (
-		<div class='themer-nav'>
+		<div class={`themer-nav-${child}`}>
 		<NavigatorProvider initialPath='/'>
 		<NavigatorScreen path='/'>
-		<NavigatorButton path={`/${key}`} onClick={navOnClick}>{key}</NavigatorButton>
+		<NavigatorButton className='themer-nav-item'path={`/${key}`}>{key}</NavigatorButton>
 		</NavigatorScreen>
 		<NavigatorScreen path={`/${key}`}>
 		<span class='nav-top'>
 		<NavigatorToParentButton>{`<`}</NavigatorToParentButton>
 		<p class="themer-nav-title">{key}</p>
 		</span>
-		{renderInputs(value, currentPath)}
+		{renderInputs(value, currentPath, `child`)}
 		</NavigatorScreen>
 		</NavigatorProvider>
 		</div>
@@ -95,6 +102,7 @@ const renderInputs = (data, path = '') => {
 				  parent={currentPath}
 				  id={key}
 				  value={value}
+				  data={dataToPass()}
 		  />
 		  );
 	}
@@ -124,17 +132,22 @@ return (
 )
 
 return (
-	<>
-	<Button onClick={()=>console.log(wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()))} text='getEntity'/>
-
+	<div className='themer-container'>
+	<div className="themer-preview-container">
 	<Preview 
-	background={con?.styles?.color?.background}
-	textColor={con?.styles?.color?.text}
+	color={con?.styles?.color}
+	font={con?.styles?.typography}
+	elements={con?.styles?.elements}
 	/>
-	{renderInputs(getBase())}
-	<Button onClick={()=>save()} text='Save to db' />
-	<Button onClick={()=>reset()} text='reset to theme.json' />
-	</>
+	</div>
+	<div className="themer-nav-container">
+	<Button isPrimary onClick={()=>console.log(wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()))} text='getEntity'/>
+	<Button isPrimary onClick={()=>console.log(getBaseConfig())} text='getBase'/>
+	{renderInputs(getBase(), '', 'parent')}
+	<Button isPrimary onClick={()=>save()} text='Save to db' />
+	<Button isPrimary onClick={()=>reset()} text='reset to theme.json' />
+	</div>
+	</div>
 	);
 } 
 	

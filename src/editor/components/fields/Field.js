@@ -1,15 +1,12 @@
 /* eslint-disable react/no-danger */
-const { useState, useEffect, useRef } = wp.element;
-const { TextControl, PanelBody, Button } =
-  wp.components;
+const { useState } = wp.element;
 const { __ } = wp.i18n;
-import { ColorPicker } from '@wordpress/components';
-import { get, set, merge, isEmpty } from 'lodash';
+import { set, merge, isEmpty } from 'lodash';
+import ComponentMap from './ComponentMap';
 
 const SingleField = (props) => {
 	const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
 	const [ text, setText ] = useState(props.value);
-	const [base, setBase] = useState()
 	const context = {...{}};
 
 	const cleanEmptyObject = ( object ) => {
@@ -56,12 +53,8 @@ const SingleField = (props) => {
 	}
 		return (
 			<>
-			<>{props.id}</>
-			{/* <ColorPicker 
-			color={text ? text : props.color}
-			onChange={(val) =>onChange(val)}
-			/> */}
-			<TextControl label='Overwrite value' value={ text ? text: props.color} onChange={(val)=>onChange(val)}/>
+			<div class='themer-nav-item'>{props.id}</div>
+			<ComponentMap label={props.id} value={text ? text: props.value} onChange={(val)=>onChange(val)} parent={props.parent} data={props.data}/>
 			</>
 		)
 };
