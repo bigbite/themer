@@ -4,14 +4,15 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-direction: column;
 }
 
 .themerPreviewColours {
-	width: 32px;
+	width: 64px;
 	padding-left: 24px;
+	display:flex
 }
 .themerPreviewCircle {
-	align-items: center;
 	width: 32px;
 	height: 32px;
 	background-color: #000000;
