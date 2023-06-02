@@ -1,10 +1,10 @@
-import { MyComponent } from './fields/MyComponent';
+import { ThemerComponent } from './fields/ThemerComponent';
 
 const ComponentWrapper = () => {
   return (
     <>
       <div className="App">
-        <MyComponent />
+        <ThemerComponent />
       </div>
     </>
   );

@@ -10,7 +10,7 @@ import {
 	__experimentalNavigatorButton as NavigatorButton,
 	__experimentalNavigatorToParentButton as NavigatorToParentButton,
   } from '@wordpress/components';
-export const MyComponent = () => {
+export const ThemerComponent = () => {
 	const [con, setCon ] = useState();
 
 const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
