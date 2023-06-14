@@ -22,8 +22,6 @@ class Filters {
         $theme_override = get_option('theme_override_settings', '');
         $theme_string = json_decode($theme_override, true);
 
-       // $theme_string = json_decode(json_encode($theme_override),true);
-
         $new_data = array();
 
         
@@ -35,14 +33,8 @@ class Filters {
             );
         }
 
-
-
-        //var_dump($theme_string);
-    
-        //return $theme_json;
         return $theme_json->update_with($new_data);
-    
-        //return $theme_json;
+
     }
 
     public function bigbite_register_settings() {
