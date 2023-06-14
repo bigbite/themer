@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 import { useState } from '@wordpress/element';
 import CanvasSpinner from '@wordpress/edit-site/build-module/components/canvas-spinner';
 import { mergeWith, isEmpty } from 'lodash';
@@ -42,7 +44,7 @@ const ThemerComponent = () => {
   /** returns theme config */
   const getBase = () => {
     if (!userConfig) {
-      return;
+      return {};
     }
 
     const baseOptions = {

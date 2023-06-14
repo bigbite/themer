@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: 0 */
+
 import { set, merge } from 'lodash';
 import ComponentMap from './ComponentMap';
 
@@ -30,8 +32,9 @@ const SingleField = (props) => {
       path = path.substring(1);
     }
     setText(e);
-    function updateObject(newValue, path) {
-      edit(path, newValue);
+    /** passes object values to edit */
+    function updateObject(newValue, newPath) {
+      edit(newPath, newValue);
     }
     updateObject(e, path);
   };

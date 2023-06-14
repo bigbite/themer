@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import {
   FontSizePicker,
   SelectControl,
