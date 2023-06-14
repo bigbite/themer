@@ -13,7 +13,7 @@ const SpacingControl = (props) => {
 
   /** returns default markers for spacing component */
   const getRangeMarks = (val) => {
-    const marks = data.settings.spacing.spacingSizes.theme;
+    const marks = data?.settings?.spacing?.spacingSizes?.theme;
     const result = [];
     marks.forEach((item) => {
       result.push({

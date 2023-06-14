@@ -42,10 +42,6 @@ class RestRoutes {
 	 */
 	public function set_theme_settings($req) {
 		$theme = $req->get_body();
-       // 	var_dump('global settings',  json_decode($theme) );
-		var_dump( json_decode($theme)->settings );
-
-		//return $req;
 	}
 
     /**
@@ -62,23 +58,17 @@ class RestRoutes {
 
 		//overrides created in the themer plugin
 		$theme_override = get_option('theme_override_settings', '');
+		if (!$theme_override) {
+		return $theme;
+		}
         $theme_string = json_decode($theme_override);
 		$override_settings = $theme_string->settings;
         $override_styles = $theme_string->styles;
 
-		//var_dump('global settings', $global_settings);
-		//var_dump('override settings', $override_settings);
-
 		if ($override_settings) {
-			//var_dump('override');
 			$theme['settings'] = $override_settings;
 		}
 
-
-        // $theme['styles'] = $global_styles;
-        // $theme['settings'] = $global_settings;
-
-       // var_dump('global styles', $global_styles);
 		return $theme;
 	}
 }

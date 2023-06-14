@@ -11,7 +11,7 @@ class AdminSetup {
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'create_admin_screen' ], 1 );
-		add_action( 'init', [ $this, 'create_theme_options' ] );
+		add_action( 'admin_init', [ $this, 'create_theme_options' ] );
 	}
 
 	/**

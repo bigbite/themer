@@ -13,13 +13,13 @@ import {
 const FontPicker = (props) => {
   /** returns preset font sizes from theme.json */
   const getFontSizes = () => {
-    const sizes = props.data.settings.typography.fontSizes.theme;
+    const sizes = props?.data?.settings?.typography?.fontSizes?.theme;
     return sizes;
   };
 
   /** returns preset font families from theme.json */
   const getFontFamilies = () => {
-    const fonts = props.data.settings.typography.fontFamilies.theme;
+    const fonts = props?.data?.settings?.typography?.fontFamilies?.theme;
     const result = [];
     fonts.forEach((item) => {
       item.slug = item.slug.replace(/\s+/g, '-');

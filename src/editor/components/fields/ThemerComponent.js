@@ -48,14 +48,14 @@ const ThemerComponent = () => {
     }
 
     const baseOptions = {
-      styles: baseConfig.styles,
+      styles: baseConfig?.styles,
       // render only layout from settings
-      settings: (({ layout }) => ({ layout }))(baseConfig.settings),
+      settings: (({ layout }) => ({ layout }))(baseConfig?.settings),
     };
     const userOptions = {
-      styles: userConfig.styles,
+      styles: userConfig?.styles,
       // render only layout from settings
-      settings: (({ layout }) => ({ layout }))(userConfig.settings),
+      settings: (({ layout }) => ({ layout }))(userConfig?.settings),
     };
     const merged = mergeBaseAndUserConfigs(baseOptions, userOptions);
     return merged;
@@ -64,7 +64,7 @@ const ThemerComponent = () => {
   /** returns base config settings for preset values */
   const dataToPass = () => {
     const base = {
-      settings: baseConfig.settings,
+      settings: baseConfig?.settings,
     };
 
     return base;
