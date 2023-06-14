@@ -136,18 +136,6 @@ const ThemerComponent = () => {
         />
       </div>
       <div className="themer-nav-container">
-        <Button
-          isPrimary
-          onClick={() =>
-            console.log(
-              wp.data
-                .select('core')
-                .getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
-            )
-          }
-          text="getEntity"
-        />
-        <Button isPrimary onClick={() => console.log(getBaseConfig())} text="getBase" />
         {renderInputs(getBase(), '', 'parent')}
         <Button isPrimary onClick={() => save()} text="Save to db" />
         <Button isPrimary onClick={() => reset()} text="reset to theme.json" />
