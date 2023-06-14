@@ -12,7 +12,7 @@ const ComponentMap = (props) => {
 	switch(true) {
 		case colorPickerArray.includes(props.label) :
 			return (
-			<ColorPicker value={props.value} onChange={(val)=>props.onChange(val)}/>
+			<ColorPicker defaultValue={props.value} onChange={(val)=>props.onChange(val)}/>
 			)
 		case fontPickerArray.includes(props.label) :
 			return (

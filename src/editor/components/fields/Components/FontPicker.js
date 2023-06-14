@@ -42,7 +42,6 @@ const FontPicker = (props) => {
 		case 'fontFamily' :
 			return (
 				<SelectControl options={getFontFamilies()} value={props.value} onChange={(val)=>props.onChange(val)}/>
-				
 			)	
 		case 'lineHeight' : 
 		return (
@@ -64,6 +63,16 @@ const FontPicker = (props) => {
 			</ToggleGroup>
 			</>
 		)	
+		case 'fontStyle' :
+			return (
+				<>
+				{!props.data.typography.fontStyle && (
+				<SelectControl options={[]} value={props.value} onChange={(val)=>props.onChange(val)}/>
+				)}
+				</>
+			)
+			
+			
 			default: return null;
 	}
 }

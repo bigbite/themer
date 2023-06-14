@@ -1,9 +1,11 @@
-import { Button, TextControl, PanelBody } from '@wordpress/components';
+import { Button, TextControl, PanelBody, SlotFillProvider, Slot, Fill } from '@wordpress/components';
 import { useState, useContext } from '@wordpress/element';
 import SingleField from './Field';
 import  CanvasSpinner  from '@wordpress/edit-site/build-module/components/canvas-spinner';
-import { mergeWith, isEmpty } from 'lodash';
+import { mergeWith, isEmpty, unset } from 'lodash';
+
 import Preview from './Preview';
+import Presets from './Presets';
 import {
 	__experimentalNavigatorProvider as NavigatorProvider,
 	__experimentalNavigatorScreen as NavigatorScreen,
@@ -63,52 +65,109 @@ const getBase = () => {
 }
 
 const dataToPass = () => {
+	unset(baseConfig.settings, 'layout');
+	unset(userConfig.settings, 'layout');
+
 	const base = {
 		settings: baseConfig.settings
 	}
 
-	return base;
+	const userBase = {
+		settings: userConfig.settings
+	}
+
+	const merged = mergeBaseAndUserConfigs(base, userBase );
+
+	return merged;
 }
 
 
+// const renderInputs = (data, path = '', child) => {
+// 	const inputs = Object.entries(data).map(([key, value]) => {
+// 	  if (
+// 		typeof value === "object" && 
+// 		value !== null && value !== 0
+// 	  ) {
+// 	  const currentPath = path + `.${key}`;
+// 	  return (
+// 		<div class={`themer-nav-${child}`}>
+// 		<NavigatorProvider initialPath='/'>
+// 		<NavigatorScreen path='/'>
+// 		<NavigatorButton className='themer-nav-item'path={`/${key}`}>{key}</NavigatorButton>
+// 		</NavigatorScreen>
+// 		<NavigatorScreen path={`/${key}`}>
+// 		<span class='nav-top'>
+// 		<NavigatorToParentButton>{`<`}</NavigatorToParentButton>
+// 		<p class="themer-nav-title">{key}</p>
+// 		</span>
+// 		{renderInputs(value, currentPath, `child`)}
+// 		</NavigatorScreen>
+// 		</NavigatorProvider>
+// 		</div>
+// 		)
+//   	}
+//   if(typeof value === "string") {
+// 	const currentPath = path;
+// 		return (
+// 			<SingleField 
+// 				  parent={currentPath}
+// 				  id={key}
+// 				  value={value}
+// 				  data={dataToPass()}
+// 		  />
+// 		  );
+// 	}
+// });
+// return inputs;
+// };
+
 const renderInputs = (data, path = '', child) => {
 	const inputs = Object.entries(data).map(([key, value]) => {
+		if(key === 'default') {
+			return ( 
+			<>
+			{renderInputs(value, path)}
+			<Presets path={path} data={dataToPass()} />
+			</>
+			)
+		}
 	  if (
 		typeof value === "object" && 
-		value !== null
+		value !== null && value !== 0
 	  ) {
 	  const currentPath = path + `.${key}`;
 	  return (
 		<div class={`themer-nav-${child}`}>
 		<NavigatorProvider initialPath='/'>
 		<NavigatorScreen path='/'>
-		<NavigatorButton className='themer-nav-item'path={`/${key}`}>{key}</NavigatorButton>
+		<NavigatorButton className='themer-nav-item'path={`/${key}`}>{child ? child : key}</NavigatorButton>
 		</NavigatorScreen>
 		<NavigatorScreen path={`/${key}`}>
 		<span class='nav-top'>
 		<NavigatorToParentButton>{`<`}</NavigatorToParentButton>
-		<p class="themer-nav-title">{key}</p>
+		<p class="themer-nav-title">{child ? child : key}</p>
 		</span>
-		{renderInputs(value, currentPath, `child`)}
+		{renderInputs(value, currentPath)}
 		</NavigatorScreen>
 		</NavigatorProvider>
 		</div>
-	)
-  }
+		)
+  	}
   if(typeof value === "string") {
 	const currentPath = path;
-		return (
+		return (<>
 			<SingleField 
 				  parent={currentPath}
 				  id={key}
 				  value={value}
 				  data={dataToPass()}
 		  />
+		  </>
 		  );
 	}
 });
 return inputs;
-  };
+};
 
 const save = () => {
 	wp.data.dispatch('core').undo();
@@ -143,7 +202,8 @@ return (
 	<div className="themer-nav-container">
 	<Button isPrimary onClick={()=>console.log(wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()))} text='getEntity'/>
 	<Button isPrimary onClick={()=>console.log(getBaseConfig())} text='getBase'/>
-	{renderInputs(getBase(), '', 'parent')}
+	{renderInputs(getBase())}
+	{renderInputs(dataToPass(), '', 'Presets')}
 	<Button isPrimary onClick={()=>save()} text='Save to db' />
 	<Button isPrimary onClick={()=>reset()} text='reset to theme.json' />
 	</div>
