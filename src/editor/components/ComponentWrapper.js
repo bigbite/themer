@@ -1,13 +1,11 @@
-import { ThemerComponent } from './fields/ThemerComponent';
+import ThemerComponent from './fields/ThemerComponent';
 
-const ComponentWrapper = () => {
-  return (
-    <>
-      <div className="App">
-        <ThemerComponent />
-      </div>
-    </>
-  );
-};
-
+/** Wrapper for app */
+const ComponentWrapper = () => (
+  <>
+    <div className="App">
+      <ThemerComponent />
+    </div>
+  </>
+);
 export default ComponentWrapper;

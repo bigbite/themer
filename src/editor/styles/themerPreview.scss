@@ -1,26 +1,25 @@
-.themerPreviewSquare{
-	width: 480px;
-	height: 320px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
+.themerPreviewSquare {
+  width: 480px;
+  height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .themerPreviewColours {
-	width: 64px;
-	padding-left: 24px;
-	display:flex
+  width: 64px;
+  padding-left: 24px;
+  display: flex;
 }
 .themerPreviewCircle {
-	width: 32px;
-	height: 32px;
-	background-color: #000000;
-	border-radius: 50%;
-	display: inline-block;
+  width: 32px;
+  height: 32px;
+  background-color: #000;
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .themerPreviewText {
-	font-size: 64px;
+  font-size: 64px;
 }
-
