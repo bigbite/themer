@@ -1,7 +1,6 @@
+import { TextControl, ColorPicker } from '@wordpress/components';
 import FontPicker from './Components/FontPicker';
 import SpacingControl from './Components/SpacingControl';
-
-const { TextControl, ColorPicker } = wp.components;
 
 /** Returns appropriate component depending on field type */
 const ComponentMap = (props) => {

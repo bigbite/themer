@@ -1,10 +1,9 @@
+import { registerPlugin } from '@wordpress/plugins';
 import { render } from '@wordpress/element';
 import { NAMESPACE } from '../editor/settings';
 import ComponentWrapper from '../editor/components/ComponentWrapper';
 
 import '../editor/styles/styles.scss';
-
-const { registerPlugin } = wp.plugins;
 
 // Register the plugin.
 wp.domReady(() => {

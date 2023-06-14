@@ -1,10 +1,10 @@
+import { useState } from '@wordpress/element';
+
 import {
   Button,
   RangeControl,
   __experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
-
-const { useState } = wp.element;
 
 /** renders component for managing spacing elements */
 const SpacingControl = (props) => {
@@ -53,6 +53,6 @@ const SpacingControl = (props) => {
       )}
     </>
   );
-};;
+};
 
 export default SpacingControl;

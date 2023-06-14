@@ -19,6 +19,7 @@
         "@wordpress/edit-site": "^5.8.0",
         "@wordpress/element": "^5.8.0",
         "@wordpress/i18n": "^4.20.0",
+        "@wordpress/plugins": "^6.3.0",
         "dompurify": "^3.0.2",
         "handlebars": "^4.7.7",
         "is-plain-object": "^5.0.0",
