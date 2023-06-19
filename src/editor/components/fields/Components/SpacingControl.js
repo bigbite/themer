@@ -1,15 +1,14 @@
 import { useState } from '@wordpress/element';
-
 import {
   Button,
   RangeControl,
   __experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 
-/** 
- * renders component for managing spacing elements 
+/**
+ * renders component for managing spacing elements
  */
-const SpacingControl = ({value, onChange, data}) => {
+const SpacingControl = ({ value, onChange, data }) => {
   const [toggle, setToggle] = useState(isNaN(Array.from(value)[0]));
 
   /**

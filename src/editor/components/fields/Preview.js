@@ -1,3 +1,6 @@
+/**
+ * renders preview element
+ */
 const Preview = ({ color, elements, font }) => (
   <div className="themerPreviewSquare" style={{ backgroundColor: `${color?.background}` }}>
     <h1

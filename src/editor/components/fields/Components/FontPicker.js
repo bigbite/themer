@@ -9,10 +9,10 @@ import {
   __experimentalToggleGroupControlOptionIcon as ToggleIcon,
 } from '@wordpress/components';
 
-/** 
- * returns component for font options 
+/**
+ * returns component for font options
  */
-const FontPicker = ({data, id, value, onChange}) => {
+const FontPicker = ({ data, id, value, onChange }) => {
   /**
    * returns preset font sizes from theme.json
    */

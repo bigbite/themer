@@ -13,8 +13,8 @@ import {
 import Preview from './Preview';
 import SingleField from './Field';
 
-/** 
- * main component 
+/**
+ * main component
  */
 const ThemerComponent = () => {
   const [con, setCon] = useState();

@@ -1,8 +1,8 @@
 /* eslint no-underscore-dangle: 0 */
 
 import { set, merge } from 'lodash';
-import ComponentMap from './ComponentMap';
 import { useState } from '@wordpress/element';
+import ComponentMap from './ComponentMap';
 
 /**
  * main component
@@ -46,13 +46,13 @@ const SingleField = ({ value, parent, id, data }) => {
       <div className="themer-nav-item">{id}</div>
       <ComponentMap
         label={id}
-        value={text ? text : value}
+        value={text || value}
         onChange={(val) => onChange(val)}
         parent={parent}
         data={data}
       />
     </>
   );
-};;;;;;;;;;;;;;;;;;;;;;
+};
 
 export default SingleField;

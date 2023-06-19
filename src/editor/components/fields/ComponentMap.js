@@ -2,10 +2,10 @@ import { TextControl, ColorPicker } from '@wordpress/components';
 import FontPicker from './Components/FontPicker';
 import SpacingControl from './Components/SpacingControl';
 
-/** 
- * Returns appropriate component depending on field type 
+/**
+ * Returns appropriate component depending on field type
  */
-const ComponentMap = ({label, value, onChange, data}) => {
+const ComponentMap = ({ label, value, onChange, data }) => {
   const colorPickerArray = ['background', 'text'];
   const fontPickerArray = ['fontFamily', 'fontSize', 'lineHeight', 'textDecoration'];
   const blockGapArray = ['blockGap', 'top', 'right', 'bottom', 'left'];
