@@ -1,6 +1,8 @@
 import ThemerComponent from './fields/ThemerComponent';
 
-/** Wrapper for app */
+/** 
+ * Wrapper for app 
+ */
 const ComponentWrapper = () => (
   <>
     <div className="App">

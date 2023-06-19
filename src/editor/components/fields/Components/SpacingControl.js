@@ -6,12 +6,15 @@ import {
   __experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 
-/** renders component for managing spacing elements */
-const SpacingControl = (props) => {
-  const { value, data } = props;
+/** 
+ * renders component for managing spacing elements 
+ */
+const SpacingControl = ({value, onChange, data}) => {
   const [toggle, setToggle] = useState(isNaN(Array.from(value)[0]));
 
-  /** returns default markers for spacing component */
+  /**
+   * returns default markers for spacing component
+   */
   const getRangeMarks = (val) => {
     const marks = data?.settings?.spacing?.spacingSizes?.theme;
     const result = [];
@@ -37,16 +40,16 @@ const SpacingControl = (props) => {
             min={1}
             max={getRangeMarks().length - 1}
             marks={getRangeMarks}
-            onChange={(val) => props.onChange(getRangeMarks(val))}
+            onChange={(val) => onChange(getRangeMarks(val))}
           />
         </>
       )}
       {!toggle && (
         <>
           <UnitControl
-            value={props.value}
+            value={value}
             onChange={(val) => {
-              props.onChange(val);
+              onChange(val);
             }}
           />
         </>

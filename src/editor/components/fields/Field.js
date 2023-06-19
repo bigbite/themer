@@ -2,17 +2,22 @@
 
 import { set, merge } from 'lodash';
 import ComponentMap from './ComponentMap';
+import { useState } from '@wordpress/element';
 
-const { useState } = wp.element;
-
-/** main component */
-const SingleField = (props) => {
-  /** gets ID for global styles */
+/**
+ * main component
+ */
+const SingleField = ({ value, parent, id, data }) => {
+  /**
+   * gets ID for global styles
+   */
   const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
-  const [text, setText] = useState(props.value);
+  const [text, setText] = useState(value);
   const context = { ...{} };
 
-  /** updates entity record on field edit */
+  /**
+   * updates entity record on field edit
+   */
   const edit = (path, newValue) => {
     const current = {
       ...wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
@@ -25,31 +30,29 @@ const SingleField = (props) => {
     });
   };
 
-  /** gets field path and value and passes to edit */
+  /**
+   * gets field path and value and passes to edit
+   */
   const onChange = (e) => {
-    let path = `${props.parent}.${props.id}`;
+    let path = `${parent}.${id}`;
     if (path.charAt(0) === '.') {
       path = path.substring(1);
     }
     setText(e);
-    /** passes object values to edit */
-    function updateObject(newValue, newPath) {
-      edit(newPath, newValue);
-    }
-    updateObject(e, path);
+    edit(path, e);
   };
   return (
     <>
-      <div className="themer-nav-item">{props.id}</div>
+      <div className="themer-nav-item">{id}</div>
       <ComponentMap
-        label={props.id}
-        value={text ? text : props.value}
+        label={id}
+        value={text ? text : value}
         onChange={(val) => onChange(val)}
-        parent={props.parent}
-        data={props.data}
+        parent={parent}
+        data={data}
       />
     </>
   );
-};
+};;;;;;;;;;;;;;;;;;;;;;
 
 export default SingleField;

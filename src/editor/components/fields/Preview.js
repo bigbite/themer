@@ -1,14 +1,12 @@
-/*eslint-disable */
-
-const Preview = (props) => (
-  <div className="themerPreviewSquare" style={{ backgroundColor: `${props?.color?.background}` }}>
+const Preview = ({ color, elements, font }) => (
+  <div className="themerPreviewSquare" style={{ backgroundColor: `${color?.background}` }}>
     <h1
       className="themerPreviewTitle"
       style={{
-        color: `${props?.color?.text}`,
-        'font-family': `${props?.elements?.h1?.typography?.fontFamily}`,
-        'font-size': `${props?.elements?.h1?.typography?.fontSize}`,
-        'line-height': `${props?.font?.lineHeight}`,
+        color: `${color?.text}`,
+        'font-family': `${elements?.h1?.typography?.fontFamily}`,
+        'font-size': `${elements?.h1?.typography?.fontSize}`,
+        'line-height': `${font?.lineHeight}`,
       }}
     >
       This is a title
@@ -16,10 +14,10 @@ const Preview = (props) => (
     <div
       className="themerPreviewText"
       style={{
-        color: `${props?.color?.text}`,
-        'font-family': `${props?.font?.fontFamily}`,
-        'font-size': `${props?.font?.fontSize}`,
-        'line-height': `${props?.font?.lineHeight}`,
+        color: `${color?.text}`,
+        'font-family': `${font?.fontFamily}`,
+        'font-size': `${font?.fontSize}`,
+        'line-height': `${font?.lineHeight}`,
       }}
     >
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut

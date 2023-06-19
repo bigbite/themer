@@ -13,18 +13,26 @@ import {
 import Preview from './Preview';
 import SingleField from './Field';
 
-/** main component */
+/** 
+ * main component 
+ */
 const ThemerComponent = () => {
   const [con, setCon] = useState();
 
-  /** Gets global Styles ID */
+  /**
+   * Gets global Styles ID
+   */
   const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
 
-  /** Gets base configuration (theme.json) */
+  /**
+   * Gets base configuration (theme.json)
+   */
   const getBaseConfig = () =>
     wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
 
-  /** Gets user configuration from db */
+  /**
+   * Gets user configuration from db
+   */
   const getUserConfig = () =>
     wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId());
 
@@ -38,10 +46,14 @@ const ThemerComponent = () => {
     }
   });
 
-  /** merges base and user configs */
+  /**
+   * merges base and user configs
+   */
   const mergeBaseAndUserConfigs = (base, user) => mergeWith({}, base, user);
 
-  /** returns theme config */
+  /**
+   * returns theme config
+   */
   const getBase = () => {
     if (!userConfig) {
       return {};
@@ -61,7 +73,9 @@ const ThemerComponent = () => {
     return merged;
   };
 
-  /** returns base config settings for preset values */
+  /**
+   * returns base config settings for preset values
+   */
   const dataToPass = () => {
     const base = {
       settings: baseConfig?.settings,
@@ -69,7 +83,9 @@ const ThemerComponent = () => {
 
     return base;
   };
-  /** loops over theme config and returns fields */
+  /**
+   * loops over theme config and returns fields
+   */
   const renderInputs = (data, path = '', child) => {
     const inputs = Object.entries(data).map(([key, value]) => {
       if (typeof value === 'object' && value !== null) {
@@ -101,7 +117,9 @@ const ThemerComponent = () => {
     });
     return inputs;
   };
-  /** saves edited entity data  */
+  /**
+   * saves edited entity data
+   */
   const save = async () => {
     wp.data.dispatch('core').undo();
     try {
@@ -112,7 +130,9 @@ const ThemerComponent = () => {
       console.log(err);
     }
   };
-  /** resets updated theme db data back to original theme.json */
+  /**
+   * resets updated theme db data back to original theme.json
+   */
   const reset = () => {
     wp.data
       .dispatch('core')

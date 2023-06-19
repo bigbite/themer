@@ -12,7 +12,5 @@ wp.domReady(() => {
     render: ComponentWrapper,
   });
 
-  console.log('test', document.getElementById('themer-admin-screen'));
-
   render(<ComponentWrapper />, document.getElementById('themer-admin-screen'));
 });
