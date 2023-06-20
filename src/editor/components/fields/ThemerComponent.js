@@ -1,6 +1,3 @@
-/* eslint no-underscore-dangle: 0 */
-
-import { useState } from '@wordpress/element';
 import CanvasSpinner from '@wordpress/edit-site/build-module/components/canvas-spinner';
 import { mergeWith, isEmpty } from 'lodash';
 import {
@@ -13,38 +10,32 @@ import {
 import Preview from './Preview';
 import SingleField from './Field';
 
+const { select, dispatch, useSelect } = wp.data;
+
 /**
  * main component
  */
 const ThemerComponent = () => {
-  const [con, setCon] = useState();
-
   /**
    * Gets global Styles ID
    */
-  const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+  // eslint-disable-next-line no-underscore-dangle -- require underscore dangle for experimental functions
+  const getGlobalStylesId = () => select('core').__experimentalGetCurrentGlobalStylesId();
 
   /**
    * Gets base configuration (theme.json)
    */
-  const getBaseConfig = () =>
-    wp.data.select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
+  // eslint-disable-next-line no-underscore-dangle -- require underscore dangle for experimental functions
+  const getBaseConfig = () => select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
+  const baseConfig = getBaseConfig();
 
   /**
    * Gets user configuration from db
    */
-  const getUserConfig = () =>
-    wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId());
-
-  const baseConfig = getBaseConfig();
-  const userConfig = getUserConfig();
-
-  wp.data.subscribe(() => {
-    const newUserConfig = getUserConfig();
-    if (userConfig !== newUserConfig) {
-      setCon(newUserConfig);
-    }
-  });
+  // eslint-disable-next-line no-shadow -- require reuse of select
+  const userConfig = useSelect((select) =>
+    select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
+  );
 
   /**
    * merges base and user configs
@@ -121,11 +112,9 @@ const ThemerComponent = () => {
    * saves edited entity data
    */
   const save = async () => {
-    wp.data.dispatch('core').undo();
+    dispatch('core').undo();
     try {
-      await wp.data
-        .dispatch('core')
-        .saveEditedEntityRecord('root', 'globalStyles', getGlobalStylesId());
+      await dispatch('core').saveEditedEntityRecord('root', 'globalStyles', getGlobalStylesId());
     } catch (err) {
       console.log(err);
     }
@@ -134,12 +123,10 @@ const ThemerComponent = () => {
    * resets updated theme db data back to original theme.json
    */
   const reset = () => {
-    wp.data
-      .dispatch('core')
-      .editEntityRecord('root', 'globalStyles', getGlobalStylesId(), getBaseConfig());
+    dispatch('core').editEntityRecord('root', 'globalStyles', getGlobalStylesId(), getBaseConfig());
   };
 
-  if (isEmpty(con))
+  if (isEmpty(userConfig))
     return (
       <>
         <CanvasSpinner />
@@ -150,9 +137,9 @@ const ThemerComponent = () => {
     <div className="themer-container">
       <div className="themer-preview-container">
         <Preview
-          color={con?.styles?.color}
-          font={con?.styles?.typography}
-          elements={con?.styles?.elements}
+          color={userConfig?.styles?.color}
+          font={userConfig?.styles?.typography}
+          elements={userConfig?.styles?.elements}
         />
       </div>
       <div className="themer-nav-container">

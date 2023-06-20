@@ -14,15 +14,15 @@ class Loader
      * Initialise the hooks and filters.
      */
     public function __construct() {
-        add_action('admin_enqueue_scripts', [ $this, 'enqueue_block_editor_assets' ], 1);
+        add_action('admin_enqueue_scripts', [ $this, 'enqueue_themer_assets' ], 1);
     }
 
     /**
-     * Enqueue any required assets for the block editor.
+     * Enqueue any required assets for the themer plugin.
      *
      * @return void
      */
-    public function enqueue_block_editor_assets() : void {
+    public function enqueue_themer_assets() : void {
         $plugin_name = basename(THEMER_DIR);
 
         wp_enqueue_style('wp-components'); 

@@ -4,6 +4,8 @@ import { set, merge } from 'lodash';
 import { useState } from '@wordpress/element';
 import ComponentMap from './ComponentMap';
 
+const { select, dispatch } = wp.data;
+
 /**
  * main component
  */
@@ -11,7 +13,7 @@ const SingleField = ({ value, parent, id, data }) => {
   /**
    * gets ID for global styles
    */
-  const getGlobalStylesId = () => wp.data.select('core').__experimentalGetCurrentGlobalStylesId();
+  const getGlobalStylesId = () => select('core').__experimentalGetCurrentGlobalStylesId();
   const [text, setText] = useState(value);
   const context = { ...{} };
 
@@ -20,11 +22,11 @@ const SingleField = ({ value, parent, id, data }) => {
    */
   const edit = (path, newValue) => {
     const current = {
-      ...wp.data.select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
+      ...select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
     };
     const updated = set(context, path, newValue);
     const newObj = merge(current, updated);
-    wp.data.dispatch('core').editEntityRecord('root', 'globalStyles', getGlobalStylesId(), {
+    dispatch('core').editEntityRecord('root', 'globalStyles', getGlobalStylesId(), {
       styles: newObj.styles || {},
       settings: newObj.settings || {},
     });

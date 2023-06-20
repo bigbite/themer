@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import {
   FontSizePicker,
   SelectControl,
@@ -28,6 +26,7 @@ const FontPicker = ({ data, id, value, onChange }) => {
     const fonts = data?.settings?.typography?.fontFamilies?.theme;
     const result = [];
     fonts.forEach((item) => {
+      // eslint-disable-next-line no-param-reassign -- remove '-' from slug to use as title
       item.slug = item.slug.replace(/\s+/g, '-');
       result.push({
         value: item.slug,
