@@ -16,6 +16,5 @@ function setup() : void {
 	}
 
 	new Loader();
-	new Filters();
 	new AdminSetup();
 }
