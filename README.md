@@ -39,7 +39,7 @@ npm install
 
 Build all assets
 ```
-npm run build:dev
+npm run build:prod
 ```
 
 Install PHP packages and create autoloader for the plugin.
