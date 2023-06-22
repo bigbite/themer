@@ -10,14 +10,14 @@ import {
 import Preview from './Preview';
 import SingleField from './Field';
 
-const { select, dispatch } = wp.data;
+const { select, dispatch, subscribe } = wp.data;
 const { useState } = wp.element;
 
 /**
  * main component
  */
 const ThemerComponent = () => {
-  const [con, setCon] = useState();
+  const [config, setConfig] = useState();
   /**
    * Gets global Styles ID
    */
@@ -40,10 +40,10 @@ const ThemerComponent = () => {
   const baseConfig = getBaseConfig();
   const userConfig = getUserConfig();
 
-  wp.data.subscribe(() => {
+  subscribe(() => {
     const newUserConfig = getUserConfig();
     if (userConfig !== newUserConfig) {
-      setCon(newUserConfig);
+      setConfig(newUserConfig);
     }
   });
 
@@ -136,7 +136,7 @@ const ThemerComponent = () => {
     dispatch('core').editEntityRecord('root', 'globalStyles', getGlobalStylesId(), getBaseConfig());
   };
 
-  if (isEmpty(con))
+  if (isEmpty(config))
     return (
       <>
         <CanvasSpinner />
