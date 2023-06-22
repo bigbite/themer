@@ -1,37 +1,26 @@
 {
-    "name": "@big-bite/themer",
-    "description": "",
-    "version": "1.0.0-alpha.1",
-    "author": "Big Bite",
-    "prettier": "@wordpress/prettier-config",
-    "scripts": {
-        "build": "wp-scripts build",
-        "check-engines": "wp-scripts check-engines",
-        "check-licenses": "wp-scripts check-licenses",
-        "format": "wp-scripts format",
-        "lint:css": "wp-scripts lint-style",
-        "lint:js": "wp-scripts lint-js",
-        "lint:md:docs": "wp-scripts lint-md-docs",
-        "lint:pkg-json": "wp-scripts lint-pkg-json",
-        "packages-update": "wp-scripts packages-update",
-        "plugin-zip": "wp-scripts plugin-zip",
-        "start": "wp-scripts start",
-        "test:e2e": "wp-scripts test-e2e",
-        "test:unit": "wp-scripts test-unit-js"
-    },
-    "dependencies": {
-        "@wordpress/block-editor": "^11.8.0",
-        "@wordpress/components": "^23.8.0",
-        "@wordpress/core-data": "^6.8.0",
-        "@wordpress/data": "^9.5.0",
-        "@wordpress/dom-ready": "^3.35.0",
-        "@wordpress/edit-site": "^5.8.0",
-        "@wordpress/element": "^5.8.0",
-        "@wordpress/i18n": "^4.20.0",
-        "@wordpress/plugins": "^6.3.0",
-        "lodash": "^4.17.21"
-    },
-    "devDependencies": {
-        "@wordpress/scripts": "^26.6.0"
-    }
+	"name": "@big-bite/themer",
+	"description": "",
+	"version": "1.0.0-alpha.1",
+	"author": "Big Bite",
+	"prettier": "@wordpress/prettier-config",
+	"scripts": {
+		"watch:dev": "wp-scripts start",
+		"build:prod": "wp-scripts build"
+	},
+	"dependencies": {
+		"@wordpress/block-editor": "^11.8.0",
+		"@wordpress/components": "^23.8.0",
+		"@wordpress/core-data": "^6.8.0",
+		"@wordpress/data": "^9.5.0",
+		"@wordpress/dom-ready": "^3.35.0",
+		"@wordpress/edit-site": "^5.8.0",
+		"@wordpress/element": "^5.8.0",
+		"@wordpress/i18n": "^4.20.0",
+		"@wordpress/plugins": "^6.3.0",
+		"lodash": "^4.17.21"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^26.6.0"
+	}
 }
