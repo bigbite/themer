@@ -1,17 +1,17 @@
-import CanvasSpinner from '@wordpress/edit-site/build-module/components/canvas-spinner';
 import { mergeWith, isEmpty } from 'lodash';
 import {
   Button,
+  Spinner,
   __experimentalNavigatorProvider as NavigatorProvider,
   __experimentalNavigatorScreen as NavigatorScreen,
   __experimentalNavigatorButton as NavigatorButton,
   __experimentalNavigatorToParentButton as NavigatorToParentButton,
 } from '@wordpress/components';
+import { select, dispatch, subscribe } from '@wordpress/data';
+import { useState } from '@wordpress/element';
+
 import Preview from './Preview';
 import SingleField from './Field';
-
-const { select, dispatch, subscribe } = wp.data;
-const { useState } = wp.element;
 
 /**
  * main component
@@ -139,7 +139,7 @@ const ThemerComponent = () => {
   if (isEmpty(config))
     return (
       <>
-        <CanvasSpinner />
+        <Spinner />
       </>
     );
 

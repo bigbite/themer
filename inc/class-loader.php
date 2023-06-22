@@ -29,17 +29,17 @@ class Loader
 
         wp_enqueue_script(
             self::SCRIPT_NAME,
-            plugins_url($plugin_name . '/dist/scripts/' . THEMER_EDITOR_JS, $plugin_name),
+            plugins_url($plugin_name . '/build/index.js', $plugin_name),
             [ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-plugins', 'wp-edit-post', 'wp-api' ],
-            (string) filemtime(THEMER_DIR . '/dist/scripts/' . THEMER_EDITOR_JS),
+            (string) filemtime(THEMER_DIR . '/build/index.js'),
             false
         );
 
         wp_enqueue_style(
             self::STYLE_NAME,
-            plugins_url($plugin_name . '/dist/styles/' . THEMER_EDITOR_CSS, $plugin_name),
+            plugins_url($plugin_name . '/build/index.css', $plugin_name),
             [],
-            (string) filemtime(THEMER_DIR . '/dist/styles/' . THEMER_EDITOR_CSS)
+            (string) filemtime(THEMER_DIR . '/build/index.css')
         );
     }
 }
