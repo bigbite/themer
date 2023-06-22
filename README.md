@@ -37,7 +37,7 @@ Install JS packages.
 npm install
 ```
 
-Build all assets - additional commands can be found on the [`bigbite/build-tools` repo.](https://github.com/bigbite/build-tools#commands)
+Build all assets
 ```
 npm run build:dev
 ```
