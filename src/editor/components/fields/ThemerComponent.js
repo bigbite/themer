@@ -10,12 +10,14 @@ import {
 import Preview from './Preview';
 import SingleField from './Field';
 
-const { select, dispatch, useSelect } = wp.data;
+const { select, dispatch } = wp.data;
+const { useState } = wp.element;
 
 /**
  * main component
  */
 const ThemerComponent = () => {
+  const [con, setCon] = useState();
   /**
    * Gets global Styles ID
    */
@@ -27,15 +29,23 @@ const ThemerComponent = () => {
    */
   // eslint-disable-next-line no-underscore-dangle -- require underscore dangle for experimental functions
   const getBaseConfig = () => select('core').__experimentalGetCurrentThemeBaseGlobalStyles();
-  const baseConfig = getBaseConfig();
 
   /**
    * Gets user configuration from db
    */
   // eslint-disable-next-line no-shadow -- require reuse of select
-  const userConfig = useSelect((select) =>
-    select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
-  );
+  const getUserConfig = () =>
+    select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId());
+
+  const baseConfig = getBaseConfig();
+  const userConfig = getUserConfig();
+
+  wp.data.subscribe(() => {
+    const newUserConfig = getUserConfig();
+    if (userConfig !== newUserConfig) {
+      setCon(newUserConfig);
+    }
+  });
 
   /**
    * merges base and user configs
@@ -126,7 +136,7 @@ const ThemerComponent = () => {
     dispatch('core').editEntityRecord('root', 'globalStyles', getGlobalStylesId(), getBaseConfig());
   };
 
-  if (isEmpty(userConfig))
+  if (isEmpty(con))
     return (
       <>
         <CanvasSpinner />
