@@ -16,7 +16,5 @@ function setup() : void {
 	}
 
 	new Loader();
-	new Filters();
-	new RestRoutes();
 	new AdminSetup();
 }

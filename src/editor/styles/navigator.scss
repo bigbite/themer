@@ -1,0 +1,45 @@
+.themer-container {
+  height: 1000px;
+  display: flex;
+  background-color: rgb(217, 216, 216);
+  justify-content: center;
+}
+
+.themer-nav-container {
+  width: 500px;
+}
+.themer-preview-container {
+  width: 500px;
+}
+
+.themer-nav-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.nav-top {
+  display: flex;
+  align-items: center;
+  button {
+    margin-right: 20px;
+    font-weight: 800px;
+    font-size: 13px;
+  }
+}
+
+.field-header {
+  text-transform: capitalize;
+}
+
+.themer-nav-item {
+  text-transform: capitalize;
+}
+
+.themer-nav-child {
+  padding-left: 60px;
+}
+
+.themer-nav-fontpicker {
+  width: 240px;
+}

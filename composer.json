@@ -20,8 +20,6 @@
         "inc/constants.php",
         "inc/asset-settings.php",
         "inc/utils.php",
-        "inc/class-filters.php",
-        "inc/class-custom-routes.php",
         "inc/class-admin.php",
         "inc/setup.php"
       ],
