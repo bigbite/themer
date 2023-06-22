@@ -7,10 +7,12 @@ import {
   __experimentalNavigatorButton as NavigatorButton,
   __experimentalNavigatorToParentButton as NavigatorToParentButton,
 } from '@wordpress/components';
+import { select } from '@wordpress/data';
+
 import Preview from './Preview';
 import SingleField from './Field';
 
-const { select, dispatch, subscribe } = wp.data;
+const { dispatch, subscribe } = wp.data;
 const { useState } = wp.element;
 
 /**
