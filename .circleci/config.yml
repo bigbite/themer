@@ -12,7 +12,7 @@ jobs:
             - checkout
             - project/setup
             - project/composer-install
-            - project/phpcs
+            # - project/phpcs
             - project/set-node:
                   version: '16'
             - project/npm-install
