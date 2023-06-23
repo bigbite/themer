@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="themer Rules">
-	<rule ref="./vendor/bigbite/phpcs-config" />
+	<exclude-pattern>.git/*</exclude-pattern>
+	<exclude-pattern>build/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modules/*</exclude-pattern>
+	<rule ref="WordPress" />
 </ruleset>
