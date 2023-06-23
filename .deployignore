@@ -7,11 +7,10 @@ package.json
 # composer
 
 composer.lock
-!vendor/automattic
-!vendor/composer
-!vendor/jetpack-autoloader
-!vendor/autoload_packages.php
-!vendor/autoload.php
+vendor/bin
+vendor/dealerdirect
+vendor/squizlabs
+vendor/wp-coding-standards
 
 # build
 
