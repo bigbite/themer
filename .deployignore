@@ -7,7 +7,11 @@ package.json
 # composer
 
 composer.lock
-composer.json
+!vendor/automattic
+!vendor/composer
+!vendor/jetpack-autoloader
+!vendor/autoload_packages.php
+!vendor/autoload.php
 
 # build
 
@@ -18,3 +22,4 @@ src
 .gitignore
 .circleci
 .phpcs.xml.dist
+phpstan.neon
