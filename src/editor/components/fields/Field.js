@@ -2,9 +2,9 @@
 
 import { set, merge } from 'lodash';
 import { useState } from '@wordpress/element';
-import ComponentMap from './ComponentMap';
+import { select, dispatch } from '@wordpress/data';
 
-const { select, dispatch } = wp.data;
+import ComponentMap from './ComponentMap';
 
 /**
  * main component

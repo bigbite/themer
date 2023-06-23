@@ -7,7 +7,6 @@ parameters:
     inferPrivatePropertyTypeFromConstructor: true
     bootstrapFiles:
         - inc/constants.php
-        - inc/asset-settings.php
     paths:
         - inc/
     ignoreErrors:

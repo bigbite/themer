@@ -1,12 +1,14 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { render } from '@wordpress/element';
-import { NAMESPACE } from '../editor/settings';
-import ComponentWrapper from '../editor/components/ComponentWrapper';
+import domReady from '@wordpress/dom-ready';
 
-import '../editor/styles/styles.scss';
+import { NAMESPACE } from './editor/settings';
+import ComponentWrapper from './editor/components/ComponentWrapper';
+
+import './editor/styles/styles.scss';
 
 // Register the plugin.
-wp.domReady(() => {
+domReady(() => {
   registerPlugin(NAMESPACE, {
     icon: 'editor-paragraph',
     render: ComponentWrapper,
