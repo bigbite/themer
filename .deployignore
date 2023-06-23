@@ -1,0 +1,20 @@
+# npm
+
+node_modules
+package-lock.json
+package.json
+
+# composer
+
+composer.lock
+composer.json
+
+# build
+
+src
+
+# other
+
+.gitignore
+.circleci
+.phpcs.xml.dist
