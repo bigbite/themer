@@ -8,11 +8,14 @@ import ComponentWrapper from './editor/components/ComponentWrapper';
 import './editor/styles/styles.scss';
 
 // Register the plugin.
-domReady(() => {
-  registerPlugin(NAMESPACE, {
-    icon: 'editor-paragraph',
-    render: ComponentWrapper,
-  });
+domReady( () => {
+	registerPlugin( NAMESPACE, {
+		icon: 'editor-paragraph',
+		render: ComponentWrapper,
+	} );
 
-  render(<ComponentWrapper />, document.getElementById('themer-admin-screen'));
-});
+	render(
+		<ComponentWrapper />,
+		document.getElementById( 'themer-admin-screen' )
+	);
+} );
