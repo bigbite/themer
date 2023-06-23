@@ -24,22 +24,23 @@ class Loader
      */
     public function enqueue_themer_assets() : void {
         $plugin_name = basename(THEMER_DIR);
+        $asset_file = include THEMER_DIR . '/build/index.asset.php';
 
         wp_enqueue_style('wp-components'); 
 
         wp_enqueue_script(
             self::SCRIPT_NAME,
-            plugins_url($plugin_name . '/dist/scripts/' . THEMER_EDITOR_JS, $plugin_name),
-            [ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-plugins', 'wp-edit-post', 'wp-api' ],
-            (string) filemtime(THEMER_DIR . '/dist/scripts/' . THEMER_EDITOR_JS),
+            plugins_url($plugin_name . '/build/index.js', $plugin_name),
+            array_merge( $asset_file['dependencies'], [ 'wp-edit-post'] ),
+            $asset_file['version'],
             false
         );
 
         wp_enqueue_style(
             self::STYLE_NAME,
-            plugins_url($plugin_name . '/dist/styles/' . THEMER_EDITOR_CSS, $plugin_name),
+            plugins_url($plugin_name . '/build/index.css', $plugin_name),
             [],
-            (string) filemtime(THEMER_DIR . '/dist/styles/' . THEMER_EDITOR_CSS)
+            $asset_file['version']
         );
     }
 }
