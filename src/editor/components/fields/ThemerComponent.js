@@ -145,15 +145,9 @@ const ThemerComponent = () => {
 
   return (
     <div className="themer-container">
-      <div className="themer-preview-container">
-        <Preview
-          color={userConfig?.styles?.color}
-          font={userConfig?.styles?.typography}
-          elements={userConfig?.styles?.elements}
-        />
-      </div>
       <div className="themer-nav-container">
         {renderInputs(getBase(), '', 'parent')}
+        <Preview baseOptions={getBase()}/>
         <Button isPrimary onClick={() => save()} text="Save to db" />
         <Button isPrimary onClick={() => reset()} text="reset to theme.json" />
       </div>

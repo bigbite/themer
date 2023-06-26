@@ -13,6 +13,7 @@ domReady(() => {
     icon: 'editor-paragraph',
     render: ComponentWrapper,
   });
+  wp.blockLibrary.registerCoreBlocks();
 
   render(<ComponentWrapper />, document.getElementById('themer-admin-screen'));
 });

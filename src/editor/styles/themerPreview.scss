@@ -23,3 +23,31 @@
 .themerPreviewText {
   font-size: 64px;
 }
+
+.themerPreviewTopbar {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+// .themer-preview-container {
+//   border: 1px solid #CCCCCC;
+//   width: 729px;
+//   background-color: white;
+// }
+
+.themerPreviewBackground {
+  padding: 40px;
+}
+
+.topbarLeft {
+font-style: normal;
+font-weight: 590;
+font-size: 16px;
+line-height: 150%;
+}
+
+.topbarRight {
+  font-size: 13px;
+}
+
