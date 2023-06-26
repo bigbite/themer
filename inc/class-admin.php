@@ -10,7 +10,7 @@ class AdminSetup {
 	 * Initialise the hooks and filters.
 	 */
 	public function __construct() {
-		add_action( 'admin_menu', [ $this, 'create_admin_screen' ], 1 );
+		add_action( 'admin_menu', array( $this, 'create_admin_screen' ), 1 );
 	}
 
 	/**
@@ -24,11 +24,11 @@ class AdminSetup {
 			'Theme Customiser',
 			'manage_options',
 			'theme_settings',
-			[ $this, 'theme_render_settings' ],
+			array( $this, 'theme_render_settings' ),
 		);
 	}
 
-    public function theme_render_settings() {
+	public function theme_render_settings() {
 		?>
 	<div id="themer-admin-screen" class="theme-settings-page-wrapper wrap"></div>
 		<?php
