@@ -169,7 +169,8 @@ const ThemerComponent = () => {
 				getGlobalStylesId()
 			);
 		} catch ( err ) {
-			// console.log( err );
+			// eslint-disable-next-line no-console
+			console.log( err );
 		}
 	};
 	/**

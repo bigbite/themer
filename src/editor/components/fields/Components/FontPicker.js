@@ -20,7 +20,7 @@ import {
  * @param {Object}          props.data
  * @param {string}          props.id
  * @param {string|string[]} props.value
- * @param {Event}           props.onChange
+ * @param {Function}        props.onChange
  */
 const FontPicker = ( { data, id, value, onChange } ) => {
 	/**

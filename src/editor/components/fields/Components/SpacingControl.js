@@ -14,10 +14,10 @@ import {
 /**
  * renders component for managing spacing elements
  *
- * @param {Object} props
- * @param {Object} props.value
- * @param {Event}  props.onChange
- * @param {Object} props.data
+ * @param {Object}   props
+ * @param {Object}   props.value
+ * @param {Function} props.onChange
+ * @param {Object}   props.data
  */
 const SpacingControl = ( { value, onChange, data } ) => {
 	const [ toggle, setToggle ] = useState( isNaN( Array.from( value )[ 0 ] ) );
