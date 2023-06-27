@@ -14,5 +14,5 @@ namespace Big_Bite\themer;
  */
 function setup() : void {
 	new Loader();
-	new AdminSetup();
+	new Admin();
 }
