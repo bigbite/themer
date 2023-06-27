@@ -5,4 +5,5 @@
 	<exclude-pattern>vendor/*</exclude-pattern>
 	<exclude-pattern>node_modules/*</exclude-pattern>
 	<rule ref="WordPress" />
+	<arg name="extensions" value="php"/>
 </ruleset>
