@@ -8,6 +8,12 @@ import ComponentMap from './ComponentMap';
 
 /**
  * main component
+ *
+ * @param {Object} props
+ * @param {string} props.value
+ * @param {string} props.parent
+ * @param {string} props.id
+ * @param {Object} props.data
  */
 const SingleField = ( { value, parent, id, data } ) => {
 	/**
@@ -20,6 +26,9 @@ const SingleField = ( { value, parent, id, data } ) => {
 
 	/**
 	 * updates entity record on field edit
+	 *
+	 * @param {string} path
+	 * @param {*}      newValue
 	 */
 	const edit = ( path, newValue ) => {
 		const current = {
@@ -44,6 +53,8 @@ const SingleField = ( { value, parent, id, data } ) => {
 
 	/**
 	 * gets field path and value and passes to edit
+	 *
+	 * @param {Event} e Change event.
 	 */
 	const onChange = ( e ) => {
 		let path = `${ parent }.${ id }`;
