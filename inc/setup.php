@@ -1,4 +1,9 @@
 <?php
+/**
+ * Set up the plugin.
+ *
+ * @package themer
+ */
 
 namespace Big_Bite\themer;
 

@@ -1,11 +1,16 @@
 <?php
+/**
+ * Generate an admin screen we can use for the plugin.
+ *
+ * @package themer
+ */
 
 namespace Big_Bite\themer;
 
 /**
- * Loader for handling assets.
+ * Generate an admin screen we can use for the plugin.
  */
-class AdminSetup {
+class Admin {
 	/**
 	 * Initialise the hooks and filters.
 	 */
@@ -14,7 +19,7 @@ class AdminSetup {
 	}
 
 	/**
-	 * Enqueue any required assets for the block editor.
+	 * Create an admin screen for theme settings.
 	 *
 	 * @return void
 	 */
@@ -28,6 +33,9 @@ class AdminSetup {
 		);
 	}
 
+	/**
+	 * Render the content for the theme settings page.
+	 */
 	public function theme_render_settings() {
 		?>
 	<div id="themer-admin-screen" class="theme-settings-page-wrapper wrap"></div>

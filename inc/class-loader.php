@@ -1,4 +1,9 @@
 <?php
+/**
+ * Loader for handling assets.
+ *
+ * @package themer
+ */
 
 namespace Big_Bite\themer;
 
