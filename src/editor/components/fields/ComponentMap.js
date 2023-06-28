@@ -4,6 +4,12 @@ import SpacingControl from './Components/SpacingControl';
 
 /**
  * Returns appropriate component depending on field type
+ *
+ * @param {Object}   props
+ * @param {string}   props.label
+ * @param {string}   props.value
+ * @param {Function} props.onChange
+ * @param {Object}   props.data
  */
 const ComponentMap = ( { label, value, onChange, data } ) => {
 	const colorPickerArray = [ 'background', 'text' ];

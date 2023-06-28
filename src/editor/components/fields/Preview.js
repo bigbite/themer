@@ -1,5 +1,10 @@
 /**
  * renders preview element
+ *
+ * @param {Object} props
+ * @param {Object} props.color
+ * @param {Object} props.elements
+ * @param {Object} props.font
  */
 const Preview = ( { color, elements, font } ) => (
 	<div

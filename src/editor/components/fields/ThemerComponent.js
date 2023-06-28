@@ -1,3 +1,9 @@
+/**
+ * This component requires use of experimental apis
+ */
+
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
+
 import { mergeWith, isEmpty } from 'lodash';
 import {
 	Button,
@@ -55,6 +61,9 @@ const ThemerComponent = () => {
 
 	/**
 	 * merges base and user configs
+	 *
+	 * @param {Object} base
+	 * @param {Object} user
 	 */
 	const mergeBaseAndUserConfigs = ( base, user ) =>
 		mergeWith( {}, base, user );
@@ -95,15 +104,23 @@ const ThemerComponent = () => {
 
 		return base;
 	};
+
 	/**
 	 * loops over theme config and returns fields
+	 *
+	 * @param {Object} data
+	 * @param {string} path
+	 * @param {string} child
 	 */
 	const renderInputs = ( data, path = '', child ) => {
 		const inputs = Object.entries( data ).map( ( [ key, value ] ) => {
 			if ( typeof value === 'object' && value !== null ) {
 				const currentPath = `${ path }.${ key }`;
 				return (
-					<div className={ `themer-nav-${ child }` }>
+					<div
+						key={ currentPath }
+						className={ `themer-nav-${ child }` }
+					>
 						<NavigatorProvider initialPath="/">
 							<NavigatorScreen path="/">
 								<NavigatorButton
@@ -128,6 +145,7 @@ const ThemerComponent = () => {
 				const currentPath = path;
 				return (
 					<SingleField
+						key={ currentPath }
 						parent={ currentPath }
 						id={ key }
 						value={ value }
@@ -151,6 +169,7 @@ const ThemerComponent = () => {
 				getGlobalStylesId()
 			);
 		} catch ( err ) {
+			// eslint-disable-next-line no-console
 			console.log( err );
 		}
 	};

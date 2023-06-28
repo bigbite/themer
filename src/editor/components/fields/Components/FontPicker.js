@@ -1,3 +1,9 @@
+/**
+ * This component requires use of experimental apis
+ */
+
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
+
 import {
 	FontSizePicker,
 	SelectControl,
@@ -9,6 +15,12 @@ import {
 
 /**
  * returns component for font options
+ *
+ * @param {Object}          props
+ * @param {Object}          props.data
+ * @param {string}          props.id
+ * @param {string|string[]} props.value
+ * @param {Function}        props.onChange
  */
 const FontPicker = ( { data, id, value, onChange } ) => {
 	/**
@@ -38,6 +50,9 @@ const FontPicker = ( { data, id, value, onChange } ) => {
 
 	/**
 	 * handles line height incremental input
+	 *
+	 * @param {number} val
+	 * @param {string} dir
 	 */
 	const getLineHeight = ( val, dir ) => {
 		let increment;
