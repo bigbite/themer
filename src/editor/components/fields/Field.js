@@ -26,10 +26,9 @@ const Field = ( { value, path, id } ) => {
 	/**
 	 * updates entity record on field edit
 	 *
-	 * @param {string} path
 	 * @param {*}      newValue
 	 */
-	const edit = ( path, newValue ) => {
+	const edit = ( newValue ) => {
 		const current = {
 			...select( 'core' ).getEditedEntityRecord(
 				'root',
@@ -56,11 +55,8 @@ const Field = ( { value, path, id } ) => {
 	 * @param {Event} e Change event.
 	 */
 	const onChange = ( e ) => {
-		if ( path.charAt( 0 ) === '.' ) {
-			path = path.substring( 1 );
-		}
 		setText( e );
-		edit( path, e );
+		edit( e );
 	};
 	return (
 		<>

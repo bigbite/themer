@@ -10,6 +10,9 @@ import Field from './Field';
  */
 const Fields = ( { sourceObject, path = '', child } ) => {
 	return Object.entries( sourceObject ).map( ( [ key, value ] ) => {
+		if ( path.charAt( 0 ) === '.' ) {
+			path = path.substring( 1 );
+		}
 		const currentPath = `${ path }.${ key }`;
 		/**
 		 * If we encounter an unknown object, recursively call the function again using it's value
