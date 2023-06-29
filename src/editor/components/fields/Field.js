@@ -11,10 +11,10 @@ import ComponentMap from './ComponentMap';
  *
  * @param {Object} props
  * @param {string} props.value
- * @param {string} props.parent
+ * @param {string} props.path
  * @param {string} props.id
  */
-const Field = ( { value, parent, id } ) => {
+const Field = ( { value, path, id } ) => {
 	/**
 	 * gets ID for global styles
 	 */
@@ -56,7 +56,6 @@ const Field = ( { value, parent, id } ) => {
 	 * @param {Event} e Change event.
 	 */
 	const onChange = ( e ) => {
-		let path = `${ parent }.${ id }`;
 		if ( path.charAt( 0 ) === '.' ) {
 			path = path.substring( 1 );
 		}
@@ -70,7 +69,6 @@ const Field = ( { value, parent, id } ) => {
 				label={ id }
 				value={ text || value }
 				onChange={ ( val ) => onChange( val ) }
-				parent={ parent }
 			/>
 		</>
 	);
