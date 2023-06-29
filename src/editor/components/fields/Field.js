@@ -13,9 +13,8 @@ import ComponentMap from './ComponentMap';
  * @param {string} props.value
  * @param {string} props.parent
  * @param {string} props.id
- * @param {Object} props.data
  */
-const Field = ( { value, parent, id, data } ) => {
+const Field = ( { value, parent, id } ) => {
 	/**
 	 * gets ID for global styles
 	 */
@@ -72,7 +71,6 @@ const Field = ( { value, parent, id, data } ) => {
 				value={ text || value }
 				onChange={ ( val ) => onChange( val ) }
 				parent={ parent }
-				data={ data }
 			/>
 		</>
 	);

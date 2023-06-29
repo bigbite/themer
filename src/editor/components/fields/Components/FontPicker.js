@@ -17,17 +17,17 @@ import {
  * returns component for font options
  *
  * @param {Object}          props
- * @param {Object}          props.data
+ * @param {Object}          props.base
  * @param {string}          props.id
  * @param {string|string[]} props.value
  * @param {Function}        props.onChange
  */
-const FontPicker = ( { data, id, value, onChange } ) => {
+const FontPicker = ( { base, id, value, onChange } ) => {
 	/**
 	 * returns preset font sizes from theme.json
 	 */
 	const getFontSizes = () => {
-		const sizes = data?.settings?.typography?.fontSizes?.theme;
+		const sizes = base?.settings?.typography?.fontSizes?.theme;
 		return sizes;
 	};
 
@@ -35,7 +35,7 @@ const FontPicker = ( { data, id, value, onChange } ) => {
 	 * returns preset font families from theme.json
 	 */
 	const getFontFamilies = () => {
-		const fonts = data?.settings?.typography?.fontFamilies?.theme;
+		const fonts = base?.settings?.typography?.fontFamilies?.theme;
 		const result = [];
 		fonts.forEach( ( item ) => {
 			// eslint-disable-next-line no-param-reassign -- remove '-' from slug to use as title

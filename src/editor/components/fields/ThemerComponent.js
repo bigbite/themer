@@ -126,10 +126,7 @@ const ThemerComponent = () => {
 				/>
 			</div>
 			<div className="themer-nav-container">
-				<Fields
-					baseConfig={ baseConfig }
-					sourceObject={ getThemeConfig() }
-				/>
+				<Fields sourceObject={ getThemeConfig() } />
 				<Button isPrimary onClick={ () => save() } text="Save to db" />
 				<Button
 					isPrimary

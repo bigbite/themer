@@ -3,13 +3,12 @@ import Field from './Field';
 /**
  * loops over theme config and renders fields
  *
- * @param {Object} props
- * @param {Object} props.baseConfig
- * @param {Object} props.sourceObject
- * @param {string} props.path
+ * @param {Object}  props
+ * @param {Object}  props.sourceObject
+ * @param {string}  props.path
  * @param {boolean} props.child
  */
-const Fields = ( { baseConfig, sourceObject, path = '', child } ) => {
+const Fields = ( { sourceObject, path = '', child } ) => {
 	return Object.entries( sourceObject ).map( ( [ key, value ] ) => {
 		if ( typeof value === 'object' && value !== null ) {
 			const currentPath = `${ path }.${ key }`;
@@ -19,12 +18,7 @@ const Fields = ( { baseConfig, sourceObject, path = '', child } ) => {
 					className={ `themer-nav-${ child ? 'child' : 'parent' }` }
 				>
 					<p className="themer-nav-title">{ key }</p>
-					<Fields
-						baseConfig={ baseConfig }
-						sourceObject={ value }
-						path={ currentPath }
-						child
-					/>
+					<Fields sourceObject={ value } path={ currentPath } child />
 				</div>
 			);
 		}
@@ -36,10 +30,10 @@ const Fields = ( { baseConfig, sourceObject, path = '', child } ) => {
 					parent={ currentPath }
 					id={ key }
 					value={ value }
-					data={ baseConfig }
 				/>
 			);
 		}
+		return null;
 	} );
 };
 
