@@ -1,23 +1,10 @@
-/**
- * This component requires use of experimental apis
- */
-
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
-
 import { mergeWith, isEmpty } from 'lodash';
-import {
-	Button,
-	Spinner,
-	__experimentalNavigatorProvider as NavigatorProvider,
-	__experimentalNavigatorScreen as NavigatorScreen,
-	__experimentalNavigatorButton as NavigatorButton,
-	__experimentalNavigatorToParentButton as NavigatorToParentButton,
-} from '@wordpress/components';
+import { Button, Spinner } from '@wordpress/components';
 import { select, dispatch, subscribe } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 
 import Preview from './Preview';
-import SingleField from './Field';
+import Fields from './Fields';
 
 /**
  * main component
@@ -71,7 +58,7 @@ const ThemerComponent = () => {
 	/**
 	 * returns theme config
 	 */
-	const getBase = () => {
+	const getThemeConfig = () => {
 		if ( ! userConfig ) {
 			return {};
 		}
@@ -94,69 +81,6 @@ const ThemerComponent = () => {
 		return merged;
 	};
 
-	/**
-	 * returns base config settings for preset values
-	 */
-	const dataToPass = () => {
-		const base = {
-			settings: baseConfig?.settings,
-		};
-
-		return base;
-	};
-
-	/**
-	 * loops over theme config and returns fields
-	 *
-	 * @param {Object} data
-	 * @param {string} path
-	 * @param {string} child
-	 */
-	const renderInputs = ( data, path = '', child ) => {
-		const inputs = Object.entries( data ).map( ( [ key, value ] ) => {
-			if ( typeof value === 'object' && value !== null ) {
-				const currentPath = `${ path }.${ key }`;
-				return (
-					<div
-						key={ currentPath }
-						className={ `themer-nav-${ child }` }
-					>
-						<NavigatorProvider initialPath="/">
-							<NavigatorScreen path="/">
-								<NavigatorButton
-									className="themer-nav-item"
-									path={ `/${ key }` }
-								>
-									{ key }
-								</NavigatorButton>
-							</NavigatorScreen>
-							<NavigatorScreen path={ `/${ key }` }>
-								<span className="nav-top">
-									<NavigatorToParentButton>{ `<` }</NavigatorToParentButton>
-									<p className="themer-nav-title">{ key }</p>
-								</span>
-								{ renderInputs( value, currentPath, `child` ) }
-							</NavigatorScreen>
-						</NavigatorProvider>
-					</div>
-				);
-			}
-			if ( typeof value === 'string' ) {
-				const currentPath = path;
-				return (
-					<SingleField
-						key={ currentPath }
-						parent={ currentPath }
-						id={ key }
-						value={ value }
-						data={ dataToPass() }
-					/>
-				);
-			}
-			return value;
-		} );
-		return inputs;
-	};
 	/**
 	 * saves edited entity data
 	 */
@@ -202,7 +126,10 @@ const ThemerComponent = () => {
 				/>
 			</div>
 			<div className="themer-nav-container">
-				{ renderInputs( getBase(), '', 'parent' ) }
+				<Fields
+					baseConfig={ baseConfig }
+					sourceObject={ getThemeConfig() }
+				/>
 				<Button isPrimary onClick={ () => save() } text="Save to db" />
 				<Button
 					isPrimary

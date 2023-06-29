@@ -15,7 +15,7 @@ import ComponentMap from './ComponentMap';
  * @param {string} props.id
  * @param {Object} props.data
  */
-const SingleField = ( { value, parent, id, data } ) => {
+const Field = ( { value, parent, id, data } ) => {
 	/**
 	 * gets ID for global styles
 	 */
@@ -78,4 +78,4 @@ const SingleField = ( { value, parent, id, data } ) => {
 	);
 };
 
-export default SingleField;
+export default Field;
