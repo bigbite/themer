@@ -10,6 +10,9 @@ import Field from './Field';
  */
 const Fields = ( { sourceObject, path = '', child } ) => {
 	return Object.entries( sourceObject ).map( ( [ key, value ] ) => {
+		/**
+		 * If we encounter an unknown object, recursively call the function again using it's value
+		 */
 		if ( typeof value === 'object' && value !== null ) {
 			const currentPath = `${ path }.${ key }`;
 			return (
@@ -22,6 +25,9 @@ const Fields = ( { sourceObject, path = '', child } ) => {
 				</div>
 			);
 		}
+		/**
+		 * If we encounter a string, render a field
+		 */
 		if ( typeof value === 'string' ) {
 			const currentPath = path;
 			return (
