@@ -26,7 +26,7 @@ const Field = ( { value, path, id } ) => {
 	/**
 	 * updates entity record on field edit
 	 *
-	 * @param {*}      newValue
+	 * @param {*} newValue
 	 */
 	const edit = ( newValue ) => {
 		const current = {
