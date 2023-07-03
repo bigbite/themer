@@ -11,11 +11,10 @@ import ComponentMap from './ComponentMap';
  *
  * @param {Object} props
  * @param {string} props.value
- * @param {string} props.parent
+ * @param {string} props.path
  * @param {string} props.id
- * @param {Object} props.data
  */
-const SingleField = ( { value, parent, id, data } ) => {
+const Field = ( { value, path, id } ) => {
 	/**
 	 * gets ID for global styles
 	 */
@@ -27,10 +26,9 @@ const SingleField = ( { value, parent, id, data } ) => {
 	/**
 	 * updates entity record on field edit
 	 *
-	 * @param {string} path
-	 * @param {*}      newValue
+	 * @param {*} newValue
 	 */
-	const edit = ( path, newValue ) => {
+	const edit = ( newValue ) => {
 		const current = {
 			...select( 'core' ).getEditedEntityRecord(
 				'root',
@@ -57,12 +55,8 @@ const SingleField = ( { value, parent, id, data } ) => {
 	 * @param {Event} e Change event.
 	 */
 	const onChange = ( e ) => {
-		let path = `${ parent }.${ id }`;
-		if ( path.charAt( 0 ) === '.' ) {
-			path = path.substring( 1 );
-		}
 		setText( e );
-		edit( path, e );
+		edit( e );
 	};
 	return (
 		<>
@@ -71,11 +65,9 @@ const SingleField = ( { value, parent, id, data } ) => {
 				label={ id }
 				value={ text || value }
 				onChange={ ( val ) => onChange( val ) }
-				parent={ parent }
-				data={ data }
 			/>
 		</>
 	);
 };
 
-export default SingleField;
+export default Field;

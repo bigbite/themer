@@ -17,9 +17,9 @@ import {
  * @param {Object}   props
  * @param {Object}   props.value
  * @param {Function} props.onChange
- * @param {Object}   props.data
+ * @param {Object}   props.base
  */
-const SpacingControl = ( { value, onChange, data } ) => {
+const SpacingControl = ( { value, onChange, base } ) => {
 	const [ toggle, setToggle ] = useState( isNaN( Array.from( value )[ 0 ] ) );
 
 	/**
@@ -28,7 +28,7 @@ const SpacingControl = ( { value, onChange, data } ) => {
 	 * @param {number} val
 	 */
 	const getRangeMarks = ( val ) => {
-		const marks = data?.settings?.spacing?.spacingSizes?.theme;
+		const marks = base?.settings?.spacing?.spacingSizes?.theme;
 		const result = [];
 		marks.forEach( ( item ) => {
 			result.push( {

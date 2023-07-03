@@ -1,4 +1,6 @@
 import { TextControl, ColorPicker } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+
 import FontPicker from './Components/FontPicker';
 import SpacingControl from './Components/SpacingControl';
 
@@ -9,9 +11,17 @@ import SpacingControl from './Components/SpacingControl';
  * @param {string}   props.label
  * @param {string}   props.value
  * @param {Function} props.onChange
- * @param {Object}   props.data
  */
-const ComponentMap = ( { label, value, onChange, data } ) => {
+const ComponentMap = ( { label, value, onChange } ) => {
+	const { currentThemeBaseGlobalStyles } = useSelect( ( select ) => {
+		return {
+			currentThemeBaseGlobalStyles:
+				select(
+					'core'
+				).__experimentalGetCurrentThemeBaseGlobalStyles(),
+		};
+	} );
+
 	const colorPickerArray = [ 'background', 'text' ];
 	const fontPickerArray = [
 		'fontFamily',
@@ -36,7 +46,7 @@ const ComponentMap = ( { label, value, onChange, data } ) => {
 						id={ label }
 						value={ value }
 						onChange={ ( val ) => onChange( val ) }
-						data={ data }
+						base={ currentThemeBaseGlobalStyles }
 					/>
 				</div>
 			);
@@ -46,7 +56,7 @@ const ComponentMap = ( { label, value, onChange, data } ) => {
 					id={ label }
 					value={ value }
 					onChange={ ( val ) => onChange( val ) }
-					data={ data }
+					base={ currentThemeBaseGlobalStyles }
 				/>
 			);
 		default:
