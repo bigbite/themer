@@ -119,14 +119,14 @@ const ThemerComponent = () => {
 	return (
 		<div className="themer-container">
 			<div className="themer-topbar">
-				<Button isPrimary onClick={ () => reset() } text="Reset" />
+				<Button isSecondary onClick={ () => reset() } text="Reset" />
 				<Button isPrimary onClick={ () => save() } text="Save" />
 			</div>
 			<div className="themer-body">
 				<div className="themer-nav-container">
 					<TabPanel
 						className="themer-tab-panel"
-						activeClass="themer-tab-panel-active"
+						activeClass="active-themer-tab"
 						tabs={ [
 							{
 								name: 'placeholder',

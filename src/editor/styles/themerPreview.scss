@@ -1,9 +1,17 @@
+.themer-preview-container {
+  width: 729px;
+  display: flex;
+  justify-content: center;
+  margin-left: 20px;
+  height: 1200px;
+}
+
 .themer-preview-square {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  border: 1px #ccc solid;
+  border: #ccc 1px solid;
 }
 
 .themer-preview-circle {
