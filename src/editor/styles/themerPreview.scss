@@ -1,4 +1,4 @@
-.themerPreviewSquare {
+.themer-preview-square {
   width: 480px;
   height: 320px;
   display: flex;
@@ -7,12 +7,12 @@
   flex-direction: column;
 }
 
-.themerPreviewColours {
+.themer-preview-colours {
   width: 64px;
   padding-left: 24px;
   display: flex;
 }
-.themerPreviewCircle {
+.themer-preview-circle {
   width: 32px;
   height: 32px;
   background-color: #000;
@@ -20,6 +20,6 @@
   display: inline-block;
 }
 
-.themerPreviewText {
+.themer-preview-text {
   font-size: 64px;
 }

@@ -8,11 +8,11 @@
  */
 const Preview = ( { color, elements, font } ) => (
 	<div
-		className="themerPreviewSquare"
+		className="themer-preview-square"
 		style={ { backgroundColor: `${ color?.background }` } }
 	>
 		<h1
-			className="themerPreviewTitle"
+			className="themer-preview-title"
 			style={ {
 				color: `${ color?.text }`,
 				'font-family': `${ elements?.h1?.typography?.fontFamily }`,
@@ -23,7 +23,7 @@ const Preview = ( { color, elements, font } ) => (
 			This is a title
 		</h1>
 		<div
-			className="themerPreviewText"
+			className="themer-preview-text"
 			style={ {
 				color: `${ color?.text }`,
 				'font-family': `${ font?.fontFamily }`,
@@ -35,9 +35,9 @@ const Preview = ( { color, elements, font } ) => (
 			eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
 			ad minim veniam,
 		</div>
-		<div className="themerPreviewColours">
-			<div className="themerPreviewCircle" />
-			<div className="themerPreviewCircle" />
+		<div className="themer-preview-colours">
+			<div className="themer-preview-circle" />
+			<div className="themer-preview-circle" />
 		</div>
 	</div>
 );

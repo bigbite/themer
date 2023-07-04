@@ -1,5 +1,5 @@
 import { mergeWith, isEmpty } from 'lodash';
-import { Button, Spinner } from '@wordpress/components';
+import { Button, Spinner, TabPanel } from '@wordpress/components';
 import { select, dispatch, subscribe } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 
@@ -118,20 +118,47 @@ const ThemerComponent = () => {
 
 	return (
 		<div className="themer-container">
-			<div className="themer-preview-container">
-				<Preview
-					color={ userConfig?.styles?.color }
-					font={ userConfig?.styles?.typography }
-					elements={ userConfig?.styles?.elements }
-				/>
-			</div>
 			<div className="themer-nav-container">
-				<Fields sourceObject={ getThemeConfig() } />
+				<TabPanel
+					className="themer-tab-panel"
+					activeClass="themer-tab-panel-active"
+					tabs={ [
+						{
+							name: 'placeholder',
+							title: 'Placeholder',
+							className: 'placeholder',
+						},
+						{
+							name: 'placeholder2',
+							title: 'Placeholder 2',
+							className: 'placeholder2',
+						},
+						{
+							name: 'placeholder3',
+							title: 'Placeholder 3',
+							className: 'placeholder3',
+						},
+					] }
+				>
+					{ ( tab ) => (
+						<>
+							<p>{ tab.title }</p>
+							<Fields sourceObject={ getThemeConfig() } />
+						</>
+					) }
+				</TabPanel>
 				<Button isPrimary onClick={ () => save() } text="Save to db" />
 				<Button
 					isPrimary
 					onClick={ () => reset() }
 					text="reset to theme.json"
+				/>
+			</div>
+			<div className="themer-preview-container">
+				<Preview
+					color={ userConfig?.styles?.color }
+					font={ userConfig?.styles?.typography }
+					elements={ userConfig?.styles?.elements }
 				/>
 			</div>
 		</div>
