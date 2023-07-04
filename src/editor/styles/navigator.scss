@@ -1,14 +1,44 @@
-.themer-container {
+.themer-body {
   display: flex;
-  background-color: rgb(217, 216, 216);
+  background-color: #F6F7F7;
   justify-content: center;
+  padding: 30px;
+  margin: 0;
+  height: 1200px;
+}
+
+.themer-topbar {
+  height: 60px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 0 30px 0 30px;
+  margin: 0;
+  button {
+    margin: 10px;
+    box-shadow: none !important;
+  }
 }
 
 .themer-nav-container {
-  width: 500px;
+  width: 729px;
+  background-color: #fff;
+  margin: 0;
+  border: 1px solid #ccc;
+
+
+  .components-tab-panel__tab-content {
+    padding: 0 30px;
+  }
 }
 .themer-preview-container {
-  width: 500px;
+  width: 729px;
+  display: flex;
+  justify-content: center;
+  padding: 0 30px;
+
 }
 
 .themer-nav-title {
@@ -36,9 +66,28 @@
 }
 
 .themer-nav-child {
-  padding-left: 20px;
+  padding-left: 60px;
 }
 
 .themer-nav-fontpicker {
   width: 240px;
+}
+
+.active-themer-tab {
+  border-bottom: #3858E9 1.5px solid;
+}
+
+.components-tab-panel__tabs {
+  border-bottom: #ccc 1px solid;
+}
+
+.themer-tab-panel button {
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.half-container.themer-nav {
+  background-color: #fff;
+  padding: 0 30px 30px 30px;
+  border: 1px solid #CCC;
 }
