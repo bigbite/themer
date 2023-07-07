@@ -1,7 +1,8 @@
 import { mergeWith, isEmpty } from 'lodash';
 import { Button, Spinner } from '@wordpress/components';
 import { select, dispatch, subscribe } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import { useEffect, useState, useMemo } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 
 import Preview from './Preview';
 import Fields from './Fields';
@@ -11,6 +12,8 @@ import Fields from './Fields';
  */
 const ThemerComponent = () => {
 	const [ config, setConfig ] = useState();
+	const [ previewCss, setPreviewCss ] = useState( '' );
+
 	/**
 	 * Gets global Styles ID
 	 */
@@ -58,28 +61,48 @@ const ThemerComponent = () => {
 	/**
 	 * returns theme config
 	 */
-	const getThemeConfig = () => {
+	const themeConfig = useMemo( () => {
 		if ( ! userConfig ) {
-			return {};
+			return null;
 		}
 
 		const baseOptions = {
 			styles: baseConfig?.styles,
-			// render only layout from settings
-			settings: ( ( { layout } ) => ( { layout } ) )(
-				baseConfig?.settings
-			),
+
+			settings: {
+				layout: baseConfig?.settings?.layout,
+			},
 		};
 		const userOptions = {
 			styles: userConfig?.styles,
-			// render only layout from settings
-			settings: ( ( { layout } ) => ( { layout } ) )(
-				userConfig?.settings
-			),
+
+			settings: {
+				layout: userConfig?.settings?.layout,
+			},
 		};
 		const merged = mergeBaseAndUserConfigs( baseOptions, userOptions );
 		return merged;
-	};
+	}, [ userConfig, baseConfig ] );
+
+	/**
+	 * Fetch CSS styling rules for live preview based on current theme config
+	 */
+	useEffect( () => {
+		const refreshStyles = async () => {
+			const res = await apiFetch( {
+				path: '/themer/v1/styles',
+				method: 'POST',
+				data: themeConfig,
+			} );
+			if ( res ) {
+				setPreviewCss( res );
+			}
+		};
+
+		if ( themeConfig ) {
+			refreshStyles();
+		}
+	}, [ themeConfig, setPreviewCss ] );
 
 	/**
 	 * saves edited entity data
@@ -97,6 +120,7 @@ const ThemerComponent = () => {
 			console.log( err );
 		}
 	};
+
 	/**
 	 * resets updated theme db data back to original theme.json
 	 */
@@ -109,29 +133,43 @@ const ThemerComponent = () => {
 		);
 	};
 
-	if ( isEmpty( config ) )
+	if ( isEmpty( config ) ) {
 		return (
 			<>
 				<Spinner />
 			</>
 		);
+	}
 
 	return (
 		<div className="themer-container">
-			<div className="themer-preview-container">
-				<Preview
-					color={ userConfig?.styles?.color }
-					font={ userConfig?.styles?.typography }
-					elements={ userConfig?.styles?.elements }
-				/>
+			<div className="themer-nav">
+				<div
+					style={ {
+						display: 'flex',
+						gap: '0.5rem',
+						padding: '0.5rem',
+					} }
+				>
+					<Button
+						isPrimary
+						onClick={ () => save() }
+						text="Save to db"
+					/>
+					<Button
+						isPrimary
+						onClick={ () => reset() }
+						text="reset to theme.json"
+					/>
+				</div>
+				<div className="themer-fields">
+					<Fields sourceObject={ themeConfig } />
+				</div>
 			</div>
-			<div className="themer-nav-container">
-				<Fields sourceObject={ getThemeConfig() } />
-				<Button isPrimary onClick={ () => save() } text="Save to db" />
-				<Button
-					isPrimary
-					onClick={ () => reset() }
-					text="reset to theme.json"
+			<div className="themer-preview">
+				<Preview
+					baseOptions={ getBaseConfig() }
+					previewCss={ previewCss }
 				/>
 			</div>
 		</div>

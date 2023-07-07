@@ -4,11 +4,17 @@
   justify-content: center;
 }
 
-.themer-nav-container {
-  width: 500px;
+.themer-fields {
+	height: 100vh;
+	overflow: auto;
 }
-.themer-preview-container {
-  width: 500px;
+
+.themer-preview {
+	.components-popover,
+	.block-editor-rich-text__inline-format-toolbar,
+	.components-accessible-toolbar {
+		display: none !important;
+	}
 }
 
 .themer-nav-title {
