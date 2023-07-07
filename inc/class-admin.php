@@ -27,7 +27,7 @@ class Admin {
 		add_options_page(
 			__( 'Theme Settings' ),
 			'Theme Customiser',
-			'manage_options',
+			$this->plugin_access_capability(),
 			'theme_settings',
 			array( $this, 'theme_render_settings' ),
 		);
@@ -40,5 +40,21 @@ class Admin {
 		?>
 	<div id="themer-admin-screen" class="theme-settings-page-wrapper wrap"></div>
 		<?php
+	}
+
+	/**
+	 * Controls plugin access via a user capability
+	 *
+	 * @return string
+	 */
+	public function plugin_access_capability() : string {
+		/**
+		 * Filters the required user capability for plugin access
+		 *
+		 * @param string Required user capability for plugin access
+		 */
+		$allowed_capability = apply_filters( 'themer_plugin_access_capability', 'manage_options' );
+
+		return $allowed_capability;
 	}
 }

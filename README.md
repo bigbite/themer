@@ -80,3 +80,15 @@ On edit, the state is updated using `editEntityRecord('root', 'globalStyles', ge
 using `wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', getGlobalStylesId())`.
 
 A revision is also created in the DB for each save. 
+
+## Hooks
+
+### themer_plugin_access_capability
+
+**Default:** `manage_options`
+
+Allows the user capability which restricts plugin access to be modified.
+
+```php
+add_filter( 'themer_plugin_access_capability', fn() => 'user_capability_here' );
+```
