@@ -48,27 +48,23 @@ const ThemerComponent = () => {
 	}, [ userConfig, baseConfig ] );
 
 	/**
-	 * Update CSS styling rules for live preview
-	 */
-	const updatePreviewCss = async ( data ) => {
-		const res = await apiFetch( {
-			path: '/themer/v1/styles',
-			method: 'POST',
-			data,
-		} );
-		if ( res ) {
-			setPreviewCss( res );
-		}
-	};
-
-	/**
 	 * Fetch new preview CSS whenever config is changed
 	 */
 	useEffect( () => {
+		const updatePreviewCss = async () => {
+			const res = await apiFetch( {
+				path: '/themer/v1/styles',
+				method: 'POST',
+				data: themeConfig,
+			} );
+			if ( res ) {
+				setPreviewCss( res );
+			}
+		};
 		if ( themeConfig ) {
-			updatePreviewCss( themeConfig );
+			updatePreviewCss();
 		}
-	}, [ themeConfig, updatePreviewCss ] );
+	}, [ themeConfig, setPreviewCss ] );
 
 	/**
 	 * saves edited entity data

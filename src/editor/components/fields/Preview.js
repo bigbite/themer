@@ -1,3 +1,9 @@
+/**
+ * This component requires use of experimental apis
+ */
+
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
+
 import {
 	BlockTools,
 	BlockEditorProvider,
