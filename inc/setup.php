@@ -15,4 +15,5 @@ namespace Big_Bite\themer;
 function setup() : void {
 	new Loader();
 	new Admin();
+	new Rest_API();
 }

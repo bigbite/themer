@@ -1,6 +1,7 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { render } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
+import { registerCoreBlocks } from '@wordpress/block-library';
 
 import { NAMESPACE } from './editor/settings';
 import ComponentWrapper from './editor/components/ComponentWrapper';
@@ -13,6 +14,8 @@ domReady( () => {
 		icon: 'editor-paragraph',
 		render: ComponentWrapper,
 	} );
+
+	registerCoreBlocks();
 
 	render(
 		<ComponentWrapper />,

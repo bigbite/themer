@@ -1,7 +1,8 @@
 import { mergeWith, isEmpty } from 'lodash';
 import { Button, Spinner } from '@wordpress/components';
-import { select, dispatch, subscribe } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import { useSelect, dispatch } from '@wordpress/data';
+import { useEffect, useState, useMemo } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 
 import Preview from './Preview';
 import Fields from './Fields';
@@ -10,76 +11,60 @@ import Fields from './Fields';
  * main component
  */
 const ThemerComponent = () => {
-	const [ config, setConfig ] = useState();
-	/**
-	 * Gets global Styles ID
-	 */
-	// eslint-disable-next-line no-underscore-dangle -- require underscore dangle for experimental functions
-	const getGlobalStylesId = () =>
-		select( 'core' ).__experimentalGetCurrentGlobalStylesId();
+	const [ previewCss, setPreviewCss ] = useState( '' );
 
-	/**
-	 * Gets base configuration (theme.json)
-	 */
-	// eslint-disable-next-line no-underscore-dangle -- require underscore dangle for experimental functions
-	const getBaseConfig = () =>
-		select( 'core' ).__experimentalGetCurrentThemeBaseGlobalStyles();
+	const { globalStylesId, baseConfig, userConfig } = useSelect(
+		( select ) => {
+			const {
+				__experimentalGetCurrentGlobalStylesId,
+				__experimentalGetCurrentThemeBaseGlobalStyles,
+				getEditedEntityRecord,
+			} = select( 'core' );
 
-	/**
-	 * Gets user configuration from db
-	 */
-	// eslint-disable-next-line no-shadow -- require reuse of select
-	const getUserConfig = () =>
-		select( 'core' ).getEditedEntityRecord(
-			'root',
-			'globalStyles',
-			getGlobalStylesId()
-		);
+			const currentGlobalStylesId =
+				__experimentalGetCurrentGlobalStylesId();
 
-	const baseConfig = getBaseConfig();
-	const userConfig = getUserConfig();
-
-	subscribe( () => {
-		const newUserConfig = getUserConfig();
-		if ( userConfig !== newUserConfig ) {
-			setConfig( newUserConfig );
+			return {
+				globalStylesId: currentGlobalStylesId, // eslint-disable no-underscore-dangle -- require underscore dangle for experimental functions
+				baseConfig: __experimentalGetCurrentThemeBaseGlobalStyles(), // eslint-disable no-underscore-dangle -- require underscore dangle for experimental functions
+				userConfig: getEditedEntityRecord(
+					'root',
+					'globalStyles',
+					currentGlobalStylesId
+				),
+			};
 		}
-	} );
+	);
 
 	/**
-	 * merges base and user configs
-	 *
-	 * @param {Object} base
-	 * @param {Object} user
+	 * Returns merged base and user configs
 	 */
-	const mergeBaseAndUserConfigs = ( base, user ) =>
-		mergeWith( {}, base, user );
-
-	/**
-	 * returns theme config
-	 */
-	const getThemeConfig = () => {
-		if ( ! userConfig ) {
-			return {};
+	const themeConfig = useMemo( () => {
+		if ( isEmpty( userConfig ) ) {
+			return baseConfig;
 		}
-
-		const baseOptions = {
-			styles: baseConfig?.styles,
-			// render only layout from settings
-			settings: ( ( { layout } ) => ( { layout } ) )(
-				baseConfig?.settings
-			),
-		};
-		const userOptions = {
-			styles: userConfig?.styles,
-			// render only layout from settings
-			settings: ( ( { layout } ) => ( { layout } ) )(
-				userConfig?.settings
-			),
-		};
-		const merged = mergeBaseAndUserConfigs( baseOptions, userOptions );
+		const merged = mergeWith( {}, baseConfig, userConfig );
 		return merged;
-	};
+	}, [ userConfig, baseConfig ] );
+
+	/**
+	 * Fetch new preview CSS whenever config is changed
+	 */
+	useEffect( () => {
+		const updatePreviewCss = async () => {
+			const res = await apiFetch( {
+				path: '/themer/v1/styles',
+				method: 'POST',
+				data: themeConfig,
+			} );
+			if ( res ) {
+				setPreviewCss( res );
+			}
+		};
+		if ( themeConfig ) {
+			updatePreviewCss();
+		}
+	}, [ themeConfig, setPreviewCss ] );
 
 	/**
 	 * saves edited entity data
@@ -90,13 +75,14 @@ const ThemerComponent = () => {
 			await dispatch( 'core' ).saveEditedEntityRecord(
 				'root',
 				'globalStyles',
-				getGlobalStylesId()
+				globalStylesId
 			);
 		} catch ( err ) {
 			// eslint-disable-next-line no-console
 			console.log( err );
 		}
 	};
+
 	/**
 	 * resets updated theme db data back to original theme.json
 	 */
@@ -104,35 +90,46 @@ const ThemerComponent = () => {
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
-			getGlobalStylesId(),
-			getBaseConfig()
+			globalStylesId,
+			baseConfig
 		);
 	};
 
-	if ( isEmpty( config ) )
+	if ( ! themeConfig || ! previewCss ) {
 		return (
 			<>
 				<Spinner />
 			</>
 		);
+	}
 
 	return (
 		<div className="themer-container">
-			<div className="themer-preview-container">
-				<Preview
-					color={ userConfig?.styles?.color }
-					font={ userConfig?.styles?.typography }
-					elements={ userConfig?.styles?.elements }
-				/>
+			<div className="themer-nav">
+				<div
+					style={ {
+						display: 'flex',
+						gap: '0.5rem',
+						padding: '0.5rem',
+					} }
+				>
+					<Button
+						isPrimary
+						onClick={ () => save() }
+						text="Save to db"
+					/>
+					<Button
+						isPrimary
+						onClick={ () => reset() }
+						text="reset to theme.json"
+					/>
+				</div>
+				<div className="themer-fields">
+					<Fields sourceObject={ themeConfig } />
+				</div>
 			</div>
-			<div className="themer-nav-container">
-				<Fields sourceObject={ getThemeConfig() } />
-				<Button isPrimary onClick={ () => save() } text="Save to db" />
-				<Button
-					isPrimary
-					onClick={ () => reset() }
-					text="reset to theme.json"
-				/>
+			<div className="themer-preview">
+				<Preview baseOptions={ baseConfig } previewCss={ previewCss } />
 			</div>
 		</div>
 	);
