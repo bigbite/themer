@@ -6,8 +6,26 @@
   margin: 0;
 }
 
-.themer-topbar {
-  height: 60px;
+.themer-fields {
+	height: 100vh;
+	overflow: auto;
+}
+
+.themer-preview {
+	.components-popover,
+	.block-editor-rich-text__inline-format-toolbar,
+	.components-accessible-toolbar {
+		display: none !important;
+	}
+}
+
+.themer-nav-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.nav-top {
   display: flex;
   justify-content: end;
   align-items: center;

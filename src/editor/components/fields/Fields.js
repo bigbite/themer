@@ -14,6 +14,14 @@ const Fields = ( { sourceObject, path = '', child } ) => {
 			path = path.substring( 1 );
 		}
 		const currentPath = `${ path }.${ key }`;
+
+		/**
+		 * TODO: Handle settings
+		 */
+		if ( key === 'settings' ) {
+			return null;
+		}
+
 		/**
 		 * If we encounter an unknown object, recursively call the function again using it's value
 		 */
