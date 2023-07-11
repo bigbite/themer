@@ -3,4 +3,9 @@
   display: flex;
   justify-content: center;
   margin-left: 20px;
+
+  .editor-styles-wrapper {
+    border: #ccc 1px solid;
+    min-height: 754px;
+  }
 }
