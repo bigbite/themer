@@ -19,11 +19,11 @@ class AdminSetup {
 	 * @return void
 	 */
 	public function create_admin_screen() : void {
-		add_options_page(
-			__( 'Theme Settings' ),
-			'Theme Customiser',
+		add_theme_page(
+			__( 'Styles Editor' ),
+			'Styles Editor',
 			'manage_options',
-			'theme_settings',
+			'styles_editor',
 			[ $this, 'theme_render_settings' ],
 		);
 	}
