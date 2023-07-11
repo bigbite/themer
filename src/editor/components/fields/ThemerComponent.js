@@ -104,34 +104,50 @@ const ThemerComponent = () => {
 	}
 
 	return (
-		<div className="themer-container">
-			<div className="themer-nav">
-				<div
-					style={ {
-						display: 'flex',
-						gap: '0.5rem',
-						padding: '0.5rem',
-					} }
-				>
-					<Button
-						isPrimary
-						onClick={ () => save() }
-						text="Save to db"
-					/>
-					<Button
-						isPrimary
-						onClick={ () => reset() }
-						text="reset to theme.json"
+		<>
+			<div className="themer-topbar">
+				<Button isSecondary onClick={ () => reset() } text="Reset" />
+				<Button isPrimary onClick={ () => save() } text="Save" />
+			</div>
+			<div className="themer-body">
+				<div className="themer-nav-container">
+					<TabPanel
+						className="themer-tab-panel"
+						activeClass="active-themer-tab"
+						tabs={ [
+							{
+								name: 'placeholder',
+								title: 'Placeholder',
+								className: 'placeholder',
+							},
+							{
+								name: 'placeholder2',
+								title: 'Placeholder 2',
+								className: 'placeholder2',
+							},
+							{
+								name: 'placeholder3',
+								title: 'Placeholder 3',
+								className: 'placeholder3',
+							},
+						] }
+					>
+						{ ( tab ) => (
+							<>
+								<p>{ tab.title }</p>
+								<Fields sourceObject={ themeConfig } />
+							</>
+						) }
+					</TabPanel>
+				</div>
+				<div className="themer-preview-container">
+					<Preview
+						baseOptions={ baseConfig }
+						previewCss={ previewCss }
 					/>
 				</div>
-				<div className="themer-fields">
-					<Fields sourceObject={ themeConfig } />
-				</div>
 			</div>
-			<div className="themer-preview">
-				<Preview baseOptions={ baseConfig } previewCss={ previewCss } />
-			</div>
-		</div>
+		</>
 	);
 };
 
