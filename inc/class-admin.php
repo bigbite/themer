@@ -22,7 +22,7 @@ class AdminSetup {
 		add_options_page(
 			__( 'Theme Settings' ),
 			'Theme Customiser',
-			'manage_options',
+			'edit_theme_options',
 			'theme_settings',
 			[ $this, 'theme_render_settings' ],
 		);
