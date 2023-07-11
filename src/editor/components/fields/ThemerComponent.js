@@ -39,6 +39,9 @@ const ThemerComponent = () => {
 	const baseConfig = getBaseConfig();
 	const userConfig = getUserConfig();
 
+	console.log( baseConfig, 'base' );
+	// console.log( userConfig, 'user' );
+
 	subscribe( () => {
 		const newUserConfig = getUserConfig();
 		if ( userConfig !== newUserConfig ) {
@@ -78,6 +81,7 @@ const ThemerComponent = () => {
 			),
 		};
 		const merged = mergeBaseAndUserConfigs( baseOptions, userOptions );
+		console.log( merged, 'merged' );
 		return merged;
 	};
 

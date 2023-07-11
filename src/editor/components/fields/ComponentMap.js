@@ -1,8 +1,9 @@
-import { TextControl, ColorPicker } from '@wordpress/components';
+import { TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 
 import FontPicker from './Components/FontPicker';
 import SpacingControl from './Components/SpacingControl';
+import ColorControl from './Components/ColorControl';
 
 /**
  * Returns appropriate component depending on field type
@@ -12,7 +13,7 @@ import SpacingControl from './Components/SpacingControl';
  * @param {string}   props.value
  * @param {Function} props.onChange
  */
-const ComponentMap = ( { label, value, onChange } ) => {
+const ComponentMap = ( { label, value, onChange, path } ) => {
 	const { currentThemeBaseGlobalStyles } = useSelect( ( select ) => {
 		return {
 			currentThemeBaseGlobalStyles:
@@ -34,9 +35,10 @@ const ComponentMap = ( { label, value, onChange } ) => {
 	switch ( true ) {
 		case colorPickerArray.includes( label ):
 			return (
-				<ColorPicker
-					defaultValue={ value }
-					onChange={ ( val ) => onChange( val ) }
+				<ColorControl
+					path={ path }
+					value={ value }
+					base={ currentThemeBaseGlobalStyles }
 				/>
 			);
 		case fontPickerArray.includes( label ):

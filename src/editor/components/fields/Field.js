@@ -65,6 +65,7 @@ const Field = ( { value, path, id } ) => {
 				label={ id }
 				value={ text || value }
 				onChange={ ( val ) => onChange( val ) }
+				path={ path }
 			/>
 		</>
 	);
