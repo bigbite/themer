@@ -38,6 +38,7 @@ const ComponentMap = ( { label, value, onChange, path } ) => {
 				<ColorControl
 					path={ path }
 					value={ value }
+					onChange={ ( val ) => onChange( val ) }
 					base={ currentThemeBaseGlobalStyles }
 				/>
 			);

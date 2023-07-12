@@ -1,53 +1,35 @@
 import { ColorPicker } from '@wordpress/components';
-import {
-	useSetting,
-	getColorObjectByAttributeValues,
-	getColorObjectByColorValue,
-} from '@wordpress/block-editor';
+import { useEffect, useState } from '@wordpress/element';
+import getCurrentGlobalSetting from '../../../lib/getCurrentGlobalSetting';
 
-const getCurrentGlobalSetting = ( path, base ) => {
-	const pathArr = path.split( '.' );
-	return pathArr.reduce( ( o, i ) => o[ i ], base );
-};
-
-const ColorControl = ( { path, value, base } ) => {
-	const themeColors = useSetting( 'color.palette.theme' );
-	const defaultColors = useSetting( 'color.palette.default' );
-	const customColors = useSetting( 'color.palette.custom' );
-
+const ColorControl = ( { path, value, base, onChange } ) => {
 	wp.data
 		.dispatch( 'core/block-editor' )
 		.updateSettings( window.themerPlugin.editor_settings );
 
-	// console.log( path, 'path' );
-
-	// console.log( base, 'base' );
-
-	console.log( themeColors );
-
+	const [ hexValue, setHexValue ] = useState( '#fff' );
 	const globalSettingValue = getCurrentGlobalSetting( path, base );
-
 	const cssVarName = globalSettingValue.replace( /var\(([^)]*)\)/g, '$1' );
+	const previewElement = document.querySelector( '.editor-styles-wrapper' ); // Contains the css vars we need
 
-	// console.log( cssVarName );
-
-	const test = getColorObjectByAttributeValues( themeColors );
-
-	console.log( test );
-
-	const hexValue = getComputedStyle(
-		document.documentElement
-	).getPropertyValue( cssVarName ); // stylesheet missing
-
-	// console.log( hexValue );
-
-	// console.log( getCurrentGlobalSetting( path, base ), 'newpath' );
+	useEffect( () => {
+		if ( previewElement ) {
+			const hex =
+				getComputedStyle( previewElement ).getPropertyValue(
+					cssVarName
+				);
+			setHexValue( hex );
+		}
+	} );
 
 	return (
-		<ColorPicker
-			defaultValue={ value }
-			onChange={ ( val ) => onChange( val ) }
-		/>
+		<>
+			<ColorPicker
+				defaultValue={ hexValue }
+				color={ hexValue }
+				onChange={ ( val ) => onChange( val ) }
+			/>
+		</>
 	);
 };
 
