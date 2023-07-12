@@ -13,7 +13,7 @@ import ColorControl from './Components/ColorControl';
  * @param {string}   props.value
  * @param {Function} props.onChange
  */
-const ComponentMap = ( { label, value, onChange, path } ) => {
+const ComponentMap = ( { label, value, onChange } ) => {
 	const { currentThemeBaseGlobalStyles } = useSelect( ( select ) => {
 		return {
 			currentThemeBaseGlobalStyles:
@@ -36,7 +36,6 @@ const ComponentMap = ( { label, value, onChange, path } ) => {
 		case colorPickerArray.includes( label ):
 			return (
 				<ColorControl
-					path={ path }
 					value={ value }
 					onChange={ ( val ) => onChange( val ) }
 					base={ currentThemeBaseGlobalStyles }

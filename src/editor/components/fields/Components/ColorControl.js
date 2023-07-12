@@ -1,26 +1,33 @@
 import { ColorPicker } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
-import getCurrentGlobalSetting from '../../../lib/getCurrentGlobalSetting';
+import {
+	getColorObjectByAttributeValues,
+	useSetting,
+} from '@wordpress/block-editor';
 
-const ColorControl = ( { path, value, base, onChange } ) => {
+const ColorControl = ( { value, onChange } ) => {
 	wp.data
 		.dispatch( 'core/block-editor' )
 		.updateSettings( window.themerPlugin.editor_settings );
 
+	const themeColors = useSetting( 'color.palette.theme' );
+	const cssVarName = value.replace(
+		/var\(--wp--preset--color--(.+?)\)/g,
+		'$1'
+	);
+
 	const [ hexValue, setHexValue ] = useState( '#fff' );
-	const globalSettingValue = getCurrentGlobalSetting( path, base );
-	const cssVarName = globalSettingValue.replace( /var\(([^)]*)\)/g, '$1' );
 	const previewElement = document.querySelector( '.editor-styles-wrapper' ); // Contains the css vars we need
 
 	useEffect( () => {
 		if ( previewElement ) {
-			const hex =
-				getComputedStyle( previewElement ).getPropertyValue(
-					cssVarName
-				);
-			setHexValue( hex );
+			const colorObj = getColorObjectByAttributeValues(
+				themeColors,
+				cssVarName
+			);
+			setHexValue( colorObj.color );
 		}
-	} );
+	}, [ cssVarName, previewElement, themeColors ] );
 
 	return (
 		<>
