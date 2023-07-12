@@ -3,6 +3,9 @@ import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
 import { Button } from '@wordpress/components';
 
+/**
+ * Renders the button to export theme.json
+ */
 const ButtonExport = () => {
 	const [ isFetching, setIsFetching ] = useState( false );
 	const isExportSupported =
