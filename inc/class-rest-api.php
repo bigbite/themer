@@ -7,6 +7,11 @@
 
 namespace Big_Bite\themer;
 
+use WP_Error;
+use WP_Theme_JSON;
+use WP_REST_Response;
+use WP_Theme_JSON_Resolver;
+
 /**
  * Custom REST routes.
  */
@@ -33,6 +38,16 @@ class Rest_API {
 				},
 			)
 		);
+
+		register_rest_route(
+			'themer/v1',
+			'/export',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_theme_json' ),
+				'permission_callback' => fn() => is_user_logged_in() && current_user_can( 'edit_theme_options' ),
+			)
+		);
 	}
 
 	/**
@@ -55,4 +70,21 @@ class Rest_API {
 		return rest_ensure_response( $custom_theme_json->get_stylesheet() );
 	}
 
+	/**
+	 * Returns an updated theme.json with merged and flattened layers
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function get_theme_json(): WP_REST_Response | WP_Error {
+		$all_theme_json_layers = WP_Theme_JSON_Resolver::get_merged_data();
+
+		if ( ! $all_theme_json_layers instanceof WP_Theme_JSON ) {
+			return new WP_Error( 'no_theme_json', __( 'Unable to locate existing theme.json data', 'themer' ) );
+		}
+
+		$theme_json_raw_data  = new WP_Theme_JSON( $all_theme_json_layers->get_raw_data() );
+		$theme_json_flattened = $theme_json_raw_data->get_data();
+
+		return rest_ensure_response( $theme_json_flattened );
+	}
 }
