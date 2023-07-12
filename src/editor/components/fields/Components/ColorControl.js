@@ -17,17 +17,14 @@ const ColorControl = ( { value, onChange } ) => {
 	);
 
 	const [ hexValue, setHexValue ] = useState( '#fff' );
-	const previewElement = document.querySelector( '.editor-styles-wrapper' ); // Contains the css vars we need
 
 	useEffect( () => {
-		if ( previewElement ) {
-			const colorObj = getColorObjectByAttributeValues(
-				themeColors,
-				cssVarName
-			);
-			setHexValue( colorObj.color );
-		}
-	}, [ cssVarName, previewElement, themeColors ] );
+		const colorObj = getColorObjectByAttributeValues(
+			themeColors,
+			cssVarName
+		);
+		setHexValue( colorObj.color );
+	}, [ cssVarName, themeColors ] );
 
 	return (
 		<>
