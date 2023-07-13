@@ -1,26 +1,13 @@
-let themejson = '';
-
 const fetchSchema = async () => {
-	//console.log( 'fetch schema file' );
-
 	const response = await fetch(
 		'https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/theme.json'
 	);
-	const themejson = await response.json();
+	console.log( 'response', response );
+	const schema = await response.json();
+	return schema;
+};
 
-	// Settings
-	const settings = Object.entries( themejson.definitions )
-		.filter( ( [ settingsKey ] ) =>
-			/^settingsProperties(?!Complete)\w+$/.test( settingsKey )
-		)
-		.reduce(
-			( settingsObj, [ , { properties } ] ) =>
-				Object.assign( settingsObj, properties ),
-			{}
-		);
-
-	//console.log( 'settings', settings );
-
+const generateComponents = ( themejson, settings ) => {
 	const settingSections = keys( settings );
 
 	//console.log( 'theme schema', themejson );
@@ -38,7 +25,7 @@ const fetchSchema = async () => {
 		generateStylesUI( section, styles[ section ] );
 	} );
 
-	// console.log( 'styles', styleSections );
+	return <div>UI</div>;
 };
 
 const generateStylesUI = ( title, data ) => {
@@ -66,10 +53,49 @@ const keys = ( maybeObject ) => {
 
 const getSettingsUI = () => {};
 
-const composeUI = () => {
-	console.log( 'composer UI' );
+const composeUI = async () => {
+	console.log( 'compose UI' );
 
-	const schema = fetchSchema();
+	//let ui = '';
+
+	// const uiMarkup = fetchSchema().then( ( schema ) => {
+	// 	//console.log( 'schema', schema );
+
+	// 	const settings = Object.entries( schema.definitions )
+	// 		.filter( ( [ settingsKey ] ) =>
+	// 			/^settingsProperties(?!Complete)\w+$/.test( settingsKey )
+	// 		)
+	// 		.reduce(
+	// 			( settingsObj, [ , { properties } ] ) =>
+	// 				Object.assign( settingsObj, properties ),
+	// 			{}
+	// 		);
+
+	// 	//ui = generateComponents( schema, settings );
+
+	// 	const SchemaUI = () => (
+	// 		<>
+	// 			<div className="SchemaUI">wergewr</div>
+	// 		</>
+	// 	);
+
+	// 	console.log( 'ui' );
+	// 	return SchemaUI();
+	// } );
+
+	//console.log( 'return everything now', uiMarkup );
+
+	const SchemaUI = () => (
+		<>
+			<div className="SchemaUI">wergewr</div>
+		</>
+	);
+
+	//console.log( 'return UI' );
+
+	return SchemaUI;
+
+	//data.then( console.log() );
 };
 
 export default composeUI;
