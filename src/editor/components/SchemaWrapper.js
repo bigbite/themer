@@ -1,8 +1,13 @@
 import { useEffect, useState } from '@wordpress/element';
+import BorderWrapper from './schemaUI/BorderWrapper';
 
 const SchemaWrapper = () => {
 	const [ schema, setSchema ] = useState( '' );
 	const [ ui, setUi ] = useState( '' );
+
+	const uiMap = {
+		border: <BorderWrapper />,
+	};
 
 	/**
 	 * Convert object keys to an array.
@@ -27,7 +32,8 @@ const SchemaWrapper = () => {
 	const generateSettingsUI = ( title, data ) => {
 		console.log( 'Generate UI for', title );
 		console.log( 'data for ', title, data );
-		return <div>{ title }</div>;
+		const ItemUI = uiMap[ title ];
+		return <div>{ ItemUI }</div>;
 	};
 
 	const generateComponents = ( themejson, settings ) => {
