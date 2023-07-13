@@ -1,7 +1,5 @@
 import ThemerComponent from './fields/ThemerComponent';
-import composeUI from '../utils/schemaParser';
-
-const SchemaUI = composeUI();
+import SchemaWrapper from './SchemaWrapper';
 
 /**
  * Wrapper for app
@@ -9,7 +7,7 @@ const SchemaUI = composeUI();
 const ComponentWrapper = () => (
 	<>
 		<div className="App">
-			<SchemaUI />
+			<SchemaWrapper />
 			<ThemerComponent />
 		</div>
 	</>
