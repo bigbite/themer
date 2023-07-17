@@ -68,6 +68,11 @@ class Rest_API {
 		return rest_ensure_response( $custom_theme_json->get_stylesheet() );
 	}
 
+	/**
+	 * Check if a valid theme json file is loaded.
+	 *
+	 * @return \WP_REST_Response|true returns an object for the error or true if valid.
+	 */
 	public function can_load_theme_json() {
 		$theme_json_path = get_stylesheet_directory() . '/theme.json';
 		$response        = true;
