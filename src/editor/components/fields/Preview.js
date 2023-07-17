@@ -21,7 +21,7 @@ import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
  * @param {Object} props.baseOptions
  * @param {string} props.previewCss
  */
-function Preview( { baseOptions, previewCss } ) {
+function Preview( { baseOptions, previewCss, previewSize } ) {
 	const [ blocks, updateBlocks ] = useState();
 
 	const editorStyles = useMemo( () => {
@@ -54,7 +54,10 @@ function Preview( { baseOptions, previewCss } ) {
 	return (
 		<ShortcutProvider>
 			<BlockEditorProvider value={ blocks } settings={ baseOptions }>
-				<div className="editor-styles-wrapper">
+				<div
+					className="editor-styles-wrapper"
+					style={ { width: previewSize } }
+				>
 					<EditorStyles styles={ [ { css: previewCss } ] } />
 					<BlockTools
 						className={
