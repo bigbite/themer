@@ -6,12 +6,14 @@ import apiFetch from '@wordpress/api-fetch';
 
 import Preview from './Preview';
 import Fields from './Fields';
+import ThemerNotice from '../ThemerNotice';
 
 /**
  * main component
  */
 const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
+	const [ validThemeJson, setValidThemeJson ] = useState();
 
 	const { globalStylesId, baseConfig, userConfig } = useSelect(
 		( select ) => {
@@ -46,6 +48,17 @@ const ThemerComponent = () => {
 		const merged = mergeWith( {}, baseConfig, userConfig );
 		return merged;
 	}, [ userConfig, baseConfig ] );
+
+	/**
+	 * Check if a valid theme.json is loaded.
+	 */
+	useEffect( async () => {
+		const res = await apiFetch( {
+			path: '/themer/v1/theme-json-loaded',
+			method: 'GET',
+		} );
+		setValidThemeJson( res );
+	}, [] );
 
 	/**
 	 * Fetch new preview CSS whenever config is changed
@@ -105,6 +118,10 @@ const ThemerComponent = () => {
 
 	return (
 		<div className="themer-container">
+			<ThemerNotice
+				status={ validThemeJson?.error_type }
+				message={ validThemeJson?.message }
+			/>
 			<div className="themer-nav">
 				<div
 					style={ {
@@ -124,9 +141,11 @@ const ThemerComponent = () => {
 						text="reset to theme.json"
 					/>
 				</div>
-				<div className="themer-fields">
-					<Fields sourceObject={ themeConfig } />
-				</div>
+				{ validThemeJson === true && (
+					<div className="themer-fields">
+						<Fields sourceObject={ themeConfig } />
+					</div>
+				) }
 			</div>
 			<div className="themer-preview">
 				<Preview baseOptions={ baseConfig } previewCss={ previewCss } />
