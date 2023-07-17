@@ -9,6 +9,7 @@ namespace Big_Bite\themer;
 
 use WP_Error;
 use WP_Theme_JSON;
+use WP_REST_Request;
 use WP_REST_Response;
 use WP_Theme_JSON_Resolver;
 
@@ -53,19 +54,19 @@ class Rest_API {
 	/**
 	 * Get custom CSS rules by merging styles from request with existing theme.json data
 	 *
-	 * @param \WP_REST_Request $request Full data about the request.
-	 * @return \WP_REST_Response|\WP_Error theme.json generated stylesheet response data or WP_Error on failure.
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_REST_Response|WP_Error theme.json generated stylesheet response data or WP_Error on failure.
 	 */
-	public function get_styles( \WP_REST_Request $request ) {
-		$existing_theme_json = \WP_Theme_JSON_Resolver::get_merged_data();
+	public function get_styles( WP_REST_Request $request ) {
+		$existing_theme_json = WP_Theme_JSON_Resolver::get_merged_data();
 
-		if ( ! $existing_theme_json instanceof \WP_Theme_JSON ) {
-			return new \WP_Error( 'no_theme_json', __( 'Unable to locate existing theme.json data', 'themer' ) );
+		if ( ! $existing_theme_json instanceof WP_Theme_JSON ) {
+			return new WP_Error( 'no_theme_json', __( 'Unable to locate existing theme.json data', 'themer' ) );
 		}
 
 		$custom_styles          = $request->get_json_params();
 		$custom_theme_json_data = array_merge( $existing_theme_json->get_raw_data(), $custom_styles );
-		$custom_theme_json      = new \WP_Theme_JSON( $custom_theme_json_data );
+		$custom_theme_json      = new WP_Theme_JSON( $custom_theme_json_data );
 
 		return rest_ensure_response( $custom_theme_json->get_stylesheet() );
 	}
