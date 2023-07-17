@@ -20,6 +20,7 @@ import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
  * @param {Object} props
  * @param {Object} props.baseOptions
  * @param {string} props.previewCss
+ * @param {string} props.previewSize
  */
 function Preview( { baseOptions, previewCss, previewSize } ) {
 	const [ blocks, updateBlocks ] = useState();
