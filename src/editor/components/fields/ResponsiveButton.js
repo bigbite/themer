@@ -7,11 +7,13 @@ import { useState } from '@wordpress/element';
 import { desktop, tablet, mobile } from '@wordpress/icons';
 
 /**
- * main component
- * @param {Object} props
+ * button to handle responsive preview options
+ *
+ * @param {Object}   props
  * @param {Function} props.setPreviewSize
- * @param {string} props.previewSize
+ * @param {string}   props.previewSize
  */
+
 const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
 	const [ icon, setIcon ] = useState( desktop );
 
@@ -31,6 +33,8 @@ const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
 	];
 	/**
 	 * Updates icon depending on chosen screen size
+	 *
+	 * @param {string} val screen size.
 	 */
 	const handleIcon = ( val ) => {
 		switch ( val ) {
