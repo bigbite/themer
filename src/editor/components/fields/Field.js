@@ -8,53 +8,66 @@ import ComponentMap from './ComponentMap';
 
 /**
  * main component
+ *
+ * @param {Object} props
+ * @param {string} props.value
+ * @param {string} props.path
+ * @param {string} props.id
  */
-const SingleField = ({ value, parent, id, data }) => {
-  /**
-   * gets ID for global styles
-   */
-  const getGlobalStylesId = () => select('core').__experimentalGetCurrentGlobalStylesId();
-  const [text, setText] = useState(value);
-  const context = { ...{} };
+const Field = ( { value, path, id } ) => {
+	/**
+	 * gets ID for global styles
+	 */
+	const getGlobalStylesId = () =>
+		select( 'core' ).__experimentalGetCurrentGlobalStylesId();
+	const [ text, setText ] = useState( value );
+	const context = { ...{} };
 
-  /**
-   * updates entity record on field edit
-   */
-  const edit = (path, newValue) => {
-    const current = {
-      ...select('core').getEditedEntityRecord('root', 'globalStyles', getGlobalStylesId()),
-    };
-    const updated = set(context, path, newValue);
-    const newObj = merge(current, updated);
-    dispatch('core').editEntityRecord('root', 'globalStyles', getGlobalStylesId(), {
-      styles: newObj.styles || {},
-      settings: newObj.settings || {},
-    });
-  };
+	/**
+	 * updates entity record on field edit
+	 *
+	 * @param {*} newValue
+	 */
+	const edit = ( newValue ) => {
+		const current = {
+			...select( 'core' ).getEditedEntityRecord(
+				'root',
+				'globalStyles',
+				getGlobalStylesId()
+			),
+		};
+		const updated = set( context, path, newValue );
+		const newObj = merge( current, updated );
+		dispatch( 'core' ).editEntityRecord(
+			'root',
+			'globalStyles',
+			getGlobalStylesId(),
+			{
+				styles: newObj.styles || {},
+				settings: newObj.settings || {},
+			}
+		);
+	};
 
-  /**
-   * gets field path and value and passes to edit
-   */
-  const onChange = (e) => {
-    let path = `${parent}.${id}`;
-    if (path.charAt(0) === '.') {
-      path = path.substring(1);
-    }
-    setText(e);
-    edit(path, e);
-  };
-  return (
-    <>
-      <div className="themer-nav-item">{id}</div>
-      <ComponentMap
-        label={id}
-        value={text || value}
-        onChange={(val) => onChange(val)}
-        parent={parent}
-        data={data}
-      />
-    </>
-  );
+	/**
+	 * gets field path and value and passes to edit
+	 *
+	 * @param {Event} e Change event.
+	 */
+	const onChange = ( e ) => {
+		setText( e );
+		edit( e );
+	};
+	return (
+		<>
+			<div className="themer-nav-item">{ id }</div>
+			<ComponentMap
+				label={ id }
+				value={ text || value }
+				onChange={ ( val ) => onChange( val ) }
+			/>
+		</>
+	);
 };
 
-export default SingleField;
+export default Field;

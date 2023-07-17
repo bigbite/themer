@@ -1,25 +1,19 @@
-.themerPreviewSquare {
-  width: 480px;
-  height: 320px;
+.themer-preview-container {
+  width: 729px;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
+  margin-left: 20px;
+
+  .editor-styles-wrapper {
+    border: #ccc 1px solid;
+    min-height: 754px;
+  }
 }
 
-.themerPreviewColours {
-  width: 64px;
-  padding-left: 24px;
-  display: flex;
-}
-.themerPreviewCircle {
-  width: 32px;
-  height: 32px;
-  background-color: #000;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.themerPreviewText {
-  font-size: 64px;
+.themer-preview {
+	.components-popover,
+	.block-editor-rich-text__inline-format-toolbar,
+	.components-accessible-toolbar {
+		display: none !important;
+	}
 }

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Set up the plugin.
+ *
+ * @package themer
+ */
 
 namespace Big_Bite\themer;
 
@@ -9,5 +14,6 @@ namespace Big_Bite\themer;
  */
 function setup() : void {
 	new Loader();
-	new AdminSetup();
+	new Admin();
+	new Rest_API();
 }

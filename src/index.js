@@ -1,6 +1,7 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { render } from '@wordpress/element';
 import domReady from '@wordpress/dom-ready';
+import { registerCoreBlocks } from '@wordpress/block-library';
 
 import { NAMESPACE } from './editor/settings';
 import ComponentWrapper from './editor/components/ComponentWrapper';
@@ -8,11 +9,16 @@ import ComponentWrapper from './editor/components/ComponentWrapper';
 import './editor/styles/styles.scss';
 
 // Register the plugin.
-domReady(() => {
-  registerPlugin(NAMESPACE, {
-    icon: 'editor-paragraph',
-    render: ComponentWrapper,
-  });
+domReady( () => {
+	registerPlugin( NAMESPACE, {
+		icon: 'editor-paragraph',
+		render: ComponentWrapper,
+	} );
 
-  render(<ComponentWrapper />, document.getElementById('themer-admin-screen'));
-});
+	registerCoreBlocks();
+
+	render(
+		<ComponentWrapper />,
+		document.getElementById( 'themer-admin-screen' )
+	);
+} );
