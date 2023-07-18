@@ -7,6 +7,8 @@
 
 namespace Big_Bite\themer;
 
+use WP_Block_Editor_Context;
+
 /**
  * Loader for handling assets.
  */
@@ -26,7 +28,7 @@ class Loader {
 	 * Get the editor settings
 	 */
 	public function get_themer_editor_settings() {
-		$block_editor_context = new \WP_Block_Editor_Context( array() );
+		$block_editor_context = new WP_Block_Editor_Context( array() );
 
 		return get_block_editor_settings( array(), $block_editor_context );
 	}
