@@ -121,54 +121,64 @@ const ThemerComponent = () => {
 
 	return (
 		<>
-			<div className="themer-topbar">
-				<Button isSecondary onClick={ () => reset() } text="Reset" />
-				<Button isPrimary onClick={ () => save() } text="Save" />
-			</div>
-			<div className="themer-body">
-				<div className="themer-nav-container">
-					<ThemerNotice
-						status={ validThemeJson?.error_type }
-						message={ validThemeJson?.message }
-					/>
-					{ validThemeJson === true && (
-						<TabPanel
-							className="themer-tab-panel"
-							activeClass="active-themer-tab"
-							tabs={ [
-								{
-									name: 'placeholder',
-									title: 'Placeholder',
-									className: 'placeholder',
-								},
-								{
-									name: 'placeholder2',
-									title: 'Placeholder 2',
-									className: 'placeholder2',
-								},
-								{
-									name: 'placeholder3',
-									title: 'Placeholder 3',
-									className: 'placeholder3',
-								},
-							] }
-						>
-							{ ( tab ) => (
-								<>
-									<p>{ tab.title }</p>
-									<Fields sourceObject={ themeConfig } />
-								</>
-							) }
-						</TabPanel>
-					) }
-				</div>
-				<div className="themer-preview-container">
-					<Preview
-						baseOptions={ baseConfig }
-						previewCss={ previewCss }
-					/>
-				</div>
-			</div>
+			<ThemerNotice
+				status={ validThemeJson?.error_type }
+				message={ validThemeJson?.message }
+			/>
+			{ validThemeJson === true && (
+				<>
+					<div className="themer-topbar">
+						<Button
+							isSecondary
+							onClick={ () => reset() }
+							text="Reset"
+						/>
+						<Button
+							isPrimary
+							onClick={ () => save() }
+							text="Save"
+						/>
+					</div>
+					<div className="themer-body">
+						<div className="themer-nav-container">
+							<TabPanel
+								className="themer-tab-panel"
+								activeClass="active-themer-tab"
+								tabs={ [
+									{
+										name: 'placeholder',
+										title: 'Placeholder',
+										className: 'placeholder',
+									},
+									{
+										name: 'placeholder2',
+										title: 'Placeholder 2',
+										className: 'placeholder2',
+									},
+									{
+										name: 'placeholder3',
+										title: 'Placeholder 3',
+										className: 'placeholder3',
+									},
+								] }
+							>
+								{ ( tab ) => (
+									<>
+										<p>{ tab.title }</p>
+										<Fields sourceObject={ themeConfig } />
+									</>
+								) }
+							</TabPanel>
+						</div>
+						<div className="themer-preview-container">
+							<Preview
+								baseOptions={ baseConfig }
+								previewCss={ previewCss }
+							/>
+						</div>
+					</div>
+				</>
+			) }
 		</>
 	);
 };
