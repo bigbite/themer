@@ -53,14 +53,14 @@ const ThemerComponent = () => {
 	 * Check if a valid theme.json is loaded.
 	 */
 	useEffect( () => {
-		const validateThemJson = async () => {
+		const validateThemeJson = async () => {
 			const res = await apiFetch( {
 				path: '/themer/v1/theme-json-loaded',
 				method: 'GET',
 			} );
 			setValidThemeJson( res );
 		};
-		validateThemJson();
+		validateThemeJson();
 	}, [] );
 
 	/**
