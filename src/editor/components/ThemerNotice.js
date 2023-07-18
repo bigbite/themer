@@ -6,7 +6,6 @@ import { Notice } from '@wordpress/components';
  * @param {Object} props
  * @param {string} props.status
  * @param {string} props.message
- * @returns {false | React.JSX.Element}
  */
 const ThemerNotice = ( { status, message = '' } ) => {
 	return (
