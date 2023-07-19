@@ -13,6 +13,7 @@ import {
 import { createBlock } from '@wordpress/blocks';
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
+import { desktop, tablet, mobile } from '@wordpress/icons';
 
 /**
  * renders preview element
@@ -52,12 +53,25 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 
 	const contentRef = useRef();
 
+	const handlePreviewSize = () => {
+		switch ( previewSize ) {
+			case desktop:
+				return '768px';
+			case tablet:
+				return '514px';
+			case mobile:
+				return '384px';
+			default:
+				return '768px';
+		}
+	};
+
 	return (
 		<ShortcutProvider>
 			<BlockEditorProvider value={ blocks } settings={ baseOptions }>
 				<div
 					className="editor-styles-wrapper"
-					style={ { width: previewSize } }
+					style={ { width: handlePreviewSize() } }
 				>
 					<EditorStyles styles={ [ { css: previewCss } ] } />
 					<BlockTools

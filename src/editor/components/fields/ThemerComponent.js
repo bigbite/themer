@@ -13,7 +13,7 @@ import ResponsiveButton from './ResponsiveButton';
  */
 const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
-	const [ previewSize, setPreviewSize ] = useState( '768px' );
+	const [ previewSize, setPreviewSize ] = useState();
 
 	const { globalStylesId, baseConfig, userConfig } = useSelect(
 		( select ) => {
