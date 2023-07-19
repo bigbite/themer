@@ -13,7 +13,8 @@
       "automattic/jetpack-autoloader": "^2.10.1"
     },
     "require-dev": {
-      "bigbite/phpcs-config": "dev-main"
+      "dealerdirect/phpcodesniffer-composer-installer": "0.7.2",
+      "wp-coding-standards/wpcs": "2.3.0"
     },
     "autoload": {
       "files": [

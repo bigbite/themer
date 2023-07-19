@@ -6,10 +6,11 @@
 	"prettier": "@wordpress/prettier-config",
 	"scripts": {
 		"watch:dev": "wp-scripts start",
-		"build:prod": "wp-scripts build"
+		"build:prod": "wp-scripts lint-js ./src && wp-scripts build"
 	},
 	"dependencies": {
 		"@wordpress/block-editor": "^11.8.0",
+		"@wordpress/block-library": "^8.14.0",
 		"@wordpress/components": "^23.8.0",
 		"@wordpress/core-data": "^6.8.0",
 		"@wordpress/data": "^9.5.0",

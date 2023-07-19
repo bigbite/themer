@@ -1,45 +1,28 @@
-.themer-container {
-  height: 1000px;
-  display: flex;
-  background-color: rgb(217, 216, 216);
-  justify-content: center;
+.themer-fields {
+	height: 100vh;
+	overflow: auto;
 }
 
 .themer-nav-container {
-  width: 500px;
-}
-.themer-preview-container {
-  width: 500px;
-}
+  width: 729px;
+  background-color: #fff;
+  margin-right: 20px;
+  border: #ccc 1px solid;
 
-.themer-nav-title {
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: capitalize;
-}
-
-.nav-top {
-  display: flex;
-  align-items: center;
-  button {
-    margin-right: 20px;
-    font-weight: 800px;
-    font-size: 13px;
+  .components-tab-panel__tab-content {
+    padding: 0 20px;
   }
 }
 
-.field-header {
-  text-transform: capitalize;
+.components-tab-panel__tabs {
+  border-bottom: #ccc 1px solid;
 }
 
-.themer-nav-item {
-  text-transform: capitalize;
+.themer-tab-panel button {
+  font-weight: 400;
 }
 
-.themer-nav-child {
-  padding-left: 60px;
-}
-
-.themer-nav-fontpicker {
-  width: 240px;
+.active-themer-tab {
+  border-bottom: #3858E9 1.5px solid;
+  font-weight: 600 !important;
 }

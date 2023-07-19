@@ -1,36 +1,78 @@
 /**
- * renders preview element
+ * This component requires use of experimental apis
  */
-const Preview = ({ color, elements, font }) => (
-  <div className="themerPreviewSquare" style={{ backgroundColor: `${color?.background}` }}>
-    <h1
-      className="themerPreviewTitle"
-      style={{
-        color: `${color?.text}`,
-        'font-family': `${elements?.h1?.typography?.fontFamily}`,
-        'font-size': `${elements?.h1?.typography?.fontSize}`,
-        'line-height': `${font?.lineHeight}`,
-      }}
-    >
-      This is a title
-    </h1>
-    <div
-      className="themerPreviewText"
-      style={{
-        color: `${color?.text}`,
-        'font-family': `${font?.fontFamily}`,
-        'font-size': `${font?.fontSize}`,
-        'line-height': `${font?.lineHeight}`,
-      }}
-    >
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua. Ut enim ad minim veniam,
-    </div>
-    <div className="themerPreviewColours">
-      <div className="themerPreviewCircle" />
-      <div className="themerPreviewCircle" />
-    </div>
-  </div>
-);
+
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
+
+import {
+	BlockTools,
+	BlockEditorProvider,
+	BlockList,
+	__unstableEditorStyles as EditorStyles,
+} from '@wordpress/block-editor';
+import { createBlock } from '@wordpress/blocks';
+import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
+import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
+
+/**
+ * renders preview element
+ *
+ * @param {Object} props
+ * @param {Object} props.baseOptions
+ * @param {string} props.previewCss
+ */
+function Preview( { baseOptions, previewCss } ) {
+	const [ blocks, updateBlocks ] = useState();
+
+	const editorStyles = useMemo( () => {
+		if ( baseOptions.styles ) {
+			return [ baseOptions.styles ];
+		}
+
+		return baseOptions.styles;
+	}, [ baseOptions.styles ] );
+
+	useEffect( () => {
+		updateBlocks( [
+			createBlock( 'core/heading', {
+				content: 'Post title',
+			} ),
+			createBlock( 'core/paragraph', {
+				content: `This is the Post Content block, it will display all the blocks in any single post or page.
+  That might be a simple arrangement like consecutive paragraphs in a blog post, or a more elaborate composition that includes image galleries, videos, tables, columns, and any other block types.
+  If there are any Custom Post Types registered at your site, the Post Content block can display the contents of those entries as well.`,
+			} ),
+			createBlock( 'core/list', {
+				values: '<li>one</li><li>two</li><li>three</li>',
+				ordered: true,
+			} ),
+		] );
+	}, [ editorStyles ] );
+
+	const contentRef = useRef();
+
+	return (
+		<ShortcutProvider>
+			<BlockEditorProvider value={ blocks } settings={ baseOptions }>
+				<div className="editor-styles-wrapper">
+					<EditorStyles styles={ [ { css: previewCss } ] } />
+					<BlockTools
+						className={
+							'edit-site-visual-editor is-focus-mode is-view-mode'
+						}
+						__unstableContentRef={ contentRef }
+					>
+						<BlockList
+							renderAppender={ false }
+							className={
+								'edit-site-block-editor__block-list wp-site-blocks'
+							}
+						/>
+					</BlockTools>
+				</div>
+			</BlockEditorProvider>
+		</ShortcutProvider>
+	);
+}
 
 export default Preview;
