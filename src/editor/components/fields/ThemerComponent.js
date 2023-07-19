@@ -6,6 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 import Preview from './Preview';
 import Fields from './Fields';
+import ButtonExport from '../ButtonExport';
 
 /**
  * main component
@@ -145,6 +146,7 @@ const ThemerComponent = () => {
 						baseOptions={ baseConfig }
 						previewCss={ previewCss }
 					/>
+					<ButtonExport />
 				</div>
 			</div>
 		</>
