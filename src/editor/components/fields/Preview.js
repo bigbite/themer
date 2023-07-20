@@ -13,7 +13,6 @@ import {
 import { createBlock } from '@wordpress/blocks';
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
-import { desktop, tablet, mobile } from '@wordpress/icons';
 
 /**
  * renders preview element
@@ -55,11 +54,11 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 
 	const handlePreviewSize = () => {
 		switch ( previewSize ) {
-			case desktop:
+			case 'desktop':
 				return '768px';
-			case tablet:
+			case 'tablet':
 				return '514px';
-			case mobile:
+			case 'mobile':
 				return '384px';
 			default:
 				return '768px';

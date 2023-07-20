@@ -3,8 +3,22 @@ import {
 	MenuGroup,
 	MenuItemsChoice,
 } from '@wordpress/components';
-import { useState, useEffect } from '@wordpress/element';
 import { desktop, tablet, mobile } from '@wordpress/icons';
+
+const options = [
+	{
+		label: 'Desktop',
+		value: 'desktop',
+	},
+	{
+		label: 'Tablet',
+		value: 'tablet',
+	},
+	{
+		label: 'Mobile',
+		value: 'mobile',
+	},
+];
 
 /**
  * button to handle responsive preview options
@@ -14,38 +28,28 @@ import { desktop, tablet, mobile } from '@wordpress/icons';
  * @param {string}   props.previewSize
  */
 
-const options = [
-	{
-		label: 'Desktop',
-		value: desktop,
-	},
-	{
-		label: 'Tablet',
-		value: tablet,
-	},
-	{
-		label: 'Mobile',
-		value: mobile,
-	},
-];
-
 const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
-	const [ icon, setIcon ] = useState( desktop );
 	/**
 	 * Updates icon depending on chosen screen size
 	 *
 	 * @param {string} val screen size.
 	 */
-	useEffect( () => {
-		setIcon( previewSize );
-	}, [ previewSize ] );
+	const handleIcon = () => {
+		switch ( previewSize ) {
+			case 'desktop':
+				return desktop;
+			case 'tablet':
+				return tablet;
+			case 'mobile':
+				return mobile;
+			default:
+				return desktop;
+		}
+	};
 
 	return (
 		<div className="themer-responsive-top">
-			<DropdownMenu
-				icon={ previewSize ? icon : desktop }
-				label="Select a size"
-			>
+			<DropdownMenu icon={ handleIcon } label="Select a size">
 				{ () => (
 					<MenuGroup>
 						<MenuItemsChoice
