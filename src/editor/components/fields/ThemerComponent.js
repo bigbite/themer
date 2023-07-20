@@ -142,7 +142,6 @@ const ThemerComponent = () => {
 							onClick={ () => save() }
 							text="Save"
 						/>
-						<ButtonExport />
 					</div>
 					<div className="themer-body">
 						<div className="themer-nav-container">
@@ -176,10 +175,16 @@ const ThemerComponent = () => {
 							</TabPanel>
 						</div>
 						<div className="themer-preview-container">
+							<ResponsiveButton
+								setPreviewSize={ setPreviewSize }
+								previewSize={ previewSize }
+							/>
 							<Preview
 								baseOptions={ baseConfig }
 								previewCss={ previewCss }
+								previewSize={ previewSize }
 							/>
+							<ButtonExport />
 						</div>
 					</div>
 				</>
