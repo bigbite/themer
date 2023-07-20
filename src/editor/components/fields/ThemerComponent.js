@@ -127,6 +127,7 @@ const ThemerComponent = () => {
 			<ThemerNotice
 				status={ validThemeJson?.error_type }
 				message={ validThemeJson?.message }
+				isDismissible={ false }
 			/>
 			{ validThemeJson === true && (
 				<>
