@@ -7,6 +7,8 @@ import apiFetch from '@wordpress/api-fetch';
 import Preview from './Preview';
 import Fields from './Fields';
 import ThemerNotice from '../ThemerNotice';
+import ResponsiveButton from './ResponsiveButton';
+import ButtonExport from '../ButtonExport';
 
 /**
  * main component
@@ -14,6 +16,7 @@ import ThemerNotice from '../ThemerNotice';
 const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
 	const [ validThemeJson, setValidThemeJson ] = useState();
+	const [ previewSize, setPreviewSize ] = useState();
 
 	const { globalStylesId, baseConfig, userConfig } = useSelect(
 		( select ) => {
@@ -138,6 +141,7 @@ const ThemerComponent = () => {
 							onClick={ () => save() }
 							text="Save"
 						/>
+						<ButtonExport />
 					</div>
 					<div className="themer-body">
 						<div className="themer-nav-container">
