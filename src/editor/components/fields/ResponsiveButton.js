@@ -31,8 +31,6 @@ const options = [
 const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
 	/**
 	 * Updates icon depending on chosen screen size
-	 *
-	 * @param {string} val screen size.
 	 */
 	const handleIcon = () => {
 		switch ( previewSize ) {
