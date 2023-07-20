@@ -7,6 +7,7 @@ import apiFetch from '@wordpress/api-fetch';
 import Preview from './Preview';
 import Fields from './Fields';
 import ResponsiveButton from './ResponsiveButton';
+import ButtonExport from '../ButtonExport';
 
 /**
  * main component
@@ -152,6 +153,7 @@ const ThemerComponent = () => {
 						previewCss={ previewCss }
 						previewSize={ previewSize }
 					/>
+					<ButtonExport />
 				</div>
 			</div>
 		</>
