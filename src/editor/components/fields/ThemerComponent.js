@@ -6,6 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 import Preview from './Preview';
 import Fields from './Fields';
+import ResponsiveButton from './ResponsiveButton';
 import ButtonExport from '../ButtonExport';
 
 /**
@@ -13,6 +14,7 @@ import ButtonExport from '../ButtonExport';
  */
 const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
+	const [ previewSize, setPreviewSize ] = useState();
 
 	const { globalStylesId, baseConfig, userConfig } = useSelect(
 		( select ) => {
@@ -142,9 +144,14 @@ const ThemerComponent = () => {
 					</TabPanel>
 				</div>
 				<div className="themer-preview-container">
+					<ResponsiveButton
+						setPreviewSize={ setPreviewSize }
+						previewSize={ previewSize }
+					/>
 					<Preview
 						baseOptions={ baseConfig }
 						previewCss={ previewCss }
+						previewSize={ previewSize }
 					/>
 					<ButtonExport />
 				</div>
