@@ -3,8 +3,8 @@ import { styleComponentMap } from './component-map';
 /**
  * Maps style properties to React components
  *
- * @param {object} components Theme to React component map
- * @param {object} properties Theme style allowed properties
+ * @param {Object} components Theme to React component map
+ * @param {Object} properties Theme style allowed properties
  */
 const generateStyleComponents = ( components, properties ) => {
 	if ( ! properties ) {
@@ -25,7 +25,7 @@ const generateStyleComponents = ( components, properties ) => {
 /**
  * Generates React components for parts of the theme.json schema
  *
- * @returns {object} Mapped components
+ * @return {Object} Mapped components
  */
 const schemaComponents = async () => {
 	const url =

@@ -9,13 +9,16 @@ import EditorContext from '../../../context/EditorContext';
 /**
  * Reusable border control style component
  *
- * @param {object} props          Component props
+ * @param {Object} props          Component props
  * @param {string} props.selector Property target selector
  */
 const Border = ( { selector } ) => {
 	const { globalStylesId, themeConfig } = useContext( EditorContext );
 	const value = getThemeOption( selector, themeConfig );
-	const colors = getThemeOption( 'settings.color.palette.theme', themeConfig );
+	const colors = getThemeOption(
+		'settings.color.palette.theme',
+		themeConfig
+	);
 
 	const onChange = ( newValue ) => {
 		// need to update styles here with dispatch and globalStylesId

@@ -2,9 +2,9 @@
  * Returns the value of the specified selector from the base object
  *
  * @param {string} selector Property target selector
- * @param {object} base     Theme settings
+ * @param {Object} base     Theme settings
  *
- * @returns {*} Value of selector
+ * @return {*} Value of selector
  */
 const getThemeOption = ( selector, base ) => {
 	const selectorArray = selector.split( '.' );
