@@ -4,6 +4,9 @@ import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
+import schemaComponents from '../../ui/utils/schema-to-components';
+import EditorContext from '../../context/EditorContext';
+
 import Preview from './Preview';
 import Fields from './Fields';
 import ResponsiveButton from './ResponsiveButton';
@@ -98,6 +101,18 @@ const ThemerComponent = () => {
 		);
 	};
 
+	/* TODO: refactor */
+	const [ components, setComponents ] = useState( {} );
+	useEffect( () => {
+		const generate = async () => {
+			const mappedComponents = await schemaComponents();
+			setComponents( mappedComponents );
+		};
+
+		generate();
+	}, [] );
+	const { border: Border } = components?.styles ?? {};
+
 	if ( ! themeConfig || ! previewCss ) {
 		return (
 			<>
@@ -114,6 +129,16 @@ const ThemerComponent = () => {
 			</div>
 			<div className="themer-body">
 				<div className="themer-nav-container">
+					{ /* demo */ }
+					<EditorContext.Provider
+						value={ {
+							globalStylesId,
+							themeConfig,
+						} }
+					>
+						<Border selector="styles.blocks.core/pullquote.border" />
+					</EditorContext.Provider>
+					{ /* demo */ }
 					<TabPanel
 						className="themer-tab-panel"
 						activeClass="active-themer-tab"
