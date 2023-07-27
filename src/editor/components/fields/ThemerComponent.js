@@ -123,6 +123,7 @@ const ThemerComponent = () => {
 
 	return (
 		<>
+			<style>{ previewCss }</style>
 			<div className="themer-topbar">
 				<Button isSecondary onClick={ () => reset() } text="Reset" />
 				<Button isPrimary onClick={ () => save() } text="Save" />
@@ -139,7 +140,7 @@ const ThemerComponent = () => {
 						<Border selector="styles.blocks.core/pullquote.border" />
 					</EditorContext.Provider>
 					{ /* demo */ }
-					<TabPanel
+					{ /* <TabPanel
 						className="themer-tab-panel"
 						activeClass="active-themer-tab"
 						tabs={ [
@@ -166,7 +167,7 @@ const ThemerComponent = () => {
 								<Fields sourceObject={ themeConfig } />
 							</>
 						) }
-					</TabPanel>
+					</TabPanel> */ }
 				</div>
 				<div className="themer-preview-container">
 					<ResponsiveButton
