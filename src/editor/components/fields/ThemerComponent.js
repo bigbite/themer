@@ -76,7 +76,7 @@ const ThemerComponent = () => {
 	 * saves edited entity data
 	 */
 	const save = async () => {
-		dispatch( 'core' ).undo();
+		// dispatch( 'core' ).undo();
 		try {
 			await dispatch( 'core' ).saveEditedEntityRecord(
 				'root',
