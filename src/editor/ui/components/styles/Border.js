@@ -14,9 +14,13 @@ import EditorContext from '../../../context/EditorContext';
  * @param {string} props.selector Property target selector
  */
 const Border = ( { selector } ) => {
-	const { globalStylesId, themeConfig } = useContext( EditorContext );
+	const { globalStylesId, themeConfig, setUserConfig } =
+		useContext( EditorContext );
 	const value = getThemeOption( selector, themeConfig );
-	const colors = getThemeOption( 'settings.color.palette.theme', themeConfig );
+	const colors = getThemeOption(
+		'settings.color.palette.theme',
+		themeConfig
+	);
 	const [ borders, setBorders ] = useState( value );
 
 	const onChange = ( newValue ) => {
@@ -27,12 +31,15 @@ const Border = ( { selector } ) => {
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, {} );
 		config = set( config, selector, borders );
-		dispatch( 'core' ).editEntityRecord(
-			'root',
-			'globalStyles',
-			globalStylesId,
-			config
-		);
+
+		setUserConfig( config );
+
+		// dispatch( 'core' ).editEntityRecord(
+		// 	'root',
+		// 	'globalStyles',
+		// 	globalStylesId,
+		// 	config
+		// );
 	}, [ borders ] );
 
 	return (

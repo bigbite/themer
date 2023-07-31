@@ -19,6 +19,17 @@ const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
 	const [ previewSize, setPreviewSize ] = useState();
 
+	const setUserConfig = ( config ) => {
+		console.log( 'set user config at wrapper level' );
+
+		dispatch( 'core' ).editEntityRecord(
+			'root',
+			'globalStyles',
+			globalStylesId,
+			config
+		);
+	};
+
 	const { globalStylesId, baseConfig, userConfig } = useSelect(
 		( select ) => {
 			const {
@@ -135,6 +146,7 @@ const ThemerComponent = () => {
 						value={ {
 							globalStylesId,
 							themeConfig,
+							setUserConfig,
 						} }
 					>
 						<Border selector="styles.blocks.core/pullquote.border" />
