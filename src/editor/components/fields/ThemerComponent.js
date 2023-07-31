@@ -6,6 +6,7 @@ import apiFetch from '@wordpress/api-fetch';
 
 import schemaComponents from '../../ui/utils/schema-to-components';
 import EditorContext from '../../context/EditorContext';
+import StylesContext from '../../context/StylesContext';
 
 import Preview from './Preview';
 import Fields from './Fields';
@@ -20,8 +21,6 @@ const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
 
 	const setUserConfig = ( config ) => {
-		console.log( 'set user config at wrapper level' );
-
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
@@ -146,10 +145,15 @@ const ThemerComponent = () => {
 						value={ {
 							globalStylesId,
 							themeConfig,
-							setUserConfig,
 						} }
 					>
-						<Border selector="styles.blocks.core/pullquote.border" />
+						<StylesContext.Provider
+							value={ {
+								setUserConfig,
+							} }
+						>
+							<Border selector="styles.blocks.core/pullquote.border" />
+						</StylesContext.Provider>
 					</EditorContext.Provider>
 					{ /* demo */ }
 					{ /* <TabPanel
