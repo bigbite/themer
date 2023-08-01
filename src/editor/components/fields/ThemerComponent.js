@@ -1,5 +1,5 @@
 import { mergeWith, isEmpty } from 'lodash';
-import { Button, Spinner, TabPanel } from '@wordpress/components';
+import { Button, Spinner } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
@@ -9,7 +9,6 @@ import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
 import Preview from './Preview';
-import Fields from './Fields';
 import ResponsiveButton from './ResponsiveButton';
 import ButtonExport from '../ButtonExport';
 

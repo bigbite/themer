@@ -1,12 +1,13 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { dispatch } from '@wordpress/data';
 import { useContext, useState, useEffect } from '@wordpress/element';
 import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/components';
 
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../../../context/EditorContext';
 import StylesContext from '../../../context/StylesContext';
+
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
 
 /**
  * Reusable border control style component
@@ -15,7 +16,7 @@ import StylesContext from '../../../context/StylesContext';
  * @param {string} props.selector Property target selector
  */
 const Border = ( { selector } ) => {
-	const { globalStylesId, themeConfig } = useContext( EditorContext );
+	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
 	const colors = getThemeOption(
@@ -34,12 +35,12 @@ const Border = ( { selector } ) => {
 		config = set( config, selector, borders );
 
 		setUserConfig( config );
-	}, [ borders ] );
+	}, [ borders, selector, setUserConfig ] );
 
 	return (
 		<BorderBoxControl
 			colors={ colors }
-			label={ __( 'Borders', 'default' ) }
+			label={ __( 'Borders', 'themer' ) }
 			onChange={ onChange }
 			value={ borders }
 		/>
