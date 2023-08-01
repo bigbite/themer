@@ -35,7 +35,7 @@ const Border = ( { selector } ) => {
 		config = set( config, selector, borders );
 
 		setUserConfig( config );
-	}, [ borders, selector, setUserConfig, themeConfig ] );
+	}, [ borders ] );
 
 	return (
 		<BorderBoxControl
