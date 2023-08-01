@@ -34,13 +34,6 @@ const Border = ( { selector } ) => {
 		config = set( config, selector, borders );
 
 		setUserConfig( config );
-
-		// dispatch( 'core' ).editEntityRecord(
-		// 	'root',
-		// 	'globalStyles',
-		// 	globalStylesId,
-		// 	config
-		// );
 	}, [ borders ] );
 
 	return (
