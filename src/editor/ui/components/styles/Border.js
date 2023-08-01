@@ -1,3 +1,5 @@
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
+
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState, useEffect } from '@wordpress/element';
@@ -6,8 +8,6 @@ import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/c
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../../../context/EditorContext';
 import StylesContext from '../../../context/StylesContext';
-
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
 
 /**
  * Reusable border control style component
@@ -35,7 +35,7 @@ const Border = ( { selector } ) => {
 		config = set( config, selector, borders );
 
 		setUserConfig( config );
-	}, [ borders, selector, setUserConfig ] );
+	}, [ borders, selector, setUserConfig, themeConfig ] );
 
 	return (
 		<BorderBoxControl
