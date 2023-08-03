@@ -65,7 +65,7 @@ class Rest_API {
 		}
 
 		$custom_styles          = $request->get_json_params();
-		$custom_theme_json_data = array_merge( $existing_theme_json->get_raw_data(), $custom_styles );
+		$custom_theme_json_data = array_merge( $custom_styles, $existing_theme_json->get_raw_data() );
 		$custom_theme_json      = new WP_Theme_JSON( $custom_theme_json_data );
 
 		return rest_ensure_response( $custom_theme_json->get_stylesheet() );
