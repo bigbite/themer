@@ -131,7 +131,6 @@ const ThemerComponent = () => {
 
 	return (
 		<>
-			<style>{ previewCss }</style>
 			<div className="themer-topbar">
 				<Button isSecondary onClick={ () => reset() } text="Reset" />
 				<Button isPrimary onClick={ () => save() } text="Save" />
