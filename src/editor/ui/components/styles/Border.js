@@ -2,7 +2,7 @@
 
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
 import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/components';
 
 import getThemeOption from '../../utils/get-theme-option';
@@ -23,26 +23,20 @@ const Border = ( { selector } ) => {
 		'settings.color.palette.theme',
 		themeConfig
 	);
-	const [ borders, setBorders ] = useState( value );
 
 	const onChange = ( newValue ) => {
-		setBorders( newValue );
-	};
-
-	useEffect( () => {
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, {} );
-		config = set( config, selector, borders );
-
+		config = set( config, selector, newValue );
 		setUserConfig( config );
-	}, [ borders ] );
+	};
 
 	return (
 		<BorderBoxControl
 			colors={ colors }
 			label={ __( 'Borders', 'themer' ) }
 			onChange={ onChange }
-			value={ borders }
+			value={ value }
 		/>
 	);
 };
