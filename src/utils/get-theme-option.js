@@ -8,7 +8,7 @@
  */
 const getThemeOption = ( selector, base ) => {
 	const selectorArray = selector.split( '.' );
-	return selectorArray.reduce( ( acc, curr ) => acc[ curr ], base );
+	return selectorArray.reduce( ( acc, curr ) => acc?.[ curr ], base );
 };
 
 export default getThemeOption;

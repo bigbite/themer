@@ -4,14 +4,16 @@ import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
-import schemaComponents from '../../ui/utils/schema-to-components';
-import EditorContext from '../../context/EditorContext';
-import StylesContext from '../../context/StylesContext';
-
+import Blocks from './Blocks';
+import Layout from './Layout';
+import Colours from './Colours';
 import Preview from './Preview';
+import Typography from './Typography';
+import CustomBlocks from './CustomBlocks';
+import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
-import ButtonExport from '../ButtonExport';
-import Fields from '../fields/Fields';
+import EditorContext from '../context/EditorContext';
+import StylesContext from '../context/StylesContext';
 
 /**
  * main component
@@ -110,18 +112,6 @@ const ThemerComponent = () => {
 		);
 	};
 
-	/* TODO: refactor */
-	const [ components, setComponents ] = useState( {} );
-	useEffect( () => {
-		const generate = async () => {
-			const mappedComponents = await schemaComponents();
-			setComponents( mappedComponents );
-		};
-
-		generate();
-	}, [] );
-	const { border: Border } = components?.styles ?? {};
-
 	if ( ! themeConfig || ! previewCss ) {
 		return (
 			<>
@@ -162,29 +152,42 @@ const ThemerComponent = () => {
 								activeClass="active-themer-tab"
 								tabs={ [
 									{
-										name: 'placeholder',
-										title: 'Placeholder',
-										className: 'placeholder',
+										name: 'typography',
+										title: 'Typography',
 									},
 									{
-										name: 'placeholder2',
-										title: 'Placeholder 2',
-										className: 'placeholder2',
+										name: 'colours',
+										title: 'Colours',
 									},
 									{
-										name: 'placeholder3',
-										title: 'Placeholder 3',
-										className: 'placeholder3',
+										name: 'layout',
+										title: 'Layout',
+									},
+									{
+										name: 'blocks',
+										title: 'Blocks',
+									},
+									{
+										name: 'custom-blocks',
+										title: 'Custom Blocks',
 									},
 								] }
 							>
-								{ ( tab ) => (
-									<>
-										<p>{ tab.title }</p>
-										<Border selector="styles.blocks.core/pullquote.border" />
-										<Fields sourceObject={ themeConfig } />
-									</>
-								) }
+								{ ( tab ) => {
+									switch ( tab?.name ) {
+										case 'colours':
+											return <Colours />;
+										case 'layout':
+											return <Layout />;
+										case 'blocks':
+											return <Blocks />;
+										case 'custom-blocks':
+											return <CustomBlocks />;
+										case 'typography':
+										default:
+											return <Typography />;
+									}
+								} }
 							</TabPanel>
 						</div>
 						<div className="themer-preview-container">

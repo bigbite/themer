@@ -1,11 +1,7 @@
-import Border from '../components/styles/Border';
-
 /**
  * Style properties and their corresponding React components
  */
-export const styleComponentMap = {
-	border: Border,
-};
+export const styleComponentMap = {};
 
 /**
  * Settings properties and their corresponding React components
