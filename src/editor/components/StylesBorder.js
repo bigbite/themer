@@ -13,10 +13,9 @@ import StylesContext from '../context/StylesContext';
  * Reusable border control style component
  *
  * @param {Object} props          Component props
- * @param {*}      props.settings Block support settings
  * @param {string} props.selector Property target selector
  */
-const Border = ( { settings, selector } ) => {
+const Border = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
@@ -27,7 +26,6 @@ const Border = ( { settings, selector } ) => {
 
 	const onChange = ( newValue ) => {
 		let config = structuredClone( themeConfig );
-		config = set( config, selector, {} );
 		config = set( config, selector, newValue );
 		setUserConfig( config );
 	};

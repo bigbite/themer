@@ -24,15 +24,12 @@ const Blocks = () => {
 			{ getCoreBlocks()?.map( ( block ) => {
 				if (
 					searchValue?.length > 0 &&
-					! (
-						block?.title?.toLowerCase().includes( searchValue ) ||
-						block?.name?.toLowerCase().includes( searchValue )
-					)
+					! block.toLowerCase().includes( searchValue )
 				) {
 					return false;
 				}
 
-				return <BlocksItem key={ block?.name } block={ block } />;
+				return <BlocksItem key={ block } block={ block } />;
 			} ) }
 		</section>
 	);

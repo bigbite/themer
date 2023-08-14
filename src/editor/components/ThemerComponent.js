@@ -14,6 +14,7 @@ import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+import fetchSchema from '../../utils/schema-helpers';
 
 /**
  * main component
@@ -21,6 +22,7 @@ import StylesContext from '../context/StylesContext';
 const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
 	const [ previewSize, setPreviewSize ] = useState();
+	const [ schema, setSchema ] = useState( {} );
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -85,6 +87,14 @@ const ThemerComponent = () => {
 	}, [ themeConfig, setPreviewCss ] );
 
 	/**
+	 * TODO: For demo purpose only, this should be refactored and
+	 * implemented into the processing of the schema file task
+	 */
+	useEffect( async () => {
+		setSchema( await fetchSchema() );
+	}, [] );
+
+	/**
 	 * saves edited entity data
 	 */
 	const save = async () => {
@@ -126,6 +136,7 @@ const ThemerComponent = () => {
 				value={ {
 					globalStylesId,
 					themeConfig,
+					schema,
 				} }
 			>
 				<StylesContext.Provider

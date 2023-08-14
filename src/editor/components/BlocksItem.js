@@ -1,30 +1,32 @@
+import { useContext } from '@wordpress/element';
+import EditorContext from '../context/EditorContext';
+
 import Border from './StylesBorder';
+import getThemeOption from '../../utils/get-theme-option';
 
 /**
  * Individual block item
  *
- * @param {Object} props       Component props
- * @param {Object} props.block Block object
+ * @param {string} block Block name
  */
 const BlocksItem = ( { block } ) => {
-	if ( ! block?.name ) {
+	if ( ! block ) {
 		return;
 	}
 
-	const blockSelector = [ 'styles', 'blocks', block?.name ];
+	const blockSelector = [ 'styles', 'blocks', block ];
+	const { themeConfig } = useContext( EditorContext );
+	const hasBorderStyles = getThemeOption(
+		[ ...blockSelector, 'border' ].join( '.' ),
+		themeConfig
+	);
 
 	return (
 		<details className="themer--blocks-item-component">
-			<summary>
-				<span>
-					{ block?.icon?.src }
-					{ block?.title }
-				</span>
-			</summary>
+			<summary>{ block }</summary>
 			<div className="themer--blocks-item-component--styles">
-				{ block?.supports?.__experimentalBorder && (
+				{ hasBorderStyles && (
 					<Border
-						settings={ block?.supports?.__experimentalBorder }
 						selector={ [ ...blockSelector, 'border' ].join( '.' ) }
 					/>
 				) }

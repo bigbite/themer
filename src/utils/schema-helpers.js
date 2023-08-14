@@ -3,13 +3,16 @@ import { styleComponentMap } from './component-map';
 /**
  * Maps style properties to React components
  *
- * @param {Object} components Theme to React component map
  * @param {Object} properties Theme style allowed properties
+ *
+ * @return {Object} Mapped components
  */
-const generateStyleComponents = ( components, properties ) => {
+export const generateStyleComponents = ( properties ) => {
 	if ( ! properties ) {
 		return;
 	}
+
+	const components = {};
 
 	for ( const property in properties ) {
 		const style = styleComponentMap?.[ property ];
@@ -18,22 +21,24 @@ const generateStyleComponents = ( components, properties ) => {
 			continue;
 		}
 
-		components.styles[ property ] = style;
+		components[ property ] = style;
 	}
+
+	return components;
 };
 
 /**
- * Generates React components for parts of the theme.json schema
+ * Fetch theme.json schema data
  *
- * @return {Object} Mapped components
+ * @return {Object} theme.json schema json
  */
-const schemaComponents = async () => {
+const fetchSchema = async () => {
+	let schema = {};
 	const url =
 		'https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/theme.json';
 
 	try {
 		const response = await fetch( url );
-		const components = { settings: {}, styles: {} };
 
 		if ( ! response?.ok ) {
 			throw new Error(
@@ -41,17 +46,12 @@ const schemaComponents = async () => {
 			);
 		}
 
-		const schema = await response.json();
-
-		generateStyleComponents(
-			components,
-			schema?.definitions?.stylesProperties?.properties
-		);
-
-		return components;
+		schema = await response.json();
 	} catch ( error ) {
 		console.error( error ); // eslint-disable-line no-console -- Output of caught error
 	}
+
+	return schema ?? {};
 };
 
-export default schemaComponents;
+export default fetchSchema;
