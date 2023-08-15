@@ -90,8 +90,11 @@ const ThemerComponent = () => {
 	 * TODO: For demo purpose only, this should be refactored and
 	 * implemented into the processing of the schema file task
 	 */
-	useEffect( async () => {
-		setSchema( await fetchSchema() );
+	useEffect( () => {
+		( async () => {
+			const schemaJson = await fetchSchema();
+			setSchema( schemaJson );
+		} )();
 	}, [] );
 
 	/**

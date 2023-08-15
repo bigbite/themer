@@ -1,14 +1,16 @@
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useState, useContext } from '@wordpress/element';
 
 import Search from './Search';
 import BlocksItem from './BlocksItem';
+import EditorContext from '../context/EditorContext';
 import { getCoreBlocks } from '../../utils/block-helpers';
 
 /**
  * Blocks tab menu component
  */
 const Blocks = () => {
+	const { themeConfig, schema } = useContext( EditorContext );
 	const [ searchValue, setSearchValue ] = useState();
 
 	return (
@@ -21,16 +23,24 @@ const Blocks = () => {
 				) }
 			</p>
 			<Search setValue={ setSearchValue } />
-			{ getCoreBlocks()?.map( ( block ) => {
-				if (
-					searchValue?.length > 0 &&
-					! block.toLowerCase().includes( searchValue )
-				) {
-					return false;
-				}
+			{ getCoreBlocks( undefined, themeConfig, schema )?.map(
+				( block ) => {
+					if (
+						searchValue?.length > 0 &&
+						! block.toLowerCase().includes( searchValue )
+					) {
+						return false;
+					}
 
-				return <BlocksItem key={ block } block={ block } />;
-			} ) }
+					return (
+						<BlocksItem
+							key={ block }
+							block={ block }
+							themeConfig={ themeConfig }
+						/>
+					);
+				}
+			) }
 		</section>
 	);
 };

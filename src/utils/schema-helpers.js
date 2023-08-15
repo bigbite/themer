@@ -9,7 +9,7 @@ import { styleComponentMap } from './component-map';
  */
 export const generateStyleComponents = ( properties ) => {
 	if ( ! properties ) {
-		return;
+		return {};
 	}
 
 	const components = {};
