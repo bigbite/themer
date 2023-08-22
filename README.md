@@ -9,7 +9,7 @@ When installing to your site, add the following to you `composer.json` file. Thi
   "repositories": [
     {
       "type": "vcs",
-      "url": "git@github.com:@big-bite/themer.git"
+      "url": "git@github.com:bigbite/themer.git"
     }
   ],
   "require": {
@@ -29,7 +29,7 @@ When installing to your site, add the following to you `composer.json` file. Thi
 ## Local Development or Manual Install
 Clone the repository into your `plugins` or `client-mu-plugins` directory.
 ```
-git clone git@github.com:@big-bite/themer.git && cd themer
+git clone git@github.com:bigbite/themer.git && cd themer
 ```
 
 Install JS packages.
