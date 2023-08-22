@@ -13,7 +13,7 @@ When installing to your site, add the following to you `composer.json` file. Thi
     }
   ],
   "require": {
-    "@big-bite/themer": "dev-main-built"
+    "bigbite/themer": "dev-main-built"
   },
   "extra": {
     "installer-paths": {
