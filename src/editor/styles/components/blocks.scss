@@ -1,4 +1,5 @@
 .themer--blocks-item-component {
+	container-type: inline-size;
 	padding: 8px 32px;
 
 	> summary {
@@ -41,10 +42,25 @@
 		line-height: 20px;
 	}
 
-	.themer--blocks-item-component--styles > label {
+	.themer--blocks-item-component--styles label {
 		font-weight: 600;
 		font-size: 11px;
 		line-height: 25.4px;
 		text-transform: uppercase;
+	}
+	
+	.themer--blocks-item-component--columns {
+		display: grid;
+		grid-gap: 5%;
+	} 
+	
+	.themer--blocks-item-component--columns-2 {
+		grid-template-columns: 47.5% 47.5%;
+	}
+	
+	@container (max-width: 540px) {
+		.themer--blocks-item-component--columns-2 {
+			grid-template-columns: 100%;
+		}
 	}
 }

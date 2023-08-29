@@ -28,7 +28,7 @@ const Color = ( { selector } ) => {
 	};
 
 	const allPalettes = Object.keys(colorStyles).map(key => (
-		<>
+		<div className="themer--blocks-item-component--column">
 			<label>{key}</label>
 			<ColorPalette
 				label={ __( 'Color', 'themer' ) }
@@ -36,14 +36,16 @@ const Color = ( { selector } ) => {
 				onChange={value => onChange(value, key) }
 				value={ varToHex( colorStyles[key] ) }
 			/>
-		</>
+		</div>
 	));
 
 	return (
 		<>
 			<span className="themer--blocks-item-component--styles--title">{ __( 'Color', 'themer' ) }</span>
 			<span>{ __( 'Manage palettes and the default color of different global elements on the site.', 'themer' ) }</span>
-			{allPalettes}
+			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+				{allPalettes}
+			</div>
 		</>
 	);
 };

@@ -83,7 +83,7 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 						<BlockList
 							renderAppender={ false }
 							className={
-								'edit-site-block-editor__block-list wp-site-blocks'
+								'edit-site-block-editor__block-list wp-site-blocks has-global-padding'
 							}
 						/>
 					</BlockTools>
