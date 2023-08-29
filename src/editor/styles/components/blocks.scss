@@ -27,11 +27,24 @@
 	.themer--blocks-item-component--styles {
 		gap: 16px;
 		display: flex;
-		padding: 8px 32px;
+		padding: 25px 0px;
 		flex-direction: column;
 	}
 
 	> .themer--blocks-item-component--styles > * {
 		flex: 1 1 auto;
+	}
+
+	.themer--blocks-item-component--styles--title {
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.themer--blocks-item-component--styles > label {
+		font-weight: 600;
+		font-size: 11px;
+		line-height: 25.4px;
+		text-transform: uppercase;
 	}
 }

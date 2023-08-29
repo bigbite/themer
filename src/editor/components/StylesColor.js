@@ -27,9 +27,9 @@ const Color = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	return Object.keys(colorStyles).map(key => (
+	const allPalettes = Object.keys(colorStyles).map(key => (
 		<>
-			<label>{__( 'Color', 'themer' )}: {key}</label>
+			<label>{key}</label>
 			<ColorPalette
 				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
@@ -38,6 +38,14 @@ const Color = ( { selector } ) => {
 			/>
 		</>
 	));
+
+	return (
+		<>
+			<span className="themer--blocks-item-component--styles--title">{ __( 'Color', 'themer' ) }</span>
+			<span>{ __( 'Manage palettes and the default color of different global elements on the site.', 'themer' ) }</span>
+			{allPalettes}
+		</>
+	);
 };
 
 export default Color;
