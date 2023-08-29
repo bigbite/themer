@@ -37,6 +37,7 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 		updateBlocks( [
 			createBlock( 'core/heading', {
 				content: 'Post title',
+				level: 1,
 			} ),
 			createBlock( 'core/paragraph', {
 				content: `This is the Post Content block, it will display all the blocks in any single post or page.
