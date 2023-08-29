@@ -1,4 +1,5 @@
 import Border from './StylesBorder';
+import Color from './StylesColor';
 import getThemeOption from '../../utils/get-theme-option';
 
 /**
@@ -18,6 +19,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		[ ...blockSelector, 'border' ].join( '.' ),
 		themeConfig
 	);
+	const hasColorStyles = getThemeOption(
+		[ ...blockSelector, 'color' ].join( '.' ),
+		themeConfig
+	);
 
 	return (
 		<details className="themer--blocks-item-component">
@@ -26,6 +31,11 @@ const BlocksItem = ( { block, themeConfig } ) => {
 				{ hasBorderStyles && (
 					<Border
 						selector={ [ ...blockSelector, 'border' ].join( '.' ) }
+					/>
+				) }
+				{ hasColorStyles && (
+					<Color
+						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
 					/>
 				) }
 			</div>

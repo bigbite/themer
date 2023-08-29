@@ -1,24 +1,22 @@
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
-
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/components';
+import { ColorPalette } from '@wordpress/components';
 
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 
 /**
- * Reusable border control style component
- *
- * @param {Object} props          Component props
- * @param {string} props.selector Property target selector
+ * Reusable color control style component
  */
-const Border = ( { selector } ) => {
+const Color = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig );
+	const colorStyles = getThemeOption( selector, themeConfig );
+
+	console.log(colorStyles);
+
 	const themePalette = getThemeOption(
 		'settings.color.palette.theme',
 		themeConfig
@@ -30,14 +28,17 @@ const Border = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	return (
-		<BorderBoxControl
-			colors={ themePalette }
-			label={ __( 'Borders', 'themer' ) }
-			onChange={ onChange }
-			value={ value }
-		/>
-	);
+	return Object.keys(colorStyles).map(key => (
+		<>
+			<label>{__( 'Color', 'themer' )}: {key}</label>
+			<ColorPalette
+				label={ __( 'Color', 'themer' ) }
+				colors={ themePalette }
+				onChange={ onChange }
+				value={ colorStyles[key] }
+			/>
+		</>
+	));
 };
 
-export default Border;
+export default Color;
