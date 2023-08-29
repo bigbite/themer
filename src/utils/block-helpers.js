@@ -1,4 +1,5 @@
-import { select } from '@wordpress/data';
+import { select, dispatch } from '@wordpress/data';
+import { getColorObjectByAttributeValues, useSetting } from '@wordpress/block-editor';
 
 /**
  * Returns a list of core blocks that are in the theme.json schema
@@ -47,3 +48,31 @@ export const getCoreBlocks = ( mode = 0, themeConfig = {}, schema = {} ) => {
  * @return {Array} Custom blocks
  */
 export const getCustomBlocks = () => [];
+
+/**
+ * Returns a coresponding hex value using a given css variable name
+ * from the theme config
+ *
+ * @param {string} cssVar Color as a css variable name
+ *
+ * @return {string} Color as a hex string
+ */
+export const varToHex = ( cssVar ) => {
+	dispatch( 'core/block-editor' ).updateSettings(
+		window.themerPlugin.editor_settings
+	);
+
+	const themeColors = useSetting( 'color.palette.theme' );
+
+	const cssVarName = cssVar.replace(
+		/var\(--wp--preset--color--(.+?)\)/g,
+		'$1'
+	);
+
+	const colorObj = getColorObjectByAttributeValues(
+		themeColors,
+		cssVarName
+	);
+
+	return colorObj?.color ?? cssVar;
+};

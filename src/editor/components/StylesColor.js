@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
 
+import { varToHex } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -15,16 +16,14 @@ const Color = ( { selector } ) => {
 	const { setUserConfig } = useContext( StylesContext );
 	const colorStyles = getThemeOption( selector, themeConfig );
 
-	console.log(colorStyles);
-
 	const themePalette = getThemeOption(
 		'settings.color.palette.theme',
 		themeConfig
 	);
 
-	const onChange = ( newValue ) => {
+	const onChange = ( newValue, key ) => {
 		let config = structuredClone( themeConfig );
-		config = set( config, selector, newValue );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 
@@ -34,8 +33,8 @@ const Color = ( { selector } ) => {
 			<ColorPalette
 				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
-				onChange={ onChange }
-				value={ colorStyles[key] }
+				onChange={value => onChange(value, key) }
+				value={ varToHex( colorStyles[key] ) }
 			/>
 		</>
 	));
