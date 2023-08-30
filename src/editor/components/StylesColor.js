@@ -10,6 +10,9 @@ import StylesContext from '../context/StylesContext';
 
 /**
  * Reusable color control style component
+ *
+ * @param {Object} props          Component props
+ * @param {string} props.selector Property target selector
  */
 const Color = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
@@ -22,28 +25,41 @@ const Color = ( { selector } ) => {
 
 	const onChange = ( newValue, key ) => {
 		let config = structuredClone( themeConfig );
-		config = set( config, [ selector, key ].join( '.' ), hexToVar( newValue, themePalette ) );
+		config = set(
+			config,
+			[ selector, key ].join( '.' ),
+			hexToVar( newValue, themePalette )
+		);
 		setUserConfig( config );
 	};
 
-	const allPalettes = Object.keys(colorStyles).map(key => (
-		<div className="themer--blocks-item-component--column">
-			<label>{key}</label>
+	const allPalettes = Object.keys( colorStyles ).map( ( key ) => (
+		<div key={ key } className="themer--blocks-item-component--column">
+			<span className="themer--blocks-item-component--styles--label">
+				{ key }
+			</span>
 			<ColorPalette
 				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
-				onChange={value => onChange(value, key) }
-				value={ varToHex( colorStyles[key], themePalette ) }
+				onChange={ ( value ) => onChange( value, key ) }
+				value={ varToHex( colorStyles[ key ], themePalette ) }
 			/>
 		</div>
-	));
+	) );
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">{ __( 'Color', 'themer' ) }</span>
-			<span>{ __( 'Manage palettes and the default color of different global elements on the site.', 'themer' ) }</span>
+			<span className="themer--blocks-item-component--styles--title">
+				{ __( 'Color', 'themer' ) }
+			</span>
+			<span>
+				{ __(
+					'Manage palettes and the default color of different global elements on the site.',
+					'themer'
+				) }
+			</span>
 			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
-				{allPalettes}
+				{ allPalettes }
 			</div>
 		</>
 	);
