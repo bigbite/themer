@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
 
-import { varToHex } from '../../utils/block-helpers';
+import { varToHex, hexToVar } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -15,7 +15,6 @@ const Color = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const colorStyles = getThemeOption( selector, themeConfig );
-
 	const themePalette = getThemeOption(
 		'settings.color.palette.theme',
 		themeConfig
@@ -23,7 +22,7 @@ const Color = ( { selector } ) => {
 
 	const onChange = ( newValue, key ) => {
 		let config = structuredClone( themeConfig );
-		config = set( config, [ selector, key ].join( '.' ), newValue );
+		config = set( config, [ selector, key ].join( '.' ), hexToVar( newValue, themePalette ) );
 		setUserConfig( config );
 	};
 
@@ -34,7 +33,7 @@ const Color = ( { selector } ) => {
 				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
 				onChange={value => onChange(value, key) }
-				value={ varToHex( colorStyles[key] ) }
+				value={ varToHex( colorStyles[key], themePalette ) }
 			/>
 		</div>
 	));
