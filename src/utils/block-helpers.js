@@ -54,6 +54,7 @@ export const getCustomBlocks = () => [];
  * from the theme config
  *
  * @param {string} cssVar Color as a css variable name
+ * @param {array}  themePalette The themes palette as an array of objects
  *
  * @return {string} Color as a hex string or original string
  */
@@ -76,6 +77,7 @@ export const varToHex = ( cssVar, themePalette ) => {
  * using a given hex string
  *
  * @param {string} cssHex Color as a hex string
+ * @param {array}  themePalette The themes palette as an array of objects
  *
  * @return {string} Color as a css variable name or original string
  */
