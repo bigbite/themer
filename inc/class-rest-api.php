@@ -49,6 +49,18 @@ class Rest_API {
 				'permission_callback' => fn() => is_user_logged_in() && current_user_can( 'edit_theme_options' ),
 			)
 		);
+
+		register_rest_route(
+			'themer/v1',
+			'/theme-json-loaded',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'can_load_theme_json' ),
+				'permission_callback' => function() {
+					return true;
+				},
+			)
+		);
 	}
 
 	/**
@@ -69,6 +81,37 @@ class Rest_API {
 		$custom_theme_json      = new WP_Theme_JSON( $custom_theme_json_data );
 
 		return rest_ensure_response( $custom_theme_json->get_stylesheet() );
+	}
+
+	/**
+	 * Check if a valid theme json file is loaded.
+	 *
+	 * @return \WP_REST_Response|true returns an object for the error or true if valid.
+	 */
+	public function can_load_theme_json() {
+		$theme_json_path = get_stylesheet_directory() . '/theme.json';
+		$response        = true;
+
+		if ( ! is_readable( $theme_json_path ) ) {
+			$message  = sprintf( 'cannot read the file "theme.json" from %s', $theme_json_path );
+			$response = array(
+				'error_type' => 'error',
+				'message'    => $message,
+			);
+			return rest_ensure_response( $response );
+		}
+
+		$value = wp_json_file_decode( $theme_json_path );
+		if ( null === $value ) {
+			$message  = 'the theme.json file contains invalid json.';
+			$response = array(
+				'error_type' => 'error',
+				'message'    => $message,
+			);
+			return rest_ensure_response( $response );
+		}
+
+		return rest_ensure_response( $response );
 	}
 
 	/**

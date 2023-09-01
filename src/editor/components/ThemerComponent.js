@@ -15,6 +15,7 @@ import ResponsiveButton from './ResponsiveButton';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import fetchSchema from '../../utils/schema-helpers';
+import ThemerNotice from './ThemerNotice';
 
 /**
  * main component
@@ -23,6 +24,7 @@ const ThemerComponent = () => {
 	const [ previewCss, setPreviewCss ] = useState( '' );
 	const [ previewSize, setPreviewSize ] = useState();
 	const [ schema, setSchema ] = useState( {} );
+	const [ validThemeJson, setValidThemeJson ] = useState();
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -87,6 +89,17 @@ const ThemerComponent = () => {
 	}, [ themeConfig, setPreviewCss ] );
 
 	/**
+	 * Check if a valid theme.json is loaded.
+	 */
+	const validateThemeJson = async () => {
+		const res = await apiFetch( {
+			path: '/themer/v1/theme-json-loaded',
+			method: 'GET',
+		} );
+		setValidThemeJson( res );
+	};
+
+	/**
 	 * TODO: For demo purpose only, this should be refactored and
 	 * implemented into the processing of the schema file task
 	 */
@@ -95,6 +108,7 @@ const ThemerComponent = () => {
 			const schemaJson = await fetchSchema();
 			setSchema( schemaJson );
 		} )();
+		validateThemeJson();
 	}, [] );
 
 	/**
@@ -147,76 +161,85 @@ const ThemerComponent = () => {
 						setUserConfig,
 					} }
 				>
-					<div className="themer-topbar">
-						<Button
-							isSecondary
-							onClick={ () => reset() }
-							text="Reset"
-						/>
-						<Button
-							isPrimary
-							onClick={ () => save() }
-							text="Save"
-						/>
-					</div>
-					<div className="themer-body">
-						<div className="themer-nav-container">
-							<TabPanel
-								className="themer-tab-panel"
-								activeClass="active-themer-tab"
-								tabs={ [
-									{
-										name: 'typography',
-										title: 'Typography',
-									},
-									{
-										name: 'colours',
-										title: 'Colours',
-									},
-									{
-										name: 'layout',
-										title: 'Layout',
-									},
-									{
-										name: 'blocks',
-										title: 'Blocks',
-									},
-									{
-										name: 'custom-blocks',
-										title: 'Custom Blocks',
-									},
-								] }
-							>
-								{ ( tab ) => {
-									switch ( tab?.name ) {
-										case 'colours':
-											return <Colours />;
-										case 'layout':
-											return <Layout />;
-										case 'blocks':
-											return <Blocks />;
-										case 'custom-blocks':
-											return <CustomBlocks />;
-										case 'typography':
-										default:
-											return <Typography />;
-									}
-								} }
-							</TabPanel>
-						</div>
-						<div className="themer-preview-container">
-							<ResponsiveButton
-								setPreviewSize={ setPreviewSize }
-								previewSize={ previewSize }
-							/>
-							<Preview
-								baseOptions={ baseConfig }
-								previewCss={ previewCss }
-								previewSize={ previewSize }
-							/>
-							<ButtonExport />
-						</div>
-					</div>
+					<ThemerNotice
+						status={ validThemeJson?.error_type }
+						message={ validThemeJson?.message }
+						isDismissible={ false }
+					/>
+					{ validThemeJson === true && (
+						<>
+							<div className="themer-topbar">
+								<Button
+									isSecondary
+									onClick={ () => reset() }
+									text="Reset"
+								/>
+								<Button
+									isPrimary
+									onClick={ () => save() }
+									text="Save"
+								/>
+							</div>
+							<div className="themer-body">
+								<div className="themer-nav-container">
+									<TabPanel
+										className="themer-tab-panel"
+										activeClass="active-themer-tab"
+										tabs={ [
+											{
+												name: 'typography',
+												title: 'Typography',
+											},
+											{
+												name: 'colours',
+												title: 'Colours',
+											},
+											{
+												name: 'layout',
+												title: 'Layout',
+											},
+											{
+												name: 'blocks',
+												title: 'Blocks',
+											},
+											{
+												name: 'custom-blocks',
+												title: 'Custom Blocks',
+											},
+										] }
+									>
+										{ ( tab ) => {
+											switch ( tab?.name ) {
+												case 'colours':
+													return <Colours />;
+												case 'layout':
+													return <Layout />;
+												case 'blocks':
+													return <Blocks />;
+												case 'custom-blocks':
+													return <CustomBlocks />;
+												case 'typography':
+												default:
+													return <Typography />;
+											}
+										} }
+									</TabPanel>
+								</div>
+								<div className="themer-preview-container">
+									<ResponsiveButton
+										setPreviewSize={ setPreviewSize }
+										previewSize={ previewSize }
+									/>
+									<Preview
+										baseOptions={ baseConfig }
+										previewCss={ previewCss }
+										previewSize={ previewSize }
+									/>
+									<ButtonExport />
+								</div>
+							</div>
+						</>
+					) }
 				</StylesContext.Provider>
 			</EditorContext.Provider>
 		</>
