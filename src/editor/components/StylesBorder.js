@@ -19,7 +19,7 @@ const Border = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
-	const colors = getThemeOption(
+	const themePalette = getThemeOption(
 		'settings.color.palette.theme',
 		themeConfig
 	);
@@ -32,7 +32,7 @@ const Border = ( { selector } ) => {
 
 	return (
 		<BorderBoxControl
-			colors={ colors }
+			colors={ themePalette }
 			label={ __( 'Borders', 'themer' ) }
 			onChange={ onChange }
 			value={ value }
