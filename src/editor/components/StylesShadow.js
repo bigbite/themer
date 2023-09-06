@@ -1,8 +1,15 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { TextControl, ToggleControl } from '@wordpress/components';
+import {
+	ToggleControl,
+	__experimentalUnitControl as UnitControl,
+	__experimentalVStack as VStack,
+	__experimentalHStack as HStack,
+	ColorPalette,
+} from '@wordpress/components';
 
+import { isHex } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -17,27 +24,42 @@ const Shadow = ({ selector }) => {
 	const { themeConfig } = useContext(EditorContext);
 	const { setUserConfig } = useContext(StylesContext);
 	const shadowStyles = getThemeOption(selector, themeConfig);
+	const themePalette = getThemeOption(
+		'settings.color.palette.theme',
+		themeConfig
+	);
+	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
+	const isCssUnit = (value) =>
+		(value === '0' || LENGTH_REG.test(value)) && value !== 'inset';
+
+	const shadowStylesArray = shadowStyles.split(' ');
+	const shadowValues = shadowStylesArray.filter(isCssUnit).slice(0, 4);
+	const shadowColor = shadowStylesArray.find(
+		(value) => !isCssUnit(value) && value !== 'inset'
+	);
+	const shadowObj = {
+		inset: shadowStyles.includes('inset') ? 'inset' : '',
+		offsetX: shadowValues?.[0] || '0px',
+		offsetY: shadowValues?.[1] || '0px',
+		blurRadius: shadowValues?.[2] || '0px',
+		spreadRadius: shadowValues?.[3] || '0px',
+		color: shadowColor || '#000',
+	};
 
 	/**
 	 * Handles the user clicking the inset toggle.
 	 * @param {boolean} newVal - The new value of the inset toggle.
 	 */
-	const handleNewInsetValue = (newVal) => {
-		const updatedShadowStyles = newVal
-			? `inset ${shadowStyles}`
-			: shadowStyles.replace('inset', '').trim();
+	const handleNewValue = (newVal, key) => {
+		if (key === 'inset') {
+			shadowObj[key] = newVal ? 'inset' : '';
+		} else {
+			shadowObj[key] = newVal;
+		}
+		const updatedShadowStyles = Object.values(shadowObj).join(' ').trim();
+
 		let config = structuredClone(themeConfig);
 		config = set(config, selector, updatedShadowStyles);
-		setUserConfig(config);
-	};
-
-	/**
-	 * Handles the user changing the shadow value.
-	 * @param {string} newValue - The new value of the shadow text field.
-	 */
-	const handleNewValue = (newValue) => {
-		let config = structuredClone(themeConfig);
-		config = set(config, selector, newValue);
 		setUserConfig(config);
 	};
 
@@ -46,17 +68,49 @@ const Shadow = ({ selector }) => {
 			<span className="themer--blocks-item-component--styles--title">
 				{__('Shadow', 'themer')}
 			</span>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+			<VStack>
 				<ToggleControl
 					checked={shadowStyles.includes('inset')}
 					label={__('Inset', 'themer')}
-					onChange={(newVal) => handleNewInsetValue(newVal)}
+					onChange={(newVal) => handleNewValue(newVal, 'inset')}
 				/>
-				<TextControl
-					onChange={(newVal) => handleNewValue(newVal)}
-					value={shadowStyles}
+				<HStack>
+					<UnitControl
+						label={__('Offset X', 'themer')}
+						value={shadowValues?.[0] || '0px'}
+						onChange={(newVal) => handleNewValue(newVal, 'offsetX')}
+					/>
+					<UnitControl
+						label={__('Offset Y', 'themer')}
+						value={shadowValues?.[1] || '0px'}
+						onChange={(newVal) => handleNewValue(newVal, 'offsetY')}
+					/>
+				</HStack>
+				<HStack>
+					<UnitControl
+						label={__('Blur radius', 'themer')}
+						value={shadowValues?.[2] || '0px'}
+						onChange={(newVal) =>
+							handleNewValue(newVal, 'blurRadius')
+						}
+					/>
+					<UnitControl
+						label={__('Spread radius', 'themer')}
+						value={shadowValues?.[3] || '0px'}
+						onChange={(newVal) =>
+							handleNewValue(newVal, 'spreadRadius')
+						}
+					/>
+				</HStack>
+				<ColorPalette
+					label={__('Shadow Colour', 'themer')}
+					colors={themePalette}
+					onChange={(newVal) => handleNewValue(newVal, 'color')}
+					value={
+						shadowColor && isHex(shadowColor) ? shadowColor : '#000'
+					}
 				/>
-			</div>
+			</VStack>
 		</>
 	);
 };
