@@ -28,6 +28,7 @@ const Shadow = ({ selector }) => {
 		'settings.color.palette.theme',
 		themeConfig
 	);
+
 	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
 	const isCssUnit = (value) =>
 		(value === '0' || LENGTH_REG.test(value)) && value !== 'inset';
@@ -47,8 +48,9 @@ const Shadow = ({ selector }) => {
 	};
 
 	/**
-	 * Handles the user clicking the inset toggle.
-	 * @param {boolean} newVal - The new value of the inset toggle.
+	 * Handles the user changing one of the values in the box shadow.
+	 * @param {boolean} newVal - The new value of the setting.
+	 * @param {string} key - The key of the value being changed.
 	 */
 	const handleNewValue = (newVal, key) => {
 		if (key === 'inset') {
