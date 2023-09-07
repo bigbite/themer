@@ -48,19 +48,26 @@
 		line-height: 25.4px;
 		text-transform: uppercase;
 	}
-	
+
 	.themer--blocks-item-component--columns {
 		display: grid;
 		grid-gap: 5%;
-	} 
-	
+	}
+
 	.themer--blocks-item-component--columns-2 {
 		grid-template-columns: 47.5% 47.5%;
 	}
-	
+
 	@container (max-width: 540px) {
 		.themer--blocks-item-component--columns-2 {
-			grid-template-columns: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
 		}
+	}
+
+	// Toggle component ships with margin, which messes with our pre-defined gap between components.
+	.components-toggle-control {
+		margin: 0;
 	}
 }

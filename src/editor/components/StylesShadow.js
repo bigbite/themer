@@ -3,9 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
 	ToggleControl,
-	__experimentalUnitControl as UnitControl,
-	__experimentalVStack as VStack,
-	__experimentalHStack as HStack,
+	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	ColorPalette,
 } from '@wordpress/components';
 
@@ -28,7 +26,6 @@ const Shadow = ( { selector } ) => {
 		'settings.color.palette.theme',
 		themeConfig
 	);
-
 	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
 	const isCssUnit = ( value ) =>
 		( value === '0' || LENGTH_REG.test( value ) ) && value !== 'inset';
@@ -51,7 +48,7 @@ const Shadow = ( { selector } ) => {
 		if ( key === 'inset' ) {
 			shadowObj[ key ] = newVal ? 'inset' : '';
 		} else {
-			shadowObj[ key ] = newVal;
+			shadowObj[ key ] = newVal?.trim() || '0px';
 		}
 		const updatedShadowStyles = Object.values( shadowObj )
 			.join( ' ' )
@@ -67,46 +64,47 @@ const Shadow = ( { selector } ) => {
 			<span className="themer--blocks-item-component--styles--title">
 				{ __( 'Shadow', 'themer' ) }
 			</span>
-			<VStack>
-				<ToggleControl
-					checked={ shadowStyles.includes( 'inset' ) }
-					label={ __( 'Inset', 'themer' ) }
-					onChange={ ( newVal ) => handleNewValue( newVal, 'inset' ) }
+			<ToggleControl
+				checked={ shadowStyles.includes( 'inset' ) }
+				label={ __( 'Inset', 'themer' ) }
+				onChange={ ( newVal ) => handleNewValue( newVal, 'inset' ) }
+				style={ { marginBottom: '0px' } }
+			/>
+			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+				<UnitControl
+					label={ __( 'Offset X', 'themer' ) }
+					value={ shadowValues?.[ 0 ] || '0px' }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'offsetX' )
+					}
 				/>
-				<HStack>
-					<UnitControl
-						label={ __( 'Offset X', 'themer' ) }
-						value={ shadowValues?.[ 0 ] || '0px' }
-						onChange={ ( newVal ) =>
-							handleNewValue( newVal, 'offsetX' )
-						}
-					/>
-					<UnitControl
-						label={ __( 'Offset Y', 'themer' ) }
-						value={ shadowValues?.[ 1 ] || '0px' }
-						onChange={ ( newVal ) =>
-							handleNewValue( newVal, 'offsetY' )
-						}
-					/>
-				</HStack>
-				<HStack>
-					<UnitControl
-						label={ __( 'Blur radius', 'themer' ) }
-						value={ shadowValues?.[ 2 ] || '0px' }
-						onChange={ ( newVal ) =>
-							handleNewValue( newVal, 'blurRadius' )
-						}
-					/>
-					<UnitControl
-						label={ __( 'Spread radius', 'themer' ) }
-						value={ shadowValues?.[ 3 ] || '0px' }
-						onChange={ ( newVal ) =>
-							handleNewValue( newVal, 'spreadRadius' )
-						}
-					/>
-				</HStack>
+				<UnitControl
+					label={ __( 'Offset Y', 'themer' ) }
+					value={ shadowValues?.[ 1 ] || '0px' }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'offsetY' )
+					}
+				/>
+				<UnitControl
+					label={ __( 'Blur radius', 'themer' ) }
+					value={ shadowValues?.[ 2 ] || '0px' }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'blurRadius' )
+					}
+				/>
+				<UnitControl
+					label={ __( 'Spread radius', 'themer' ) }
+					value={ shadowValues?.[ 3 ] || '0px' }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'spreadRadius' )
+					}
+				/>
+			</div>
+			<div>
+				<span className="themer--blocks-item-component--styles--label">
+					{ __( 'Shadow Colour', 'themer' ) }
+				</span>
 				<ColorPalette
-					label={ __( 'Shadow Colour', 'themer' ) }
 					colors={ themePalette }
 					onChange={ ( newVal ) => handleNewValue( newVal, 'color' ) }
 					value={
@@ -115,7 +113,7 @@ const Shadow = ( { selector } ) => {
 							: '#000'
 					}
 				/>
-			</VStack>
+			</div>
 		</>
 	);
 };
