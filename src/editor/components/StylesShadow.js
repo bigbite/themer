@@ -59,9 +59,7 @@ const Shadow = ( { selector } ) => {
 		} else {
 			shadowObj[ key ] = newVal?.trim() || '0px';
 		}
-		const updatedShadowStyles = Object.values( shadowObj )
-			.join( ' ' )
-			.trim();
+		const updatedShadowStyles = Object.values( shadowObj ).join( ' ' );
 
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, updatedShadowStyles );
