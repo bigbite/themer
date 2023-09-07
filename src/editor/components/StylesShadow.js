@@ -7,7 +7,7 @@ import {
 	ColorPalette,
 } from '@wordpress/components';
 
-import { isHex, varToHex } from '../../utils/block-helpers';
+import { isHex, varToHex, hexToVar } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -70,6 +70,9 @@ const Shadow = ( { selector } ) => {
 	const handleNewValue = ( newVal, key ) => {
 		if ( key === 'inset' ) {
 			shadowObj[ key ] = newVal ? 'inset' : '';
+		} else if ( key === 'color' ) {
+			shadowObj[ key ] =
+				newVal?.trim() || hexToVar( '#000000', themePalette );
 		} else {
 			shadowObj[ key ] = newVal?.trim() || '0px';
 		}
@@ -162,7 +165,12 @@ const Shadow = ( { selector } ) => {
 				</span>
 				<ColorPalette
 					colors={ themePalette }
-					onChange={ ( newVal ) => handleNewValue( newVal, 'color' ) }
+					onChange={ ( newVal ) =>
+						handleNewValue(
+							hexToVar( newVal, themePalette ),
+							'color'
+						)
+					}
 					value={ shadowObj.color }
 				/>
 			</span>
