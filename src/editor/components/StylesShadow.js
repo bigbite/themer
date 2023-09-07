@@ -7,7 +7,7 @@ import {
 	ColorPalette,
 } from '@wordpress/components';
 
-import { isHex } from '../../utils/block-helpers';
+import { isHex, varToHex } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -52,6 +52,20 @@ const Shadow = ( { selector } ) => {
 			: `${ value.replace( /[^0-9]/g, '' ) }px`;
 	};
 
+	/**
+	 * Parses the color value to hex if possible, defaults to #000000 if not.
+	 *
+	 * @param {string} value - New color value.
+	 * @return {string} - The parsed value.
+	 */
+	const parseColorValue = ( value ) => {
+		if ( ! value ) return '#000000';
+		if ( isHex( value ) ) return value;
+
+		const hexValue = varToHex( value, themePalette );
+		return isHex( hexValue ) ? hexValue : '#000000';
+	};
+
 	// Handles one of the values in the box shadow property changing.
 	const handleNewValue = ( newVal, key ) => {
 		if ( key === 'inset' ) {
@@ -59,7 +73,9 @@ const Shadow = ( { selector } ) => {
 		} else {
 			shadowObj[ key ] = newVal?.trim() || '0px';
 		}
-		const updatedShadowStyles = Object.values( shadowObj ).join( ' ' );
+		const updatedShadowStyles = Object.values( shadowObj )
+			.join( ' ' )
+			.trim();
 
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, updatedShadowStyles );
@@ -77,7 +93,7 @@ const Shadow = ( { selector } ) => {
 		offsetY: parseUserValue( shadowValues?.[ 1 ] ),
 		blurRadius: parseUserValue( shadowValues?.[ 2 ] ),
 		spreadRadius: parseUserValue( shadowValues?.[ 3 ] ),
-		color: shadowColor && isHex( shadowColor ) ? shadowColor : '#000000',
+		color: parseColorValue( shadowColor ),
 	};
 
 	// Units available to select in the unit control components.
