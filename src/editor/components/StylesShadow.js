@@ -161,7 +161,7 @@ const Shadow = ( { selector } ) => {
 			</div>
 			<span>
 				<span className="themer--blocks-item-component--styles--label">
-					{ __( 'Shadow Colour', 'themer' ) }
+					{ __( 'Shadow Color', 'themer' ) }
 				</span>
 				<ColorPalette
 					colors={ themePalette }
