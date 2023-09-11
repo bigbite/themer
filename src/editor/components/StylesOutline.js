@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
 	SelectControl,
-	__experimentalUnitControl as UnitControl,
+	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	ColorPalette,
 } from '@wordpress/components';
 
@@ -14,6 +14,9 @@ import { hexToVar, varToHex } from '../../utils/block-helpers';
 
 /**
  * Reusable outline control style component
+ *
+ * @param {Object} props          Component props
+ * @param {string} props.selector Property target selector
  */
 const Outline = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
@@ -23,7 +26,7 @@ const Outline = ( { selector } ) => {
 		'settings.color.palette.theme',
 		themeConfig
 	);
-	// Specify the units we support as common units like % are not supported by box shadow, but you could still put that in theme.json.
+	// Specify the units we support as common units like % are not supported by outline, but you could still put that in theme.json.
 	const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
 	// Units available to select in the unit control components.
 	const unitControlUnits = ALLOWED_UNITS.map( ( unit ) => {
@@ -54,12 +57,7 @@ const Outline = ( { selector } ) => {
 			: `${ value.replace( /[^0-9]/g, '' ) }px`;
 	};
 
-	/**
-	 * Updates a property value in the outline object.
-	 *
-	 * @param {string} value - New value for the property.
-	 * @param {string} key - The property to be updated.
-	 */
+	// Updates a property value in the outline object.
 	const handleNewValue = ( value, key ) => {
 		outlineStyles[ key ] = value;
 		let config = structuredClone( themeConfig );
@@ -86,7 +84,7 @@ const Outline = ( { selector } ) => {
 			/>
 			<SelectControl
 				label={ __( 'Style', 'themer' ) }
-				value={ outlineStyles?.style }
+				value={ outlineStyles?.style || '' }
 				onChange={ ( newValue ) => handleNewValue( newValue, 'style' ) }
 				options={ [
 					{
