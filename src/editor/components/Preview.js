@@ -40,9 +40,13 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 				level: 1,
 			} ),
 			createBlock( 'core/paragraph', {
-				content: `This is the Post Content block, it will display all the blocks in any single post or page.
-  That might be a simple arrangement like consecutive paragraphs in a blog post, or a more elaborate composition that includes image galleries, videos, tables, columns, and any other block types.
-  If there are any Custom Post Types registered at your site, the Post Content block can display the contents of those entries as well.`,
+				content: `This is the Post Content block, it will display all the blocks in any single post or page.`,
+			} ),
+			createBlock( 'core/paragraph', {
+				content: `That might be a simple arrangement like consecutive paragraphs in a blog post, or a more elaborate composition that includes image galleries, videos, tables, columns, and any other block types.`,
+			} ),
+			createBlock( 'core/paragraph', {
+				content: `If there are any Custom Post Types registered at your site, the Post Content block can display the contents of those entries as well.`,
 			} ),
 			createBlock( 'core/list', {
 				values: '<li>one</li><li>two</li><li>three</li>',
