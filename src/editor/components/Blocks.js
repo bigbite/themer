@@ -23,18 +23,18 @@ const Blocks = () => {
 				) }
 			</p>
 			<Search setValue={ setSearchValue } />
-			{ getCoreBlocks( undefined, themeConfig, schema )?.map(
+			{ getCoreBlocks( 1 )?.map(
 				( block ) => {
 					if (
 						searchValue?.length > 0 &&
-						! block.toLowerCase().includes( searchValue )
+						! block.name.toLowerCase().includes( searchValue )
 					) {
 						return false;
 					}
 
 					return (
 						<BlocksItem
-							key={ block }
+							key={ block.name }
 							block={ block }
 							themeConfig={ themeConfig }
 						/>

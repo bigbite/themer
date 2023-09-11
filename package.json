@@ -18,7 +18,7 @@
 		"@wordpress/edit-site": "^5.8.0",
 		"@wordpress/element": "^5.8.0",
 		"@wordpress/i18n": "^4.20.0",
-		"@wordpress/icons": "^9.28.0",
+		"@wordpress/icons": "^9.32.0",
 		"@wordpress/plugins": "^6.3.0",
 		"lodash": "^4.17.21"
 	},

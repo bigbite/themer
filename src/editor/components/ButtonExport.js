@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
-import { Button } from '@wordpress/components';
+import { Icon, external } from '@wordpress/icons';
 
 /**
  * Renders the button to export theme.json
@@ -47,15 +47,13 @@ const ButtonExport = () => {
 	}
 
 	return (
-		<Button
-			isPrimary
-			isBusy={ isFetching }
-			disabled={ isFetching }
+		<a
+			className="components-button has-icon"
 			onClick={ fetchThemeJSON }
 			aria-label={ __( 'Export theme.json', 'themer' ) }
 		>
-			{ __( 'Export theme.json', 'themer' ) }
-		</Button>
+			<Icon icon={external} />
+		</a>
 	);
 };
 

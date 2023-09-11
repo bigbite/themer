@@ -14,7 +14,7 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		return;
 	}
 
-	const blockSelector = [ 'styles', 'blocks', block ];
+	const blockSelector = [ 'styles', 'blocks', block.name ];
 	const hasBorderStyles = getThemeOption(
 		[ ...blockSelector, 'border' ].join( '.' ),
 		themeConfig
@@ -26,7 +26,12 @@ const BlocksItem = ( { block, themeConfig } ) => {
 
 	return (
 		<details className="themer--blocks-item-component">
-			<summary>{ block }</summary>
+			<summary>
+				<span>
+					{ block?.icon?.src }
+					{ block?.title }
+				</span>
+			</summary>
 			<div className="themer--blocks-item-component--styles">
 				{ hasBorderStyles && (
 					<Border

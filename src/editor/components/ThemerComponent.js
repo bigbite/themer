@@ -169,6 +169,7 @@ const ThemerComponent = () => {
 					{ validThemeJson === true && (
 						<>
 							<div className="themer-topbar">
+								<ButtonExport />
 								<Button
 									isSecondary
 									onClick={ () => reset() }
@@ -235,7 +236,6 @@ const ThemerComponent = () => {
 										previewCss={ previewCss }
 										previewSize={ previewSize }
 									/>
-									<ButtonExport />
 								</div>
 							</div>
 						</>
