@@ -10,7 +10,7 @@ import {
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
-import { hexToVar, varToHex, isCssUnit } from '../../utils/block-helpers';
+import { hexToVar, varToHex, isCssLengthUnit } from '../../utils/block-helpers';
 
 /**
  * Reusable outline control style component
@@ -46,7 +46,7 @@ const Outline = ( { selector } ) => {
 	 * @return {string} - The parsed value.
 	 */
 	const parseUserValue = ( value ) => {
-		if ( ! value || ! isCssUnit( value ) ) {
+		if ( value === '' || ! isCssLengthUnit( value ) ) {
 			return '0px';
 		}
 		return ALLOWED_UNITS.some( ( unit ) => value.includes( unit ) )
@@ -78,6 +78,7 @@ const Outline = ( { selector } ) => {
 				value={ parseUserValue( outlineStyles?.width ) }
 				onChange={ ( newValue ) => handleNewValue( newValue, 'width' ) }
 				units={ unitControlUnits }
+				min={ 0 }
 			/>
 			<SelectControl
 				label={ __( 'Style', 'themer' ) }

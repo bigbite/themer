@@ -119,7 +119,7 @@ export const hexToVar = ( cssHex, themePalette ) => {
  * @param {string} value - Value to be checked.
  * @return {boolean}
  */
-export const isCssUnit = ( value ) => {
-	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
+export const isCssLengthUnit = ( value ) => {
+	const LENGTH_REG = /^[-]?[0-9]+[a-zA-Z%]+?$/;
 	return value === '0' || LENGTH_REG.test( value );
 };
