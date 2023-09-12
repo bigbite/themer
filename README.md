@@ -95,6 +95,6 @@ There are 280 experimental APIs in WordPress core that shouldn't have been merge
 
 1. Make sure we’re using the stable alias on experimental imports, for example
 
-`import {     __experimentalVStack as VStack, } from '@wordpress/components';`
+`import { __experimentalVStack as VStack } from '@wordpress/components';`
 
 2. Only use \_\_experimental that have been merged to core, to ensure this DO NOT USE THE GUTENBERG PLUGIN , if an experimental API is merged to core then it will gradually get handled in future core releases.
