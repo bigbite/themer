@@ -88,43 +88,43 @@ const Outline = ( { selector } ) => {
 				options={ [
 					{
 						disabled: true,
-						label: 'Select an Option',
+						label: __( 'Select an option', 'themer' ),
 						value: '',
 					},
 					{
-						label: 'None',
+						label: __( 'None', 'themer' ),
 						value: 'none',
 					},
 					{
-						label: 'Dotted',
+						label: __( 'Dotted', 'themer' ),
 						value: 'dotted',
 					},
 					{
-						label: 'Dashed',
+						label: __( 'Dashed', 'themer' ),
 						value: 'dashed',
 					},
 					{
-						label: 'Solid',
+						label: __( 'Solid', 'themer' ),
 						value: 'solid',
 					},
 					{
-						label: 'Double',
+						label: __( 'Double', 'themer' ),
 						value: 'double',
 					},
 					{
-						label: 'Groove',
+						label: __( 'Groove', 'themer' ),
 						value: 'groove',
 					},
 					{
-						label: 'Ridge',
+						label: __( 'Ridge', 'themer' ),
 						value: 'ridge',
 					},
 					{
-						label: 'Inset',
+						label: __( 'Inset', 'themer' ),
 						value: 'inset',
 					},
 					{
-						label: 'Outset',
+						label: __( 'Outset', 'themer' ),
 						value: 'outset',
 					},
 				] }
