@@ -1,0 +1,66 @@
+.themer--blocks-item-component {
+	container-type: inline-size;
+	padding: 8px 32px;
+
+	> summary {
+		display: flex;
+		cursor: pointer;
+		list-style: none;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	> summary::after {
+		content: "+";
+	}
+
+	&[open] > summary::after {
+		content: "-";
+	}
+
+	> summary svg {
+		width: 24px;
+		margin: 0 6px 0 0;
+		display: inline-block;
+		vertical-align: middle;
+	}
+
+	.themer--blocks-item-component--styles {
+		gap: 16px;
+		display: flex;
+		padding: 25px 0px;
+		flex-direction: column;
+	}
+
+	> .themer--blocks-item-component--styles > * {
+		flex: 1 1 auto;
+	}
+
+	.themer--blocks-item-component--styles--title {
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.themer--blocks-item-component--styles--label {
+		font-weight: 600;
+		font-size: 11px;
+		line-height: 25.4px;
+		text-transform: uppercase;
+	}
+	
+	.themer--blocks-item-component--columns {
+		display: grid;
+		grid-gap: 5%;
+	} 
+	
+	.themer--blocks-item-component--columns-2 {
+		grid-template-columns: 47.5% 47.5%;
+	}
+	
+	@container (max-width: 540px) {
+		.themer--blocks-item-component--columns-2 {
+			grid-template-columns: 100%;
+		}
+	}
+}

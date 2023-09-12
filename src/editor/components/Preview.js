@@ -20,8 +20,9 @@ import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
  * @param {Object} props
  * @param {Object} props.baseOptions
  * @param {string} props.previewCss
+ * @param {string} props.previewSize
  */
-function Preview( { baseOptions, previewCss } ) {
+function Preview( { baseOptions, previewCss, previewSize } ) {
 	const [ blocks, updateBlocks ] = useState();
 
 	const editorStyles = useMemo( () => {
@@ -36,6 +37,7 @@ function Preview( { baseOptions, previewCss } ) {
 		updateBlocks( [
 			createBlock( 'core/heading', {
 				content: 'Post title',
+				level: 1,
 			} ),
 			createBlock( 'core/paragraph', {
 				content: `This is the Post Content block, it will display all the blocks in any single post or page.
@@ -51,10 +53,26 @@ function Preview( { baseOptions, previewCss } ) {
 
 	const contentRef = useRef();
 
+	const handlePreviewSize = () => {
+		switch ( previewSize ) {
+			case 'desktop':
+				return '768px';
+			case 'tablet':
+				return '514px';
+			case 'mobile':
+				return '384px';
+			default:
+				return '768px';
+		}
+	};
+
 	return (
 		<ShortcutProvider>
 			<BlockEditorProvider value={ blocks } settings={ baseOptions }>
-				<div className="editor-styles-wrapper">
+				<div
+					className="editor-styles-wrapper"
+					style={ { width: handlePreviewSize() } }
+				>
 					<EditorStyles styles={ [ { css: previewCss } ] } />
 					<BlockTools
 						className={
@@ -65,7 +83,7 @@ function Preview( { baseOptions, previewCss } ) {
 						<BlockList
 							renderAppender={ false }
 							className={
-								'edit-site-block-editor__block-list wp-site-blocks'
+								'edit-site-block-editor__block-list wp-site-blocks has-global-padding'
 							}
 						/>
 					</BlockTools>
