@@ -12,6 +12,17 @@ import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import { hexToVar, varToHex, isCssLengthUnit } from '../../utils/block-helpers';
 
+// Specify the units we support as common units like % are not supported by outline, but you could still put that in theme.json.
+const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
+// Units available to select in the unit control components.
+const unitControlUnits = ALLOWED_UNITS.map( ( unit ) => {
+	return {
+		value: unit,
+		label: unit,
+		default: 0,
+	};
+} );
+
 /**
  * Reusable outline control style component
  *
@@ -26,16 +37,6 @@ const Outline = ( { selector } ) => {
 		'settings.color.palette.theme',
 		themeConfig
 	);
-	// Specify the units we support as common units like % are not supported by outline, but you could still put that in theme.json.
-	const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
-	// Units available to select in the unit control components.
-	const unitControlUnits = ALLOWED_UNITS.map( ( unit ) => {
-		return {
-			value: unit,
-			label: unit,
-			default: 0,
-		};
-	} );
 
 	/**
 	 * Parses the value stored in theme.json to a valid value that uses our supported units.
