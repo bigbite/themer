@@ -113,11 +113,11 @@ export const hexToVar = ( cssHex, themePalette ) => {
 };
 
 /**
- * Returns if a value is a css unit.
- * This will pass on any combination of a number followed by x number of letters, so its recommended to use this with another check on the specific units you want to support.
+ * Returns if a value is in the format of css unit.
+ * This will pass on any combination of an optional '-' and number followed by x number of letters, so its recommended to use this with another check on the specific units you want to support.
  *
  * @param {string} value - Value to be checked.
- * @return {boolean}
+ * @return {boolean} - If the value is likely a css unit.
  */
 export const isCssLengthUnit = ( value ) => {
 	const LENGTH_REG = /^[-]?[0-9]+[a-zA-Z%]+?$/;
