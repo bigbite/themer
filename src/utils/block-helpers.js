@@ -111,3 +111,15 @@ export const hexToVar = ( cssHex, themePalette ) => {
 		? `var(--wp--preset--color--${ colorObj.slug })`
 		: cssHex;
 };
+
+/**
+ * Returns if a value is a css unit.
+ * This will pass on any combination of a number followed by x number of letters, so its recommended to use this with another check on the specific units you want to support.
+ *
+ * @param {string} value - Value to be checked.
+ * @return {boolean}
+ */
+export const isCssUnit = ( value ) => {
+	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
+	return value === '0' || LENGTH_REG.test( value );
+};

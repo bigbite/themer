@@ -10,7 +10,7 @@ import {
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
-import { hexToVar, varToHex } from '../../utils/block-helpers';
+import { hexToVar, varToHex, isCssUnit } from '../../utils/block-helpers';
 
 /**
  * Reusable outline control style component
@@ -36,9 +36,6 @@ const Outline = ( { selector } ) => {
 			default: 0,
 		};
 	} );
-
-	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
-	const isCssUnit = ( value ) => value === '0' || LENGTH_REG.test( value );
 
 	/**
 	 * Parses the value stored in theme.json to a valid value that uses our supported units.
