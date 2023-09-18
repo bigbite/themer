@@ -1,12 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { useState } from '@wordpress/element';
-import { Icon, external } from '@wordpress/icons';
+import { download } from '@wordpress/icons';
+import { MenuGroup, MenuItem } from '@wordpress/components';
+
 
 /**
- * Renders the button to export theme.json
+ * Renders the tools menu
  */
-const ButtonExport = () => {
+const ToolsMoreMenuGroup = () => {
 	const [ isFetching, setIsFetching ] = useState( false );
 	const isExportSupported =
 		window.isSecureContext && 'showSaveFilePicker' in window;
@@ -47,14 +49,18 @@ const ButtonExport = () => {
 	}
 
 	return (
-		<a
-			className="components-button has-icon"
-			onClick={ fetchThemeJSON }
-			aria-label={ __( 'Export theme.json', 'themer' ) }
-		>
-			<Icon icon={external} />
-		</a>
+		<MenuGroup label={__('Tools', 'themer')}>
+            <MenuItem 
+                icon={ download } 
+                onClick={ fetchThemeJSON }
+                info={ __(
+                    'Export the updated theme.json file', 'themer'
+                ) }
+            >
+                {__('Export', 'themer')}
+            </MenuItem>
+        </MenuGroup>
 	);
 };
 
-export default ButtonExport;
+export default ToolsMoreMenuGroup;

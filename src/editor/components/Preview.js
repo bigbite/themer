@@ -52,6 +52,14 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 				values: '<li>one</li><li>two</li><li>three</li>',
 				ordered: true,
 			} ),
+			createBlock( 'core/quote', {
+				value: `<p>I never even thought about whether or not they understand what I'm doing… the emotional reaction is all that matters. As long as there's some feeling of communication, it isn't necessary that it be understood.</p>`,
+				citation: 'John Coltrane',
+			} ),
+			createBlock( 'core/pullquote', {
+				value: `<p>It's not about standing still and becoming safe. If anybody wants to keep creating they have to be about change.</p>`,
+				citation: 'Miles Davis',
+			} ),
 		] );
 	}, [ editorStyles ] );
 

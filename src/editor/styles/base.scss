@@ -27,8 +27,8 @@
   margin: 0;
   padding: 0 20px;
   
-  button {
+  & > button {
     margin: 10px;
-	box-shadow: none !important;
+	  box-shadow: none !important;
   }
 }

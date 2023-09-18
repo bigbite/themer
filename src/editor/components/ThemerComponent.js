@@ -10,7 +10,7 @@ import Colours from './Colours';
 import Preview from './Preview';
 import Typography from './Typography';
 import CustomBlocks from './CustomBlocks';
-import ButtonExport from './ButtonExport';
+import MoreMenuDropdown from './MoreMenuDropdown';
 import ResponsiveButton from './ResponsiveButton';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -169,7 +169,6 @@ const ThemerComponent = () => {
 					{ validThemeJson === true && (
 						<>
 							<div className="themer-topbar">
-								<ButtonExport />
 								<Button
 									isSecondary
 									onClick={ () => reset() }
@@ -180,6 +179,7 @@ const ThemerComponent = () => {
 									onClick={ () => save() }
 									text="Save"
 								/>
+								<MoreMenuDropdown />
 							</div>
 							<div className="themer-body">
 								<div className="themer-nav-container">

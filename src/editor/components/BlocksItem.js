@@ -24,6 +24,11 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		themeConfig
 	);
 
+	// Temp for demo purposes only.
+	if (!hasBorderStyles && !hasColorStyles) {
+		return;
+	}
+
 	return (
 		<details className="themer--blocks-item-component">
 			<summary>
