@@ -98,6 +98,8 @@ const Dimensions = ( { selector } ) => {
 		}
 	};
 
+	console.log( selectValue );
+
 	return (
 		<>
 			<span className="themer--blocks-item-component--styles--title">
@@ -124,7 +126,7 @@ const Dimensions = ( { selector } ) => {
 					value={ unitValue }
 					onChange={ ( newVal ) => handleUnitChange( newVal ) }
 					disabled={
-						selectValue !== 'fit-content' || selectValue !== 'unit'
+						selectValue !== 'fit-content' && selectValue !== 'unit'
 					}
 				/>
 			</div>
