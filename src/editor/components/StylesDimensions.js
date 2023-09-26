@@ -62,8 +62,8 @@ const Dimensions = ( { selector } ) => {
 	const { setUserConfig } = useContext( StylesContext );
 	const dimensionsStyles = getThemeOption( selector, themeConfig );
 	const { minHeight } = dimensionsStyles;
-	const selectValue = parseSelectValue( minHeight );
-	const unitValue = parseUnitValue( minHeight, selectValue );
+	const selectValue = parseSelectValue( minHeight.trim() );
+	const unitValue = parseUnitValue( minHeight.trim(), selectValue );
 
 	// Updates a property value in the outline object.
 	const handleNewValue = ( value ) => {
