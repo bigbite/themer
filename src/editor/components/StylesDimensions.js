@@ -17,7 +17,7 @@ const SELECT_OPTIONS = [
 		label: __( 'Select an Option', 'themer' ),
 		value: '',
 	},
-	{ label: __( 'Unit value', 'themer' ), value: 'unit' },
+	{ label: __( 'Absolute Value', 'themer' ), value: 'unit' },
 	{ label: __( 'Fit Content', 'themer' ), value: 'fit-content' },
 	{ label: __( 'Min Content', 'themer' ), value: 'min-content' },
 	{ label: __( 'Max Content', 'themer' ), value: 'max-content' },
@@ -108,6 +108,9 @@ const Dimensions = ( { selector } ) => {
 					'Manage the default dimensions of different global elements on the site.',
 					'themer'
 				) }
+			</span>
+			<span className="themer--blocks-item-component--styles--label">
+				{ __( 'Min Height', 'themer' ) }
 			</span>
 			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
 				<SelectControl
