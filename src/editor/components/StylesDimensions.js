@@ -98,8 +98,6 @@ const Dimensions = ( { selector } ) => {
 		}
 	};
 
-	console.log( selectValue );
-
 	return (
 		<>
 			<span className="themer--blocks-item-component--styles--title">
