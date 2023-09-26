@@ -124,8 +124,7 @@ const Dimensions = ( { selector } ) => {
 					value={ unitValue }
 					onChange={ ( newVal ) => handleUnitChange( newVal ) }
 					disabled={
-						selectValue === 'min-content' ||
-						selectValue === 'max-content'
+						selectValue !== 'fit-content' || selectValue !== 'unit'
 					}
 				/>
 			</div>
