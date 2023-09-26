@@ -7,10 +7,38 @@ import {
 	ColorPalette,
 } from '@wordpress/components';
 
-import { isHex, varToHex, hexToVar } from '../../utils/block-helpers';
+import { varToHex, hexToVar, isCssLengthUnit } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+
+// Specify the units we support as common units like % are not supported by box shadow, but you could still put that in theme.json.
+const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
+// Units available to select in the unit control components.
+const unitControlUnits = ALLOWED_UNITS.map( ( unit ) => {
+	return {
+		value: unit,
+		label: unit,
+		default: 0,
+	};
+} );
+
+/**
+ * Parses the value stored in theme.json to a valid value that uses our supported units.
+ * If a user first entered a bad value, e.g. 6ls, then we will default to 6px.
+ * If a user supplies no value, we will default to 0px.
+ *
+ * @param {string} value - Value to be parsed.
+ * @return {string} - The parsed value.
+ */
+const parseUserValue = ( value ) => {
+	if ( value === '' || ! isCssLengthUnit( value ) ) {
+		return '0px';
+	}
+	return ALLOWED_UNITS.some( ( unit ) => value.includes( unit ) )
+		? value
+		: `${ value.replace( /[^0-9]/g, '' ) }px`;
+};
 
 /**
  * Reusable shadow control style component
@@ -26,53 +54,14 @@ const Shadow = ( { selector } ) => {
 		'settings.color.palette.theme',
 		themeConfig
 	);
-
-	// Regex to match a number followed by a unit, e.g. 6px, 6em, 6rem, 6vh, 6vw.
-	const LENGTH_REG = /^[0-9]+[a-zA-Z%]+?$/;
-	const isCssUnit = ( value ) =>
-		( value === '0' || LENGTH_REG.test( value ) ) && value !== 'inset';
-
-	// Specify the units we support as common units like % are not supported by box shadow, but you could still put that in theme.json.
-	const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
-
-	/**
-	 * Parses the value first stored in theme.json to a valid value that uses our supported units.
-	 * If a user first entered a bad value, e.g. 6ls, then we will default to 6px.
-	 * If a user supplies no value, we will default to 0px.
-	 *
-	 * @param {string} value - One of the box shadow values e.g. 6px
-	 * @return {string} - The parsed value.
-	 */
-	const parseUserValue = ( value ) => {
-		if ( ! value ) {
-			return '0px';
-		}
-		return ALLOWED_UNITS.some( ( unit ) => value.includes( unit ) )
-			? value
-			: `${ value.replace( /[^0-9]/g, '' ) }px`;
-	};
-
-	/**
-	 * Parses the color value to hex if possible, defaults to #000000 if not.
-	 *
-	 * @param {string} value - New color value.
-	 * @return {string} - The parsed value.
-	 */
-	const parseColorValue = ( value ) => {
-		if ( ! value ) return '#000000';
-		if ( isHex( value ) ) return value;
-
-		const hexValue = varToHex( value, themePalette );
-		return isHex( hexValue ) ? hexValue : '#000000';
-	};
+	const COLOR_FALLBACK = hexToVar( '#000000', themePalette );
 
 	// Handles one of the values in the box shadow property changing.
 	const handleNewValue = ( newVal, key ) => {
 		if ( key === 'inset' ) {
 			shadowObj[ key ] = newVal ? 'inset' : '';
 		} else if ( key === 'color' ) {
-			shadowObj[ key ] =
-				newVal?.trim() || hexToVar( '#000000', themePalette );
+			shadowObj[ key ] = newVal?.trim() || COLOR_FALLBACK;
 		} else {
 			shadowObj[ key ] = newVal?.trim() || '0px';
 		}
@@ -85,28 +74,22 @@ const Shadow = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	const shadowStylesArray = shadowStyles.split( ' ' );
-	const shadowValues = shadowStylesArray.filter( isCssUnit ).slice( 0, 4 );
-	const shadowColor = shadowStylesArray.find(
-		( value ) => ! isCssUnit( value ) && value !== 'inset'
-	);
+	const shadowUnitValues = shadowStyles
+		.split( ' ' )
+		.filter( isCssLengthUnit );
+	// Remove 'inset' and each of the unit values from the string to get the color
+	let shadowColor = shadowStyles.replace( 'inset', '' ).trim();
+	shadowUnitValues.forEach( ( value ) => {
+		shadowColor = shadowColor.replace( value, '' ).trim();
+	} );
 	const shadowObj = {
 		inset: shadowStyles.includes( 'inset' ) ? 'inset' : '',
-		offsetX: parseUserValue( shadowValues?.[ 0 ] ),
-		offsetY: parseUserValue( shadowValues?.[ 1 ] ),
-		blurRadius: parseUserValue( shadowValues?.[ 2 ] ),
-		spreadRadius: parseUserValue( shadowValues?.[ 3 ] ),
-		color: parseColorValue( shadowColor ),
+		offsetX: parseUserValue( shadowUnitValues?.[ 0 ] ),
+		offsetY: parseUserValue( shadowUnitValues?.[ 1 ] ),
+		blurRadius: parseUserValue( shadowUnitValues?.[ 2 ] ),
+		spreadRadius: parseUserValue( shadowUnitValues?.[ 3 ] ),
+		color: shadowColor || COLOR_FALLBACK,
 	};
-
-	// Units available to select in the unit control components.
-	const unitControlUnits = ALLOWED_UNITS.map( ( unit ) => {
-		return {
-			value: unit,
-			label: unit,
-			default: 0,
-		};
-	} );
 
 	return (
 		<>
@@ -171,7 +154,7 @@ const Shadow = ( { selector } ) => {
 							'color'
 						)
 					}
-					value={ shadowObj.color }
+					value={ varToHex( shadowObj.color, themePalette ) }
 				/>
 			</span>
 		</>
