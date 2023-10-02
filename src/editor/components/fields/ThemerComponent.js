@@ -1,7 +1,7 @@
-import { mergeWith, isEmpty } from 'lodash';
+import { mergeWith, isEmpty, debounce } from 'lodash';
 import { Button, Spinner, TabPanel } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useRef } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 
 import Preview from './Preview';
@@ -51,19 +51,38 @@ const ThemerComponent = () => {
 	 * Fetch new preview CSS whenever config is changed
 	 */
 	useEffect( () => {
+		const controller = new AbortController();
+
 		const updatePreviewCss = async () => {
-			const res = await apiFetch( {
-				path: '/themer/v1/styles',
-				method: 'POST',
-				data: themeConfig,
-			} );
-			if ( res ) {
-				setPreviewCss( res );
+			try {
+				const res = await apiFetch( {
+					path: '/themer/v1/styles',
+					method: 'POST',
+					data: themeConfig,
+					signal: controller.signal,
+				} );
+				if ( res ) {
+					setPreviewCss( res );
+				}
+			} catch ( err ) {
+				if ( err.name !== 'AbortError' ) {
+					// eslint-disable-next-line no-console - allow logging error to console
+					console.error( err );
+				}
 			}
 		};
+
+		// debounce updatePreviewCss to prevent excessive API calls
+		const updatePreviewCssDebounced = debounce( updatePreviewCss, 100 );
+
 		if ( themeConfig ) {
-			updatePreviewCss();
+			updatePreviewCssDebounced();
 		}
+
+		return () => {
+			// abort any pending API calls when component unmounts/re-renders
+			controller.abort();
+		};
 	}, [ themeConfig, setPreviewCss ] );
 
 	/**
