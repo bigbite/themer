@@ -37,6 +37,7 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 		updateBlocks( [
 			createBlock( 'core/heading', {
 				content: 'Post title',
+				level: 1,
 			} ),
 			createBlock( 'core/paragraph', {
 				content: `This is the Post Content block, it will display all the blocks in any single post or page.
@@ -82,7 +83,7 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 						<BlockList
 							renderAppender={ false }
 							className={
-								'edit-site-block-editor__block-list wp-site-blocks'
+								'edit-site-block-editor__block-list wp-site-blocks has-global-padding'
 							}
 						/>
 					</BlockTools>

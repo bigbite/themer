@@ -28,6 +28,11 @@ class Loader {
 	 * @return void
 	 */
 	public function enqueue_themer_assets() : void {
+		$current_screen = get_current_screen();
+		if ( 'appearance_page_styles_editor' !== $current_screen->id ) {
+			return;
+		}
+
 		$plugin_name = basename( THEMER_DIR );
 		$asset_file  = include THEMER_DIR . '/build/index.asset.php';
 
