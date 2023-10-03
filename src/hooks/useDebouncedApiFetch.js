@@ -1,15 +1,14 @@
 import apiFetch from '@wordpress/api-fetch';
-import { APIFetchOptions } from '@wordpress/api-fetch/src/types';
 import { useEffect, useState } from '@wordpress/element';
 import { debounce } from 'lodash';
 
 /**
  * Debounces an API fetch call and returns the response
  *
- * @param {*}               initialState - initial state, returned if the api call fails
- * @param {APIFetchOptions} args         - api fetch options
- * @param {*}               value        - value to check for changes
- * @param {*}               delay        - debounce delay
+ * @param {*}      initialState - initial state, returned if the api call fails
+ * @param {Object} args         - api fetch options
+ * @param {*}      value        - value to check for changes
+ * @param {*}      delay        - debounce delay
  * @return {*} API response
  */
 const useDebouncedApiFetch = ( initialState, args, value, delay = 1000 ) => {
