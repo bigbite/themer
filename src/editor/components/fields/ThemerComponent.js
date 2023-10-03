@@ -1,4 +1,4 @@
-import { mergeWith, isEmpty, debounce } from 'lodash';
+import { mergeWith, isEmpty } from 'lodash';
 import { Button, Spinner, TabPanel } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useMemo } from '@wordpress/element';
