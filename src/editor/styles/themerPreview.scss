@@ -1,12 +1,15 @@
 .themer-preview-container {
-  width: 729px;
+  min-width: 768px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-left: 20px;
 
+
   .editor-styles-wrapper {
-    border: #ccc 1px solid;
+    max-width: 768px;
     min-height: 754px;
+    border: #ccc 1px solid;
   }
 }
 
@@ -17,3 +20,14 @@
 		display: none !important;
 	}
 }
+
+.themer-responsive-top {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.themer-responsive-button {
+  border: none;
+}
+

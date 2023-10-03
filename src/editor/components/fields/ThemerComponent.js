@@ -1,16 +1,20 @@
 import { mergeWith, isEmpty } from 'lodash';
 import { Button, Spinner, TabPanel } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
-import { useMemo } from '@wordpress/element';
+import { useMemo, useState } from '@wordpress/element';
 
 import Preview from './Preview';
 import Fields from './Fields';
 import useDebouncedApiFetch from '../../../hooks/useDebouncedApiFetch';
+import ResponsiveButton from './ResponsiveButton';
+import ButtonExport from '../ButtonExport';
 
 /**
  * main component
  */
 const ThemerComponent = () => {
+	const [ previewSize, setPreviewSize ] = useState();
+
 	const { globalStylesId, baseConfig, userConfig } = useSelect(
 		( select ) => {
 			const {
@@ -134,10 +138,16 @@ const ThemerComponent = () => {
 					</TabPanel>
 				</div>
 				<div className="themer-preview-container">
+					<ResponsiveButton
+						setPreviewSize={ setPreviewSize }
+						previewSize={ previewSize }
+					/>
 					<Preview
 						baseOptions={ baseConfig }
 						previewCss={ previewCss }
+						previewSize={ previewSize }
 					/>
+					<ButtonExport />
 				</div>
 			</div>
 		</>
