@@ -28,7 +28,7 @@ const useDebouncedApiFetch = ( initialState, args, value, delay = 1000 ) => {
 				}
 			} catch ( err ) {
 				if ( err.name !== 'AbortError' ) {
-					// eslint-disable-next-line no-console - allow logging error to console
+					// eslint-disable-next-line no-console
 					console.error( err );
 				}
 			}
