@@ -17,11 +17,12 @@ import StylesContext from '../context/StylesContext';
 import fetchSchema from '../../utils/schema-helpers';
 import ThemerNotice from './ThemerNotice';
 
+import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
+
 /**
  * main component
  */
 const ThemerComponent = () => {
-	const [ previewCss, setPreviewCss ] = useState( '' );
 	const [ previewSize, setPreviewSize ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
@@ -72,21 +73,16 @@ const ThemerComponent = () => {
 	/**
 	 * Fetch new preview CSS whenever config is changed
 	 */
-	useEffect( () => {
-		const updatePreviewCss = async () => {
-			const res = await apiFetch( {
-				path: '/themer/v1/styles',
-				method: 'POST',
-				data: themeConfig,
-			} );
-			if ( res ) {
-				setPreviewCss( res );
-			}
-		};
-		if ( themeConfig ) {
-			updatePreviewCss();
-		}
-	}, [ themeConfig, setPreviewCss ] );
+	const previewCss = useDebouncedApiFetch(
+		'',
+		{
+			path: '/themer/v1/styles',
+			method: 'POST',
+			data: themeConfig || {},
+		},
+		themeConfig,
+		100
+	);
 
 	/**
 	 * Check if a valid theme.json is loaded.
