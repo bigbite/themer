@@ -114,35 +114,13 @@ export const hexToVar = ( cssHex, themePalette ) => {
 };
 
 /**
-* @param {Object} spacing      Object of css spacing
-* @param {Array}  themeSpacing The themes palette as an array of objects
-*
-* @return {string} Object of css spacing where css variables are converted
-* to actual values
-*/
-export const varToSpacing = ( spacing, themeSpacing, themeConfig ) => {
-   if ( spacing === null ) {
-	   return spacing;
-   }
-
-   Object.keys( spacing ).map( ( key ) => {
-
-	   let cssVarName = '';
-
-	   const regexMatches = spacing[ key ].matchAll(
-		   /var\(--wp--preset--spacing--(.+?)\)/g
-	   );
-
-	   for (const regexMatch of regexMatches) {
-		   if ( regexMatch[1] ) {
-			   cssVarName = `var:preset|spacing|${regexMatch[1]}`;
-		   }
-	   }
-
-	   if (cssVarName !== '') {
-		   spacing[ key ] = getCustomValueFromPreset( cssVarName, themeSpacing['theme'] );
-	   }
-   });
-
-   return spacing;
+ * Returns if a value is in the format of css unit.
+ * This will pass on any combination of an optional '-' and number followed by x number of letters, so its recommended to use this with another check on the specific units you want to support.
+ *
+ * @param {string} value - Value to be checked.
+ * @return {boolean} - If the value is likely a css unit.
+ */
+export const isCssLengthUnit = ( value ) => {
+	const LENGTH_REG = /^[-]?[0-9]+[a-zA-Z%]+?$/;
+	return value === '0' || LENGTH_REG.test( value );
 };

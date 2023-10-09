@@ -1,40 +1,97 @@
 import { __ } from '@wordpress/i18n';
+import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
-import { __experimentalSpacingSizesControl as SpacingSizesControl } from '@wordpress/block-editor';
+import {
+	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+	__experimentalBoxControl as BoxControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+} from '@wordpress/components';
 
-import { varToSpacing } from '../../utils/block-helpers';
+import { isCssLengthUnit } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
+import StylesContext from '../context/StylesContext';
+
+const parseUserValue = ( value, allowNegativeValues = true ) => {
+	if (
+		value === '' ||
+		! isCssLengthUnit( value ) ||
+		( ! allowNegativeValues && ! value )
+	) {
+		return '0px';
+	}
+
+	return value;
+};
+
+const parseMarginPaddingValues = ( type, spacingStyles ) => {
+	if ( ! spacingStyles?.[ type ] ) {
+		return {};
+	}
+	const keys = Object.keys( spacingStyles?.[ type ] );
+
+	keys.forEach( ( key ) => {
+		const allowNegativeValues = type === 'margin' || false;
+		const parsedValue = parseUserValue(
+			spacingStyles?.[ type ]?.[ key ],
+			allowNegativeValues
+		);
+		spacingStyles[ type ][ key ] = parsedValue;
+	} );
+
+	return spacingStyles[ type ];
+};
 
 /**
  * Reusable spacing control style component
+ *
+ * @param {Object} props          Component props
+ * @param {string} props.selector Property target selector
  */
 const Spacing = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
+	const { setUserConfig } = useContext( StylesContext );
 	const spacingStyles = getThemeOption( selector, themeConfig );
-	const themeSpacing = getThemeOption(
-		'settings.spacing.spacingSizes',
-		themeConfig
-	);
 
-	const allControls = Object.keys( spacingStyles ).map( ( key ) => (
-		<div key={ key } className="themer--blocks-item-component--column">
-			<SpacingSizesControl 
-				values={ varToSpacing(spacingStyles[key], themeSpacing) }
-				label={ key }
-				allowReset={ false }
-			/>
-		</div>
-	) );
+	const handleNewValue = ( newVal, type ) => {
+		if ( type === 'margin' || type === 'padding' ) {
+			const spacingKeys = Object.keys( newVal );
+			spacingKeys.forEach( ( key ) => {
+				if ( ! newVal[ key ] ) {
+					newVal[ key ] = '0px';
+				}
+			} );
+			spacingStyles[ type ] = { ...newVal };
+		} else {
+			spacingStyles[ type ] = newVal;
+		}
+
+		let config = structuredClone( themeConfig );
+		config = set( config, selector, spacingStyles );
+		setUserConfig( config );
+	};
 
 	return (
 		<>
 			<span className="themer--blocks-item-component--styles--title">
 				{ __( 'Spacing', 'themer' ) }
 			</span>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
-				{ allControls }
-			</div>
+			<UnitControl
+				label={ __( 'Block Gap', 'themer' ) }
+				value={ parseUserValue( spacingStyles?.blockGap ) }
+				onChange={ ( newVal ) => handleNewValue( newVal, 'blockGap' ) }
+			/>
+			<BoxControl
+				values={ parseMarginPaddingValues( 'padding', spacingStyles ) }
+				onChange={ ( newVal ) => handleNewValue( newVal, 'padding' ) }
+				label={ __( 'Padding', 'themer' ) }
+				allowReset={ false }
+			/>
+			<BoxControl
+				values={ parseMarginPaddingValues( 'margin', spacingStyles ) }
+				onChange={ ( newVal ) => handleNewValue( newVal, 'margin' ) }
+				label={ __( 'Margin', 'themer' ) }
+				allowReset={ false }
+			/>
 		</>
 	);
 };

@@ -23,7 +23,7 @@ const BlocksItem = ( { block, themeConfig } ) => {
 	const hasColorStyles = getThemeOption(
 		[ ...blockSelector, 'color' ].join( '.' ),
 		themeConfig
-		);
+	);
 	const hasSpacingStyles = getThemeOption(
 		[ ...blockSelector, 'spacing' ].join( '.' ),
 		themeConfig
