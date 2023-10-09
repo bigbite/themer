@@ -2,7 +2,6 @@ import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
 	getColorObjectByColorValue,
-	getCustomValueFromPreset,
 } from '@wordpress/block-editor';
 
 /**
