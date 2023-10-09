@@ -1,5 +1,6 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Spacing from './StylesSpacing';
 import getThemeOption from '../../utils/get-theme-option';
 
 /**
@@ -22,6 +23,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 	const hasColorStyles = getThemeOption(
 		[ ...blockSelector, 'color' ].join( '.' ),
 		themeConfig
+		);
+	const hasSpacingStyles = getThemeOption(
+		[ ...blockSelector, 'spacing' ].join( '.' ),
+		themeConfig
 	);
 
 	return (
@@ -36,6 +41,11 @@ const BlocksItem = ( { block, themeConfig } ) => {
 				{ hasColorStyles && (
 					<Color
 						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
+					/>
+				) }
+				{ hasSpacingStyles && (
+					<Spacing
+						selector={ [ ...blockSelector, 'spacing' ].join( '.' ) }
 					/>
 				) }
 			</div>

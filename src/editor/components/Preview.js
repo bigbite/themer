@@ -48,6 +48,10 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 				values: '<li>one</li><li>two</li><li>three</li>',
 				ordered: true,
 			} ),
+			createBlock( 'core/pullquote', {
+				value: `I never even thought about whether or not they understand what I'm doing . . . the emotional reaction is all that matters as long as there's some feeling of communication, it isn't necessary that it be understood.`,
+				citation: `John Coltrane`,
+			} ),
 		] );
 	}, [ editorStyles ] );
 

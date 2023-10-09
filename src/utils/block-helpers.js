@@ -2,6 +2,7 @@ import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
 	getColorObjectByColorValue,
+	getCustomValueFromPreset,
 } from '@wordpress/block-editor';
 
 /**
@@ -110,4 +111,38 @@ export const hexToVar = ( cssHex, themePalette ) => {
 	return colorObj?.slug
 		? `var(--wp--preset--color--${ colorObj.slug })`
 		: cssHex;
+};
+
+/**
+* @param {Object} spacing      Object of css spacing
+* @param {Array}  themeSpacing The themes palette as an array of objects
+*
+* @return {string} Object of css spacing where css variables are converted
+* to actual values
+*/
+export const varToSpacing = ( spacing, themeSpacing, themeConfig ) => {
+   if ( spacing === null ) {
+	   return spacing;
+   }
+
+   Object.keys( spacing ).map( ( key ) => {
+
+	   let cssVarName = '';
+
+	   const regexMatches = spacing[ key ].matchAll(
+		   /var\(--wp--preset--spacing--(.+?)\)/g
+	   );
+
+	   for (const regexMatch of regexMatches) {
+		   if ( regexMatch[1] ) {
+			   cssVarName = `var:preset|spacing|${regexMatch[1]}`;
+		   }
+	   }
+
+	   if (cssVarName !== '') {
+		   spacing[ key ] = getCustomValueFromPreset( cssVarName, themeSpacing['theme'] );
+	   }
+   });
+
+   return spacing;
 };
