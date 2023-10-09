@@ -10,7 +10,7 @@ import { getCoreBlocks } from '../../utils/block-helpers';
  * Blocks tab menu component
  */
 const Blocks = () => {
-	const { themeConfig, schema } = useContext( EditorContext );
+	const { themeConfig } = useContext( EditorContext );
 	const [ searchValue, setSearchValue ] = useState();
 
 	return (
@@ -23,24 +23,22 @@ const Blocks = () => {
 				) }
 			</p>
 			<Search setValue={ setSearchValue } />
-			{ getCoreBlocks( 1 )?.map(
-				( block ) => {
-					if (
-						searchValue?.length > 0 &&
-						! block.name.toLowerCase().includes( searchValue )
-					) {
-						return false;
-					}
-
-					return (
-						<BlocksItem
-							key={ block.name }
-							block={ block }
-							themeConfig={ themeConfig }
-						/>
-					);
+			{ getCoreBlocks( 1 )?.map( ( block ) => {
+				if (
+					searchValue?.length > 0 &&
+					! block.name.toLowerCase().includes( searchValue )
+				) {
+					return false;
 				}
-			) }
+
+				return (
+					<BlocksItem
+						key={ block.name }
+						block={ block }
+						themeConfig={ themeConfig }
+					/>
+				);
+			} ) }
 		</section>
 	);
 };

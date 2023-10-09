@@ -1,15 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { useState } from '@wordpress/element';
 import { download } from '@wordpress/icons';
 import { MenuGroup, MenuItem } from '@wordpress/components';
-
 
 /**
  * Renders the tools menu
  */
 const ToolsMoreMenuGroup = () => {
-	const [ isFetching, setIsFetching ] = useState( false );
 	const isExportSupported =
 		window.isSecureContext && 'showSaveFilePicker' in window;
 
@@ -17,14 +14,12 @@ const ToolsMoreMenuGroup = () => {
 	 * Fetch theme JSON object
 	 */
 	const fetchThemeJSON = async () => {
-		setIsFetching( true );
 		try {
 			const response = await apiFetch( { path: '/themer/v1/export' } );
 			saveThemeJSON( JSON.stringify( response, null, '\t' ) );
 		} catch ( error ) {
 			console.error( error ); // eslint-disable-line no-console -- Output of caught error
 		}
-		setIsFetching( false );
 	};
 
 	/**
@@ -49,17 +44,15 @@ const ToolsMoreMenuGroup = () => {
 	}
 
 	return (
-		<MenuGroup label={__('Tools', 'themer')}>
-            <MenuItem 
-                icon={ download } 
-                onClick={ fetchThemeJSON }
-                info={ __(
-                    'Export the updated theme.json file', 'themer'
-                ) }
-            >
-                {__('Export', 'themer')}
-            </MenuItem>
-        </MenuGroup>
+		<MenuGroup label={ __( 'Tools', 'themer' ) }>
+			<MenuItem
+				icon={ download }
+				onClick={ fetchThemeJSON }
+				info={ __( 'Export the updated theme.json file', 'themer' ) }
+			>
+				{ __( 'Export', 'themer' ) }
+			</MenuItem>
+		</MenuGroup>
 	);
 };
 

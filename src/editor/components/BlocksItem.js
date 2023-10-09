@@ -24,8 +24,7 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		themeConfig
 	);
 
-	// Temp for demo purposes only.
-	if (!hasBorderStyles && !hasColorStyles) {
+	if ( ! hasBorderStyles && ! hasColorStyles ) {
 		return;
 	}
 

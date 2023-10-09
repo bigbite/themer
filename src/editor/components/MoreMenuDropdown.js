@@ -1,4 +1,3 @@
-import { __ } from '@wordpress/i18n';
 import { moreVertical } from '@wordpress/icons';
 import { DropdownMenu } from '@wordpress/components';
 
@@ -13,9 +12,7 @@ import ToolsMoreMenuGroup from './ToolsMoreMenuGroup';
 const MoreMenuDropdown = () => {
 	return (
 		<DropdownMenu icon={ moreVertical } label="">
-			{ () => (
-				<ToolsMoreMenuGroup />
-			) }
+			{ () => <ToolsMoreMenuGroup /> }
 		</DropdownMenu>
 	);
 };
