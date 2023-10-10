@@ -58,6 +58,7 @@
 		grid-template-columns: 47.5% 47.5%;
 	}
 
+	// Hide the custom color picker from the duotone picker.
 	.themer--blocks-item-component--styles--title.is-filter
 		~ .components-circular-option-picker
 		.components-color-list-picker {
