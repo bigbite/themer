@@ -33,6 +33,10 @@ const Filter = ( { selector } ) => {
 			) )
 	);
 
+	if ( duotoneOptions.length === 0 ) {
+		return false;
+	}
+
 	/**
 	 * Updates the theme config with the new value.
 	 *
