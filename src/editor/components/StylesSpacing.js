@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-line-alignment */
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
@@ -15,7 +16,6 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 
-// eslint-disable-next-line jsdoc/check-line-alignment
 /**
  * Parses a user value from theme.json into a valid CSS value.
  *
@@ -41,7 +41,6 @@ const parseUserValue = (
 	return convertedValue;
 };
 
-// eslint-disable-next-line jsdoc/check-line-alignment
 /**
  * Loops thorugh the axial spacing values and parses them into valid CSS values.
  *
@@ -84,6 +83,12 @@ const Spacing = ( { selector } ) => {
 		themeConfig
 	)?.theme;
 
+	/**
+	 * Updates the theme config with the new value.
+	 *
+	 * @param {string|Object} newVal - The new value.
+	 * @param {string} type - The type of spacing to update. E.g. margin.
+	 */
 	const handleNewValue = ( newVal, type ) => {
 		if ( type === 'margin' || type === 'padding' ) {
 			const spacingKeys = Object.keys( newVal );

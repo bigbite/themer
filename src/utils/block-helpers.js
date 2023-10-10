@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-line-alignment */
 import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
@@ -125,7 +126,6 @@ export const isCssLengthUnit = ( value ) => {
 	return value === '0' || LENGTH_REG.test( value );
 };
 
-// eslint-disable-next-line jsdoc/check-line-alignment
 /**
  * Converts a spacing value to its corresponding css variable.
  * E.g. `1.5rem` -> `var(--wp--preset--spacing--medium)`
@@ -141,7 +141,6 @@ export const spacingToVar = ( spacingValue, themeSpacingSizes ) => {
 	return slug ? `var(--wp--preset--spacing--${ slug })` : spacingValue;
 };
 
-// eslint-disable-next-line jsdoc/check-line-alignment
 /**
  * Converts a CSS variable to its corresponding spacing value.
  * `getCustomValueFromPreset` expects the var in vertical bar format so we need to convert to that first if necessary.
