@@ -6,7 +6,11 @@ import {
 	__experimentalBoxControl as BoxControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 } from '@wordpress/components';
 
-import { isCssLengthUnit } from '../../utils/block-helpers';
+import {
+	isCssLengthUnit,
+	spacingToVar,
+	varToSpacing,
+} from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -23,7 +27,7 @@ const parseUserValue = ( value, allowNegativeValues = true ) => {
 	return value;
 };
 
-const parseMarginPaddingValues = ( type, spacingStyles ) => {
+const parseMarginPaddingValues = ( type, spacingStyles, themeSpacingSizes ) => {
 	if ( ! spacingStyles?.[ type ] ) {
 		return {};
 	}
@@ -33,7 +37,8 @@ const parseMarginPaddingValues = ( type, spacingStyles ) => {
 		const allowNegativeValues = type === 'margin' || false;
 		const parsedValue = parseUserValue(
 			spacingStyles?.[ type ]?.[ key ],
-			allowNegativeValues
+			allowNegativeValues,
+			themeSpacingSizes
 		);
 		spacingStyles[ type ][ key ] = parsedValue;
 	} );
@@ -51,6 +56,10 @@ const Spacing = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const spacingStyles = getThemeOption( selector, themeConfig );
+	const themeSpacingSizes = getThemeOption(
+		'settings.spacing.spacingSizes',
+		themeConfig
+	)?.theme;
 
 	const handleNewValue = ( newVal, type ) => {
 		if ( type === 'margin' || type === 'padding' ) {
@@ -59,6 +68,7 @@ const Spacing = ( { selector } ) => {
 				if ( ! newVal[ key ] ) {
 					newVal[ key ] = '0px';
 				}
+				newVal[ key ] = spacingToVar( newVal[ key ] );
 			} );
 			spacingStyles[ type ] = { ...newVal };
 		} else {
@@ -77,17 +87,29 @@ const Spacing = ( { selector } ) => {
 			</span>
 			<UnitControl
 				label={ __( 'Block Gap', 'themer' ) }
-				value={ parseUserValue( spacingStyles?.blockGap ) }
-				onChange={ ( newVal ) => handleNewValue( newVal, 'blockGap' ) }
+				value={ parseUserValue(
+					varToSpacing( spacingStyles?.blockGap, themeSpacingSizes )
+				) }
+				onChange={ ( newVal ) =>
+					handleNewValue( spacingToVar( newVal ), 'blockGap' )
+				}
 			/>
 			<BoxControl
-				values={ parseMarginPaddingValues( 'padding', spacingStyles ) }
+				values={ parseMarginPaddingValues(
+					'padding',
+					spacingStyles,
+					themeSpacingSizes
+				) }
 				onChange={ ( newVal ) => handleNewValue( newVal, 'padding' ) }
 				label={ __( 'Padding', 'themer' ) }
 				allowReset={ false }
 			/>
 			<BoxControl
-				values={ parseMarginPaddingValues( 'margin', spacingStyles ) }
+				values={ parseMarginPaddingValues(
+					'margin',
+					spacingStyles,
+					themeSpacingSizes
+				) }
 				onChange={ ( newVal ) => handleNewValue( newVal, 'margin' ) }
 				label={ __( 'Margin', 'themer' ) }
 				allowReset={ false }

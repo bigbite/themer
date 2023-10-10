@@ -2,6 +2,7 @@ import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
 	getColorObjectByColorValue,
+	getCustomValueFromPreset,
 } from '@wordpress/block-editor';
 
 /**
@@ -120,6 +121,45 @@ export const hexToVar = ( cssHex, themePalette ) => {
  * @return {boolean} - If the value is likely a css unit.
  */
 export const isCssLengthUnit = ( value ) => {
-	const LENGTH_REG = /^[-]?[0-9]+[a-zA-Z%]+?$/;
+	const LENGTH_REG = /^[-]?([0-9]*[.])?[0-9]+[a-zA-Z%]+?$/;
 	return value === '0' || LENGTH_REG.test( value );
+};
+
+// eslint-disable-next-line jsdoc/check-line-alignment
+/**
+ * Converts a spacing value to its corresponding css variable.
+ * E.g. `1.5rem` -> `var(--wp--preset--spacing--medium)`
+ *
+ * @param {string} spacingValue - The value to be converted.
+ * @param {Array} themeSpacingSizes - The theme spacing sizes.
+ * @return {string} - The converted value or the original value if no match was found.
+ */
+export const spacingToVar = ( spacingValue, themeSpacingSizes ) => {
+	const slug = themeSpacingSizes?.find(
+		( obj ) => obj.size === spacingValue
+	)?.slug;
+	return slug ? `var(--wp--preset--spacing--${ slug })` : spacingValue;
+};
+
+// eslint-disable-next-line jsdoc/check-line-alignment
+/**
+ * Converts a CSS variable to its corresponding spacing value.
+ * `getCustomValueFromPreset` expects the var in vertical bar format so we need to convert to that first if necessary.
+ *
+ * @param {string} spacingValue - The value to be converted.
+ * @param {Array} themeSpacingSizes -	The theme spacing sizes.
+ * @return {string} - The converted value or the original value if no match was found.
+ */
+export const varToSpacing = ( spacingValue, themeSpacingSizes ) => {
+	let valueInCorrectFormat = spacingValue;
+	const slug = spacingValue?.match( /var:preset\|spacing\|(.+)/ );
+
+	if ( ! slug && spacingValue?.startsWith( 'var(--wp--preset--spacing' ) ) {
+		valueInCorrectFormat = spacingValue
+			?.replace( '(--wp--', ':' )
+			?.replaceAll( '--', '|' )
+			?.replace( ')', '' );
+	}
+
+	return getCustomValueFromPreset( valueInCorrectFormat, themeSpacingSizes );
 };
