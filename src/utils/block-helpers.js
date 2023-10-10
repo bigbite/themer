@@ -120,6 +120,6 @@ export const hexToVar = ( cssHex, themePalette ) => {
  * @return {boolean} - If the value is likely a css unit.
  */
 export const isCssLengthUnit = ( value ) => {
-	const LENGTH_REG = /^[-]?[0-9]+[a-zA-Z%]+?$/;
+	const LENGTH_REG = /^[-]?([0-9]*[.])?[0-9]+[a-zA-Z%]+?$/;
 	return value === '0' || LENGTH_REG.test( value );
 };
