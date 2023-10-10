@@ -68,11 +68,14 @@ const Spacing = ( { selector } ) => {
 				if ( ! newVal[ key ] ) {
 					newVal[ key ] = '0px';
 				}
-				newVal[ key ] = spacingToVar( newVal[ key ] );
+				newVal[ key ] = spacingToVar(
+					newVal[ key ],
+					themeSpacingSizes
+				);
 			} );
 			spacingStyles[ type ] = { ...newVal };
 		} else {
-			spacingStyles[ type ] = newVal;
+			spacingStyles[ type ] = spacingToVar( newVal, themeSpacingSizes );
 		}
 
 		let config = structuredClone( themeConfig );
