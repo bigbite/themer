@@ -3,8 +3,8 @@ import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
 	getColorObjectByColorValue,
-	getCustomValueFromPreset,
 } from '@wordpress/block-editor';
+import { getCustomValueFromPreset } from '../utils/block-editor.js';
 
 /**
  * Returns a list of core blocks that are in the theme.json schema
