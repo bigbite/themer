@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/check-line-alignment */
 import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
@@ -110,4 +111,49 @@ export const hexToVar = ( cssHex, themePalette ) => {
 	return colorObj?.slug
 		? `var(--wp--preset--color--${ colorObj.slug })`
 		: cssHex;
+};
+
+/**
+ * Converts a css variable to a duotone colour array.
+ *
+ * @param {string} cssVar The css variable to convert.
+ * @param {Array} themeDuotoneOptions The theme duotone options.
+ * @return {Array} The duotone colors array.
+ */
+export const varToDuotone = ( cssVar, themeDuotoneOptions ) => {
+	if ( ! cssVar ) {
+		return cssVar;
+	}
+
+	const slug = cssVar.replace( /var\(--wp--preset--duotone--(.+?)\)/g, '$1' );
+
+	const duotone = themeDuotoneOptions?.find( ( option ) => {
+		return option.slug === slug;
+	} );
+
+	return duotone?.colors || themeDuotoneOptions?.[ 0 ]?.colors;
+};
+
+/**
+ * Converts a duotone colors array to a css variable.
+ *
+ * @param {Array} duotoneColors The duotone colors array.
+ * @param {Array} themeDuotoneOptions The theme duotone options.
+ * @return {string} The css variable.
+ */
+export const duotoneToVar = ( duotoneColors, themeDuotoneOptions ) => {
+	if ( ! duotoneColors || duotoneColors?.length !== 2 ) {
+		return duotoneColors;
+	}
+
+	const duotoneObj = themeDuotoneOptions?.find( ( option ) => {
+		return (
+			option.colors.includes( duotoneColors[ 0 ] ) &&
+			option.colors.includes( duotoneColors[ 1 ] )
+		);
+	} );
+
+	return duotoneObj?.slug
+		? `var(--wp--preset--duotone--${ duotoneObj.slug })`
+		: '';
 };
