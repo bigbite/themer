@@ -15,18 +15,41 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 
-const parseUserValue = ( value, allowNegativeValues = true ) => {
-	if (
-		value === '' ||
-		! isCssLengthUnit( value ) ||
-		( ! allowNegativeValues && ! value )
-	) {
+// eslint-disable-next-line jsdoc/check-line-alignment
+/**
+ * Parses a user value from theme.json into a valid CSS value.
+ *
+ * @param {string} value - The value to be parsed.
+ * @param {boolean} allowNegativeValues - Can the value be negative.
+ * @param {Array} themeSpacingSizes - Array of spacing value objects.
+ * @return {string} - The parsed value.
+ */
+const parseUserValue = (
+	value,
+	allowNegativeValues = true,
+	themeSpacingSizes
+) => {
+	const convertedValue = varToSpacing( value, themeSpacingSizes );
+	if ( convertedValue === '' || ! isCssLengthUnit( convertedValue ) ) {
 		return '0px';
 	}
 
-	return value;
+	if ( ! allowNegativeValues && convertedValue.startsWith( '-' ) ) {
+		return convertedValue.substring( 1 );
+	}
+
+	return convertedValue;
 };
 
+// eslint-disable-next-line jsdoc/check-line-alignment
+/**
+ * Loops thorugh the axial spacing values and parses them into valid CSS values.
+ *
+ * @param {string} type - The type of spacing to parse.
+ * @param {Object} spacingStyles - The existing spacing styles.
+ * @param {Array} themeSpacingSizes - Array of spacing value objects.
+ * @return {Object} - The parsed spacing values object.
+ */
 const parseMarginPaddingValues = ( type, spacingStyles, themeSpacingSizes ) => {
 	if ( ! spacingStyles?.[ type ] ) {
 		return {};
@@ -91,7 +114,9 @@ const Spacing = ( { selector } ) => {
 			<UnitControl
 				label={ __( 'Block Gap', 'themer' ) }
 				value={ parseUserValue(
-					varToSpacing( spacingStyles?.blockGap, themeSpacingSizes )
+					spacingStyles?.blockGap,
+					true,
+					themeSpacingSizes
 				) }
 				onChange={ ( newVal ) =>
 					handleNewValue( spacingToVar( newVal ), 'blockGap' )
