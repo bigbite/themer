@@ -33,10 +33,6 @@ const Filter = ( { selector } ) => {
 			) )
 	);
 
-	if ( duotoneOptions.length === 0 ) {
-		return false;
-	}
-
 	/**
 	 * Updates the theme config with the new value.
 	 *
@@ -49,7 +45,7 @@ const Filter = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	return (
+	return duotoneOptions.length > 0 ? (
 		<>
 			<span className="themer--blocks-item-component--styles--title is-filter">
 				{ __( 'Filter', 'themer' ) }
@@ -64,6 +60,8 @@ const Filter = ( { selector } ) => {
 				unsetable={ false }
 			/>
 		</>
+	) : (
+		false
 	);
 };
 
