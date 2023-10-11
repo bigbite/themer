@@ -43,7 +43,7 @@ const BlocksItem = ( { block, themeConfig } ) => {
 						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
 					/>
 				) }
-				{ hasCustomCSSStyles && (
+				{ ( hasCustomCSSStyles || hasCustomCSSStyles === '' ) && (
 					<CustomCSS
 						selector={ [ ...blockSelector, 'css' ].join( '.' ) }
 					/>
