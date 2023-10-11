@@ -30,8 +30,6 @@ const CustomCSS = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	console.log( cssStyles );
-
 	return (
 		<>
 			<span className="themer--blocks-item-component--styles--title is-filter">
