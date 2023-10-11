@@ -9,7 +9,7 @@ import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 
 /**
- * Reusable spacing control style component
+ * Reusable custom CSS component
  *
  * @param {Object} props          Component props
  * @param {string} props.selector Property target selector
@@ -42,6 +42,7 @@ const CustomCSS = ( { selector } ) => {
 						<a
 							href="https://developer.wordpress.org/news/2023/04/per-block-css-with-theme-json/"
 							target="_blank"
+							rel="noreferrer"
 						>
 							{ __( 'WordPress blog post', 'themer' ) }
 						</a>
