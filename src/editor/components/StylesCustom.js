@@ -40,7 +40,9 @@ const CustomCSS = ( { selector } ) => {
 					<p>
 						{ __( 'Check out this ', 'themer' ) }
 						<a
-							href="https://developer.wordpress.org/news/2023/04/per-block-css-with-theme-json/"
+							href={ encodeURI(
+								'https://developer.wordpress.org/news/2023/04/per-block-css-with-theme-json/'
+							) }
 							target="_blank"
 							rel="noreferrer"
 						>
