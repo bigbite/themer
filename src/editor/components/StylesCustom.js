@@ -32,7 +32,7 @@ const CustomCSS = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title is-filter">
+			<span className="themer--blocks-item-component--styles--title is-custom-css">
 				{ __( 'Custom CSS', 'themer' ) }
 			</span>
 			<TextareaControl
