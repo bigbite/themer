@@ -73,6 +73,16 @@ const ThemerComponent = () => {
 	}, [ userConfig, baseConfig ] );
 
 	/**
+	 * Returns if the user config is different from the base config.
+	 */
+	const userConfigHasChanges = useMemo( () => {
+		return ! isEqual(
+			{ ...userConfig?.settings, ...userConfig?.styles },
+			{ ...baseConfig?.settings, ...baseConfig?.styles }
+		);
+	}, [ userConfig, baseConfig ] );
+
+	/**
 	 * Fetch new preview CSS whenever config is changed
 	 */
 	const previewCss = useDebouncedApiFetch(
