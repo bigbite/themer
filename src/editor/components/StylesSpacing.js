@@ -6,6 +6,7 @@ import {
 	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	__experimentalBoxControl as BoxControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 } from '@wordpress/components';
+import { __experimentalSpacingSizesControl as SpacingSizesControl } from '@wordpress/block-editor';
 
 import {
 	isCssLengthUnit,
@@ -146,6 +147,16 @@ const Spacing = ( { selector } ) => {
 				onChange={ ( newVal ) => handleNewValue( newVal, 'margin' ) }
 				label={ __( 'Margin', 'themer' ) }
 				allowReset={ false }
+			/>
+			<SpacingSizesControl
+				label={ __( 'PADDING TEST', 'themer' ) }
+				allowReset={ false }
+				values={ parseMarginPaddingValues(
+					'padding',
+					spacingStyles,
+					themeSpacingSizes
+				) }
+				onChange={ ( newVal ) => handleNewValue( newVal, 'padding' ) }
 			/>
 		</>
 	);
