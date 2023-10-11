@@ -1,4 +1,4 @@
-import { mergeWith, isEmpty } from 'lodash';
+import { mergeWith, isEmpty, isEqual } from 'lodash';
 import { Button, Spinner, TabPanel } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
@@ -26,8 +26,10 @@ const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
+	const [ isDirty, setIsDirty ] = useState( false );
 
 	const setUserConfig = ( config ) => {
+		setIsDirty( true );
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
@@ -108,6 +110,18 @@ const ThemerComponent = () => {
 	}, [] );
 
 	/**
+	 * Alert user if they try to leave Themer without saving.
+	 */
+	useEffect( () => {
+		// Detecting browser closing
+		window.onbeforeunload = isDirty ? () => isDirty : null;
+
+		return () => {
+			window.removeEventListener( 'beforeunload', () => {} );
+		};
+	}, [ isDirty ] );
+
+	/**
 	 * saves edited entity data
 	 */
 	const save = async () => {
@@ -117,6 +131,7 @@ const ThemerComponent = () => {
 				'globalStyles',
 				globalStylesId
 			);
+			setIsDirty( false );
 		} catch ( err ) {
 			// eslint-disable-next-line no-console
 			console.log( err );
@@ -133,6 +148,7 @@ const ThemerComponent = () => {
 			globalStylesId,
 			baseConfig
 		);
+		setIsDirty( false );
 	};
 
 	if ( ! themeConfig || ! previewCss ) {
@@ -169,11 +185,15 @@ const ThemerComponent = () => {
 									isSecondary
 									onClick={ () => reset() }
 									text="Reset"
+									disabled={
+										! userConfigHasChanges && ! isDirty
+									}
 								/>
 								<Button
 									isPrimary
 									onClick={ () => save() }
 									text="Save"
+									disabled={ ! isDirty }
 								/>
 							</div>
 							<div className="themer-body">
