@@ -27,6 +27,7 @@ const ThemerComponent = () => {
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
 	const [ isDirty, setIsDirty ] = useState( false );
+	const [ lastSavedThemeConfig, setLastSavedThemeConfig ] = useState( {} );
 
 	const setUserConfig = ( config ) => {
 		setIsDirty( true );
@@ -69,18 +70,24 @@ const ThemerComponent = () => {
 			return baseConfig;
 		}
 		const merged = mergeWith( {}, baseConfig, userConfig );
+		if ( isEmpty( lastSavedThemeConfig ) ) {
+			setLastSavedThemeConfig( merged );
+		}
 		return merged;
-	}, [ userConfig, baseConfig ] );
+	}, [ userConfig, baseConfig, lastSavedThemeConfig ] );
 
 	/**
-	 * Returns if the user config is different from the base config.
+	 * Determines if the user config is different from the most recently saved config.
 	 */
 	const userConfigHasChanges = useMemo( () => {
 		return ! isEqual(
 			{ ...userConfig?.settings, ...userConfig?.styles },
-			{ ...baseConfig?.settings, ...baseConfig?.styles }
+			{
+				...lastSavedThemeConfig?.settings,
+				...lastSavedThemeConfig?.styles,
+			}
 		);
-	}, [ userConfig, baseConfig ] );
+	}, [ userConfig, lastSavedThemeConfig ] );
 
 	/**
 	 * Fetch new preview CSS whenever config is changed
@@ -142,6 +149,7 @@ const ThemerComponent = () => {
 				globalStylesId
 			);
 			setIsDirty( false );
+			setLastSavedThemeConfig( themeConfig );
 		} catch ( err ) {
 			// eslint-disable-next-line no-console
 			console.log( err );
@@ -149,14 +157,14 @@ const ThemerComponent = () => {
 	};
 
 	/**
-	 * resets updated theme db data back to original theme.json
+	 * Resets theme db data back to the most recently saved config.
 	 */
 	const reset = () => {
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
 			globalStylesId,
-			baseConfig
+			lastSavedThemeConfig
 		);
 		setIsDirty( false );
 	};
