@@ -2,6 +2,7 @@
 
 import { __experimentalFontFamilyControl as FontFamilyControl } from '@wordpress/block-editor'; // eslint-disable @wordpress/no-unsafe-apis
 import { useContext } from '@wordpress/element';
+import { isEmpty } from 'lodash';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
@@ -59,6 +60,10 @@ const FontFamily = ( { typographyStyles, handleNewValue } ) => {
 		'settings.typography.fontFamilies',
 		themeConfig
 	)?.theme;
+
+	if ( ! fontFamilies || isEmpty( fontFamilies ) ) {
+		return false;
+	}
 
 	return (
 		<FontFamilyControl

@@ -48,7 +48,6 @@ const Typography = ( { selector } ) => {
 	 * @param {string} newVal - The new value.
 	 */
 	const handleNewValue = ( newVal, key ) => {
-		console.log( newVal );
 		typographyStyles[ key ] = newVal;
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, typographyStyles );
