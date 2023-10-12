@@ -1,5 +1,6 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Typography from './typography/StylesTypography';
 import getThemeOption from '../../utils/get-theme-option';
 
 /**
@@ -23,6 +24,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		[ ...blockSelector, 'color' ].join( '.' ),
 		themeConfig
 	);
+	const hasTypographyStyles = getThemeOption(
+		[ ...blockSelector, 'typography' ].join( '.' ),
+		themeConfig
+	);
 
 	return (
 		<details className="themer--blocks-item-component">
@@ -36,6 +41,13 @@ const BlocksItem = ( { block, themeConfig } ) => {
 				{ hasColorStyles && (
 					<Color
 						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
+					/>
+				) }
+				{ hasTypographyStyles && (
+					<Typography
+						selector={ [ ...blockSelector, 'typography' ].join(
+							'.'
+						) }
 					/>
 				) }
 			</div>
