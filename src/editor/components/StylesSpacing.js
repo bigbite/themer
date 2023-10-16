@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/check-line-alignment */
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
@@ -19,9 +18,9 @@ import StylesContext from '../context/StylesContext';
 /**
  * Parses a user value from theme.json into a valid CSS value.
  *
- * @param {string} value - The value to be parsed.
+ * @param {string}  value               - The value to be parsed.
  * @param {boolean} allowNegativeValues - Can the value be negative.
- * @param {Array} themeSpacingSizes - Array of spacing value objects.
+ * @param {Array}   themeSpacingSizes   - Array of spacing value objects.
  * @return {string} - The parsed value.
  */
 const parseUserValue = (
@@ -44,9 +43,9 @@ const parseUserValue = (
 /**
  * Loops thorugh the axial spacing values and parses them into valid CSS values.
  *
- * @param {string} type - The type of spacing to parse.
- * @param {Object} spacingStyles - The existing spacing styles.
- * @param {Array} themeSpacingSizes - Array of spacing value objects.
+ * @param {string} type              - The type of spacing to parse.
+ * @param {Object} spacingStyles     - The existing spacing styles.
+ * @param {Array}  themeSpacingSizes - Array of spacing value objects.
  * @return {Object} - The parsed spacing values object.
  */
 const parseMarginPaddingValues = ( type, spacingStyles, themeSpacingSizes ) => {
@@ -87,7 +86,7 @@ const Spacing = ( { selector } ) => {
 	 * Updates the theme config with the new value.
 	 *
 	 * @param {string|Object} newVal - The new value.
-	 * @param {string} type - The type of spacing to update. E.g. margin.
+	 * @param {string}        type   - The type of spacing to update. E.g. margin.
 	 */
 	const handleNewValue = ( newVal, type ) => {
 		if ( type === 'margin' || type === 'padding' ) {
