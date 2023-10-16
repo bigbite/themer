@@ -14,7 +14,7 @@ import EditorContext from '../../context/EditorContext';
  * @param {Array} fontFamilies Registered font families.
  * @return {string} Font family name.
  */
-const varToFontFamily = ( cssVar, fontFamilies ) => {
+export const varToFontFamily = ( cssVar, fontFamilies ) => {
 	if ( ! cssVar ) {
 		return cssVar;
 	}
@@ -37,7 +37,7 @@ const varToFontFamily = ( cssVar, fontFamilies ) => {
  * @param {Array} fontFamilies Registered font families.
  * @return {string} CSS variable.
  */
-const fontFamilyToVar = ( fontFamily, fontFamilies ) => {
+export const fontFamilyToVar = ( fontFamily, fontFamilies ) => {
 	const fontFamilyObj = fontFamilies.find(
 		( obj ) => obj.fontFamily === fontFamily
 	);

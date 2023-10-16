@@ -1,6 +1,4 @@
 /* eslint-disable jsdoc/check-line-alignment */
-// font-family - SelectControl
-// font-size - FontSizePicker
 // font-weight - SelectControl
 // line-height - __experimentalNumberControl
 // text-decoration - __experimentalTextDecorationControl
@@ -13,11 +11,7 @@
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
-import {
-	SelectControl,
-	FontSizePicker,
-	__experimentalNumberControl as NumberControl,
-} from '@wordpress/components';
+import { __experimentalNumberControl as NumberControl } from '@wordpress/components';
 import {
 	__experimentalTextDecorationControl as TextDecorationControl,
 	__experimentalTextTransformControl as TextTransformControl,
@@ -30,6 +24,7 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 import FontFamily from './FontFamily';
+import FontSize from './FontSize';
 
 /**
  * Reusable Typography component
@@ -60,6 +55,10 @@ const Typography = ( { selector } ) => {
 				{ __( 'Typography', 'themer' ) }
 			</span>
 			<FontFamily
+				typographyStyles={ typographyStyles }
+				handleNewValue={ handleNewValue }
+			/>
+			<FontSize
 				typographyStyles={ typographyStyles }
 				handleNewValue={ handleNewValue }
 			/>
