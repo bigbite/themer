@@ -9,7 +9,7 @@ import StylesContext from '../context/StylesContext';
 import { varToDuotone, duotoneToVar } from '../../utils/block-helpers';
 
 /**
- * Reusable spacing control style component
+ * Reusable filter control style component
  *
  * @param {Object} props          Component props
  * @param {string} props.selector Property target selector
@@ -17,7 +17,6 @@ import { varToDuotone, duotoneToVar } from '../../utils/block-helpers';
 const Filter = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const filterStyles = getThemeOption( selector, themeConfig );
 	const duotoneThemeObj = getThemeOption(
 		'settings.color.duotone',
 		themeConfig
@@ -32,6 +31,12 @@ const Filter = ( { selector } ) => {
 			) )
 	);
 
+	if ( duotoneOptions.length === 0 ) {
+		return null;
+	}
+
+	const filterStyles = getThemeOption( selector, themeConfig );
+
 	/**
 	 * Updates the theme config with the new value.
 	 *
@@ -44,14 +49,14 @@ const Filter = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	return duotoneOptions.length > 0 ? (
+	return (
 		<>
 			<span className="themer--blocks-item-component--styles--title is-filter">
 				{ __( 'Filter', 'themer' ) }
 			</span>
 			<DuotonePicker
 				duotonePalette={ duotoneOptions }
-				onChange={ ( newVal ) => handleNewValue( newVal ) }
+				onChange={ handleNewValue }
 				value={ varToDuotone( filterStyles?.duotone, duotoneOptions ) }
 				disableCustomColors={ true }
 				disableCustomDuotones={ true }
@@ -59,8 +64,6 @@ const Filter = ( { selector } ) => {
 				unsetable={ false }
 			/>
 		</>
-	) : (
-		false
 	);
 };
 
