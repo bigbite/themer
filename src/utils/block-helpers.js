@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/check-line-alignment */
 import { select } from '@wordpress/data';
 import {
 	getColorObjectByAttributeValues,
@@ -116,8 +115,8 @@ export const hexToVar = ( cssHex, themePalette ) => {
 /**
  * Converts a css variable to a duotone colour array.
  *
- * @param {string} cssVar The css variable to convert.
- * @param {Array} themeDuotoneOptions The theme duotone options.
+ * @param {string} cssVar              The css variable to convert.
+ * @param {Array}  themeDuotoneOptions The theme duotone options.
  * @return {Array} The duotone colors array.
  */
 export const varToDuotone = ( cssVar, themeDuotoneOptions ) => {
@@ -137,7 +136,7 @@ export const varToDuotone = ( cssVar, themeDuotoneOptions ) => {
 /**
  * Converts a duotone colors array to a css variable.
  *
- * @param {Array} duotoneColors The duotone colors array.
+ * @param {Array} duotoneColors       The duotone colors array.
  * @param {Array} themeDuotoneOptions The theme duotone options.
  * @return {string} The css variable.
  */

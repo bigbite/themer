@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/check-line-alignment */
 import { __ } from '@wordpress/i18n';
 import { set, union } from 'lodash';
 import { useContext } from '@wordpress/element';
