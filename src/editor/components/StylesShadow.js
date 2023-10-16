@@ -127,11 +127,16 @@ const Shadow = ( { selector } ) => {
 				/>
 				<UnitControl
 					label={ __( 'Blur radius', 'themer' ) }
-					value={ shadowObj.blurRadius }
+					value={
+						shadowObj?.blurRadius?.startsWith( '-' )
+							? shadowObj?.blurRadius?.substring( 1 )
+							: shadowObj?.blurRadius
+					}
 					onChange={ ( newVal ) =>
 						handleNewValue( newVal, 'blurRadius' )
 					}
 					units={ unitControlUnits }
+					min={ 0 }
 				/>
 				<UnitControl
 					label={ __( 'Spread radius', 'themer' ) }
