@@ -24,7 +24,7 @@ const SELECT_OPTIONS = [
 ];
 
 // Determines the value of the type dropdown from the minHeight value.
-const parseSelectValue = ( minHeight ) => {
+const parseTypeValue = ( minHeight ) => {
 	if ( minHeight.includes( 'fit-content' ) ) {
 		return 'fit-content';
 	}
@@ -38,11 +38,11 @@ const parseSelectValue = ( minHeight ) => {
 };
 
 // Determines the unit value from the minHeight value.
-const parseUnitValue = ( minHeight, selectValue ) => {
+const parseUnitValue = ( minHeight, typeValue ) => {
 	if ( isCssLengthUnit( minHeight ) ) {
 		return minHeight;
 	}
-	if ( selectValue === 'fit-content' ) {
+	if ( typeValue === 'fit-content' ) {
 		return minHeight
 			.replace( 'fit-content(', '' )
 			.replace( ')', '' )
@@ -62,8 +62,8 @@ const Dimensions = ( { selector } ) => {
 	const { setUserConfig } = useContext( StylesContext );
 	const dimensionsStyles = getThemeOption( selector, themeConfig );
 	const { minHeight } = dimensionsStyles;
-	const selectValue = parseSelectValue( minHeight.trim() );
-	const unitValue = parseUnitValue( minHeight.trim(), selectValue );
+	const typeValue = parseTypeValue( minHeight.trim() );
+	const unitValue = parseUnitValue( minHeight.trim(), typeValue );
 
 	// Updates a property value in the outline object.
 	const handleNewValue = ( value ) => {
@@ -74,7 +74,7 @@ const Dimensions = ( { selector } ) => {
 	};
 
 	// Handle the value of the type dropdown changing.
-	const handleSelectChange = ( value ) => {
+	const handleTypeChange = ( value ) => {
 		switch ( value ) {
 			case 'unit':
 				handleNewValue( unitValue );
@@ -91,9 +91,9 @@ const Dimensions = ( { selector } ) => {
 	// Handle the value of the unit input changing.
 	const handleUnitChange = ( value ) => {
 		const parsedValue = value === '' ? '0px' : value;
-		if ( selectValue === 'fit-content' ) {
+		if ( typeValue === 'fit-content' ) {
 			handleNewValue( `fit-content(${ parsedValue })` );
-		} else if ( selectValue === 'unit' ) {
+		} else if ( typeValue === 'unit' ) {
 			handleNewValue( parsedValue );
 		}
 	};
@@ -116,15 +116,15 @@ const Dimensions = ( { selector } ) => {
 				<SelectControl
 					label={ __( 'Type', 'themer' ) }
 					options={ SELECT_OPTIONS }
-					value={ selectValue }
-					onChange={ ( newVal ) => handleSelectChange( newVal ) }
+					value={ typeValue }
+					onChange={ handleTypeChange }
 				/>
 				<UnitControl
 					label={ __( 'Value', 'themer' ) }
 					value={ unitValue }
-					onChange={ ( newVal ) => handleUnitChange( newVal ) }
+					onChange={ handleUnitChange }
 					disabled={
-						selectValue !== 'fit-content' && selectValue !== 'unit'
+						typeValue !== 'fit-content' && typeValue !== 'unit'
 					}
 				/>
 			</div>
