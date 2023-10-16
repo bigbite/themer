@@ -86,7 +86,9 @@ const Shadow = ( { selector } ) => {
 		inset: shadowStyles.includes( 'inset' ) ? 'inset' : '',
 		offsetX: parseUserValue( shadowUnitValues?.[ 0 ] ),
 		offsetY: parseUserValue( shadowUnitValues?.[ 1 ] ),
-		blurRadius: parseUserValue( shadowUnitValues?.[ 2 ] ),
+		blurRadius: parseUserValue( shadowUnitValues?.[ 2 ] )?.startsWith( '-' )
+			? parseUserValue( shadowUnitValues?.[ 2 ] )?.substring( 1 )
+			: parseUserValue( shadowUnitValues?.[ 2 ] ),
 		spreadRadius: parseUserValue( shadowUnitValues?.[ 3 ] ),
 		color: shadowColor || COLOR_FALLBACK,
 	};
@@ -127,11 +129,7 @@ const Shadow = ( { selector } ) => {
 				/>
 				<UnitControl
 					label={ __( 'Blur radius', 'themer' ) }
-					value={
-						shadowObj?.blurRadius?.startsWith( '-' )
-							? shadowObj?.blurRadius?.substring( 1 )
-							: shadowObj?.blurRadius
-					}
+					value={ shadowObj?.blurRadius }
 					onChange={ ( newVal ) =>
 						handleNewValue( newVal, 'blurRadius' )
 					}
