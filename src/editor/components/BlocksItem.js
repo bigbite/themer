@@ -1,5 +1,6 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Outline from './StylesOutline';
 import Shadow from './StylesShadow';
 import getThemeOption from '../../utils/get-theme-option';
 
@@ -24,6 +25,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		[ ...blockSelector, 'color' ].join( '.' ),
 		themeConfig
 	);
+	const hasOutlineStyles = getThemeOption(
+		[ ...blockSelector, 'outline' ].join( '.' ),
+		themeConfig
+	);
 	const hasShadowStyles = getThemeOption(
 		[ ...blockSelector, 'shadow' ].join( '.' ),
 		themeConfig
@@ -41,6 +46,11 @@ const BlocksItem = ( { block, themeConfig } ) => {
 				{ hasColorStyles && (
 					<Color
 						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
+					/>
+				) }
+				{ hasOutlineStyles && (
+					<Outline
+						selector={ [ ...blockSelector, 'outline' ].join( '.' ) }
 					/>
 				) }
 				{ hasShadowStyles && (
