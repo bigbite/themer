@@ -1,4 +1,5 @@
 /* eslint-disable @wordpress/no-unsafe-wp-apis */
+// NOT YET IN CORE WP BUT IN THEME.JSON SCHEMA
 // writing-mode - __experimentalWritingModeControl
 // text-columns - NumberControl
 
@@ -37,7 +38,6 @@ const Typography = ( { selector } ) => {
 	 * @param {string} key    The property to be updated.
 	 */
 	const handleNewValue = ( newVal, key ) => {
-		console.log( newVal );
 		typographyStyles[ key ] = newVal;
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, typographyStyles );
