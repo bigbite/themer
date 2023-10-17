@@ -1,5 +1,5 @@
 .themer--blocks-item-component {
-	container-type: normal;
+	container-type: inline-size;
 	padding: 8px 32px;
 
 	> summary {
@@ -51,7 +51,8 @@
 
 	.themer--blocks-item-component--columns {
 		display: grid;
-		grid-gap: 5%;
+		grid-column-gap: 1.5rem;
+		grid-row-gap: 1rem;
 	}
 
 	.themer--blocks-item-component--columns-2 {
@@ -60,7 +61,9 @@
 
 	@container (max-width: 540px) {
 		.themer--blocks-item-component--columns-2 {
-			grid-template-columns: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
 		}
 	}
 }
