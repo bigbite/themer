@@ -1,6 +1,4 @@
 /* eslint-disable @wordpress/no-unsafe-wp-apis */
-// text-decoration - __experimentalTextDecorationControl
-// text-transform - __experimentalTextTransformControl
 // writing-mode - __experimentalWritingModeControl
 // letter-spacing - __experimentalLetterSpacingControl
 // text-columns - NumberControl
@@ -11,6 +9,7 @@ import { useContext } from '@wordpress/element';
 import {
 	__experimentalTextDecorationControl as TextDecorationControl,
 	__experimentalFontAppearanceControl as FontAppearanceControl,
+	__experimentalTextTransformControl as TextTransformControl,
 	LineHeightControl,
 } from '@wordpress/block-editor';
 
@@ -88,6 +87,13 @@ const Typography = ( { selector } ) => {
 				onChange={ ( newVal ) =>
 					handleNewValue( newVal, 'textDecoration' )
 				}
+			/>
+			<TextTransformControl
+				value={ typographyStyles?.textTransform || 'none' }
+				onChange={ ( newVal ) =>
+					handleNewValue( newVal, 'textTransform' )
+				}
+				showNone
 			/>
 		</>
 	);
