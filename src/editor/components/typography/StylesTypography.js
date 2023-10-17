@@ -1,3 +1,4 @@
+/* eslint-disable @wordpress/no-unsafe-wp-apis */
 // text-decoration - __experimentalTextDecorationControl
 // text-transform - __experimentalTextTransformControl
 // writing-mode - __experimentalWritingModeControl
@@ -7,14 +8,17 @@
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
+import {
+	__experimentalTextDecorationControl as TextDecorationControl,
+	__experimentalFontAppearanceControl as FontAppearanceControl,
+	LineHeightControl,
+} from '@wordpress/block-editor';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 import FontFamily from './FontFamily';
 import FontSize from './FontSize';
-import FontAppearance from './FontAppearance';
-import LineHeight from './LineHeight';
 
 /**
  * Reusable Typography component
@@ -34,6 +38,7 @@ const Typography = ( { selector } ) => {
 	 * @param {string} key    The property to be updated.
 	 */
 	const handleNewValue = ( newVal, key ) => {
+		console.log( newVal );
 		typographyStyles[ key ] = newVal;
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, typographyStyles );
@@ -53,13 +58,36 @@ const Typography = ( { selector } ) => {
 				typographyStyles={ typographyStyles }
 				handleNewValue={ handleNewValue }
 			/>
-			<FontAppearance
-				typographyStyles={ typographyStyles }
-				handleNewValue={ handleNewValue }
-			/>
-			<LineHeight
-				typographyStyles={ typographyStyles }
-				handleNewValue={ handleNewValue }
+			{ ( typographyStyles?.fontWeight ||
+				typographyStyles?.fontStyle ) && (
+				<FontAppearanceControl
+					value={ {
+						fontStyle: typographyStyles?.fontStyle,
+						fontWeight: typographyStyles?.fontWeight,
+					} }
+					hasFontWeights={ !! typographyStyles?.fontWeight }
+					hasFontStyles={ !! typographyStyles?.fontStyle }
+					onChange={ ( newVal ) => {
+						handleNewValue( newVal?.fontWeight, 'fontWeight' );
+						handleNewValue( newVal?.fontStyle, 'fontStyle' );
+					} }
+				/>
+			) }
+			{ typographyStyles?.lineHeight && (
+				<LineHeightControl
+					value={ typographyStyles.lineHeight }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'lineHeight' )
+					}
+					size="__unstable-large"
+					__unstableInputWidth="auto"
+				/>
+			) }
+			<TextDecorationControl
+				value={ typographyStyles?.textDecoration || 'none' }
+				onChange={ ( newVal ) =>
+					handleNewValue( newVal, 'textDecoration' )
+				}
 			/>
 		</>
 	);
