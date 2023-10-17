@@ -1,9 +1,6 @@
-// font-weight - __experimentalFontAppearanceControl
-// line-height - __experimentalNumberControl
 // text-decoration - __experimentalTextDecorationControl
 // text-transform - __experimentalTextTransformControl
 // writing-mode - __experimentalWritingModeControl
-// font-style - __experimentalFontAppearanceControl
 // letter-spacing - __experimentalLetterSpacingControl
 // text-columns - NumberControl
 
@@ -17,6 +14,7 @@ import StylesContext from '../../context/StylesContext';
 import FontFamily from './FontFamily';
 import FontSize from './FontSize';
 import FontAppearance from './FontAppearance';
+import LineHeight from './LineHeight';
 
 /**
  * Reusable Typography component
@@ -56,6 +54,10 @@ const Typography = ( { selector } ) => {
 				handleNewValue={ handleNewValue }
 			/>
 			<FontAppearance
+				typographyStyles={ typographyStyles }
+				handleNewValue={ handleNewValue }
+			/>
+			<LineHeight
 				typographyStyles={ typographyStyles }
 				handleNewValue={ handleNewValue }
 			/>
