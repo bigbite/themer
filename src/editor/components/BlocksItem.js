@@ -1,5 +1,6 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
 import Outline from './StylesOutline';
 import Shadow from './StylesShadow';
@@ -24,6 +25,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 	);
 	const hasColorStyles = getThemeOption(
 		[ ...blockSelector, 'color' ].join( '.' ),
+		themeConfig
+	);
+	const hasSpacingStyles = getThemeOption(
+		[ ...blockSelector, 'spacing' ].join( '.' ),
 		themeConfig
 	);
 	const hasDimensionsStyles = getThemeOption(
@@ -51,6 +56,11 @@ const BlocksItem = ( { block, themeConfig } ) => {
 				{ hasColorStyles && (
 					<Color
 						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
+					/>
+				) }
+				{ hasSpacingStyles && (
+					<Spacing
+						selector={ [ ...blockSelector, 'spacing' ].join( '.' ) }
 					/>
 				) }
 				{ hasDimensionsStyles && (
