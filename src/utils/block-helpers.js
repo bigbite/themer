@@ -60,7 +60,7 @@ export const getCustomBlocks = () => [];
  *
  * @return {boolean} If the string is a valid hex value
  */
-const isHex = ( string ) => {
+export const isHex = ( string ) => {
 	const regex = /^#([0-9a-f]{3}){1,2}$/i;
 	return regex.test( string );
 };
