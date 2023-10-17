@@ -1,6 +1,5 @@
 /* eslint-disable @wordpress/no-unsafe-wp-apis */
 // writing-mode - __experimentalWritingModeControl
-// letter-spacing - __experimentalLetterSpacingControl
 // text-columns - NumberControl
 
 import { __ } from '@wordpress/i18n';
@@ -10,6 +9,7 @@ import {
 	__experimentalTextDecorationControl as TextDecorationControl,
 	__experimentalFontAppearanceControl as FontAppearanceControl,
 	__experimentalTextTransformControl as TextTransformControl,
+	__experimentalLetterSpacingControl as LetterSpacingControl,
 	LineHeightControl,
 } from '@wordpress/block-editor';
 
@@ -95,6 +95,20 @@ const Typography = ( { selector } ) => {
 				}
 				showNone
 			/>
+			{ typographyStyles?.letterSpacing && (
+				<LetterSpacingControl
+					value={ typographyStyles.letterSpacing }
+					onChange={ ( newVal ) => {
+						if ( newVal === '' ) {
+							handleNewValue( '0px', 'letterSpacing' );
+						} else {
+							handleNewValue( newVal, 'letterSpacing' );
+						}
+					} }
+					size="__unstable-large"
+					__unstableInputWidth="auto"
+				/>
+			) }
 		</>
 	);
 };
