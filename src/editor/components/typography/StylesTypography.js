@@ -1,5 +1,6 @@
 /* eslint-disable @wordpress/no-unsafe-wp-apis */
-// NOT YET IN CORE WP BUT IN THEME.JSON SCHEMA
+
+// TODO: NOT YET IN CORE WP BUT IN THEME.JSON SCHEMA
 // writing-mode - __experimentalWritingModeControl
 // text-columns - NumberControl
 
@@ -53,62 +54,64 @@ const Typography = ( { selector } ) => {
 				typographyStyles={ typographyStyles }
 				handleNewValue={ handleNewValue }
 			/>
-			<FontSize
-				typographyStyles={ typographyStyles }
-				handleNewValue={ handleNewValue }
-			/>
-			{ ( typographyStyles?.fontWeight ||
-				typographyStyles?.fontStyle ) && (
+			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+				<FontSize
+					typographyStyles={ typographyStyles }
+					handleNewValue={ handleNewValue }
+				/>
 				<FontAppearanceControl
 					value={ {
-						fontStyle: typographyStyles?.fontStyle,
-						fontWeight: typographyStyles?.fontWeight,
+						fontStyle: typographyStyles?.fontStyle || 'default',
+						fontWeight: typographyStyles?.fontWeight || 'default',
 					} }
-					hasFontWeights={ !! typographyStyles?.fontWeight }
-					hasFontStyles={ !! typographyStyles?.fontStyle }
 					onChange={ ( newVal ) => {
 						handleNewValue( newVal?.fontWeight, 'fontWeight' );
 						handleNewValue( newVal?.fontStyle, 'fontStyle' );
 					} }
-				/>
-			) }
-			{ typographyStyles?.lineHeight && (
-				<LineHeightControl
-					value={ typographyStyles.lineHeight }
-					onChange={ ( newVal ) =>
-						handleNewValue( newVal, 'lineHeight' )
-					}
 					size="__unstable-large"
-					__unstableInputWidth="auto"
+					__nextHasNoMarginBottom
 				/>
-			) }
-			<TextDecorationControl
-				value={ typographyStyles?.textDecoration || 'none' }
-				onChange={ ( newVal ) =>
-					handleNewValue( newVal, 'textDecoration' )
-				}
-			/>
-			<TextTransformControl
-				value={ typographyStyles?.textTransform || 'none' }
-				onChange={ ( newVal ) =>
-					handleNewValue( newVal, 'textTransform' )
-				}
-				showNone
-			/>
-			{ typographyStyles?.letterSpacing && (
-				<LetterSpacingControl
-					value={ typographyStyles.letterSpacing }
-					onChange={ ( newVal ) => {
-						if ( newVal === '' ) {
-							handleNewValue( '0px', 'letterSpacing' );
-						} else {
-							handleNewValue( newVal, 'letterSpacing' );
+				{ typographyStyles?.lineHeight && (
+					<LineHeightControl
+						value={ typographyStyles.lineHeight }
+						onChange={ ( newVal ) =>
+							handleNewValue( newVal, 'lineHeight' )
 						}
-					} }
-					size="__unstable-large"
-					__unstableInputWidth="auto"
+						size="__unstable-large"
+						__unstableInputWidth="auto"
+						__nextHasNoMarginBottom
+					/>
+				) }
+				{ typographyStyles?.letterSpacing && (
+					<LetterSpacingControl
+						value={ typographyStyles.letterSpacing }
+						onChange={ ( newVal ) => {
+							if ( newVal === '' ) {
+								handleNewValue( '0px', 'letterSpacing' );
+							} else {
+								handleNewValue( newVal, 'letterSpacing' );
+							}
+						} }
+						size="__unstable-large"
+						__unstableInputWidth="auto"
+					/>
+				) }
+			</div>
+			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+				<TextDecorationControl
+					value={ typographyStyles?.textDecoration || 'none' }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'textDecoration' )
+					}
 				/>
-			) }
+				<TextTransformControl
+					value={ typographyStyles?.textTransform || 'none' }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'textTransform' )
+					}
+					showNone
+				/>
+			</div>
 		</>
 	);
 };

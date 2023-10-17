@@ -76,6 +76,8 @@ const FontFamily = ( { typographyStyles, handleNewValue } ) => {
 				)
 			}
 			fontFamilies={ fontFamilies }
+			__nextHasNoMarginBottom
+			size="__unstable-large"
 		/>
 	);
 };
