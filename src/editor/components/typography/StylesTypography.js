@@ -1,4 +1,4 @@
-// font-weight - SelectControl
+// font-weight - __experimentalFontAppearanceControl
 // line-height - __experimentalNumberControl
 // text-decoration - __experimentalTextDecorationControl
 // text-transform - __experimentalTextTransformControl
@@ -10,20 +10,13 @@
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
-import { __experimentalNumberControl as NumberControl } from '@wordpress/components';
-import {
-	__experimentalTextDecorationControl as TextDecorationControl,
-	__experimentalTextTransformControl as TextTransformControl,
-	__experimentalWritingModeControl as WritingModeControl,
-	__experimentalFontAppearanceControl as FontAppearanceControl,
-	__experimentalLetterSpacingControl as LetterSpacingControl,
-} from '@wordpress/block-editor';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 import FontFamily from './FontFamily';
 import FontSize from './FontSize';
+import FontAppearance from './FontAppearance';
 
 /**
  * Reusable Typography component
@@ -39,8 +32,8 @@ const Typography = ( { selector } ) => {
 	/**
 	 * Updates the theme config with the new value.
 	 *
-	 * @param {string} newVal - The new value.
-	 * @param          key
+	 * @param {string} newVal The new value.
+	 * @param {string} key    The property to be updated.
 	 */
 	const handleNewValue = ( newVal, key ) => {
 		typographyStyles[ key ] = newVal;
@@ -59,6 +52,10 @@ const Typography = ( { selector } ) => {
 				handleNewValue={ handleNewValue }
 			/>
 			<FontSize
+				typographyStyles={ typographyStyles }
+				handleNewValue={ handleNewValue }
+			/>
+			<FontAppearance
 				typographyStyles={ typographyStyles }
 				handleNewValue={ handleNewValue }
 			/>

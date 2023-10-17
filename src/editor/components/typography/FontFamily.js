@@ -1,4 +1,4 @@
-import { __experimentalFontFamilyControl as FontFamilyControl } from '@wordpress/block-editor'; // eslint-disable @wordpress/no-unsafe-apis
+import { __experimentalFontFamilyControl as FontFamilyControl } from '@wordpress/block-editor'; // eslint-disable-line @wordpress/no-unsafe-wp-apis
 import { useContext } from '@wordpress/element';
 import { isEmpty } from 'lodash';
 
