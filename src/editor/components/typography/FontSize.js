@@ -42,8 +42,7 @@ export const fontSizeToVar = ( fontSize, fontSizes ) => {
 };
 
 /**
- * THIS COMPONENT IS STILL IN PROGRESS - HAVING ISSUES WITH `FontSizePicker` COMPONENT.
- * Component for setting the font family.
+ * Component for setting the font size.
  *
  * @param {Object}   props                  Component props
  * @param {Array}    props.typographyStyles Current typography styles.
