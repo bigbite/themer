@@ -1,5 +1,3 @@
-/* eslint-disable jsdoc/check-line-alignment */
-
 import { FontSizePicker } from '@wordpress/block-editor';
 import { useContext } from '@wordpress/element';
 import { isEmpty } from 'lodash';
@@ -10,9 +8,9 @@ import EditorContext from '../../context/EditorContext';
 /**
  * Component for setting the font family.
  *
- * @param {Object} props Component props
- * @param {Array} props.typographyStyles Current typography styles.
- * @param {Function} props.handleNewValue Callback to update the theme config.
+ * @param {Object}   props                  Component props
+ * @param {Array}    props.typographyStyles Current typography styles.
+ * @param {Function} props.handleNewValue   Callback to update the theme config.
  */
 const FontSize = ( { typographyStyles, handleNewValue } ) => {
 	const { themeConfig } = useContext( EditorContext );

@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/check-line-alignment */
 // font-weight - SelectControl
 // line-height - __experimentalNumberControl
 // text-decoration - __experimentalTextDecorationControl
@@ -41,6 +40,7 @@ const Typography = ( { selector } ) => {
 	 * Updates the theme config with the new value.
 	 *
 	 * @param {string} newVal - The new value.
+	 * @param          key
 	 */
 	const handleNewValue = ( newVal, key ) => {
 		typographyStyles[ key ] = newVal;

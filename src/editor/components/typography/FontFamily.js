@@ -1,5 +1,3 @@
-/* eslint-disable jsdoc/check-line-alignment */
-
 import { __experimentalFontFamilyControl as FontFamilyControl } from '@wordpress/block-editor'; // eslint-disable @wordpress/no-unsafe-apis
 import { useContext } from '@wordpress/element';
 import { isEmpty } from 'lodash';
@@ -10,8 +8,8 @@ import EditorContext from '../../context/EditorContext';
 /**
  * Converts a CSS variable to a font family.
  *
- * @param {string} cssVar CSS variable as string.
- * @param {Array} fontFamilies Registered font families.
+ * @param {string} cssVar       CSS variable as string.
+ * @param {Array}  fontFamilies Registered font families.
  * @return {string} Font family name.
  */
 export const varToFontFamily = ( cssVar, fontFamilies ) => {
@@ -33,8 +31,8 @@ export const varToFontFamily = ( cssVar, fontFamilies ) => {
 /**
  * Converts a font family to a CSS variable.
  *
- * @param {string} fontFamily Font family.
- * @param {Array} fontFamilies Registered font families.
+ * @param {string} fontFamily   Font family.
+ * @param {Array}  fontFamilies Registered font families.
  * @return {string} CSS variable.
  */
 export const fontFamilyToVar = ( fontFamily, fontFamilies ) => {
@@ -50,9 +48,9 @@ export const fontFamilyToVar = ( fontFamily, fontFamilies ) => {
 /**
  * Component for setting the font family.
  *
- * @param {Object} props Component props
- * @param {Array} props.typographyStyles Current typography styles.
- * @param {Function} props.handleNewValue Callback to update the theme config.
+ * @param {Object}   props                  Component props
+ * @param {Array}    props.typographyStyles Current typography styles.
+ * @param {Function} props.handleNewValue   Callback to update the theme config.
  */
 const FontFamily = ( { typographyStyles, handleNewValue } ) => {
 	const { themeConfig } = useContext( EditorContext );
@@ -72,7 +70,10 @@ const FontFamily = ( { typographyStyles, handleNewValue } ) => {
 				fontFamilies
 			) }
 			onChange={ ( newVal ) =>
-				handleNewValue( fontFamilyToVar( newVal ), 'fontFamily' )
+				handleNewValue(
+					fontFamilyToVar( newVal, fontFamilies ),
+					'fontFamily'
+				)
 			}
 			fontFamilies={ fontFamilies }
 		/>
