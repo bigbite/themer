@@ -14,7 +14,14 @@ import {
 	__experimentalLetterSpacingControl as LetterSpacingControl,
 	LineHeightControl,
 } from '@wordpress/block-editor';
-
+import {
+	parseFontStyle,
+	parseFontWeight,
+	parseLetterSpacing,
+	parseLineHeight,
+	parseTextDecoration,
+	parseTextTransform,
+} from './helpers';
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
@@ -61,8 +68,12 @@ const Typography = ( { selector } ) => {
 				/>
 				<FontAppearanceControl
 					value={ {
-						fontStyle: typographyStyles?.fontStyle || 'default',
-						fontWeight: typographyStyles?.fontWeight || 'default',
+						fontStyle: parseFontStyle(
+							typographyStyles?.fontStyle
+						),
+						fontWeight: parseFontWeight(
+							typographyStyles?.fontWeight
+						),
 					} }
 					onChange={ ( newVal ) => {
 						handleNewValue( newVal?.fontWeight, 'fontWeight' );
@@ -73,7 +84,7 @@ const Typography = ( { selector } ) => {
 				/>
 				{ typographyStyles?.lineHeight && (
 					<LineHeightControl
-						value={ typographyStyles.lineHeight }
+						value={ parseLineHeight( typographyStyles.lineHeight ) }
 						onChange={ ( newVal ) =>
 							handleNewValue( newVal, 'lineHeight' )
 						}
@@ -82,30 +93,37 @@ const Typography = ( { selector } ) => {
 						__nextHasNoMarginBottom
 					/>
 				) }
-				{ typographyStyles?.letterSpacing && (
-					<LetterSpacingControl
-						value={ typographyStyles.letterSpacing }
-						onChange={ ( newVal ) => {
-							if ( newVal === '' ) {
-								handleNewValue( '0px', 'letterSpacing' );
-							} else {
-								handleNewValue( newVal, 'letterSpacing' );
-							}
-						} }
-						size="__unstable-large"
-						__unstableInputWidth="auto"
-					/>
-				) }
+				{ typographyStyles?.letterSpacing &&
+					typographyStyles.letterSpacing !== 'normal' && (
+						<LetterSpacingControl
+							value={ parseLetterSpacing(
+								typographyStyles.letterSpacing
+							) }
+							onChange={ ( newVal ) => {
+								if ( newVal === '' ) {
+									handleNewValue( '0px', 'letterSpacing' );
+								} else {
+									handleNewValue( newVal, 'letterSpacing' );
+								}
+							} }
+							size="__unstable-large"
+							__unstableInputWidth="auto"
+						/>
+					) }
 			</div>
 			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
 				<TextDecorationControl
-					value={ typographyStyles?.textDecoration || 'none' }
+					value={ parseTextDecoration(
+						typographyStyles?.textDecoration
+					) }
 					onChange={ ( newVal ) =>
 						handleNewValue( newVal, 'textDecoration' )
 					}
 				/>
 				<TextTransformControl
-					value={ typographyStyles?.textTransform || 'none' }
+					value={ parseTextTransform(
+						typographyStyles?.textTransform
+					) }
 					onChange={ ( newVal ) =>
 						handleNewValue( newVal, 'textTransform' )
 					}
