@@ -66,4 +66,9 @@
 			gap: 1rem;
 		}
 	}
+
+	// Toggle component ships with margin, which messes with our pre-defined gap between components.
+	.components-toggle-control {
+		margin: 0;
+	}
 }
