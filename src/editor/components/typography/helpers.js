@@ -25,7 +25,7 @@ export const parseFontWeight = ( fontWeight ) => {
  * @return {string} Valid font style value or default.
  */
 export const parseFontStyle = ( fontStyle ) =>
-	VALID_FONT_STYLES.contains( fontStyle ) ? fontStyle : 'default';
+	VALID_FONT_STYLES.includes( fontStyle ) ? fontStyle : 'default';
 
 /**
  * Parses a line height value from theme.json.
@@ -54,8 +54,8 @@ export const parseLetterSpacing = ( letterSpacing ) => {
 	if ( ! isValidCss ) {
 		return 'normal';
 	}
-	const unit = letterSpacing.replaceAll( /[^0-9]/, '' );
-	return VALID_LETTER_SPACING_UNITS.contains( unit )
+	const unit = letterSpacing.replaceAll( /[^0-9]/g, '' );
+	return VALID_LETTER_SPACING_UNITS.includes( unit )
 		? letterSpacing
 		: letterSpacing.replace( unit, 'px' );
 };
@@ -68,7 +68,7 @@ export const parseLetterSpacing = ( letterSpacing ) => {
  * @return {string} Valid text decoration value or 'none'.
  */
 export const parseTextDecoration = ( textDecoration ) =>
-	VALID_TEXT_DECORATION_VALUES.contains( textDecoration )
+	VALID_TEXT_DECORATION_VALUES.includes( textDecoration )
 		? textDecoration
 		: 'none';
 
@@ -80,6 +80,6 @@ export const parseTextDecoration = ( textDecoration ) =>
  * @return {string} Valid text transform value or 'none'.
  */
 export const parseTextTransform = ( textTransform ) =>
-	VALID_TEXT_TRANSFORM_VALUES.contains( textTransform )
+	VALID_TEXT_TRANSFORM_VALUES.includes( textTransform )
 		? textTransform
 		: 'none';
