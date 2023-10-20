@@ -54,7 +54,7 @@ export const parseLetterSpacing = ( letterSpacing ) => {
 	if ( ! isValidCss ) {
 		return 'normal';
 	}
-	const unit = letterSpacing.replaceAll( /[^0-9]/g, '' );
+	const unit = letterSpacing.replaceAll( /[^a-z]/gi, '' );
 	return VALID_LETTER_SPACING_UNITS.includes( unit )
 		? letterSpacing
 		: letterSpacing.replace( unit, 'px' );
