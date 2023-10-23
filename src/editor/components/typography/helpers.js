@@ -38,7 +38,7 @@ export const parseFontStyle = ( fontStyle ) =>
  */
 export const parseLineHeight = ( lineHeight ) => {
 	const regex = /^[0-9]+(\.[0-9]+)?$/;
-	return regex.test( lineHeight ) ? lineHeight : null;
+	return regex.test( lineHeight ) ? lineHeight : undefined;
 };
 
 /**
@@ -52,9 +52,8 @@ export const parseLineHeight = ( lineHeight ) => {
  */
 export const parseLetterSpacing = ( letterSpacing ) => {
 	const isValidCss = isCssLengthUnit( letterSpacing );
-	if ( ! isValidCss ) {
-		return 'normal';
-	}
+	if ( ! isValidCss ) return '0px';
+
 	const unit = letterSpacing.replaceAll( /[^a-z]/gi, '' );
 	return VALID_LETTER_SPACING_UNITS.includes( unit )
 		? letterSpacing

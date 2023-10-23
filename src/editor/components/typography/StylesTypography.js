@@ -84,34 +84,29 @@ const Typography = ( { selector } ) => {
 					size="__unstable-large"
 					__nextHasNoMarginBottom
 				/>
-				{ typographyStyles?.lineHeight && (
-					<LineHeightControl
-						value={ parseLineHeight( typographyStyles.lineHeight ) }
-						onChange={ ( newVal ) =>
-							handleNewValue( newVal, 'lineHeight' )
-						}
-						size="__unstable-large"
-						__unstableInputWidth="auto"
-						__nextHasNoMarginBottom
-					/>
-				) }
-				{ typographyStyles?.letterSpacing &&
-					typographyStyles.letterSpacing !== 'normal' && (
-						<LetterSpacingControl
-							value={ parseLetterSpacing(
-								typographyStyles.letterSpacing
-							) }
-							onChange={ ( newVal ) => {
-								if ( newVal === '' ) {
-									handleNewValue( '0px', 'letterSpacing' );
-								} else {
-									handleNewValue( newVal, 'letterSpacing' );
-								}
-							} }
-							size="__unstable-large"
-							__unstableInputWidth="auto"
-						/>
+				<LineHeightControl
+					value={ parseLineHeight( typographyStyles?.lineHeight ) }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'lineHeight' )
+					}
+					size="__unstable-large"
+					__unstableInputWidth="auto"
+					__nextHasNoMarginBottom
+				/>
+				<LetterSpacingControl
+					value={ parseLetterSpacing(
+						typographyStyles.letterSpacing
 					) }
+					onChange={ ( newVal ) => {
+						if ( newVal === '' ) {
+							handleNewValue( '0px', 'letterSpacing' );
+						} else {
+							handleNewValue( newVal, 'letterSpacing' );
+						}
+					} }
+					size="__unstable-large"
+					__unstableInputWidth="auto"
+				/>
 				<NumberControl
 					label={ __( 'Text columns', 'themer' ) }
 					max={ MAX_TEXT_COLUMNS }
