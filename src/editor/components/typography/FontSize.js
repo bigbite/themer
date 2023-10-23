@@ -1,8 +1,11 @@
 import { FontSizePicker } from '@wordpress/components';
 import { useContext } from '@wordpress/element';
 import { isEmpty } from 'lodash';
+import { isCssLengthUnit } from '../../../utils/block-helpers';
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
+
+const VALID_FONT_SIZE_UNITS = [ 'px', 'rem', 'em' ];
 
 /**
  * Converts a CSS variable to an actual value.
@@ -42,6 +45,24 @@ export const fontSizeToVar = ( fontSize, fontSizes ) => {
 };
 
 /**
+ * Parses a value from theme.json into a valid font size value.
+ * Valid if its a CSS variable or a value using px, em or rem units.
+ *
+ * @param {string} fontSize The value to convert.
+ * @return {string} Valid font size value or 1rem if invalid value is supplied.
+ */
+const parseFontSize = ( fontSize ) => {
+	const isVar = /var\(--wp--preset--font-size--(.+?)\)/.test( fontSize );
+	if ( isVar ) return fontSize;
+	if ( ! isCssLengthUnit( fontSize ) ) return '1rem';
+
+	const units = fontSize.replaceAll( /[^a-z]/gi, '' );
+	return VALID_FONT_SIZE_UNITS.includes( units )
+		? fontSize
+		: fontSize.replace( units, 'px' );
+};
+
+/**
  * Component for setting the font size.
  *
  * @param {Object}   props                  Component props
@@ -61,7 +82,10 @@ const FontSize = ( { typographyStyles, handleNewValue } ) => {
 
 	return (
 		<FontSizePicker
-			value={ varToFontSize( typographyStyles?.fontSize, fontSizes ) }
+			value={ varToFontSize(
+				parseFontSize( typographyStyles?.fontSize ),
+				fontSizes
+			) }
 			withSlider
 			fontSizes={ fontSizes }
 			onChange={ ( newVal ) =>
