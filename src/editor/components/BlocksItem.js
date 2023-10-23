@@ -1,6 +1,7 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
 import Typography from './typography/StylesTypography';
+import Filter from './StylesFilter';
 import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
 import Outline from './StylesOutline';
@@ -30,6 +31,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 	);
 	const hasTypographyStyles = getThemeOption(
 		[ ...blockSelector, 'typography' ].join( '.' ),
+		themeConfig
+	);
+	const hasFilterStyles = getThemeOption(
+		[ ...blockSelector, 'filter' ].join( '.' ),
 		themeConfig
 	);
 	const hasSpacingStyles = getThemeOption(
@@ -68,6 +73,11 @@ const BlocksItem = ( { block, themeConfig } ) => {
 						selector={ [ ...blockSelector, 'typography' ].join(
 							'.'
 						) }
+					/>
+				) }
+				{ hasFilterStyles && (
+					<Filter
+						selector={ [ ...blockSelector, 'filter' ].join( '.' ) }
 					/>
 				) }
 				{ hasSpacingStyles && (
