@@ -4,6 +4,7 @@ const VALID_FONT_STYLES = [ 'italic', 'normal' ];
 const VALID_LETTER_SPACING_UNITS = [ 'px', 'rem', 'em' ];
 const VALID_TEXT_DECORATION_VALUES = [ 'none', 'underline', 'line-through' ];
 const VALID_TEXT_TRANSFORM_VALUES = [ 'uppercase', 'lowercase', 'capitalize' ];
+export const MAX_TEXT_COLUMNS = 6;
 
 /**
  * Parses a font weight value from theme.json.
@@ -83,3 +84,18 @@ export const parseTextTransform = ( textTransform ) =>
 	VALID_TEXT_TRANSFORM_VALUES.includes( textTransform )
 		? textTransform
 		: 'none';
+
+/**
+ * Parses a text columns value from theme.json.
+ * Value must be a number less than or equal to MAX_TEXT_COLUMNS to be valid.
+ * Falls back to 1 if invalid value is supplied.
+ *
+ * @param {string} textColumns Text columns value to parse.
+ * @return {string} Valid text columns value or '1'.
+ */
+export const parseTextColumns = ( textColumns ) => {
+	if ( ! textColumns || parseInt( textColumns, 10 ) > MAX_TEXT_COLUMNS ) {
+		return '1';
+	}
+	return textColumns;
+};

@@ -2,7 +2,6 @@
 
 // TODO: NOT YET IN CORE WP BUT IN THEME.JSON SCHEMA
 // writing-mode - __experimentalWritingModeControl
-// text-columns - NumberControl
 
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
@@ -14,11 +13,14 @@ import {
 	__experimentalLetterSpacingControl as LetterSpacingControl,
 	LineHeightControl,
 } from '@wordpress/block-editor';
+import { __experimentalNumberControl as NumberControl } from '@wordpress/components';
 import {
+	MAX_TEXT_COLUMNS,
 	parseFontStyle,
 	parseFontWeight,
 	parseLetterSpacing,
 	parseLineHeight,
+	parseTextColumns,
 	parseTextDecoration,
 	parseTextTransform,
 } from './helpers';
@@ -110,8 +112,18 @@ const Typography = ( { selector } ) => {
 							__unstableInputWidth="auto"
 						/>
 					) }
-			</div>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+				<NumberControl
+					label={ __( 'Text columns', 'themer' ) }
+					max={ MAX_TEXT_COLUMNS }
+					min={ 1 }
+					onChange={ ( newVal ) =>
+						handleNewValue( newVal, 'textColumns' )
+					}
+					size="__unstable-large"
+					spinControls="custom"
+					value={ parseTextColumns( typographyStyles?.textColumns ) }
+					initialPosition={ 1 }
+				/>
 				<TextDecorationControl
 					value={ parseTextDecoration(
 						typographyStyles?.textDecoration
