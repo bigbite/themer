@@ -26,11 +26,8 @@ const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
-	const [ isDirty, setIsDirty ] = useState( false );
-	const [ lastSavedThemeConfig, setLastSavedThemeConfig ] = useState( {} );
 
 	const setUserConfig = ( config ) => {
-		setIsDirty( true );
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
@@ -39,12 +36,13 @@ const ThemerComponent = () => {
 		);
 	};
 
-	const { globalStylesId, baseConfig, userConfig } = useSelect(
-		( select ) => {
+	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
+		useSelect( ( select ) => {
 			const {
 				__experimentalGetCurrentGlobalStylesId,
 				__experimentalGetCurrentThemeBaseGlobalStyles,
 				getEditedEntityRecord,
+				getEntityRecord,
 			} = select( 'core' );
 
 			const currentGlobalStylesId =
@@ -58,9 +56,13 @@ const ThemerComponent = () => {
 					'globalStyles',
 					currentGlobalStylesId
 				),
+				savedUserConfig: getEntityRecord(
+					'root',
+					'globalStyles',
+					currentGlobalStylesId
+				),
 			};
-		}
-	);
+		} );
 
 	/**
 	 * Returns merged base and user configs
@@ -70,24 +72,15 @@ const ThemerComponent = () => {
 			return baseConfig;
 		}
 		const merged = mergeWith( {}, baseConfig, userConfig );
-		if ( isEmpty( lastSavedThemeConfig ) ) {
-			setLastSavedThemeConfig( merged );
-		}
 		return merged;
-	}, [ userConfig, baseConfig, lastSavedThemeConfig ] );
+	}, [ userConfig, baseConfig ] );
 
 	/**
 	 * Determines if the user config is different from the most recently saved config.
 	 */
-	const userConfigHasChanges = useMemo( () => {
-		return ! isEqual(
-			{ ...userConfig?.settings, ...userConfig?.styles },
-			{
-				...lastSavedThemeConfig?.settings,
-				...lastSavedThemeConfig?.styles,
-			}
-		);
-	}, [ userConfig, lastSavedThemeConfig ] );
+	const hasUnsavedChanges = useMemo( () => {
+		return ! isEqual( userConfig, savedUserConfig );
+	}, [ userConfig, savedUserConfig ] );
 
 	/**
 	 * Fetch new preview CSS whenever config is changed
@@ -131,12 +124,14 @@ const ThemerComponent = () => {
 	 */
 	useEffect( () => {
 		// Detecting browser closing
-		window.onbeforeunload = isDirty ? () => isDirty : null;
+		window.onbeforeunload = hasUnsavedChanges
+			? () => hasUnsavedChanges
+			: null;
 
 		return () => {
 			window.removeEventListener( 'beforeunload', () => {} );
 		};
-	}, [ isDirty ] );
+	}, [ hasUnsavedChanges ] );
 
 	/**
 	 * saves edited entity data
@@ -148,8 +143,6 @@ const ThemerComponent = () => {
 				'globalStyles',
 				globalStylesId
 			);
-			setIsDirty( false );
-			setLastSavedThemeConfig( themeConfig );
 		} catch ( err ) {
 			// eslint-disable-next-line no-console
 			console.log( err );
@@ -164,9 +157,8 @@ const ThemerComponent = () => {
 			'root',
 			'globalStyles',
 			globalStylesId,
-			lastSavedThemeConfig
+			savedUserConfig
 		);
-		setIsDirty( false );
 	};
 
 	if ( ! themeConfig || ! previewCss ) {
@@ -203,15 +195,13 @@ const ThemerComponent = () => {
 									isSecondary
 									onClick={ () => reset() }
 									text="Reset"
-									disabled={
-										! userConfigHasChanges && ! isDirty
-									}
+									disabled={ ! hasUnsavedChanges }
 								/>
 								<Button
 									isPrimary
 									onClick={ () => save() }
 									text="Save"
-									disabled={ ! isDirty }
+									disabled={ ! hasUnsavedChanges }
 								/>
 							</div>
 							<div className="themer-body">
