@@ -95,7 +95,7 @@ const Typography = ( { selector } ) => {
 				/>
 				<LetterSpacingControl
 					value={ parseLetterSpacing(
-						typographyStyles.letterSpacing
+						typographyStyles?.letterSpacing
 					) }
 					onChange={ ( newVal ) => {
 						if ( newVal === '' ) {
