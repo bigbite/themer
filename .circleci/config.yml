@@ -17,7 +17,7 @@ jobs:
                   version: '16'
             - project/npm-install
             - run:
-                  name: Unit Tests
+                  name: Run unit tests
                   command: |
                       ./node_modules/.bin/wp-scripts test-unit-js
             - project/npm-build
