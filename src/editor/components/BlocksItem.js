@@ -1,6 +1,6 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
-import Typography from './typography/StylesTypography';
+import Typography from './StylesTypography';
 import Filter from './StylesFilter';
 import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
