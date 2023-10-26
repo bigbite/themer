@@ -4,6 +4,7 @@ import {
 	getColorObjectByColorValue,
 } from '@wordpress/block-editor';
 import { getCustomValueFromPreset } from '../utils/block-editor.js';
+import { isEqual } from 'lodash';
 
 /**
  * Returns a list of core blocks that are in the theme.json schema
@@ -148,15 +149,12 @@ export const duotoneToVar = ( duotoneColors, themeDuotoneOptions ) => {
 	}
 
 	const duotoneObj = themeDuotoneOptions?.find( ( option ) => {
-		return (
-			option.colors.includes( duotoneColors[ 0 ] ) &&
-			option.colors.includes( duotoneColors[ 1 ] )
-		);
+		return isEqual( option.colors, duotoneColors );
 	} );
 
 	return duotoneObj?.slug
 		? `var(--wp--preset--duotone--${ duotoneObj.slug })`
-		: '';
+		: duotoneColors;
 };
 
 /**

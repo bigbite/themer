@@ -19,7 +19,7 @@ jobs:
             - run:
                   name: Run unit tests
                   command: |
-                      ./node_modules/.bin/wp-scripts test-unit-js
+                      npm run test:unit
             - project/npm-build
             - project/create-build
 

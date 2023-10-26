@@ -98,4 +98,24 @@ describe( 'duotoneToVar', () => {
 			duotoneToVar( [ '#000000', '#7f7f7f' ], mockDuotoneOptions )
 		).toBe( 'var(--wp--preset--duotone--dark-grayscale)' );
 	} );
+	it( 'should return the original input when the input array contains valid colors in the wrong order', () => {
+		expect(
+			duotoneToVar( [ '#7f7f7f', '#000000' ], mockDuotoneOptions )
+		).toStrictEqual( [ '#7f7f7f', '#000000' ] );
+	} );
+	it( 'should return the original input when the input array only has one value', () => {
+		expect(
+			duotoneToVar( [ '#000000' ], mockDuotoneOptions )
+		).toStrictEqual( [ '#000000' ] );
+	} );
+	it( 'should return the original input when the input is a valid array but does not have a corresponding duotone option value', () => {
+		expect(
+			duotoneToVar( [ '#4A6F92', '#D372A9' ], mockDuotoneOptions )
+		).toStrictEqual( [ '#4A6F92', '#D372A9' ] );
+	} );
+	it( 'should return the original input when the input array contains just one of the colors of a valid duotone option', () => {
+		expect(
+			duotoneToVar( [ '#000000', '#000000' ], mockDuotoneOptions )
+		).toStrictEqual( [ '#000000', '#000000' ] );
+	} );
 } );
