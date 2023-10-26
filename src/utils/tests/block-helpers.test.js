@@ -15,7 +15,12 @@ jest.mock( '@wordpress/data', () => {
 	};
 } );
 
-import { isHex, varToDuotone, duotoneToVar } from '../block-helpers';
+import {
+	isHex,
+	varToDuotone,
+	duotoneToVar,
+	isCssLengthUnit,
+} from '../block-helpers';
 import { mockDuotoneOptions } from './mocks';
 
 describe( 'isHex', () => {
@@ -118,4 +123,21 @@ describe( 'duotoneToVar', () => {
 			duotoneToVar( [ '#000000', '#000000' ], mockDuotoneOptions )
 		).toStrictEqual( [ '#000000', '#000000' ] );
 	} );
+} );
+
+describe( 'isCssLengthUnit', () => {
+	const validCssLengthValues = [ '0px', '0.5rem', '0', '5%', '-5em' ];
+	const invalidCssLengthValues = [ 'hi', '', 'px' ];
+	it.each( validCssLengthValues )(
+		'%p should return true as it is a valid css length value',
+		( value ) => {
+			expect( isCssLengthUnit( value ) ).toBe( true );
+		}
+	);
+	it.each( invalidCssLengthValues )(
+		'%p should return false as it is an invalid css length value',
+		( value ) => {
+			expect( isCssLengthUnit( value ) ).toBe( false );
+		}
+	);
 } );
