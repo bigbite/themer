@@ -121,14 +121,15 @@ export const hexToVar = ( cssHex, themePalette ) => {
  * @return {Array} The duotone colors array.
  */
 export const varToDuotone = ( cssVar, themeDuotoneOptions ) => {
-	if ( ! cssVar ) {
-		return cssVar;
+	if ( ! cssVar || typeof cssVar !== 'string' ) {
+		return themeDuotoneOptions?.[ 0 ]?.colors;
 	}
 
-	const slug = cssVar.replace( /var\(--wp--preset--duotone--(.+?)\)/g, '$1' );
-
+	const slug = cssVar
+		.replace( /var\(--wp--preset--duotone--(.+?)\)/g, '$1' )
+		.toLowerCase();
 	const duotone = themeDuotoneOptions?.find( ( option ) => {
-		return option.slug === slug;
+		return option.slug.toLowerCase() === slug;
 	} );
 
 	return duotone?.colors || themeDuotoneOptions?.[ 0 ]?.colors;

@@ -16,6 +16,10 @@ jobs:
             - project/set-node:
                   version: '16'
             - project/npm-install
+            - run:
+                  name: Unit Tests
+                  command: |
+                      wp-scripts test-unit-js
             - project/npm-build
             - project/create-build
 
