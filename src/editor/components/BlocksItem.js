@@ -1,5 +1,10 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Filter from './StylesFilter';
+import Spacing from './StylesSpacing';
+import Dimensions from './StylesDimensions';
+import Outline from './StylesOutline';
+import Shadow from './StylesShadow';
 import getThemeOption from '../../utils/get-theme-option';
 
 /**
@@ -23,6 +28,26 @@ const BlocksItem = ( { block, themeConfig } ) => {
 		[ ...blockSelector, 'color' ].join( '.' ),
 		themeConfig
 	);
+	const hasFilterStyles = getThemeOption(
+		[ ...blockSelector, 'filter' ].join( '.' ),
+		themeConfig
+	);
+	const hasSpacingStyles = getThemeOption(
+		[ ...blockSelector, 'spacing' ].join( '.' ),
+		themeConfig
+	);
+	const hasDimensionsStyles = getThemeOption(
+		[ ...blockSelector, 'dimensions' ].join( '.' ),
+		themeConfig
+	);
+	const hasOutlineStyles = getThemeOption(
+		[ ...blockSelector, 'outline' ].join( '.' ),
+		themeConfig
+	);
+	const hasShadowStyles = getThemeOption(
+		[ ...blockSelector, 'shadow' ].join( '.' ),
+		themeConfig
+	);
 
 	return (
 		<details className="themer--blocks-item-component">
@@ -36,6 +61,33 @@ const BlocksItem = ( { block, themeConfig } ) => {
 				{ hasColorStyles && (
 					<Color
 						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
+					/>
+				) }
+				{ hasFilterStyles && (
+					<Filter
+						selector={ [ ...blockSelector, 'filter' ].join( '.' ) }
+					/>
+				) }
+				{ hasSpacingStyles && (
+					<Spacing
+						selector={ [ ...blockSelector, 'spacing' ].join( '.' ) }
+					/>
+				) }
+				{ hasDimensionsStyles && (
+					<Dimensions
+						selector={ [ ...blockSelector, 'dimensions' ].join(
+							'.'
+						) }
+					/>
+				) }
+				{ hasOutlineStyles && (
+					<Outline
+						selector={ [ ...blockSelector, 'outline' ].join( '.' ) }
+					/>
+				) }
+				{ hasShadowStyles && (
+					<Shadow
+						selector={ [ ...blockSelector, 'shadow' ].join( '.' ) }
 					/>
 				) }
 			</div>
