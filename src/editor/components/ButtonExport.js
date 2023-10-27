@@ -1,13 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
-import { useState } from '@wordpress/element';
-import { Button } from '@wordpress/components';
+import { MenuItem } from '@wordpress/components';
+import { download } from '@wordpress/icons';
 
 /**
  * Renders the button to export theme.json
  */
 const ButtonExport = () => {
-	const [ isFetching, setIsFetching ] = useState( false );
 	const isExportSupported =
 		window.isSecureContext && 'showSaveFilePicker' in window;
 
@@ -15,14 +14,12 @@ const ButtonExport = () => {
 	 * Fetch theme JSON object
 	 */
 	const fetchThemeJSON = async () => {
-		setIsFetching( true );
 		try {
 			const response = await apiFetch( { path: '/themer/v1/export' } );
 			saveThemeJSON( JSON.stringify( response, null, '\t' ) );
 		} catch ( error ) {
 			console.error( error ); // eslint-disable-line no-console -- Output of caught error
 		}
-		setIsFetching( false );
 	};
 
 	/**
@@ -47,15 +44,14 @@ const ButtonExport = () => {
 	}
 
 	return (
-		<Button
-			isPrimary
-			isBusy={ isFetching }
-			disabled={ isFetching }
+		<MenuItem
 			onClick={ fetchThemeJSON }
-			aria-label={ __( 'Export theme.json', 'themer' ) }
+			icon={ download }
+			role="menuitem"
+			info={ __( 'Export the updated theme.json file.', 'themer' ) }
 		>
 			{ __( 'Export theme.json', 'themer' ) }
-		</Button>
+		</MenuItem>
 	);
 };
 

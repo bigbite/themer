@@ -242,6 +242,7 @@ const ThemerComponent = () => {
 													'themer'
 												) }
 											</MenuItem>
+											<ButtonExport />
 										</MenuGroup>
 									) }
 								</MoreMenuDropdown>
@@ -301,7 +302,6 @@ const ThemerComponent = () => {
 										previewCss={ previewCss }
 										previewSize={ previewSize }
 									/>
-									<ButtonExport />
 								</div>
 							</div>
 						</>
