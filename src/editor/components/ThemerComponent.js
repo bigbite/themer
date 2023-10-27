@@ -1,8 +1,16 @@
 import { mergeWith, isEmpty, isEqual } from 'lodash';
-import { Button, Spinner, TabPanel } from '@wordpress/components';
+import {
+	Button,
+	Spinner,
+	TabPanel,
+	MenuGroup,
+	MenuItem,
+} from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
+import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
+import { trash } from '@wordpress/icons';
 
 import Blocks from './Blocks';
 import Layout from './Layout';
@@ -18,6 +26,7 @@ import fetchSchema from '../../utils/schema-helpers';
 import ThemerNotice from './ThemerNotice';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
+import { __ } from '@wordpress/i18n';
 
 /**
  * main component
@@ -161,6 +170,15 @@ const ThemerComponent = () => {
 		);
 	};
 
+	const clearAllCustomisations = () => {
+		dispatch( 'core' ).editEntityRecord(
+			'root',
+			'globalStyles',
+			globalStylesId,
+			baseConfig
+		);
+	};
+
 	if ( ! themeConfig || ! previewCss ) {
 		return (
 			<>
@@ -203,6 +221,30 @@ const ThemerComponent = () => {
 									text="Save"
 									disabled={ ! hasUnsavedChanges }
 								/>
+								<MoreMenuDropdown>
+									{ () => (
+										<MenuGroup
+											label={ __( 'Tools', 'themer' ) }
+										>
+											<MenuItem
+												role="menuitem"
+												icon={ trash }
+												info={ __(
+													'Resets all customisations to your initial theme.json configuration.',
+													'themer'
+												) }
+												onClick={ () =>
+													clearAllCustomisations()
+												}
+											>
+												{ __(
+													'Clear all customisations',
+													'themer'
+												) }
+											</MenuItem>
+										</MenuGroup>
+									) }
+								</MoreMenuDropdown>
 							</div>
 							<div className="themer-body">
 								<div className="themer-nav-container">
