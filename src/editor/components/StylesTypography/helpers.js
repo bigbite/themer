@@ -12,11 +12,14 @@ export const MAX_TEXT_COLUMNS = 6;
  * Must be 1-9 followed by 2 zeros to be valid.
  *
  * @param {string} fontWeight Font weight value to parse.
- * @return {string} Valid font weight value or default.
+ * @return {string} Valid font weight value or normal.
  */
 export const parseFontWeight = ( fontWeight ) => {
+	if ( fontWeight === 'normal' ) return '400';
+	if ( fontWeight === 'bold' ) return '700';
+
 	const regex = /^([1-9]+[0]{2})$/;
-	return regex.test( fontWeight ) ? fontWeight : 'default';
+	return regex.test( fontWeight ) ? fontWeight : 'normal';
 };
 
 /**
@@ -24,10 +27,10 @@ export const parseFontWeight = ( fontWeight ) => {
  * Value must be in VALID_FONT_STYLES array to be valid.
  *
  * @param {string} fontStyle Font style value to parse.
- * @return {string} Valid font style value or default.
+ * @return {string} Valid font style value or normal.
  */
 export const parseFontStyle = ( fontStyle ) =>
-	VALID_FONT_STYLES.includes( fontStyle ) ? fontStyle : 'default';
+	VALID_FONT_STYLES.includes( fontStyle ) ? fontStyle : 'normal';
 
 /**
  * Parses a line height value from theme.json.
