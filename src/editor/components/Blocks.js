@@ -4,14 +4,22 @@ import { useState, useContext } from '@wordpress/element';
 import Search from './Search';
 import BlocksItem from './BlocksItem';
 import EditorContext from '../context/EditorContext';
-import { getCoreBlocks } from '../../utils/block-helpers';
+import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
 
 /**
  * Blocks tab menu component
  */
 const Blocks = () => {
-	const { themeConfig } = useContext( EditorContext );
+	const { themeConfig, schema } = useContext( EditorContext );
 	const [ searchValue, setSearchValue ] = useState();
+
+	const schemaBlocks = getCoreBlocksFromSchema( schema );
+	const themeJSONBlocks = Object.keys( themeConfig?.styles?.blocks ?? {} );
+
+	// filter out any blocks not present in theme.json
+	const blocks = schemaBlocks?.filter( ( block ) =>
+		themeJSONBlocks?.includes( block.name )
+	);
 
 	return (
 		<section className="themer--blocks-component">
@@ -23,7 +31,7 @@ const Blocks = () => {
 				) }
 			</p>
 			<Search setValue={ setSearchValue } />
-			{ getCoreBlocks( 1 )?.map( ( block ) => {
+			{ blocks.map( ( block ) => {
 				if (
 					searchValue?.length > 0 &&
 					! block.name.toLowerCase().includes( searchValue )

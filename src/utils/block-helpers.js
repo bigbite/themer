@@ -3,46 +3,55 @@ import {
 	getColorObjectByAttributeValues,
 	getColorObjectByColorValue,
 } from '@wordpress/block-editor';
+import { blockDefault } from '@wordpress/icons';
 
 /**
- * Returns a list of core blocks that are in the theme.json schema
- * and also have styles set in theme.json
+ * Returns a list of core blocks defined by the schema with supplemental metadata
  *
- * @param {Object} themeConfig Theme JSON
- * @param {Object} schema      Theme schema JSON
+ * @param {Object} schema Theme schema JSON
  *
  * @return {Array} Core blocks
  */
-const getCoreBlocksFromSchema = ( themeConfig, schema ) => {
+export const getCoreBlocksFromSchema = ( schema ) => {
 	const schemaBlocks = Object.keys(
-		schema?.definitions?.stylesBlocksPropertiesComplete?.properties ?? {}
+		schema?.definitions?.stylesBlocksPropertiesComplete?.properties || {}
 	);
-	const themeJSONBlocks = Object.keys( themeConfig?.styles?.blocks ?? {} );
 
-	return schemaBlocks?.filter( ( block ) =>
-		themeJSONBlocks?.includes( block )
-	);
+	const blocks = schemaBlocks.map( ( blockName ) => {
+		/**
+		 * Pull additional block data from the core store
+		 */
+		const block = select( 'core/blocks' ).getBlockType( blockName );
+
+		/**
+		 * If the block is not registered, construct a fallback
+		 */
+		if ( ! block ) {
+			const title = getBlockTitleFromName( blockName );
+			return {
+				name: blockName,
+				title,
+				icon: { src: blockDefault },
+			};
+		}
+		return block;
+	} );
+	return blocks;
 };
 
 /**
- * Returns a list of registered core blocks
+ * Generate a title from a block name
+ * ie: core/comment-author-avatar -> Comment Author Avatar
  *
- * @param {number} mode        Mode of operation
- *                             0: Use core store as data source
- *                             1: Use schema and theme.json as data source
- * @param {Object} themeConfig Theme JSON
- * @param {Object} schema      Theme schema JSON
- *
- * @return {Array} Core blocks
+ * @param {string} blockName
+ * @return {string} Generated block title
  */
-export const getCoreBlocks = ( mode = 0, themeConfig = {}, schema = {} ) => {
-	switch ( mode ) {
-		case 1:
-			return select( 'core/blocks' ).getBlockTypes();
-		case 0:
-		default:
-			return getCoreBlocksFromSchema( themeConfig, schema );
-	}
+export const getBlockTitleFromName = ( blockName ) => {
+	return blockName
+		.split( '/' )[ 1 ]
+		.split( '-' )
+		.map( ( word ) => word.charAt( 0 ).toUpperCase() + word.slice( 1 ) )
+		.join( ' ' );
 };
 
 /**
