@@ -39,13 +39,7 @@ const Blocks = () => {
 					return false;
 				}
 
-				return (
-					<BlocksItem
-						key={ block.name }
-						block={ block }
-						themeConfig={ themeConfig }
-					/>
-				);
+				return <BlocksItem key={ block.name } block={ block } />;
 			} ) }
 		</section>
 	);

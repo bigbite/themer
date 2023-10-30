@@ -12,12 +12,10 @@ import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
 
+import Site from './Site';
 import Blocks from './Blocks';
-import Layout from './Layout';
-import Colours from './Colours';
+import Elements from './Elements';
 import Preview from './Preview';
-import Typography from './Typography';
-import CustomBlocks from './CustomBlocks';
 import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
 import EditorContext from '../context/EditorContext';
@@ -256,40 +254,31 @@ const ThemerComponent = () => {
 										activeClass="active-themer-tab"
 										tabs={ [
 											{
-												name: 'typography',
-												title: 'Typography',
-											},
-											{
-												name: 'colours',
-												title: 'Colours',
-											},
-											{
-												name: 'layout',
-												title: 'Layout',
+												name: 'site',
+												title: 'Site',
 											},
 											{
 												name: 'blocks',
 												title: 'Blocks',
 											},
 											{
-												name: 'custom-blocks',
-												title: 'Custom Blocks',
+												name: 'elements',
+												title: 'Elements',
 											},
 										] }
 									>
 										{ ( tab ) => {
 											switch ( tab?.name ) {
-												case 'colours':
-													return <Colours />;
-												case 'layout':
-													return <Layout />;
+												case 'site':
+													return <Site />;
 												case 'blocks':
 													return <Blocks />;
-												case 'custom-blocks':
-													return <CustomBlocks />;
-												case 'typography':
+												case 'elements':
+													return (
+														<Elements path="styles.elements" />
+													);
 												default:
-													return <Typography />;
+													return <Site />;
 											}
 										} }
 									</TabPanel>
