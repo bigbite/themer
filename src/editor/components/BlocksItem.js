@@ -2,6 +2,7 @@ import { useState } from '@wordpress/element';
 
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Typography from './StylesTypography';
 import Filter from './StylesFilter';
 import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
@@ -30,6 +31,10 @@ const BlocksItem = ( { block, themeConfig } ) => {
 	);
 	const hasColorStyles = getThemeOption(
 		[ ...blockSelector, 'color' ].join( '.' ),
+		themeConfig
+	);
+	const hasTypographyStyles = getThemeOption(
+		[ ...blockSelector, 'typography' ].join( '.' ),
 		themeConfig
 	);
 	const hasFilterStyles = getThemeOption(
@@ -107,6 +112,13 @@ const BlocksItem = ( { block, themeConfig } ) => {
 					{ hasShadowStyles && (
 						<Shadow
 							selector={ [ ...blockSelector, 'shadow' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasTypographyStyles && (
+						<Typography
+							selector={ [ ...blockSelector, 'typography' ].join(
 								'.'
 							) }
 						/>
