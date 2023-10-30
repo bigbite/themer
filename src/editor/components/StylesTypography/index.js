@@ -69,14 +69,19 @@ const Typography = ( { selector } ) => {
 					handleNewValue={ handleNewValue }
 				/>
 				<FontAppearanceControl
-					value={ {
-						fontStyle: parseFontStyle(
-							typographyStyles?.fontStyle
-						),
-						fontWeight: parseFontWeight(
-							typographyStyles?.fontWeight
-						),
-					} }
+					value={
+						! typographyStyles?.fontStyle &&
+						! typographyStyles?.fontWeight
+							? 'default'
+							: {
+									fontStyle: parseFontStyle(
+										typographyStyles?.fontStyle
+									),
+									fontWeight: parseFontWeight(
+										typographyStyles?.fontWeight
+									),
+							  }
+					}
 					onChange={ ( newVal ) => {
 						handleNewValue( newVal?.fontWeight, 'fontWeight' );
 						handleNewValue( newVal?.fontStyle, 'fontStyle' );

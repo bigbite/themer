@@ -19,7 +19,7 @@ export const parseFontWeight = ( fontWeight ) => {
 	if ( fontWeight === 'bold' ) return '700';
 
 	const regex = /^([1-9]+[0]{2})$/;
-	return regex.test( fontWeight ) ? fontWeight : 'normal';
+	return regex.test( fontWeight ) ? fontWeight : '400';
 };
 
 /**
