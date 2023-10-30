@@ -1,3 +1,5 @@
+import { useState } from '@wordpress/element';
+
 import Border from './StylesBorder';
 import Color from './StylesColor';
 import Typography from './StylesTypography';
@@ -6,6 +8,7 @@ import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
 import Outline from './StylesOutline';
 import Shadow from './StylesShadow';
+
 import getThemeOption from '../../utils/get-theme-option';
 
 /**
@@ -16,6 +19,7 @@ import getThemeOption from '../../utils/get-theme-option';
  * @param {Object} props.themeConfig Theme JSON
  */
 const BlocksItem = ( { block, themeConfig } ) => {
+	const [ isOpen, setIsOpen ] = useState( false );
 	if ( ! block ) {
 		return;
 	}
@@ -55,54 +59,72 @@ const BlocksItem = ( { block, themeConfig } ) => {
 	);
 
 	return (
-		<details className="themer--blocks-item-component">
+		<details
+			className="themer--blocks-item-component"
+			open={ isOpen }
+			onToggle={ () => setIsOpen( ! isOpen ) }
+		>
 			<summary>{ block }</summary>
-			<div className="themer--blocks-item-component--styles">
-				{ hasBorderStyles && (
-					<Border
-						selector={ [ ...blockSelector, 'border' ].join( '.' ) }
-					/>
-				) }
-				{ hasColorStyles && (
-					<Color
-						selector={ [ ...blockSelector, 'color' ].join( '.' ) }
-					/>
-				) }
-				{ hasTypographyStyles && (
-					<Typography
-						selector={ [ ...blockSelector, 'typography' ].join(
-							'.'
-						) }
-					/>
-				) }
-				{ hasFilterStyles && (
-					<Filter
-						selector={ [ ...blockSelector, 'filter' ].join( '.' ) }
-					/>
-				) }
-				{ hasSpacingStyles && (
-					<Spacing
-						selector={ [ ...blockSelector, 'spacing' ].join( '.' ) }
-					/>
-				) }
-				{ hasDimensionsStyles && (
-					<Dimensions
-						selector={ [ ...blockSelector, 'dimensions' ].join(
-							'.'
-						) }
-					/>
-				) }
-				{ hasOutlineStyles && (
-					<Outline
-						selector={ [ ...blockSelector, 'outline' ].join( '.' ) }
-					/>
-				) }
-				{ hasShadowStyles && (
-					<Shadow
-						selector={ [ ...blockSelector, 'shadow' ].join( '.' ) }
-					/>
-				) }
-			</div>
+			{ isOpen && (
+				<div className="themer--blocks-item-component--styles">
+					{ hasBorderStyles && (
+						<Border
+							selector={ [ ...blockSelector, 'border' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasColorStyles && (
+						<Color
+							selector={ [ ...blockSelector, 'color' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasFilterStyles && (
+						<Filter
+							selector={ [ ...blockSelector, 'filter' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasSpacingStyles && (
+						<Spacing
+							selector={ [ ...blockSelector, 'spacing' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasDimensionsStyles && (
+						<Dimensions
+							selector={ [ ...blockSelector, 'dimensions' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasOutlineStyles && (
+						<Outline
+							selector={ [ ...blockSelector, 'outline' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasShadowStyles && (
+						<Shadow
+							selector={ [ ...blockSelector, 'shadow' ].join(
+								'.'
+							) }
+						/>
+					) }
+					{ hasTypographyStyles && (
+						<Typography
+							selector={ [ ...blockSelector, 'typography' ].join(
+								'.'
+							) }
+						/>
+					) }
+				</div>
+			) }
 		</details>
 	);
 };
