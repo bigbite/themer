@@ -1,12 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
+import { MenuItem } from '@wordpress/components';
 import { download } from '@wordpress/icons';
-import { MenuGroup, MenuItem } from '@wordpress/components';
 
 /**
- * Renders the tools menu
+ * Renders the button to export theme.json
  */
-const ToolsMoreMenuGroup = () => {
+const ButtonExport = () => {
 	const isExportSupported =
 		window.isSecureContext && 'showSaveFilePicker' in window;
 
@@ -44,16 +44,15 @@ const ToolsMoreMenuGroup = () => {
 	}
 
 	return (
-		<MenuGroup label={ __( 'Tools', 'themer' ) }>
-			<MenuItem
-				icon={ download }
-				onClick={ fetchThemeJSON }
-				info={ __( 'Export the updated theme.json file', 'themer' ) }
-			>
-				{ __( 'Export', 'themer' ) }
-			</MenuItem>
-		</MenuGroup>
+		<MenuItem
+			onClick={ fetchThemeJSON }
+			icon={ download }
+			role="menuitem"
+			info={ __( 'Export the updated theme.json file.', 'themer' ) }
+		>
+			{ __( 'Export theme.json', 'themer' ) }
+		</MenuItem>
 	);
 };
 
-export default ToolsMoreMenuGroup;
+export default ButtonExport;

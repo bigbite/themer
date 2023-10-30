@@ -1,8 +1,16 @@
-import { mergeWith, isEmpty } from 'lodash';
-import { Button, Spinner, TabPanel } from '@wordpress/components';
+import { mergeWith, isEmpty, isEqual } from 'lodash';
+import {
+	Button,
+	Spinner,
+	TabPanel,
+	MenuGroup,
+	MenuItem,
+} from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo } from '@wordpress/element';
+import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
+import { trash } from '@wordpress/icons';
 
 import Blocks from './Blocks';
 import Layout from './Layout';
@@ -10,7 +18,7 @@ import Colours from './Colours';
 import Preview from './Preview';
 import Typography from './Typography';
 import CustomBlocks from './CustomBlocks';
-import MoreMenuDropdown from './MoreMenuDropdown';
+import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
@@ -18,6 +26,7 @@ import fetchSchema from '../../utils/schema-helpers';
 import ThemerNotice from './ThemerNotice';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
+import { __ } from '@wordpress/i18n';
 
 /**
  * main component
@@ -36,12 +45,13 @@ const ThemerComponent = () => {
 		);
 	};
 
-	const { globalStylesId, baseConfig, userConfig } = useSelect(
-		( select ) => {
+	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
+		useSelect( ( select ) => {
 			const {
 				__experimentalGetCurrentGlobalStylesId,
 				__experimentalGetCurrentThemeBaseGlobalStyles,
 				getEditedEntityRecord,
+				getEntityRecord,
 			} = select( 'core' );
 
 			const currentGlobalStylesId =
@@ -55,9 +65,13 @@ const ThemerComponent = () => {
 					'globalStyles',
 					currentGlobalStylesId
 				),
+				savedUserConfig: getEntityRecord(
+					'root',
+					'globalStyles',
+					currentGlobalStylesId
+				),
 			};
-		}
-	);
+		} );
 
 	/**
 	 * Returns merged base and user configs
@@ -69,6 +83,13 @@ const ThemerComponent = () => {
 		const merged = mergeWith( {}, baseConfig, userConfig );
 		return merged;
 	}, [ userConfig, baseConfig ] );
+
+	/**
+	 * Determines if the user config is different from the most recently saved config.
+	 */
+	const hasUnsavedChanges = useMemo( () => {
+		return ! isEqual( userConfig, savedUserConfig );
+	}, [ userConfig, savedUserConfig ] );
 
 	/**
 	 * Fetch new preview CSS whenever config is changed
@@ -108,6 +129,20 @@ const ThemerComponent = () => {
 	}, [] );
 
 	/**
+	 * Alert user if they try to leave Themer without saving.
+	 */
+	useEffect( () => {
+		// Detecting browser closing
+		window.onbeforeunload = hasUnsavedChanges
+			? () => hasUnsavedChanges
+			: null;
+
+		return () => {
+			window.removeEventListener( 'beforeunload', () => {} );
+		};
+	}, [ hasUnsavedChanges ] );
+
+	/**
 	 * saves edited entity data
 	 */
 	const save = async () => {
@@ -124,9 +159,18 @@ const ThemerComponent = () => {
 	};
 
 	/**
-	 * resets updated theme db data back to original theme.json
+	 * Resets theme db data back to the most recently saved config.
 	 */
 	const reset = () => {
+		dispatch( 'core' ).editEntityRecord(
+			'root',
+			'globalStyles',
+			globalStylesId,
+			savedUserConfig
+		);
+	};
+
+	const clearAllCustomisations = () => {
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
@@ -169,13 +213,39 @@ const ThemerComponent = () => {
 									isSecondary
 									onClick={ () => reset() }
 									text="Reset"
+									disabled={ ! hasUnsavedChanges }
 								/>
 								<Button
 									isPrimary
 									onClick={ () => save() }
 									text="Save"
+									disabled={ ! hasUnsavedChanges }
 								/>
-								<MoreMenuDropdown />
+								<MoreMenuDropdown>
+									{ () => (
+										<MenuGroup
+											label={ __( 'Tools', 'themer' ) }
+										>
+											<MenuItem
+												role="menuitem"
+												icon={ trash }
+												info={ __(
+													'Resets all customisations to your initial theme.json configuration.',
+													'themer'
+												) }
+												onClick={ () =>
+													clearAllCustomisations()
+												}
+											>
+												{ __(
+													'Clear all customisations',
+													'themer'
+												) }
+											</MenuItem>
+											<ButtonExport />
+										</MenuGroup>
+									) }
+								</MoreMenuDropdown>
 							</div>
 							<div className="themer-body">
 								<div className="themer-nav-container">
