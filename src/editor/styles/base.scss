@@ -32,3 +32,10 @@
 		box-shadow: none !important;
 	}
 }
+
+.themer-more-menu .components-menu-item__button {
+	margin-bottom: 10px;
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
