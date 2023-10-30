@@ -64,7 +64,12 @@ const BlocksItem = ( { block, themeConfig } ) => {
 			open={ isOpen }
 			onToggle={ () => setIsOpen( ! isOpen ) }
 		>
-			<summary>{ block }</summary>
+			<summary>
+				<span>
+					{ block?.icon?.src }
+					{ block?.title }
+				</span>
+			</summary>
 			{ isOpen && (
 				<div className="themer--blocks-item-component--styles">
 					{ hasBorderStyles && (
