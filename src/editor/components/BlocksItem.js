@@ -5,9 +5,8 @@ import Styles from './Styles';
 /**
  * Individual block item
  *
- * @param {Object} props             Component props
- * @param {string} props.block       Block name
- * @param {Object} props.themeConfig Theme JSON
+ * @param {Object} props       Component props
+ * @param {string} props.block Block name
  */
 const BlocksItem = ( { block } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
