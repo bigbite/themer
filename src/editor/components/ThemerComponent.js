@@ -225,7 +225,9 @@ const ThemerComponent = () => {
 									{ () => (
 										<MenuGroup
 											label={ __( 'Tools', 'themer' ) }
+											className="themer-more-menu"
 										>
+											<ButtonExport />
 											<MenuItem
 												role="menuitem"
 												icon={ trash }
@@ -236,13 +238,13 @@ const ThemerComponent = () => {
 												onClick={ () =>
 													clearAllCustomisations()
 												}
+												isDestructive
 											>
 												{ __(
 													'Clear all customisations',
 													'themer'
 												) }
 											</MenuItem>
-											<ButtonExport />
 										</MenuGroup>
 									) }
 								</MoreMenuDropdown>

@@ -1,6 +1,6 @@
 .themer--blocks-item-component {
 	container-type: inline-size;
-	padding: 8px 32px;
+	padding: 8px 20px;
 
 	> summary {
 		display: flex;
@@ -11,11 +11,14 @@
 	}
 
 	> summary::after {
-		content: "+";
+		content: url( '../../static/images/chevron.svg' );
+		transition: transform .3s ease-in-out;
+		transform-origin: left center;
 	}
 
 	&[open] > summary::after {
-		content: "-";
+		content: url( '../../static/images/chevron.svg' );
+		transform: rotate(90deg);
 	}
 
 	> summary svg {

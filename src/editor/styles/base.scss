@@ -27,8 +27,15 @@
 	margin: 0;
 	padding: 0 20px;
 
-	> button {
+	& > button {
 		margin: 10px;
 		box-shadow: none !important;
+	}
+}
+
+.themer-more-menu .components-menu-item__button {
+	margin-bottom: 10px;
+	&:last-child {
+		margin-bottom: 0;
 	}
 }
