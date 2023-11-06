@@ -7,6 +7,21 @@ import { blockDefault } from '@wordpress/icons';
 import { getCustomValueFromPreset } from '../utils/block-editor.js';
 
 /**
+ * Returns a list of HTML elements defined by the schema
+ *
+ * @param {Object} schema Theme schema JSON
+ *
+ * @return {Array<string>} List of HTML element names
+ */
+export const getElementsFromSchema = ( schema ) => {
+	const schemaElements = Object.keys(
+		schema?.definitions?.stylesElementsPropertiesComplete?.properties || {}
+	);
+
+	return schemaElements;
+};
+
+/**
  * Returns a list of core blocks defined by the schema with supplemental metadata
  *
  * @param {Object} schema Theme schema JSON
