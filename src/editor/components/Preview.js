@@ -84,6 +84,7 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 				<div
 					className="editor-styles-wrapper"
 					style={ { width: handlePreviewSize() } }
+					inert=""
 				>
 					<EditorStyles styles={ [ { css: previewCss } ] } />
 					<BlockTools
