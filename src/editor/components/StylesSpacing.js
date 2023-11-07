@@ -82,14 +82,6 @@ const Spacing = ( { selector } ) => {
 		themeConfig
 	)?.theme;
 
-	// TODO: support shorthand CSS values in theme.json
-	if (
-		typeof spacingStyles.padding === 'string' ||
-		typeof spacingStyles.margin === 'string'
-	) {
-		return null;
-	}
-
 	/**
 	 * Updates the theme config with the new value.
 	 *
