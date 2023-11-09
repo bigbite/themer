@@ -11,6 +11,7 @@ import { useEffect, useState, useMemo } from '@wordpress/element';
 import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
 
 import Site from './Site';
 import Blocks from './Blocks';
@@ -18,19 +19,22 @@ import Elements from './Elements';
 import Preview from './Preview';
 import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
-import EditorContext from '../context/EditorContext';
-import StylesContext from '../context/StylesContext';
-import fetchSchema from '../../utils/schema-helpers';
 import ThemerNotice from './ThemerNotice';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
-import { __ } from '@wordpress/i18n';
+
+import EditorContext from '../context/EditorContext';
+import StylesContext from '../context/StylesContext';
+
+import fetchSchema from '../../utils/schema-helpers';
+import getDefaultPreview from '../../utils/get-default-preview';
 
 /**
  * main component
  */
 const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
+	const [ previewBlocks, setPreviewBlocks ] = useState( [] );
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
 
@@ -115,6 +119,13 @@ const ThemerComponent = () => {
 	};
 
 	/**
+	 * Resets preview blocks to default template
+	 */
+	const resetPreviewBlocks = () => {
+		setPreviewBlocks( [ 'default', getDefaultPreview() ] );
+	};
+
+	/**
 	 * TODO: For demo purpose only, this should be refactored and
 	 * implemented into the processing of the schema file task
 	 */
@@ -192,6 +203,9 @@ const ThemerComponent = () => {
 					globalStylesId,
 					themeConfig,
 					schema,
+					previewBlocks,
+					setPreviewBlocks,
+					resetPreviewBlocks,
 				} }
 			>
 				<StylesContext.Provider

@@ -1,6 +1,12 @@
-import { useState } from '@wordpress/element';
+import { getBlockFromExample, createBlock } from '@wordpress/blocks';
+import { Button } from '@wordpress/components';
+import { useState, useContext, useEffect } from '@wordpress/element';
+import { seen, unseen } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
 
 import Styles from './Styles';
+
+import EditorContext from '../context/EditorContext';
 
 /**
  * Individual block item
@@ -10,11 +16,75 @@ import Styles from './Styles';
  */
 const BlocksItem = ( { block } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
+	const { previewBlocks, setPreviewBlocks, resetPreviewBlocks } =
+		useContext( EditorContext );
+
+	/**
+	 * Reset the preview when the component is closed
+	 */
+	useEffect( () => {
+		if ( ! isOpen ) {
+			resetPreviewBlocks();
+		}
+	}, [ isOpen ] );
+
 	if ( ! block ) {
 		return;
 	}
 
 	const path = `styles.blocks.${ block.name }`;
+
+	/**
+	 * The example is active if the preview blocks key matches the block name
+	 */
+	const isExampleActive = previewBlocks[ 0 ] === block.name;
+
+	/**
+	 * Toggle the preview example for this block on/off
+	 * Examples are defined during block registration
+	 *
+	 * @returns void
+	 */
+	const toggleExample = () => {
+		if ( isExampleActive ) {
+			resetPreviewBlocks();
+			return;
+		}
+
+		if ( 'core/heading' === block.name ) {
+			setPreviewBlocks( [
+				block.name,
+				[
+					createBlock( 'core/heading', {
+						content: __( 'Code Is Poetry' ),
+						level: 1,
+					} ),
+					createBlock( 'core/heading', {
+						content: __( 'Code Is Poetry' ),
+						level: 2,
+					} ),
+					createBlock( 'core/heading', {
+						content: __( 'Code Is Poetry' ),
+						level: 3,
+					} ),
+					createBlock( 'core/heading', {
+						content: __( 'Code Is Poetry' ),
+						level: 4,
+					} ),
+					createBlock( 'core/heading', {
+						content: __( 'Code Is Poetry' ),
+						level: 5,
+					} ),
+				],
+			] );
+			return;
+		}
+
+		setPreviewBlocks( [
+			block.name,
+			[ getBlockFromExample( block.name, block.example ) ],
+		] );
+	};
 
 	return (
 		<details
@@ -30,6 +100,15 @@ const BlocksItem = ( { block } ) => {
 			</summary>
 			{ isOpen && (
 				<div className="themer--blocks-item-component--styles">
+					{ block.example && (
+						<div>
+							<Button
+								onClick={ toggleExample }
+								icon={ isExampleActive ? unseen : seen }
+								label="Toggle example"
+							/>
+						</div>
+					) }
 					<Styles path={ path } />
 				</div>
 			) }
