@@ -1,6 +1,6 @@
 import { Button } from '@wordpress/components';
 import { useState, useContext, useEffect } from '@wordpress/element';
-import { seen, unseen } from '@wordpress/icons';
+import { seen } from '@wordpress/icons';
 
 import Styles from './Styles';
 
@@ -68,7 +68,8 @@ const ElementItem = ( { path, name } ) => {
 						<div>
 							<Button
 								onClick={ toggleExample }
-								icon={ isExampleActive ? unseen : seen }
+								icon={ seen }
+								isPressed={ isExampleActive }
 								label="Toggle example"
 							/>
 						</div>
