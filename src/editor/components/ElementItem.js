@@ -20,12 +20,13 @@ const ElementItem = ( { path, name } ) => {
 		useContext( EditorContext );
 
 	/**
-	 * Reset the preview when the component is closed
+	 * Reset the preview when the component is closed or unmounted
 	 */
 	useEffect( () => {
 		if ( ! isOpen ) {
 			resetPreviewBlocks();
 		}
+		return () => resetPreviewBlocks();
 	}, [ isOpen ] );
 
 	if ( ! name ) {
@@ -37,7 +38,7 @@ const ElementItem = ( { path, name } ) => {
 	/**
 	 * The example is active if the preview blocks key matches the element name
 	 */
-	const isExampleActive = previewBlocks[ 0 ] === name;
+	const isExampleActive = previewBlocks.name === name;
 
 	/**
 	 * Toggle the preview example for this block on/off
@@ -51,7 +52,7 @@ const ElementItem = ( { path, name } ) => {
 			return;
 		}
 
-		setPreviewBlocks( [ name, elementPreviewBlocks ] );
+		setPreviewBlocks( { name, blocks: elementPreviewBlocks } );
 	};
 
 	return (

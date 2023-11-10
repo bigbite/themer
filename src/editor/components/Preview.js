@@ -26,7 +26,7 @@ const Preview = ( { baseOptions, previewCss, previewSize } ) => {
 	const { previewBlocks, resetPreviewBlocks } = useContext( EditorContext );
 
 	useEffect( () => {
-		if ( previewBlocks.length === 0 ) {
+		if ( ! previewBlocks ) {
 			resetPreviewBlocks();
 		}
 	}, [ previewBlocks ] );
@@ -47,7 +47,7 @@ const Preview = ( { baseOptions, previewCss, previewSize } ) => {
 	return (
 		<ShortcutProvider>
 			<BlockEditorProvider
-				value={ previewBlocks[ 1 ] }
+				value={ previewBlocks?.blocks }
 				settings={ baseOptions }
 			>
 				<div

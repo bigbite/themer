@@ -22,12 +22,13 @@ const BlocksItem = ( { block } ) => {
 		useContext( EditorContext );
 
 	/**
-	 * Reset the preview when the component is closed
+	 * Reset the preview when the component is closed or unmounted
 	 */
 	useEffect( () => {
 		if ( ! isOpen ) {
 			resetPreviewBlocks();
 		}
+		return () => resetPreviewBlocks();
 	}, [ isOpen ] );
 
 	if ( ! block ) {
@@ -39,7 +40,7 @@ const BlocksItem = ( { block } ) => {
 	/**
 	 * The example is active if the preview blocks key matches the block name
 	 */
-	const isExampleActive = previewBlocks[ 0 ] === block.name;
+	const isExampleActive = previewBlocks.name === block.name;
 
 	/**
 	 * Toggle the preview example for this block on/off
@@ -54,14 +55,17 @@ const BlocksItem = ( { block } ) => {
 		}
 
 		if ( 'core/heading' === block.name ) {
-			setPreviewBlocks( [ block.name, getHeaderPreview() ] );
+			setPreviewBlocks( {
+				name: block.name,
+				blocks: getHeaderPreview(),
+			} );
 			return;
 		}
 
-		setPreviewBlocks( [
-			block.name,
-			[ getBlockFromExample( block.name, block.example ) ],
-		] );
+		setPreviewBlocks( {
+			name: block.name,
+			blocks: [ getBlockFromExample( block.name, block.example ) ],
+		} );
 	};
 
 	return (

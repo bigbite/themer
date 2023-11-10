@@ -34,7 +34,7 @@ import { getDefaultPreview } from '../../utils/blockPreviews';
  */
 const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
-	const [ previewBlocks, setPreviewBlocks ] = useState( [] );
+	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
 
@@ -122,7 +122,7 @@ const ThemerComponent = () => {
 	 * Resets preview blocks to default template
 	 */
 	const resetPreviewBlocks = () => {
-		setPreviewBlocks( [ 'default', getDefaultPreview() ] );
+		setPreviewBlocks( { name: 'default', blocks: getDefaultPreview() } );
 	};
 
 	/**
