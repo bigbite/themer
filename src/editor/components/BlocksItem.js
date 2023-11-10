@@ -8,7 +8,7 @@ import Styles from './Styles';
 
 import EditorContext from '../context/EditorContext';
 
-import { getHeaderPreview } from '../../utils/blockPreviews';
+import { getHeadingPreview } from '../../utils/blockPreviews';
 
 /**
  * Individual block item
@@ -57,7 +57,7 @@ const BlocksItem = ( { block } ) => {
 		if ( 'core/heading' === block.name ) {
 			setPreviewBlocks( {
 				name: block.name,
-				blocks: getHeaderPreview(),
+				blocks: getHeadingPreview(),
 			} );
 			return;
 		}

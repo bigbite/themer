@@ -42,11 +42,11 @@ export function getDefaultPreview() {
 }
 
 /**
- * Create a block preview specific to header blocks
+ * Create a block preview specific to heading blocks
  *
  * @return {Array<Object>} Array of blocks
  */
-export function getHeaderPreview() {
+export function getHeadingPreview() {
 	return [
 		createBlock( 'core/heading', {
 			content: __( 'Code Is Poetry' ),
@@ -109,7 +109,7 @@ export function getElementPreview( elementName ) {
 		case 'h4':
 		case 'h5':
 		case 'h6':
-			return getHeaderPreview();
+			return getHeadingPreview();
 		case 'caption':
 			return [ getBlockPreview( 'core/image' ) ];
 		case 'cite':
