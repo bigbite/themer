@@ -1,4 +1,4 @@
-import { getBlockFromExample, createBlock } from '@wordpress/blocks';
+import { getBlockFromExample } from '@wordpress/blocks';
 import { Button } from '@wordpress/components';
 import { useState, useContext, useEffect } from '@wordpress/element';
 import { seen, unseen } from '@wordpress/icons';
@@ -7,6 +7,8 @@ import { __ } from '@wordpress/i18n';
 import Styles from './Styles';
 
 import EditorContext from '../context/EditorContext';
+
+import { getHeaderPreview } from '../../utils/blockPreviews';
 
 /**
  * Individual block item
@@ -52,31 +54,7 @@ const BlocksItem = ( { block } ) => {
 		}
 
 		if ( 'core/heading' === block.name ) {
-			setPreviewBlocks( [
-				block.name,
-				[
-					createBlock( 'core/heading', {
-						content: __( 'Code Is Poetry' ),
-						level: 1,
-					} ),
-					createBlock( 'core/heading', {
-						content: __( 'Code Is Poetry' ),
-						level: 2,
-					} ),
-					createBlock( 'core/heading', {
-						content: __( 'Code Is Poetry' ),
-						level: 3,
-					} ),
-					createBlock( 'core/heading', {
-						content: __( 'Code Is Poetry' ),
-						level: 4,
-					} ),
-					createBlock( 'core/heading', {
-						content: __( 'Code Is Poetry' ),
-						level: 5,
-					} ),
-				],
-			] );
+			setPreviewBlocks( [ block.name, getHeaderPreview() ] );
 			return;
 		}
 

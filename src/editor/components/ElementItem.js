@@ -5,7 +5,7 @@ import { seen, unseen } from '@wordpress/icons';
 import Styles from './Styles';
 
 import EditorContext from '../context/EditorContext';
-import getBlockFromElement from '../../utils/get-block-from-element';
+import { getElementPreview } from '../../utils/blockPreviews';
 
 /**
  * Individual element item
@@ -32,7 +32,7 @@ const ElementItem = ( { path, name } ) => {
 		return;
 	}
 
-	const example = getBlockFromElement( name );
+	const elementPreviewBlocks = getElementPreview( name );
 
 	/**
 	 * The example is active if the preview blocks key matches the element name
@@ -51,7 +51,7 @@ const ElementItem = ( { path, name } ) => {
 			return;
 		}
 
-		setPreviewBlocks( [ name, [ example ] ] );
+		setPreviewBlocks( [ name, elementPreviewBlocks ] );
 	};
 
 	return (
@@ -63,7 +63,7 @@ const ElementItem = ( { path, name } ) => {
 			<summary>{ name }</summary>
 			{ isOpen && (
 				<div className="themer--blocks-item-component--styles">
-					{ example && (
+					{ elementPreviewBlocks && (
 						<div>
 							<Button
 								onClick={ toggleExample }

@@ -27,7 +27,7 @@ import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 
 import fetchSchema from '../../utils/schema-helpers';
-import getDefaultPreview from '../../utils/get-default-preview';
+import { getDefaultPreview } from '../../utils/blockPreviews';
 
 /**
  * main component
