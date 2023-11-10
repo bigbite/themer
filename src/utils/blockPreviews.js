@@ -71,6 +71,13 @@ export function getHeaderPreview() {
 	];
 }
 
+/**
+ * Create a block preview based on a block name
+ * Uses the block example defined during block registration
+ *
+ * @param {string} blockName
+ * @returns
+ */
 export function getBlockPreview( blockName ) {
 	const { getBlockType } = select( blocksStore );
 	const block = getBlockType( blockName );
@@ -80,12 +87,12 @@ export function getBlockPreview( blockName ) {
 /**
  * Create a block preview based on an element name
  *
- * @param {string} name
+ * @param {string} elementName
  *
  * @return {Array<Object>|null} Array of blocks or null if no preview available
  */
-export function getElementPreview( name ) {
-	switch ( name ) {
+export function getElementPreview( elementName ) {
+	switch ( elementName ) {
 		case 'button':
 			return [ getBlockPreview( 'core/button' ) ];
 		case 'link':
