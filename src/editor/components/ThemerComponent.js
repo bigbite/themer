@@ -7,7 +7,7 @@ import {
 	MenuItem,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
@@ -121,9 +121,9 @@ const ThemerComponent = () => {
 	/**
 	 * Resets preview blocks to default template
 	 */
-	const resetPreviewBlocks = () => {
+	const resetPreviewBlocks = useCallback( () => {
 		setPreviewBlocks( { name: 'default', blocks: getDefaultPreview() } );
-	};
+	}, [ setPreviewBlocks ] );
 
 	/**
 	 * TODO: For demo purpose only, this should be refactored and
