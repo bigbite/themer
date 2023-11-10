@@ -29,7 +29,7 @@ const Preview = ( { baseOptions, previewCss, previewSize } ) => {
 		if ( ! previewBlocks ) {
 			resetPreviewBlocks();
 		}
-	}, [ previewBlocks ] );
+	}, [ previewBlocks, resetPreviewBlocks ] );
 
 	const handlePreviewSize = () => {
 		switch ( previewSize ) {

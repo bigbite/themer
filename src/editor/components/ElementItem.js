@@ -27,7 +27,7 @@ const ElementItem = ( { path, name } ) => {
 			resetPreviewBlocks();
 		}
 		return () => resetPreviewBlocks();
-	}, [ isOpen ] );
+	}, [ isOpen, resetPreviewBlocks ] );
 
 	if ( ! name ) {
 		return;
@@ -44,7 +44,7 @@ const ElementItem = ( { path, name } ) => {
 	 * Toggle the preview example for this block on/off
 	 * Uses the example defined during block registration to render the preview
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	const toggleExample = () => {
 		if ( isExampleActive ) {

@@ -2,7 +2,6 @@ import { getBlockFromExample } from '@wordpress/blocks';
 import { Button } from '@wordpress/components';
 import { useState, useContext, useEffect } from '@wordpress/element';
 import { seen, unseen } from '@wordpress/icons';
-import { __ } from '@wordpress/i18n';
 
 import Styles from './Styles';
 
@@ -29,7 +28,7 @@ const BlocksItem = ( { block } ) => {
 			resetPreviewBlocks();
 		}
 		return () => resetPreviewBlocks();
-	}, [ isOpen ] );
+	}, [ isOpen, resetPreviewBlocks ] );
 
 	if ( ! block ) {
 		return;
@@ -46,7 +45,7 @@ const BlocksItem = ( { block } ) => {
 	 * Toggle the preview example for this block on/off
 	 * Examples are defined during block registration
 	 *
-	 * @returns void
+	 * @return void
 	 */
 	const toggleExample = () => {
 		if ( isExampleActive ) {

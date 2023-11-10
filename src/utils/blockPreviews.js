@@ -76,7 +76,7 @@ export function getHeadingPreview() {
  * Uses the block example defined during block registration
  *
  * @param {string} blockName
- * @returns
+ * @return {Object} Block object
  */
 export function getBlockPreview( blockName ) {
 	const { getBlockType } = select( blocksStore );
