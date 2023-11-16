@@ -2,6 +2,7 @@ import { useContext } from '@wordpress/element';
 
 import Border from './StylesBorder';
 import Color from './StylesColor';
+import Typography from './StylesTypography';
 import Filter from './StylesFilter';
 import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
@@ -31,6 +32,10 @@ const Styles = ( { path } ) => {
 
 	const hasBorderStyles = getThemeOption( `${ path }.border`, themeConfig );
 	const hasColorStyles = getThemeOption( `${ path }.color`, themeConfig );
+	const hasTypographyStyles = getThemeOption(
+		`${ path }.typography`,
+		themeConfig
+	);
 	const hasFilterStyles = getThemeOption( `${ path }.filter`, themeConfig );
 	const hasSpacingStyles = getThemeOption( `${ path }.spacing`, themeConfig );
 	const hasDimensionsStyles = getThemeOption(
@@ -47,6 +52,9 @@ const Styles = ( { path } ) => {
 					<Border selector={ `${ path }.border` } />
 				) }
 				{ hasColorStyles && <Color selector={ `${ path }.color` } /> }
+				{ hasTypographyStyles && (
+					<Typography selector={ `${ path }.typography` } />
+				) }
 				{ hasFilterStyles && (
 					<Filter selector={ `${ path }.filter` } />
 				) }
