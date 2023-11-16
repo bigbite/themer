@@ -1,0 +1,20 @@
+.themer-breadcrumbs {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+	margin: 2em 0;
+}
+
+.themer-breadcrumbs__item {
+	text-decoration: none !important;
+	text-transform: capitalize;
+}
+
+.themer-breadcrumbs__item:disabled {
+	opacity: 1;
+	font-weight: 500;
+}
+
+.themer-breadcrumbs__item:not(:disabled) {
+	color: var(--wp-components-color-foreground, #1e1e1e);
+}

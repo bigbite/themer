@@ -1,24 +1,28 @@
+import { __experimentalHeading as Heading } from '@wordpress/components';
+
 import Styles from './Styles';
+import Pseudos from './Pseudos';
 
 /**
  * Individual element item
  *
  * @param {Object} props      Component props
  * @param {string} props.name Element name
- * @param {string} props.path Path name
+ * @param {string} props.selector Selector to locate this element in the schema
  */
-const ElementItem = ( { path, name } ) => {
+const ElementItem = ( { name, selector } ) => {
 	if ( ! name ) {
 		return;
 	}
 
+	const stylesSelector = `styles.${ selector }`;
+
 	return (
-		<details className="themer--blocks-item-component">
-			<summary>{ name }</summary>
-			<div className="themer--blocks-item-component--styles">
-				<Styles path={ `${ path }.${ name }` } />
-			</div>
-		</details>
+		<>
+			<Heading level={ 4 }>Element Styles</Heading>
+			<Styles selector={ stylesSelector } />
+			<Pseudos selector={ stylesSelector } />
+		</>
 	);
 };
 

@@ -13,8 +13,6 @@ import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
 
 import Site from './Site';
-import Blocks from './Blocks';
-import Elements from './Elements';
 import Preview from './Preview';
 import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
@@ -22,6 +20,8 @@ import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import fetchSchema from '../../utils/schema-helpers';
 import ThemerNotice from './ThemerNotice';
+import NavBlocks from './NavBlocks';
+import NavElements from './NavElements';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
 import { __ } from '@wordpress/i18n';
@@ -272,11 +272,9 @@ const ThemerComponent = () => {
 												case 'site':
 													return <Site />;
 												case 'blocks':
-													return <Blocks />;
+													return <NavBlocks />;
 												case 'elements':
-													return (
-														<Elements path="styles.elements" />
-													);
+													return <NavElements />;
 												default:
 													return <Site />;
 											}

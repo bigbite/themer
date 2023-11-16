@@ -80,13 +80,16 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 
 	return (
 		<ShortcutProvider>
-			<BlockEditorProvider value={ blocks } settings={ baseOptions }>
+			<BlockEditorProvider
+				value={ blocks }
+				settings={ { ...baseOptions, stlyes: previewCss } }
+			>
 				<div
 					className="editor-styles-wrapper"
 					style={ { width: handlePreviewSize() } }
 					inert=""
 				>
-					<EditorStyles styles={ [ { css: previewCss } ] } />
+					{ /* <EditorStyles styles={ [ { css: previewCss } ] } /> */ }
 					<BlockTools
 						className={
 							'edit-site-visual-editor is-focus-mode is-view-mode'

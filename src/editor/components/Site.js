@@ -10,7 +10,7 @@ const Site = () => {
 		<section className="themer--blocks-component">
 			<h2>{ __( 'Site', 'themer' ) }</h2>
 			<p>{ __( 'Customise the appearance of the site.', 'themer' ) }</p>
-			<Styles path="styles" />
+			<Styles selector="styles" />
 		</section>
 	);
 };
