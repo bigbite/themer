@@ -8,9 +8,9 @@ import Search from './Search';
 import NavButton from './NavButton';
 
 /**
- * Blocks tab menu component
+ * Block list
  */
-const Blocks = () => {
+const BlockList = () => {
 	const { themeConfig, schema } = useContext( EditorContext );
 	const [ searchValue, setSearchValue ] = useState();
 	const { goTo } = useNavigator();
@@ -53,4 +53,4 @@ const Blocks = () => {
 	);
 };
 
-export default Blocks;
+export default BlockList;

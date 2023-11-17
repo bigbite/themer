@@ -8,7 +8,7 @@ import getThemeOption from '../../utils/get-theme-option';
 import NavButton from './NavButton';
 
 /**
- * Elements tab menu component
+ * Navigational list of elements
  *
  * @param {Object} props          Component props
  * @param {string} props.selector Selector to locate these elements in the schema

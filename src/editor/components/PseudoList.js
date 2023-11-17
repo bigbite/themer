@@ -15,7 +15,13 @@ const PSEUDO_KEYS = [
 	':any-link',
 ];
 
-const Pseudos = ( { selector } ) => {
+/**
+ * Navigational list of pseudo elements
+ *
+ * @param {Object} props          Component props
+ * @param {string} props.selector Selector to locate these pseudos in the schema
+ */
+const PseudoList = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { goTo, location } = useNavigator();
 
@@ -52,4 +58,4 @@ const Pseudos = ( { selector } ) => {
 	);
 };
 
-export default Pseudos;
+export default PseudoList;

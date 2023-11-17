@@ -2,7 +2,7 @@ import { __experimentalHeading as Heading, Icon } from '@wordpress/components';
 import { useContext } from '@wordpress/element';
 
 import Styles from './Styles';
-import Elements from './Elements';
+import ElementList from './ElementList';
 
 import EditorContext from '../context/EditorContext';
 import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
@@ -14,7 +14,7 @@ import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
  * @param {string} props.name     Block name
  * @param {string} props.selector Selector to locate this block in the schema
  */
-const BlocksItem = ( { name, selector } ) => {
+const BlockItem = ( { name, selector } ) => {
 	const { schema } = useContext( EditorContext );
 
 	if ( ! name ) {
@@ -38,9 +38,9 @@ const BlocksItem = ( { name, selector } ) => {
 			</span>
 			<p>{ block.description }</p>
 			<Styles selector={ stylesSelector } />
-			<Elements selector={ elementsSelector } />
+			<ElementList selector={ elementsSelector } />
 		</>
 	);
 };
 
-export default BlocksItem;
+export default BlockItem;

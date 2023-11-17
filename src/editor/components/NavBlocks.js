@@ -8,8 +8,8 @@ import {
 import { __ } from '@wordpress/i18n';
 
 import NavigatorBreadcrumbs from './NavigatorBreadcrumbs';
-import Blocks from './Blocks';
-import BlocksItem from './BlocksItem';
+import BlockList from './BlockList';
+import BlockItem from './BlockItem';
 import ElementItem from './ElementItem';
 import PseudoItem from './PseudoItem';
 
@@ -32,12 +32,12 @@ const NavBlocks = () => {
 						'themer'
 					) }
 				</p>
-				<Blocks />
+				<BlockList />
 			</NavigatorScreen>
 
 			{ /* block screen */ }
 			<NavigatorScreen path="/blocks/:blockName">
-				<BlocksItem
+				<BlockItem
 					name={ params.blockName }
 					selector={ `blocks.${ params.blockName }` }
 				/>

@@ -1,7 +1,7 @@
 import { __experimentalHeading as Heading } from '@wordpress/components';
 
 import Styles from './Styles';
-import Pseudos from './Pseudos';
+import PseudoList from './PseudoList';
 
 /**
  * Individual element item
@@ -21,7 +21,7 @@ const ElementItem = ( { name, selector } ) => {
 		<>
 			<Heading level={ 4 }>Element Styles</Heading>
 			<Styles selector={ stylesSelector } />
-			<Pseudos selector={ stylesSelector } />
+			<PseudoList selector={ stylesSelector } />
 		</>
 	);
 };

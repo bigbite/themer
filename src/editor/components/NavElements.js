@@ -8,7 +8,7 @@ import {
 import { __ } from '@wordpress/i18n';
 
 import NavigatorBreadcrumbs from './NavigatorBreadcrumbs';
-import Elements from './Elements';
+import ElementList from './ElementList';
 import ElementItem from './ElementItem';
 import PseudoItem from './PseudoItem';
 
@@ -31,7 +31,7 @@ const NavElements = () => {
 						'themer'
 					) }
 				</p>
-				<Elements selector="elements" />
+				<ElementList selector="elements" />
 			</NavigatorScreen>
 
 			{ /* element screen */ }
