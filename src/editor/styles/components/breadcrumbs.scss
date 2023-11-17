@@ -18,3 +18,14 @@
 .themer-breadcrumbs__item:not(:disabled) {
 	color: var(--wp-components-color-foreground, #1e1e1e);
 }
+
+.themer--nav-button {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	text-transform: capitalize;
+}
+
+.themer--nav-button__arrow {
+	margin-left: auto;
+}

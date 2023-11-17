@@ -1,6 +1,6 @@
 import {
+	__experimentalHeading as Heading,
 	__experimentalUseNavigator as useNavigator,
-	Button,
 } from '@wordpress/components';
 import { useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -8,6 +8,8 @@ import { __ } from '@wordpress/i18n';
 import EditorContext from '../context/EditorContext';
 import { getElementsFromSchema } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
+
+import NavButton from './NavButton';
 
 /**
  * Elements tab menu component
@@ -33,15 +35,16 @@ const Elements = ( { selector } ) => {
 	);
 
 	return (
-		<section className="themer--blocks-component">
+		<section>
+			<Heading level={ 4 }>Elements</Heading>
 			<ul>
 				{ elements.map( ( element ) => {
 					const route = location.path + '/' + element;
 					return (
-						<li>
-							<Button onClick={ () => goTo( route ) }>
+						<li key={ route }>
+							<NavButton onClick={ () => goTo( route ) }>
 								{ element }
-							</Button>
+							</NavButton>
 						</li>
 					);
 				} ) }

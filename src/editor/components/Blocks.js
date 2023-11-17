@@ -1,13 +1,12 @@
-import {
-	__experimentalUseNavigator as useNavigator,
-	Button,
-} from '@wordpress/components';
+import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useState, useContext } from '@wordpress/element';
 
-import Search from './Search';
 import EditorContext from '../context/EditorContext';
 import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
+
+import Search from './Search';
+import NavButton from './NavButton';
 
 /**
  * Blocks tab menu component
@@ -40,13 +39,13 @@ const Blocks = () => {
 					const route = '/blocks/' + encodeURIComponent( block.name );
 
 					return (
-						<li key={ block.name }>
-							<Button
+						<li key={ route }>
+							<NavButton
 								icon={ block?.icon?.src }
 								onClick={ () => goTo( route ) }
 							>
 								{ block?.title }
-							</Button>
+							</NavButton>
 						</li>
 					);
 				} ) }
