@@ -30,14 +30,7 @@ const BlocksItem = ( { name, selector } ) => {
 
 	return (
 		<>
-			<span
-				style={ {
-					display: 'flex',
-					alignItems: 'center',
-					lineHeight: 1,
-					gap: '.5em',
-				} }
-			>
+			<span className="themer--icon-heading">
 				<Icon icon={ block.icon.src } size={ 24 } />
 				<Heading level={ 4 }>{ block.title }</Heading>
 			</span>
