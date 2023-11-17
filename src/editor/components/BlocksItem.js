@@ -10,8 +10,8 @@ import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
 /**
  * Individual block item
  *
- * @param {Object} props           Component props
- * @param {string} props.name Block name
+ * @param {Object} props          Component props
+ * @param {string} props.name     Block name
  * @param {string} props.selector Selector to locate this block in the schema
  */
 const BlocksItem = ( { name, selector } ) => {
@@ -23,7 +23,9 @@ const BlocksItem = ( { name, selector } ) => {
 
 	const schemaBlocks = getCoreBlocksFromSchema( schema );
 
-	const block = schemaBlocks?.find( ( block ) => block.name === name );
+	const block = schemaBlocks?.find(
+		( schemaBlock ) => schemaBlock.name === name
+	);
 
 	const stylesSelector = `styles.${ selector }`;
 	const elementsSelector = `${ selector }.elements`;

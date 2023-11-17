@@ -1,5 +1,4 @@
 import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 import { useState, useContext } from '@wordpress/element';
 
 import EditorContext from '../context/EditorContext';

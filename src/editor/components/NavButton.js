@@ -3,7 +3,8 @@ import { Button, Icon } from '@wordpress/components';
 /**
  * Nav Button
  *
- * @param {Object} props Component props
+ * @param {Object}      props          Component props
+ * @param {JSX.Element} props.children Child elements
  */
 const NavButton = ( { children, ...props } ) => {
 	return (

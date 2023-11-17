@@ -1,9 +1,3 @@
-/**
- * This component requires use of experimental apis
- */
-
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
-
 import {
 	BlockTools,
 	BlockEditorProvider,
@@ -89,7 +83,7 @@ function Preview( { baseOptions, previewCss, previewSize } ) {
 					style={ { width: handlePreviewSize() } }
 					inert=""
 				>
-					{ /* <EditorStyles styles={ [ { css: previewCss } ] } /> */ }
+					<EditorStyles styles={ [ { css: previewCss } ] } />
 					<BlockTools
 						className={
 							'edit-site-visual-editor is-focus-mode is-view-mode'

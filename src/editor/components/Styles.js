@@ -20,7 +20,7 @@ import EditorContext from '../context/EditorContext';
  * This can be reused with any selector that references the stylesProperties schema object:
  * https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/theme.json
  *
- * @param {Object} props      Component props
+ * @param {Object} props          Component props
  * @param {string} props.selector Selector for styles object within theme config
  */
 const Styles = ( { selector } ) => {

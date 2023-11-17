@@ -1,9 +1,5 @@
-import {
-	__experimentalUseNavigator as useNavigator,
-	__experimentalHeading as Heading,
-} from '@wordpress/components';
+import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
 import { useContext } from '@wordpress/element';
-import { __ } from '@wordpress/i18n';
 
 import EditorContext from '../context/EditorContext';
 import getThemeOption from '../../utils/get-theme-option';
@@ -40,7 +36,6 @@ const Pseudos = ( { selector } ) => {
 
 	return (
 		<>
-			<Heading level={ 4 }>Pseudo classes</Heading>
 			<ul>
 				{ pseudos.map( ( pseudo ) => {
 					const route = `${ location.path }/${ pseudo }`;

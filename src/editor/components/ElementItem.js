@@ -6,8 +6,8 @@ import Pseudos from './Pseudos';
 /**
  * Individual element item
  *
- * @param {Object} props      Component props
- * @param {string} props.name Element name
+ * @param {Object} props          Component props
+ * @param {string} props.name     Element name
  * @param {string} props.selector Selector to locate this element in the schema
  */
 const ElementItem = ( { name, selector } ) => {
