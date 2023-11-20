@@ -177,7 +177,7 @@ const ThemerComponent = () => {
 		);
 	};
 
-	if ( ! themeConfig || ! previewCss ) {
+	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
 				<Spinner />
