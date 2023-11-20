@@ -1,6 +1,13 @@
-import { useState } from '@wordpress/element';
+import { getBlockFromExample } from '@wordpress/blocks';
+import { Button } from '@wordpress/components';
+import { useState, useContext, useEffect } from '@wordpress/element';
+import { seen } from '@wordpress/icons';
 
 import Styles from './Styles';
+
+import EditorContext from '../context/EditorContext';
+
+import { getHeadingPreview } from '../../utils/blockPreviews';
 
 /**
  * Individual block item
@@ -10,11 +17,55 @@ import Styles from './Styles';
  */
 const BlocksItem = ( { block } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
+	const { previewBlocks, setPreviewBlocks, resetPreviewBlocks } =
+		useContext( EditorContext );
+
+	/**
+	 * Reset the preview when the component is closed or unmounted
+	 */
+	useEffect( () => {
+		if ( ! isOpen ) {
+			resetPreviewBlocks();
+		}
+		return () => resetPreviewBlocks();
+	}, [ isOpen, resetPreviewBlocks ] );
+
 	if ( ! block ) {
 		return;
 	}
 
 	const path = `styles.blocks.${ block.name }`;
+
+	/**
+	 * The example is active if the preview blocks key matches the block name
+	 */
+	const isExampleActive = previewBlocks.name === block.name;
+
+	/**
+	 * Toggle the preview example for this block on/off
+	 * Examples are defined during block registration
+	 *
+	 * @return {void}
+	 */
+	const toggleExample = () => {
+		if ( isExampleActive ) {
+			resetPreviewBlocks();
+			return;
+		}
+
+		if ( 'core/heading' === block.name ) {
+			setPreviewBlocks( {
+				name: block.name,
+				blocks: getHeadingPreview(),
+			} );
+			return;
+		}
+
+		setPreviewBlocks( {
+			name: block.name,
+			blocks: [ getBlockFromExample( block.name, block.example ) ],
+		} );
+	};
 
 	return (
 		<details
@@ -30,6 +81,16 @@ const BlocksItem = ( { block } ) => {
 			</summary>
 			{ isOpen && (
 				<div className="themer--blocks-item-component--styles">
+					{ block.example && (
+						<div>
+							<Button
+								onClick={ toggleExample }
+								icon={ seen }
+								isPressed={ isExampleActive }
+								label="Toggle example"
+							/>
+						</div>
+					) }
 					<Styles path={ path } />
 				</div>
 			) }
