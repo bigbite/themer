@@ -7,30 +7,34 @@ import {
 	MenuItem,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
-import { useEffect, useState, useMemo } from '@wordpress/element';
+import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
 
 import Site from './Site';
 import Preview from './Preview';
 import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
-import EditorContext from '../context/EditorContext';
-import StylesContext from '../context/StylesContext';
-import fetchSchema from '../../utils/schema-helpers';
 import ThemerNotice from './ThemerNotice';
 import NavBlocks from './NavBlocks';
 import NavElements from './NavElements';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
-import { __ } from '@wordpress/i18n';
+
+import EditorContext from '../context/EditorContext';
+import StylesContext from '../context/StylesContext';
+
+import fetchSchema from '../../utils/schema-helpers';
+import { getDefaultPreview } from '../../utils/blockPreviews';
 
 /**
  * main component
  */
 const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
+	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
 
@@ -79,6 +83,7 @@ const ThemerComponent = () => {
 			return baseConfig;
 		}
 		const merged = mergeWith( {}, baseConfig, userConfig );
+		console.log( { merged, baseConfig, userConfig } );
 		return merged;
 	}, [ userConfig, baseConfig ] );
 
@@ -113,6 +118,13 @@ const ThemerComponent = () => {
 		} );
 		setValidThemeJson( res );
 	};
+
+	/**
+	 * Resets preview blocks to default template
+	 */
+	const resetPreviewBlocks = useCallback( () => {
+		setPreviewBlocks( { name: 'default', blocks: getDefaultPreview() } );
+	}, [ setPreviewBlocks ] );
 
 	/**
 	 * TODO: For demo purpose only, this should be refactored and
@@ -177,7 +189,7 @@ const ThemerComponent = () => {
 		);
 	};
 
-	if ( ! themeConfig || ! previewCss ) {
+	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
 				<Spinner />
@@ -192,6 +204,9 @@ const ThemerComponent = () => {
 					globalStylesId,
 					themeConfig,
 					schema,
+					previewBlocks,
+					setPreviewBlocks,
+					resetPreviewBlocks,
 				} }
 			>
 				<StylesContext.Provider

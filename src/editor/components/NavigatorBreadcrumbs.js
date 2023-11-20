@@ -35,8 +35,9 @@ const NavigatorBreadcrumbs = () => {
 			{ paths.map( ( { name, path } ) => {
 				const current = location.path === path;
 				return (
-					<>
+					<div key={ path }>
 						<Button
+							key={ path }
 							className="themer-breadcrumbs__item"
 							onClick={ () => goTo( path ) }
 							variant="link"
@@ -51,7 +52,7 @@ const NavigatorBreadcrumbs = () => {
 								size={ 12 }
 							/>
 						) }
-					</>
+					</div>
 				);
 			} ) }
 		</div>

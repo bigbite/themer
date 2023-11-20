@@ -31,8 +31,12 @@
 }
 
 .themer--icon-heading {
-	display: flex;
+	display: flex !important;
 	align-items: center;
 	line-height: 1;
 	gap: 0.5em;
+}
+
+.themer--icon-heading__right {
+	margin-left: auto;
 }
