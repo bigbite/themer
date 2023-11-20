@@ -4,18 +4,23 @@
 	align-items: center;
 	margin: 2em 0;
 }
-
 .themer-breadcrumbs__item {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+}
+
+.themer-breadcrumbs__item__button {
 	text-decoration: none !important;
 	text-transform: capitalize;
 }
 
-.themer-breadcrumbs__item:disabled {
+.themer-breadcrumbs__item__button:disabled {
 	opacity: 1;
 	font-weight: 500;
 }
 
-.themer-breadcrumbs__item:not(:disabled) {
+.themer-breadcrumbs__item__button:not(:disabled) {
 	color: var(--wp-components-color-foreground, #1e1e1e);
 }
 
