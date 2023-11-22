@@ -83,7 +83,6 @@ const ThemerComponent = () => {
 			return baseConfig;
 		}
 		const merged = mergeWith( {}, baseConfig, userConfig );
-		console.log( { merged, baseConfig, userConfig } );
 		return merged;
 	}, [ userConfig, baseConfig ] );
 
