@@ -2,7 +2,13 @@
 	display: flex;
 	gap: 1em;
 	align-items: center;
-	margin: 2em 0;
+	padding: 20px;
+	border-bottom: 1px solid #ccc;
+	text-wrap: nowrap;
+	overflow: auto;
+	&:empty {
+		display: none;
+	}
 }
 .themer-breadcrumbs__item {
 	display: flex;
@@ -22,26 +28,4 @@
 
 .themer-breadcrumbs__item__button:not(:disabled) {
 	color: var(--wp-components-color-foreground, #1e1e1e);
-}
-
-.themer--nav-button {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	text-transform: capitalize;
-}
-
-.themer--nav-button__arrow {
-	margin-left: auto;
-}
-
-.themer--icon-heading {
-	display: flex !important;
-	align-items: center;
-	line-height: 1;
-	gap: 0.5em;
-}
-
-.themer--icon-heading__right {
-	margin-left: auto;
 }

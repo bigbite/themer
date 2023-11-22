@@ -8,7 +8,6 @@ import { useContext, useEffect } from '@wordpress/element';
 import { seen } from '@wordpress/icons';
 
 import Styles from './Styles';
-import ElementList from './ElementList';
 
 import EditorContext from '../context/EditorContext';
 
@@ -75,18 +74,16 @@ const BlockItem = ( { name, selector } ) => {
 	 * The example is active if the preview blocks key matches the block name
 	 */
 	const isExampleActive = previewBlocks.name === block.name;
-
 	const stylesSelector = `styles.${ selector }`;
-	const elementsSelector = `${ selector }.elements`;
 
 	return (
 		<>
-			<span className="themer--icon-heading">
+			<span className="themer-styles-heading">
 				<Icon icon={ block.icon.src } size={ 24 } />
 				<Heading level={ 4 }>{ block.title }</Heading>
 				{ block.example && (
 					<Button
-						className="themer--icon-heading__right"
+						className="themer-styles-heading__right"
 						onClick={ toggleExample }
 						icon={ seen }
 						isPressed={ isExampleActive }
@@ -96,7 +93,6 @@ const BlockItem = ( { name, selector } ) => {
 			</span>
 			<p>{ block.description }</p>
 			<Styles selector={ stylesSelector } />
-			<ElementList selector={ elementsSelector } />
 		</>
 	);
 };

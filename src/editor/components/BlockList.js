@@ -1,19 +1,17 @@
-import { __experimentalUseNavigator as useNavigator } from '@wordpress/components';
-import { useState, useContext } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
 
 import EditorContext from '../context/EditorContext';
 import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
+import getThemeOption from '../../utils/get-theme-option';
 
-import Search from './Search';
-import NavButton from './NavButton';
+import NavListItem from './NavListItem';
+import ElementList from './ElementList';
 
 /**
  * Block list
  */
 const BlockList = () => {
 	const { themeConfig, schema } = useContext( EditorContext );
-	const [ searchValue, setSearchValue ] = useState();
-	const { goTo } = useNavigator();
 
 	const schemaBlocks = getCoreBlocksFromSchema( schema );
 	const themeJSONBlocks = Object.keys( themeConfig?.styles?.blocks ?? {} );
@@ -24,28 +22,34 @@ const BlockList = () => {
 	);
 
 	return (
-		<section className="themer--blocks-component">
-			<Search setValue={ setSearchValue } />
-			<ul>
+		<section>
+			<ul className="themer-nav-list">
 				{ blocks.map( ( block ) => {
-					if (
-						searchValue?.length > 0 &&
-						! block.name.toLowerCase().includes( searchValue )
-					) {
-						return false;
-					}
+					const blockStyles = getThemeOption(
+						`styles.blocks.${ block.name }`,
+						themeConfig
+					);
+					const { elements, ...rest } = blockStyles;
+					const hasElementStyles = !! elements;
+					const hasBlockStyles = Object.keys( rest ).length > 0;
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
+					const elementsSelector = `blocks.${ block.name }.elements`;
 
 					return (
-						<li key={ route }>
-							<NavButton
-								icon={ block?.icon?.src }
-								onClick={ () => goTo( route ) }
-							>
-								{ block?.title }
-							</NavButton>
-						</li>
+						<NavListItem
+							key={ block.name }
+							icon={ block?.icon?.src }
+							label={ block.title }
+							route={ hasBlockStyles && route }
+						>
+							{ hasElementStyles && (
+								<ElementList
+									selector={ elementsSelector }
+									route={ route }
+								/>
+							) }
+						</NavListItem>
 					);
 				} ) }
 			</ul>

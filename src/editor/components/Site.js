@@ -1,3 +1,4 @@
+import { __experimentalHeading as Heading } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import Styles from './Styles';
@@ -7,8 +8,8 @@ import Styles from './Styles';
  */
 const Site = () => {
 	return (
-		<section className="themer--blocks-component">
-			<h2>{ __( 'Site', 'themer' ) }</h2>
+		<section>
+			<Heading level={ 4 }>{ __( 'Site', 'themer' ) }</Heading>
 			<p>{ __( 'Customise the appearance of the site.', 'themer' ) }</p>
 			<Styles selector="styles" />
 		</section>

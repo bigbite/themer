@@ -2,9 +2,9 @@ import { mergeWith, isEmpty, isEqual } from 'lodash';
 import {
 	Button,
 	Spinner,
-	TabPanel,
 	MenuGroup,
 	MenuItem,
+	__experimentalNavigatorProvider as NavigatorProvider,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
@@ -13,13 +13,12 @@ import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
-import Site from './Site';
+import Nav from './Nav';
 import Preview from './Preview';
 import ButtonExport from './ButtonExport';
 import ResponsiveButton from './ResponsiveButton';
 import ThemerNotice from './ThemerNotice';
-import NavBlocks from './NavBlocks';
-import NavElements from './NavElements';
+import StylesPanel from './StylesPanel';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
 
@@ -261,52 +260,33 @@ const ThemerComponent = () => {
 									) }
 								</MoreMenuDropdown>
 							</div>
-							<div className="themer-body">
-								<div className="themer-nav-container">
-									<TabPanel
-										className="themer-tab-panel"
-										activeClass="active-themer-tab"
-										tabs={ [
-											{
-												name: 'site',
-												title: 'Site',
-											},
-											{
-												name: 'blocks',
-												title: 'Blocks',
-											},
-											{
-												name: 'elements',
-												title: 'Elements',
-											},
-										] }
-									>
-										{ ( tab ) => {
-											switch ( tab?.name ) {
-												case 'site':
-													return <Site />;
-												case 'blocks':
-													return <NavBlocks />;
-												case 'elements':
-													return <NavElements />;
-												default:
-													return <Site />;
-											}
-										} }
-									</TabPanel>
+							<NavigatorProvider initialPath="/">
+								<div className="themer-body">
+									<div className="themer-nav-container">
+										<Nav />
+									</div>
+									<div className="themer-content-container">
+										<div className="themer-styles-container">
+											<StylesPanel />
+										</div>
+										<div className="themer-preview-container">
+											<div className="themer-preview">
+												<ResponsiveButton
+													setPreviewSize={
+														setPreviewSize
+													}
+													previewSize={ previewSize }
+												/>
+												<Preview
+													baseOptions={ baseConfig }
+													previewCss={ previewCss }
+													previewSize={ previewSize }
+												/>
+											</div>
+										</div>
+									</div>
 								</div>
-								<div className="themer-preview-container">
-									<ResponsiveButton
-										setPreviewSize={ setPreviewSize }
-										previewSize={ previewSize }
-									/>
-									<Preview
-										baseOptions={ baseConfig }
-										previewCss={ previewCss }
-										previewSize={ previewSize }
-									/>
-								</div>
-							</div>
+							</NavigatorProvider>
 						</>
 					) }
 				</StylesContext.Provider>

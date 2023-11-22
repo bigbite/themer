@@ -10,15 +10,13 @@ import Styles from './Styles';
  * @param {string} props.selector Selector to locate this pseudo in the schema
  */
 const PseudoItem = ( { name, selector } ) => {
-	if ( ! name ) {
-		return;
-	}
-
 	const stylesSelector = `styles.${ selector }`;
 
 	return (
 		<>
-			<Heading level={ 4 }>Pseudo Styles</Heading>
+			<span className="themer-styles-heading">
+				<Heading level={ 4 }>{ name.replace( ':', '' ) }</Heading>
+			</span>
 			<Styles selector={ stylesSelector } />
 		</>
 	);

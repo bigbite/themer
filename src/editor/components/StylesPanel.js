@@ -1,38 +1,30 @@
 import {
-	__experimentalNavigatorProvider as NavigatorProvider,
 	__experimentalNavigatorScreen as NavigatorScreen,
 	__experimentalUseNavigator as useNavigator,
-	__experimentalHeading as Heading,
 } from '@wordpress/components';
 
-import { __ } from '@wordpress/i18n';
-
 import NavigatorBreadcrumbs from './NavigatorBreadcrumbs';
-import BlockList from './BlockList';
+import Site from './Site';
 import BlockItem from './BlockItem';
 import ElementItem from './ElementItem';
 import PseudoItem from './PseudoItem';
 
 /**
- * Blocks navigational component
+ * Styles Panel
+ *
+ * Renders a specific screen depending on the current path
+ *
  */
-const NavBlocks = () => {
+const StylesPanel = () => {
 	const { params } = useNavigator();
 
 	return (
 		<>
 			<NavigatorBreadcrumbs />
 
-			{ /* block list screen */ }
-			<NavigatorScreen path="/blocks">
-				<Heading level={ 4 }>{ __( 'Blocks', 'themer' ) }</Heading>
-				<p>
-					{ __(
-						'Customise the appearance of specific blocks for the whole site.',
-						'themer'
-					) }
-				</p>
-				<BlockList />
+			{ /* site screen */ }
+			<NavigatorScreen path="/">
+				<Site />
 			</NavigatorScreen>
 
 			{ /* block screen */ }
@@ -43,7 +35,7 @@ const NavBlocks = () => {
 				/>
 			</NavigatorScreen>
 
-			{ /* element screen */ }
+			{ /* block/element screen */ }
 			<NavigatorScreen path="/blocks/:blockName/:elementName">
 				<ElementItem
 					name={ params.elementName }
@@ -52,23 +44,31 @@ const NavBlocks = () => {
 				/>
 			</NavigatorScreen>
 
-			{ /* psuedo screen */ }
+			{ /* block/element/psuedo screen */ }
 			<NavigatorScreen path="/blocks/:blockName/:elementName/:pseudoName">
 				<PseudoItem
 					name={ params.pseudoName }
 					selector={ `blocks.${ params.blockName }.elements.${ params.elementName }.${ params.pseudoName }` }
 				/>
 			</NavigatorScreen>
+
+			{ /* element screen */ }
+			<NavigatorScreen path="/elements/:elementName">
+				<ElementItem
+					name={ params.elementName }
+					selector={ `elements.${ params.elementName }` }
+				/>
+			</NavigatorScreen>
+
+			{ /* element/psuedo screen */ }
+			<NavigatorScreen path="/elements/:elementName/:pseudoName">
+				<PseudoItem
+					name={ params.pseudoName }
+					selector={ `elements.${ params.elementName }.${ params.pseudoName }` }
+				/>
+			</NavigatorScreen>
 		</>
 	);
 };
 
-const NavBlocksWithProvider = () => {
-	return (
-		<NavigatorProvider initialPath="/blocks">
-			<NavBlocks />
-		</NavigatorProvider>
-	);
-};
-
-export default NavBlocksWithProvider;
+export default StylesPanel;

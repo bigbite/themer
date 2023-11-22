@@ -6,7 +6,6 @@ import { useContext, useEffect } from '@wordpress/element';
 import { seen } from '@wordpress/icons';
 
 import Styles from './Styles';
-import PseudoList from './PseudoList';
 
 import EditorContext from '../context/EditorContext';
 import { getElementPreview } from '../../utils/blockPreviews';
@@ -62,11 +61,11 @@ const ElementItem = ( { name, selector, showPreviewToggle = true } ) => {
 
 	return (
 		<>
-			<span className="themer--icon-heading">
-				<Heading level={ 4 }>Element Styles</Heading>
+			<span className="themer-styles-heading">
+				<Heading level={ 4 }>{ name }</Heading>
 				{ elementPreviewBlocks && showPreviewToggle && (
 					<Button
-						className="themer--icon-heading__right"
+						className="themer-styles-heading__right"
 						onClick={ toggleExample }
 						icon={ seen }
 						isPressed={ isExampleActive }
@@ -75,7 +74,6 @@ const ElementItem = ( { name, selector, showPreviewToggle = true } ) => {
 				) }
 			</span>
 			<Styles selector={ stylesSelector } />
-			<PseudoList selector={ stylesSelector } />
 		</>
 	);
 };

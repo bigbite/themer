@@ -3,22 +3,122 @@ import {
 	getColorObjectByAttributeValues,
 	getColorObjectByColorValue,
 } from '@wordpress/block-editor';
-import { blockDefault } from '@wordpress/icons';
+import {
+	blockDefault,
+	button,
+	link,
+	heading,
+	headingLevel1,
+	headingLevel2,
+	headingLevel3,
+	headingLevel4,
+	headingLevel5,
+	headingLevel6,
+	html,
+} from '@wordpress/icons';
 import { getCustomValueFromPreset } from '../utils/block-editor.js';
+
+export const getAllPseudos = () => {
+	return [
+		{
+			name: ':hover',
+			icon: html,
+		},
+		{
+			name: ':focus',
+			icon: html,
+		},
+		{
+			name: ':active',
+			icon: html,
+		},
+		{
+			name: ':visited',
+			icon: html,
+		},
+		{
+			name: ':link',
+			icon: html,
+		},
+		{
+			name: ':any-link',
+			icon: html,
+		},
+	];
+};
 
 /**
  * Returns a list of HTML elements defined by the schema
  *
  * @param {Object} schema Theme schema JSON
  *
- * @return {Array<string>} List of HTML element names
+ * @return {Array<Object>} List of HTML elements
  */
 export const getElementsFromSchema = ( schema ) => {
 	const schemaElements = Object.keys(
 		schema?.definitions?.stylesElementsPropertiesComplete?.properties || {}
 	);
 
-	return schemaElements;
+	/**
+	 * Extend the element with additonal metadata
+	 * e.g icon
+	 */
+	const elements = schemaElements.map( ( elementName ) => {
+		switch ( elementName ) {
+			case 'button':
+				return {
+					name: elementName,
+					icon: button,
+				};
+			case 'link':
+				return {
+					name: elementName,
+					icon: link,
+				};
+			case 'heading':
+				return {
+					name: elementName,
+					icon: heading,
+				};
+			case 'h1':
+				return {
+					name: elementName,
+					icon: headingLevel1,
+				};
+			case 'h2':
+				return {
+					name: elementName,
+					icon: headingLevel2,
+				};
+			case 'h3':
+				return {
+					name: elementName,
+					icon: headingLevel3,
+				};
+			case 'h4':
+				return {
+					name: elementName,
+					icon: headingLevel4,
+				};
+			case 'h5':
+				return {
+					name: elementName,
+					icon: headingLevel5,
+				};
+			case 'h6':
+				return {
+					name: elementName,
+					icon: headingLevel6,
+				};
+			default:
+				return {
+					name: elementName,
+					icon: html,
+				};
+		}
+	} );
+
+	return elements;
 };
 
 /**
