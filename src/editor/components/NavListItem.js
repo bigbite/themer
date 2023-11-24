@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import {
 	__experimentalUseNavigator as useNavigator,
 	Button,
@@ -44,10 +45,10 @@ const NavListItem = ( { children, icon, label, route } ) => {
 			<Button
 				onClick={ handleClick }
 				iconSize={ 12 }
-				className={ `themer-nav-list__item__button ${
-					isActive ? 'themer-nav-list__item__button--active' : ''
-				}
-				${ ! route ? 'themer-nav-list__item__button--disabled' : '' }` }
+				className={ classNames( 'themer-nav-list__item__button', {
+					'themer-nav-list__item__button--active': isActive,
+					'themer-nav-list__item__button--disabled': ! route,
+				} ) }
 			>
 				<Button
 					onClick={ handleExpandClick }

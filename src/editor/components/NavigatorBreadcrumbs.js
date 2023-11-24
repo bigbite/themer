@@ -1,6 +1,7 @@
+import classNames from 'classnames';
+
 import {
 	__experimentalUseNavigator as useNavigator,
-	Button,
 	Icon,
 } from '@wordpress/components';
 
@@ -8,7 +9,7 @@ import {
  * Breadcrumbs
  */
 const NavigatorBreadcrumbs = () => {
-	const { location, goTo } = useNavigator();
+	const { location } = useNavigator();
 
 	/**
 	 * Get the path segments for the current location and build an array of objects with the name and path for each segment in the location.
@@ -36,15 +37,18 @@ const NavigatorBreadcrumbs = () => {
 				const current = location.path === path;
 				return (
 					<div className="themer-breadcrumbs__item" key={ path }>
-						<Button
+						<div
 							key={ path }
-							className="themer-breadcrumbs__item__button"
-							onClick={ () => goTo( path ) }
-							variant="link"
-							disabled={ current }
+							className={ classNames(
+								'themer-breadcrumbs__item__label',
+								{
+									'themer-breadcrumbs__item__label--active':
+										current,
+								}
+							) }
 						>
 							{ name }
-						</Button>
+						</div>
 						{ ! current && (
 							<Icon
 								className="themer-breadcrumbs__item__separator"
