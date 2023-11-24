@@ -6,9 +6,11 @@ import NavBlockList from './NavBlockList';
 import NavElementList from './NavElementList';
 
 /**
- * Breadcrumbs
+ * Nav
+ *
+ * Renders the main navigation panel, which displays a nested list of nav items
  */
-const Navigator = () => {
+const Nav = () => {
 	return (
 		<ul className="themer-nav-list">
 			<NavListItem
@@ -29,4 +31,4 @@ const Navigator = () => {
 	);
 };
 
-export default Navigator;
+export default Nav;
