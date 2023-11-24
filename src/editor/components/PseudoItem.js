@@ -3,7 +3,7 @@ import { __experimentalHeading as Heading } from '@wordpress/components';
 import Styles from './Styles';
 
 /**
- * Individual pseudo item
+ * Renders the pseudo styles visible in the styles panel
  *
  * @param {Object} props          Component props
  * @param {string} props.name     Pseudo name

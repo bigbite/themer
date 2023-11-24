@@ -11,7 +11,7 @@ import EditorContext from '../context/EditorContext';
 import { getElementPreview } from '../../utils/blockPreviews';
 
 /**
- * Individual element item
+ * Renders the element styles visible in the styles panel
  *
  * @param {Object}  props                   Component props
  * @param {string}  props.name              Element name

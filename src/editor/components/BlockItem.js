@@ -15,7 +15,7 @@ import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
 import { getHeadingPreview } from '../../utils/blockPreviews';
 
 /**
- * Individual block item
+ * Renders the block styles visible in the styles panel
  *
  * @param {Object} props          Component props
  * @param {string} props.name     Block name
