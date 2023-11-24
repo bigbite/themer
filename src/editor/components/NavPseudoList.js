@@ -7,33 +7,32 @@ import { getAllPseudos } from '../../utils/block-helpers';
 import NavListItem from './NavListItem';
 
 /**
- * Navigational list of pseudo elements
+ * Nav Pseudo list
+ *
+ * Renders the pseudo list in the navigation panel
  *
  * @param {Object} props          Component props
  * @param {string} props.selector Selector to locate these pseudos in the schema
- * @param {string} props.route    Route to this pseudo
+ * @param {string} props.route    Base route to use when navigating to child elements
  */
-const PseudoList = ( { selector, route } ) => {
+const NavPseudoList = ( { selector, route } ) => {
 	const { themeConfig } = useContext( EditorContext );
 
-	const stylesSelector = `styles.${ selector }`;
-	const themeJSONParent = getThemeOption( stylesSelector, themeConfig );
-
+	// get all valid pseudos
 	const allPseudos = getAllPseudos();
-	const allPseudoNames = allPseudos.map( ( pseudo ) => pseudo.name );
 
-	// get all the pseudos that are present on the parent in theme.json
-	const themeJSONPseudos = Object.keys( themeJSONParent || {} )?.filter(
+	// get all active theme styles for the element
+	const themeElement = getThemeOption( `styles.${ selector }`, themeConfig );
+
+	// filter the element styles so we end up with only the pseudo styles
+	const allPseudoNames = allPseudos.map( ( pseudo ) => pseudo.name );
+	const themePseudos = Object.keys( themeElement || {} )?.filter(
 		( pseudo ) => allPseudoNames.includes( pseudo )
 	);
 
-	if ( 0 === themeJSONPseudos.length ) {
-		return null;
-	}
-
-	// filter out any pseudos not present in theme.json
+	// filter out any psuedos not present in the active theme styles
 	const pseudos = allPseudos.filter( ( pseudo ) =>
-		themeJSONPseudos.includes( pseudo.name )
+		themePseudos.includes( pseudo.name )
 	);
 
 	return (
@@ -56,4 +55,4 @@ const PseudoList = ( { selector, route } ) => {
 	);
 };
 
-export default PseudoList;
+export default NavPseudoList;

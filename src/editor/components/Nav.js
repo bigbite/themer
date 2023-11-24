@@ -2,8 +2,8 @@ import { __ } from '@wordpress/i18n';
 import { globe, blockDefault, html } from '@wordpress/icons';
 
 import NavListItem from './NavListItem';
-import BlockList from './BlockList';
-import ElementList from './ElementList';
+import NavBlockList from './NavBlockList';
+import NavElementList from './NavElementList';
 
 /**
  * Breadcrumbs
@@ -20,10 +20,10 @@ const Navigator = () => {
 				icon={ blockDefault }
 				label={ __( 'Blocks', 'themer' ) }
 			>
-				<BlockList />
+				<NavBlockList />
 			</NavListItem>
 			<NavListItem icon={ html } label={ __( 'Elements', 'themer' ) }>
-				<ElementList selector="elements" route="/elements" />
+				<NavElementList selector="elements" route="/elements" />
 			</NavListItem>
 		</ul>
 	);
