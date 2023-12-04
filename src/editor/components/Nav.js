@@ -17,6 +17,7 @@ const Nav = () => {
 				icon={ globe }
 				label={ __( 'Site', 'themer' ) }
 				route="/"
+				hasStyles
 			/>
 			<NavListItem
 				icon={ blockDefault }

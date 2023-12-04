@@ -9,13 +9,14 @@ import { useState } from '@wordpress/element';
 /**
  * Nav List Item
  *
- * @param {Object}      props          Component props
- * @param {JSX.Element} props.children Child elements
- * @param {string}      props.icon     Item icon
- * @param {Object}      props.label    Item label
- * @param {string}      props.route    Navigation route this item should link to
+ * @param {Object}      props           Component props
+ * @param {JSX.Element} props.children  Child elements
+ * @param {string}      props.icon      Item icon
+ * @param {Object}      props.label     Item label
+ * @param {string}      props.route     Navigation route this item should link to
+ * @param {boolean}     props.hasStyles Whether or not this item has styles
  */
-const NavListItem = ( { children, icon, label, route } ) => {
+const NavListItem = ( { children, icon, label, route, hasStyles } ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
 	const { goTo, location } = useNavigator();
 
@@ -47,7 +48,7 @@ const NavListItem = ( { children, icon, label, route } ) => {
 				iconSize={ 12 }
 				className={ classNames( 'themer-nav-list__item__button', {
 					'themer-nav-list__item__button--active': isActive,
-					'themer-nav-list__item__button--disabled': ! route,
+					'themer-nav-list__item__button--disabled': ! hasStyles,
 				} ) }
 			>
 				<Button
