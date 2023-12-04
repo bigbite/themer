@@ -17,7 +17,7 @@ import StylesContext from '../context/StylesContext';
 const Color = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const colorStyles = getThemeOption( selector, themeConfig );
+	const colorStyles = getThemeOption( selector, themeConfig ) || {};
 	const themePalette = getThemeOption(
 		'settings.color.palette.theme',
 		themeConfig
@@ -33,7 +33,7 @@ const Color = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	const allPalettes = Object.keys( colorStyles ).map( ( key ) => (
+	const allPalettes = [ 'background', 'text' ].map( ( key ) => (
 		<div key={ key } className="themer--blocks-item-component--column">
 			<span className="themer--blocks-item-component--styles--label">
 				{ key }

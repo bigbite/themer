@@ -46,9 +46,9 @@ const Typography = ( { selector } ) => {
 	 * @param {string} key    The property to be updated.
 	 */
 	const handleNewValue = ( newVal, key ) => {
-		typographyStyles[ key ] = newVal;
+		const newTypographyStyles = { ...typographyStyles, [ key ]: newVal };
 		let config = structuredClone( themeConfig );
-		config = set( config, selector, typographyStyles );
+		config = set( config, selector, newTypographyStyles );
 		setUserConfig( config );
 	};
 

@@ -25,7 +25,7 @@ const SELECT_OPTIONS = [
 
 // Determines the value of the type dropdown from the minHeight value.
 const parseTypeValue = ( minHeight ) => {
-	if ( minHeight.includes( 'fit-content' ) ) {
+	if ( minHeight?.includes( 'fit-content' ) ) {
 		return 'fit-content';
 	}
 	if ( isCssLengthUnit( minHeight ) ) {
@@ -60,10 +60,10 @@ const parseUnitValue = ( minHeight, typeValue ) => {
 const Dimensions = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const dimensionsStyles = getThemeOption( selector, themeConfig );
+	const dimensionsStyles = getThemeOption( selector, themeConfig ) || {};
 	const { minHeight } = dimensionsStyles;
-	const typeValue = parseTypeValue( minHeight.trim() );
-	const unitValue = parseUnitValue( minHeight.trim(), typeValue );
+	const typeValue = parseTypeValue( minHeight?.trim() );
+	const unitValue = parseUnitValue( minHeight?.trim(), typeValue );
 
 	// Updates a property value in the outline object.
 	const handleNewValue = ( value ) => {

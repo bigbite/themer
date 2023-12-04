@@ -43,9 +43,12 @@ const Filter = ( { selector } ) => {
 	 * @param {string} newVal - The new value.
 	 */
 	const handleNewValue = ( newVal ) => {
-		filterStyles.duotone = duotoneToVar( newVal, duotoneOptions );
+		const newFilterStyles = {
+			...filterStyles,
+			duotone: duotoneToVar( newVal, duotoneOptions ),
+		};
 		let config = structuredClone( themeConfig );
-		config = set( config, selector, filterStyles );
+		config = set( config, selector, newFilterStyles );
 		setUserConfig( config );
 	};
 
