@@ -2,8 +2,8 @@ import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';
 import {
-	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
-	__experimentalBoxControl as BoxControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+	__experimentalUnitControl as UnitControl,
+	__experimentalBoxControl as BoxControl,
 } from '@wordpress/components';
 
 import {

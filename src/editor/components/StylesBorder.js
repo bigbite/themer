@@ -1,5 +1,3 @@
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
-
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';

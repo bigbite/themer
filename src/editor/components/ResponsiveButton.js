@@ -46,7 +46,7 @@ const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
 	};
 
 	return (
-		<div className="themer-responsive-top">
+		<div className="themer-preview__toolbar">
 			<DropdownMenu icon={ handleIcon } label="Select a size">
 				{ () => (
 					<MenuGroup>

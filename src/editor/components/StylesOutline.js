@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import {
 	SelectControl,
-	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+	__experimentalUnitControl as UnitControl,
 	ColorPalette,
 } from '@wordpress/components';
 

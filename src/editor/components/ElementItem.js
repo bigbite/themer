@@ -1,5 +1,8 @@
-import { Button } from '@wordpress/components';
-import { useState, useContext, useEffect } from '@wordpress/element';
+import {
+	__experimentalHeading as Heading,
+	Button,
+} from '@wordpress/components';
+import { useContext, useEffect } from '@wordpress/element';
 import { seen } from '@wordpress/icons';
 
 import Styles from './Styles';
@@ -8,26 +11,25 @@ import EditorContext from '../context/EditorContext';
 import { getElementPreview } from '../../utils/blockPreviews';
 
 /**
- * Individual element item
+ * Renders the element styles visible in the styles panel
  *
- * @param {Object} props      Component props
- * @param {string} props.name Element name
- * @param {string} props.path Path name
+ * @param {Object}  props                   Component props
+ * @param {string}  props.name              Element name
+ * @param {string}  props.selector          Selector to locate this element in the schema
+ * @param {boolean} props.showPreviewToggle Whether to show the preview toggle button
  */
-const ElementItem = ( { path, name } ) => {
-	const [ isOpen, setIsOpen ] = useState( false );
+const ElementItem = ( { name, selector, showPreviewToggle = true } ) => {
 	const { previewBlocks, setPreviewBlocks, resetPreviewBlocks } =
 		useContext( EditorContext );
 
 	/**
-	 * Reset the preview when the component is closed or unmounted
+	 * Reset the preview blocks when the component unmounts
 	 */
 	useEffect( () => {
-		if ( ! isOpen ) {
+		return () => {
 			resetPreviewBlocks();
-		}
-		return () => resetPreviewBlocks();
-	}, [ isOpen, resetPreviewBlocks ] );
+		};
+	}, [ resetPreviewBlocks ] );
 
 	if ( ! name ) {
 		return;
@@ -55,29 +57,24 @@ const ElementItem = ( { path, name } ) => {
 		setPreviewBlocks( { name, blocks: elementPreviewBlocks } );
 	};
 
+	const stylesSelector = `styles.${ selector }`;
+
 	return (
-		<details
-			className="themer--blocks-item-component"
-			open={ isOpen }
-			onToggle={ () => setIsOpen( ! isOpen ) }
-		>
-			<summary>{ name }</summary>
-			{ isOpen && (
-				<div className="themer--blocks-item-component--styles">
-					{ elementPreviewBlocks && (
-						<div>
-							<Button
-								onClick={ toggleExample }
-								icon={ seen }
-								isPressed={ isExampleActive }
-								label="Toggle example"
-							/>
-						</div>
-					) }
-					<Styles path={ `${ path }.${ name }` } />
-				</div>
-			) }
-		</details>
+		<>
+			<span className="themer-styles-heading">
+				<Heading level={ 4 }>{ name }</Heading>
+				{ elementPreviewBlocks && showPreviewToggle && (
+					<Button
+						className="themer-styles-heading__right"
+						onClick={ toggleExample }
+						icon={ seen }
+						isPressed={ isExampleActive }
+						label="Toggle example"
+					/>
+				) }
+			</span>
+			<Styles selector={ stylesSelector } />
+		</>
 	);
 };
 

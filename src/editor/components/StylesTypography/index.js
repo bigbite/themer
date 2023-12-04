@@ -1,5 +1,3 @@
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
-
 // TODO: NOT YET IN CORE WP BUT IN THEME.JSON SCHEMA
 // writing-mode - __experimentalWritingModeControl
 

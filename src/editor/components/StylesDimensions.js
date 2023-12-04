@@ -2,7 +2,7 @@ import { useContext } from '@wordpress/element';
 import { set } from 'lodash';
 import {
 	SelectControl,
-	__experimentalUnitControl as UnitControl, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+	__experimentalUnitControl as UnitControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
