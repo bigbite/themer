@@ -21,24 +21,16 @@ const NavPseudoList = ( { selector, route } ) => {
 	// get all valid pseudos
 	const allPseudos = getAllPseudos();
 
-	// get all active theme styles for the element
-	const themeElement = getThemeOption( `styles.${ selector }`, themeConfig );
-
-	// filter the element styles so we end up with only the pseudo styles
-	const allPseudoNames = allPseudos.map( ( pseudo ) => pseudo.name );
-	const themePseudos = Object.keys( themeElement || {} )?.filter(
-		( pseudo ) => allPseudoNames.includes( pseudo )
-	);
-
-	// filter out any psuedos not present in the active theme styles
-	const pseudos = allPseudos.filter( ( pseudo ) =>
-		themePseudos.includes( pseudo.name )
-	);
+	// get styles for all pseudos at this selector
+	const themeElementStyles =
+		getThemeOption( `styles.${ selector }`, themeConfig ) || {};
 
 	return (
 		<>
 			<ul className="themer-nav-list">
-				{ pseudos.map( ( pseudo ) => {
+				{ allPseudos.map( ( pseudo ) => {
+					const pseudoStyles = themeElementStyles[ pseudo.name ];
+
 					const pseudoRoute = `${ route }/${ pseudo.name }`;
 
 					return (
@@ -47,6 +39,7 @@ const NavPseudoList = ( { selector, route } ) => {
 							icon={ pseudo.icon }
 							label={ pseudo.name.replace( ':', '' ) }
 							route={ pseudoRoute }
+							hasStyles={ pseudoStyles }
 						/>
 					);
 				} ) }

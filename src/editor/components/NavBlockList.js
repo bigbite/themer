@@ -19,27 +19,18 @@ const NavBlockList = () => {
 	// get all valid blocks from the schema
 	const schemaBlocks = getCoreBlocksFromSchema( schema );
 
-	// filter out any blocks not present in the active theme styles
-	const themeBlocks = getThemeOption( 'styles.blocks', themeConfig );
-	const blocks = schemaBlocks?.filter( ( element ) =>
-		Object.keys( themeBlocks )?.includes( element.name )
-	);
+	// get styles for all blocks
+	const themeBlockStyles = getThemeOption( `styles.blocks`, themeConfig );
 
 	return (
 		<section>
 			<ul className="themer-nav-list">
-				{ blocks.map( ( block ) => {
-					const blockStyles = getThemeOption(
-						`styles.blocks.${ block.name }`,
-						themeConfig
-					);
+				{ schemaBlocks.map( ( block ) => {
+					// get all styles for this block
+					const blockStyles = themeBlockStyles[ block.name ] || {};
 
-					/**
-					 * Check if this block has any element styles and also
-					 * confirm whether it has styles that are not element styles
-					 */
+					// check if the block has any styles that aren't elements
 					const { elements, ...rest } = blockStyles;
-					const hasElementStyles = !! elements;
 					const hasBlockStyles = Object.keys( rest ).length > 0;
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
@@ -50,14 +41,13 @@ const NavBlockList = () => {
 							key={ block.name }
 							icon={ block?.icon?.src }
 							label={ block.title }
-							route={ hasBlockStyles && route }
+							route={ route }
+							hasStyles={ hasBlockStyles }
 						>
-							{ hasElementStyles && (
-								<NavElementList
-									selector={ elementsSelector }
-									route={ route }
-								/>
-							) }
+							<NavElementList
+								selector={ elementsSelector }
+								route={ route }
+							/>
 						</NavListItem>
 					);
 				} ) }

@@ -22,26 +22,26 @@ const NavElementList = ( { selector, route } ) => {
 	// get all valid elements from the schema
 	const schemaElements = getElementsFromSchema( schema );
 
-	// filter out any elements not present in the active theme styles
-	const themeElements = getThemeOption( `styles.${ selector }`, themeConfig );
-	const elements = schemaElements?.filter( ( element ) =>
-		Object.keys( themeElements )?.includes( element.name )
-	);
+	// get styles for all elements at this selector
+	const themeElementStyles =
+		getThemeOption( `styles.${ selector }`, themeConfig ) || {};
 
 	return (
 		<section>
 			<ul className="themer-nav-list">
-				{ elements.map( ( element ) => {
+				{ schemaElements.map( ( element ) => {
+					// get all styles for this element
+					const elementStyles =
+						themeElementStyles[ element.name ] || {};
+
+					// check if this element has any styles that aren't pseudos
+					const hasElementStyles =
+						Object.keys( elementStyles ).filter(
+							( key ) => ! key.startsWith( ':' )
+						).length > 0;
+
 					const elementRoute = `${ route }/${ element.name }`;
 					const elementSelector = `${ selector }.${ element.name }`;
-
-					/**
-					 * Check if this element has any pseudo styles
-					 */
-					const hasPseudoElements =
-						Object.keys(
-							themeElements[ element.name ] || {}
-						).filter( ( key ) => key.startsWith( ':' ) ).length > 0;
 
 					return (
 						<NavListItem
@@ -49,13 +49,12 @@ const NavElementList = ( { selector, route } ) => {
 							icon={ element.icon }
 							label={ element.name }
 							route={ elementRoute }
+							hasStyles={ hasElementStyles }
 						>
-							{ hasPseudoElements && (
-								<NavPseudoList
-									selector={ elementSelector }
-									route={ elementRoute }
-								/>
-							) }
+							<NavPseudoList
+								selector={ elementSelector }
+								route={ elementRoute }
+							/>
 						</NavListItem>
 					);
 				} ) }
