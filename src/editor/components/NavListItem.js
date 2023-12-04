@@ -43,29 +43,35 @@ const NavListItem = ( { children, icon, label, route, hasStyles } ) => {
 
 	return (
 		<li className="themer-nav-list__item">
-			<Button
-				onClick={ handleClick }
-				iconSize={ 12 }
-				className={ classNames( 'themer-nav-list__item__button', {
-					'themer-nav-list__item__button--active': isActive,
-					'themer-nav-list__item__button--disabled': ! hasStyles,
+			<div
+				className={ classNames( 'themer-nav-list__item__content', {
+					'themer-nav-list__item__content--active': isActive,
+					'themer-nav-list__item__content--disabled': ! hasStyles,
 				} ) }
 			>
-				<Button
-					onClick={ handleExpandClick }
-					icon={ renderIcon() }
-					iconSize={ 12 }
-					className="themer-nav-list__item__toggle"
-				/>
-				<div className="themer--nav-list__item__label">
-					<Icon
-						icon={ icon }
-						size={ 20 }
-						style={ { marginRight: '8px' } }
+				{ children && (
+					<Button
+						onClick={ handleExpandClick }
+						icon={ renderIcon() }
+						iconSize={ 12 }
+						className="themer-nav-list__item__toggle"
 					/>
-					{ label }
-				</div>
-			</Button>
+				) }
+				<Button
+					onClick={ handleClick }
+					iconSize={ 12 }
+					className="themer-nav-list__item__button"
+				>
+					<div className="themer--nav-list__item__label">
+						<Icon
+							icon={ icon }
+							size={ 20 }
+							style={ { marginRight: '8px' } }
+						/>
+						{ label }
+					</div>
+				</Button>
+			</div>
 
 			{ isOpen && <div>{ children }</div> }
 		</li>
