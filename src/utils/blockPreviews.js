@@ -145,8 +145,8 @@ export function getElementPreview( elementName ) {
 export function getPreviewFromRouteParams( params ) {
 	let previewBlocks = getDefaultPreview();
 
-	if ( ! params ) {
-		return previewBlocks;
+	if ( ! params || Object.keys( params ).length === 0 ) {
+		return { name: 'default', blocks: previewBlocks };
 	}
 
 	if ( params.elementName ) {
