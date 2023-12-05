@@ -50,13 +50,6 @@ const Typography = ( { selector } ) => {
 		config = set( config, selector, newTypographyStyles );
 		setUserConfig( config );
 	};
-	const fontAppearance =
-		! typographyStyles?.fontStyle && ! typographyStyles?.fontWeight
-			? 'default'
-			: {
-					fontStyle: parseFontStyle( typographyStyles?.fontStyle ),
-					fontWeight: parseFontWeight( typographyStyles?.fontWeight ),
-			  };
 
 	return (
 		<>
@@ -65,23 +58,35 @@ const Typography = ( { selector } ) => {
 			</span>
 			<FontFamily
 				typographyStyles={ typographyStyles }
-				handleNewValue={ handleNewValue }
+				onChange={ ( val ) => handleNewValue( { fontFamily: val } ) }
 			/>
 			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
 				<FontSize
 					typographyStyles={ typographyStyles }
-					handleNewValue={ handleNewValue }
+					onChange={ ( val ) => handleNewValue( { fontSize: val } ) }
 				/>
 				<FontAppearanceControl
-					value={ fontAppearance }
+					value={
+						! typographyStyles?.fontStyle &&
+						! typographyStyles?.fontWeight
+							? 'default'
+							: {
+									fontStyle: parseFontStyle(
+										typographyStyles?.fontStyle
+									),
+									fontWeight: parseFontWeight(
+										typographyStyles?.fontWeight
+									),
+							  }
+					}
 					onChange={ handleNewValue }
 					size="__unstable-large"
 					__nextHasNoMarginBottom
 				/>
 				<LineHeightControl
 					value={ parseLineHeight( typographyStyles?.lineHeight ) }
-					onChange={ ( newVal ) =>
-						handleNewValue( { lineHeight: newVal } )
+					onChange={ ( val ) =>
+						handleNewValue( { lineHeight: val } )
 					}
 					size="__unstable-large"
 					__unstableInputWidth="auto"
@@ -91,11 +96,11 @@ const Typography = ( { selector } ) => {
 					value={ parseLetterSpacing(
 						typographyStyles?.letterSpacing
 					) }
-					onChange={ ( newVal ) => {
-						if ( newVal === '' ) {
+					onChange={ ( val ) => {
+						if ( val === '' ) {
 							handleNewValue( { letterSpacing: '0px' } );
 						} else {
-							handleNewValue( { letterSpacing: newVal } );
+							handleNewValue( { letterSpacing: val } );
 						}
 					} }
 					size="__unstable-large"
@@ -105,8 +110,8 @@ const Typography = ( { selector } ) => {
 					label={ __( 'Text columns', 'themer' ) }
 					max={ MAX_TEXT_COLUMNS }
 					min={ 1 }
-					onChange={ ( newVal ) =>
-						handleNewValue( { textColumns: newVal } )
+					onChange={ ( val ) =>
+						handleNewValue( { textColumns: val } )
 					}
 					size="__unstable-large"
 					spinControls="custom"
@@ -117,16 +122,16 @@ const Typography = ( { selector } ) => {
 					value={ parseTextDecoration(
 						typographyStyles?.textDecoration
 					) }
-					onChange={ ( newVal ) =>
-						handleNewValue( { textDecoration: newVal } )
+					onChange={ ( val ) =>
+						handleNewValue( { textDecoration: val } )
 					}
 				/>
 				<TextTransformControl
 					value={ parseTextTransform(
 						typographyStyles?.textTransform
 					) }
-					onChange={ ( newVal ) =>
-						handleNewValue( { textTransform: newVal } )
+					onChange={ ( val ) =>
+						handleNewValue( { textTransform: val } )
 					}
 					showNone
 				/>
