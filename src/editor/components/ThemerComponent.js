@@ -16,7 +16,7 @@ import { __ } from '@wordpress/i18n';
 import Nav from './Nav';
 import Preview from './Preview';
 import ButtonExport from './ButtonExport';
-import ResponsiveButton from './ResponsiveButton';
+import PreviewToolbar from './PreviewToolbar';
 import ThemerNotice from './ThemerNotice';
 import StylesPanel from './StylesPanel';
 
@@ -34,6 +34,7 @@ import { getDefaultPreview } from '../../utils/blockPreviews';
 const ThemerComponent = () => {
 	const [ previewSize, setPreviewSize ] = useState();
 	const [ previewBlocks, setPreviewBlocks ] = useState();
+	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
 
@@ -205,6 +206,10 @@ const ThemerComponent = () => {
 					previewBlocks,
 					setPreviewBlocks,
 					resetPreviewBlocks,
+					previewSize,
+					setPreviewSize,
+					previewExampleIsActive,
+					setPreviewExampleIsActive,
 				} }
 			>
 				<StylesContext.Provider
@@ -271,12 +276,7 @@ const ThemerComponent = () => {
 										</div>
 										<div className="themer-preview-container">
 											<div className="themer-preview">
-												<ResponsiveButton
-													setPreviewSize={
-														setPreviewSize
-													}
-													previewSize={ previewSize }
-												/>
+												<PreviewToolbar />
 												<Preview
 													baseOptions={ baseConfig }
 													previewCss={ previewCss }
