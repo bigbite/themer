@@ -4,6 +4,7 @@ import {
 } from '@wordpress/components';
 import { useContext, useEffect } from '@wordpress/element';
 import { seen } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
 
 import EditorContext from '../context/EditorContext';
 
@@ -52,7 +53,7 @@ const PreviewExampleButton = () => {
 			onClick={ handlePreviewExampleToggle }
 			icon={ seen }
 			isPressed={ previewExampleIsActive }
-			label="Toggle example"
+			label={ __( 'Toggle example', 'themer' ) }
 		/>
 	);
 };
