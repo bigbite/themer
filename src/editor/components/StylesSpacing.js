@@ -97,6 +97,7 @@ const Spacing = ( { selector } ) => {
 	 * @param {string}        type   - The type of spacing to update. E.g. margin.
 	 */
 	const handleNewValue = ( newVal, type ) => {
+		let newSpacingStyles = { ...spacingStyles };
 		if ( type === 'margin' || type === 'padding' ) {
 			const spacingKeys = Object.keys( newVal );
 			spacingKeys.forEach( ( key ) => {
@@ -108,13 +109,16 @@ const Spacing = ( { selector } ) => {
 					themeSpacingSizes
 				);
 			} );
-			spacingStyles[ type ] = { ...newVal };
+			newSpacingStyles = { ...spacingStyles, [ type ]: { ...newVal } };
 		} else {
-			spacingStyles[ type ] = spacingToVar( newVal, themeSpacingSizes );
+			newSpacingStyles = {
+				...spacingStyles,
+				[ type ]: spacingToVar( newVal, themeSpacingSizes ),
+			};
 		}
 
 		let config = structuredClone( themeConfig );
-		config = set( config, selector, spacingStyles );
+		config = set( config, selector, newSpacingStyles );
 		setUserConfig( config );
 	};
 
