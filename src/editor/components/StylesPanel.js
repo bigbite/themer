@@ -40,7 +40,6 @@ const StylesPanel = () => {
 				<ElementItem
 					name={ params.elementName }
 					selector={ `blocks.${ params.blockName }.elements.${ params.elementName }` }
-					showPreviewToggle={ false }
 				/>
 			</NavigatorScreen>
 

@@ -73,15 +73,30 @@ export function getHeadingPreview() {
 
 /**
  * Create a block preview based on a block name
- * Uses the block example defined during block registration
+ * Uses the block example defined during block registration or the heading preview for core/heading blocks
  *
  * @param {string} blockName
  * @return {Object} Block object
  */
 export function getBlockPreview( blockName ) {
+	if ( blockName === 'core/heading' ) {
+		return getHeadingPreview();
+	}
+
 	const { getBlockType } = select( blocksStore );
 	const block = getBlockType( blockName );
-	return getBlockFromExample( block.name, block.example );
+
+	if ( block?.example ) {
+		return [ getBlockFromExample( block.name, block.example ) ];
+	}
+
+	let preview;
+	try {
+		preview = [ createBlock( blockName ) ];
+	} catch ( e ) {
+		preview = [];
+	}
+	return preview;
 }
 
 /**
@@ -94,7 +109,7 @@ export function getBlockPreview( blockName ) {
 export function getElementPreview( elementName ) {
 	switch ( elementName ) {
 		case 'button':
-			return [ getBlockPreview( 'core/button' ) ];
+			return getBlockPreview( 'core/button' );
 		case 'link':
 			return [
 				createBlock( 'core/paragraph', {
@@ -111,10 +126,45 @@ export function getElementPreview( elementName ) {
 		case 'h6':
 			return getHeadingPreview();
 		case 'caption':
-			return [ getBlockPreview( 'core/image' ) ];
+			return getBlockPreview( 'core/image' );
 		case 'cite':
-			return [ getBlockPreview( 'core/quote' ) ];
+			return getBlockPreview( 'core/quote' );
 		default:
 			return null;
 	}
+}
+
+/**
+ * Gets a block preview from the current route params.
+ * Returns the default preview if no params are passed.
+ * The block preview will override the element preview if both are passed.
+ *
+ * @param {*} params - the route params
+ * @return {Object} - the preview blocks
+ */
+export function getPreviewFromRouteParams( params ) {
+	let previewBlocks = getDefaultPreview();
+
+	if ( ! params || Object.keys( params ).length === 0 ) {
+		return { name: 'default', blocks: previewBlocks };
+	}
+
+	if ( params.elementName ) {
+		const elementPreview = getElementPreview( params.elementName );
+		if ( elementPreview ) {
+			previewBlocks = {
+				name: params.elementName,
+				blocks: elementPreview,
+			};
+		}
+	}
+
+	if ( params.blockName ) {
+		const blockPreview = getBlockPreview( params.blockName );
+		if ( blockPreview ) {
+			previewBlocks = { name: params.blockName, blocks: blockPreview };
+		}
+	}
+
+	return previewBlocks;
 }
