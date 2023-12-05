@@ -6,6 +6,13 @@
 	padding-bottom: 0;
 }
 
+/**
+ * Hide core WordPress notices.
+ */
+#wpbody-content > .notice {
+	display: none;
+}
+
 #wpfooter {
 	display: none;
 }
