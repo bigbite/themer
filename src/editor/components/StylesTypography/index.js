@@ -43,14 +43,20 @@ const Typography = ( { selector } ) => {
 	 * Updates the theme config with the new value.
 	 *
 	 * @param {string} newVal The new value.
-	 * @param {string} key    The property to be updated.
 	 */
-	const handleNewValue = ( newVal, key ) => {
-		const newTypographyStyles = { ...typographyStyles, [ key ]: newVal };
+	const handleNewValue = ( newVal ) => {
+		const newTypographyStyles = { ...typographyStyles, ...newVal };
 		let config = structuredClone( themeConfig );
 		config = set( config, selector, newTypographyStyles );
 		setUserConfig( config );
 	};
+	const fontAppearance =
+		! typographyStyles?.fontStyle && ! typographyStyles?.fontWeight
+			? 'default'
+			: {
+					fontStyle: parseFontStyle( typographyStyles?.fontStyle ),
+					fontWeight: parseFontWeight( typographyStyles?.fontWeight ),
+			  };
 
 	return (
 		<>
@@ -67,30 +73,15 @@ const Typography = ( { selector } ) => {
 					handleNewValue={ handleNewValue }
 				/>
 				<FontAppearanceControl
-					value={
-						! typographyStyles?.fontStyle &&
-						! typographyStyles?.fontWeight
-							? 'default'
-							: {
-									fontStyle: parseFontStyle(
-										typographyStyles?.fontStyle
-									),
-									fontWeight: parseFontWeight(
-										typographyStyles?.fontWeight
-									),
-							  }
-					}
-					onChange={ ( newVal ) => {
-						handleNewValue( newVal?.fontWeight, 'fontWeight' );
-						handleNewValue( newVal?.fontStyle, 'fontStyle' );
-					} }
+					value={ fontAppearance }
+					onChange={ handleNewValue }
 					size="__unstable-large"
 					__nextHasNoMarginBottom
 				/>
 				<LineHeightControl
 					value={ parseLineHeight( typographyStyles?.lineHeight ) }
 					onChange={ ( newVal ) =>
-						handleNewValue( newVal, 'lineHeight' )
+						handleNewValue( { lineHeight: newVal } )
 					}
 					size="__unstable-large"
 					__unstableInputWidth="auto"
@@ -102,9 +93,9 @@ const Typography = ( { selector } ) => {
 					) }
 					onChange={ ( newVal ) => {
 						if ( newVal === '' ) {
-							handleNewValue( '0px', 'letterSpacing' );
+							handleNewValue( { letterSpacing: '0px' } );
 						} else {
-							handleNewValue( newVal, 'letterSpacing' );
+							handleNewValue( { letterSpacing: newVal } );
 						}
 					} }
 					size="__unstable-large"
@@ -115,7 +106,7 @@ const Typography = ( { selector } ) => {
 					max={ MAX_TEXT_COLUMNS }
 					min={ 1 }
 					onChange={ ( newVal ) =>
-						handleNewValue( newVal, 'textColumns' )
+						handleNewValue( { textColumns: newVal } )
 					}
 					size="__unstable-large"
 					spinControls="custom"
@@ -127,7 +118,7 @@ const Typography = ( { selector } ) => {
 						typographyStyles?.textDecoration
 					) }
 					onChange={ ( newVal ) =>
-						handleNewValue( newVal, 'textDecoration' )
+						handleNewValue( { textDecoration: newVal } )
 					}
 				/>
 				<TextTransformControl
@@ -135,7 +126,7 @@ const Typography = ( { selector } ) => {
 						typographyStyles?.textTransform
 					) }
 					onChange={ ( newVal ) =>
-						handleNewValue( newVal, 'textTransform' )
+						handleNewValue( { textTransform: newVal } )
 					}
 					showNone
 				/>
