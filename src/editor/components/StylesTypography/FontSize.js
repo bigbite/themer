@@ -10,9 +10,9 @@ import { parseFontSize, fontSizeToVar, varToFontSize } from './helpers';
  *
  * @param {Object}   props                  Component props
  * @param {Array}    props.typographyStyles Current typography styles.
- * @param {Function} props.handleNewValue   Callback to update the theme config.
+ * @param {Function} props.onChange         Callback to run on change.
  */
-const FontSize = ( { typographyStyles, handleNewValue } ) => {
+const FontSize = ( { typographyStyles, onChange } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const fontSizes = getThemeOption(
 		'settings.typography.fontSizes',
@@ -32,7 +32,7 @@ const FontSize = ( { typographyStyles, handleNewValue } ) => {
 			withSlider
 			fontSizes={ fontSizes }
 			onChange={ ( newVal ) =>
-				handleNewValue( fontSizeToVar( newVal, fontSizes ), 'fontSize' )
+				onChange( fontSizeToVar( newVal, fontSizes ), 'fontSize' )
 			}
 			disableCustomFontSizes={ false }
 			withReset={ false }

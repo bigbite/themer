@@ -203,7 +203,7 @@ export const varToHex = ( cssVar, themePalette ) => {
 		return cssVar;
 	}
 
-	const cssVarName = cssVar.replace(
+	const cssVarName = cssVar?.replace(
 		/var\(--wp--preset--color--(.+?)\)/g,
 		'$1'
 	);

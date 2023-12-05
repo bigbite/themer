@@ -57,9 +57,9 @@ const Outline = ( { selector } ) => {
 
 	// Updates a property value in the outline object.
 	const handleNewValue = ( value, key ) => {
-		outlineStyles[ key ] = value;
+		const newOutlineStyles = { ...outlineStyles, [ key ]: value };
 		let config = structuredClone( themeConfig );
-		config = set( config, selector, outlineStyles );
+		config = set( config, selector, newOutlineStyles );
 		setUserConfig( config );
 	};
 

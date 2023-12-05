@@ -75,15 +75,15 @@ const Shadow = ( { selector } ) => {
 	};
 
 	const shadowUnitValues = shadowStyles
-		.split( ' ' )
+		?.split( ' ' )
 		.filter( isCssLengthUnit );
 	// Remove 'inset' and each of the unit values from the string to get the color
-	let shadowColor = shadowStyles.replace( 'inset', '' ).trim();
-	shadowUnitValues.forEach( ( value ) => {
+	let shadowColor = shadowStyles?.replace( 'inset', '' ).trim();
+	shadowUnitValues?.forEach( ( value ) => {
 		shadowColor = shadowColor.replace( value, '' ).trim();
 	} );
 	const shadowObj = {
-		inset: shadowStyles.includes( 'inset' ) ? 'inset' : '',
+		inset: shadowStyles?.includes( 'inset' ) ? 'inset' : '',
 		offsetX: parseUserValue( shadowUnitValues?.[ 0 ] ),
 		offsetY: parseUserValue( shadowUnitValues?.[ 1 ] ),
 		blurRadius: parseUserValue( shadowUnitValues?.[ 2 ] )?.startsWith( '-' )

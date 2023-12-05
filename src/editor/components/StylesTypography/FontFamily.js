@@ -10,9 +10,9 @@ import { fontFamilyToVar, varToFontFamily } from './helpers';
  *
  * @param {Object}   props                  Component props
  * @param {Array}    props.typographyStyles Current typography styles.
- * @param {Function} props.handleNewValue   Callback to update the theme config.
+ * @param {Function} props.onChange         Callback to run on change.
  */
-const FontFamily = ( { typographyStyles, handleNewValue } ) => {
+const FontFamily = ( { typographyStyles, onChange } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const fontFamilies = getThemeOption(
 		'settings.typography.fontFamilies',
@@ -30,7 +30,7 @@ const FontFamily = ( { typographyStyles, handleNewValue } ) => {
 				fontFamilies
 			) }
 			onChange={ ( newVal ) =>
-				handleNewValue(
+				onChange(
 					fontFamilyToVar( newVal, fontFamilies ),
 					'fontFamily'
 				)
