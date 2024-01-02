@@ -10,10 +10,35 @@
 	}
 }
 
+/**
+ * Add separators between style items.
+ */
+.themer--styles .themer--styles__item {
+	position: relative;
+	margin-bottom: 80px;
+	&::after {
+		content: "";
+		position: absolute;
+		display: block;
+		left: -20px;
+		right: -20px;
+		bottom: -40px;
+		border-bottom: 1px solid #ccc;
+	}
+	&:last-child {
+		margin-bottom: 0;
+		&::after {
+			display: none;
+		}
+	}
+	&:first-child {
+		margin-top: 20px;
+	}
+}
+
 .themer--styles__item {
 	gap: 16px;
 	display: flex;
-	padding: 25px 0px;
 	flex-direction: column;
 }
 

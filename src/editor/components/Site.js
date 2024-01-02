@@ -8,7 +8,7 @@ import Styles from './Styles';
  */
 const Site = () => {
 	return (
-		<section>
+		<section className="themer--panel">
 			<Heading level={ 4 }>{ __( 'Site', 'themer' ) }</Heading>
 			<p>{ __( 'Customise the appearance of the site.', 'themer' ) }</p>
 			<Styles selector="styles" />
