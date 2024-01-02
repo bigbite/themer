@@ -65,7 +65,7 @@ const Outline = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Outline', 'themer' ) }
 			</span>
 			<UnitControl
@@ -132,7 +132,7 @@ const Outline = ( { selector } ) => {
 				units={ unitControlUnits }
 			/>
 			<span>
-				<span className="themer--blocks-item-component--styles--label">
+				<span className="themer--styles__item__label">
 					{ __( 'Color', 'themer' ) }
 				</span>
 				<ColorPalette

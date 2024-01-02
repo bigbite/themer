@@ -1,4 +1,4 @@
-.themer--blocks-item-component {
+.themer--styles {
 	container-type: inline-size;
 
 	> summary {
@@ -27,49 +27,49 @@
 		vertical-align: middle;
 	}
 
-	.themer--blocks-item-component--styles {
+	.themer--styles__item {
 		gap: 16px;
 		display: flex;
 		padding: 25px 0px;
 		flex-direction: column;
 	}
 
-	> .themer--blocks-item-component--styles > * {
+	> .themer--styles__item > * {
 		flex: 1 1 auto;
 	}
 
-	.themer--blocks-item-component--styles--title {
+	.themer--styles__item__title {
 		font-weight: 600;
 		font-size: 14px;
 		line-height: 20px;
 	}
 
-	.themer--blocks-item-component--styles--label {
+	.themer--styles__item__label {
 		font-weight: 600;
 		font-size: 11px;
 		line-height: 25.4px;
 		text-transform: uppercase;
 	}
 
-	.themer--blocks-item-component--columns {
+	.themer--styles__item__columns {
 		display: grid;
 		grid-column-gap: 1.5rem;
 		grid-row-gap: 1rem;
 	}
 
-	.themer--blocks-item-component--columns-2 {
+	.themer--styles__item__columns--2 {
 		grid-template-columns: 47.5% 47.5%;
 	}
 
 	// Hide the custom color picker from the duotone picker.
-	.themer--blocks-item-component--styles--title.is-filter
+	.themer--styles__item__title--filter
 		~ .components-circular-option-picker
 		.components-color-list-picker {
 		display: none;
 	}
 
 	@container (max-width: 540px) {
-		.themer--blocks-item-component--columns-2 {
+		.themer--styles__item__columns--2 {
 			display: flex;
 			flex-direction: column;
 			gap: 1rem;

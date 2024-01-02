@@ -54,7 +54,7 @@ const Filter = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title is-filter">
+			<span className="themer--styles__item__title themer--styles__item__title--filter">
 				{ __( 'Filter', 'themer' ) }
 			</span>
 			<DuotonePicker
