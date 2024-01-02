@@ -1,73 +1,6 @@
 .themer--styles {
 	container-type: inline-size;
 
-	> summary {
-		display: flex;
-		cursor: pointer;
-		list-style: none;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	> summary::after {
-		content: url("../../static/images/chevron.svg");
-		transition: transform 0.3s ease-in-out;
-		transform-origin: left center;
-	}
-
-	&[open] > summary::after {
-		content: url("../../static/images/chevron.svg");
-		transform: rotate(90deg);
-	}
-
-	> summary svg {
-		width: 24px;
-		margin: 0 6px 0 0;
-		display: inline-block;
-		vertical-align: middle;
-	}
-
-	.themer--styles__item {
-		gap: 16px;
-		display: flex;
-		padding: 25px 0px;
-		flex-direction: column;
-	}
-
-	> .themer--styles__item > * {
-		flex: 1 1 auto;
-	}
-
-	.themer--styles__item__title {
-		font-weight: 600;
-		font-size: 14px;
-		line-height: 20px;
-	}
-
-	.themer--styles__item__label {
-		font-weight: 600;
-		font-size: 11px;
-		line-height: 25.4px;
-		text-transform: uppercase;
-	}
-
-	.themer--styles__item__columns {
-		display: grid;
-		grid-column-gap: 1.5rem;
-		grid-row-gap: 1rem;
-	}
-
-	.themer--styles__item__columns--2 {
-		grid-template-columns: 47.5% 47.5%;
-	}
-
-	// Hide the custom color picker from the duotone picker.
-	.themer--styles__item__title--filter
-		~ .components-circular-option-picker
-		.components-color-list-picker {
-		display: none;
-	}
-
 	@container (max-width: 540px) {
 		.themer--styles__item__columns--2 {
 			display: flex;
@@ -75,9 +8,45 @@
 			gap: 1rem;
 		}
 	}
+}
 
-	// Toggle component ships with margin, which messes with our pre-defined gap between components.
-	.components-toggle-control {
-		margin: 0;
-	}
+.themer--styles__item {
+	gap: 16px;
+	display: flex;
+	padding: 25px 0px;
+	flex-direction: column;
+}
+
+.themer--styles__item > * {
+	flex: 1 1 auto;
+}
+
+.themer--styles__item__title {
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.themer--styles__item__label {
+	font-weight: 600;
+	font-size: 11px;
+	line-height: 25.4px;
+	text-transform: uppercase;
+}
+
+.themer--styles__item__columns {
+	display: grid;
+	grid-column-gap: 1.5rem;
+	grid-row-gap: 1rem;
+}
+
+.themer--styles__item__columns--2 {
+	grid-template-columns: 47.5% 47.5%;
+}
+
+// Hide the custom color picker from the duotone picker.
+.themer--styles__item__title--filter
+	~ .components-circular-option-picker
+	.components-color-list-picker {
+	display: none;
 }
