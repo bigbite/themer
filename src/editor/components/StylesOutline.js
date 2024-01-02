@@ -68,12 +68,6 @@ const Outline = ( { selector } ) => {
 			<span className="themer--blocks-item-component--styles--title">
 				{ __( 'Outline', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage the default outline of different global elements on the site.',
-					'themer'
-				) }
-			</span>
 			<UnitControl
 				label={ __( 'Width', 'themer' ) }
 				value={ parseUserValue( outlineStyles?.width ) }

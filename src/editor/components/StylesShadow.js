@@ -98,12 +98,6 @@ const Shadow = ( { selector } ) => {
 			<span className="themer--blocks-item-component--styles--title">
 				{ __( 'Shadow', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage the default box shadow of different global elements on the site.',
-					'themer'
-				) }
-			</span>
 			<ToggleControl
 				checked={ shadowObj.inset === 'inset' }
 				label={ __( 'Inset', 'themer' ) }

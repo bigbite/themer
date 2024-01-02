@@ -103,12 +103,6 @@ const Dimensions = ( { selector } ) => {
 			<span className="themer--blocks-item-component--styles--title">
 				{ __( 'Dimensions', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage the default dimensions of different global elements on the site.',
-					'themer'
-				) }
-			</span>
 			<span className="themer--blocks-item-component--styles--label">
 				{ __( 'Min Height', 'themer' ) }
 			</span>

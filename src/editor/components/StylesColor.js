@@ -52,12 +52,6 @@ const Color = ( { selector } ) => {
 			<span className="themer--blocks-item-component--styles--title">
 				{ __( 'Color', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage palettes and the default color of different global elements on the site.',
-					'themer'
-				) }
-			</span>
 			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
 				{ allPalettes }
 			</div>
