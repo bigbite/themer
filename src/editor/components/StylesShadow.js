@@ -95,14 +95,8 @@ const Shadow = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Shadow', 'themer' ) }
-			</span>
-			<span>
-				{ __(
-					'Manage the default box shadow of different global elements on the site.',
-					'themer'
-				) }
 			</span>
 			<ToggleControl
 				checked={ shadowObj.inset === 'inset' }
@@ -110,7 +104,7 @@ const Shadow = ( { selector } ) => {
 				onChange={ ( newVal ) => handleNewValue( newVal, 'inset' ) }
 				style={ { marginBottom: '0px' } }
 			/>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				<UnitControl
 					label={ __( 'Offset X', 'themer' ) }
 					value={ shadowObj.offsetX }
@@ -146,7 +140,7 @@ const Shadow = ( { selector } ) => {
 				/>
 			</div>
 			<span>
-				<span className="themer--blocks-item-component--styles--label">
+				<span className="themer--styles__item__label">
 					{ __( 'Shadow Color', 'themer' ) }
 				</span>
 				<ColorPalette

@@ -34,10 +34,8 @@ const Color = ( { selector } ) => {
 	};
 
 	const allPalettes = [ 'background', 'text' ].map( ( key ) => (
-		<div key={ key } className="themer--blocks-item-component--column">
-			<span className="themer--blocks-item-component--styles--label">
-				{ key }
-			</span>
+		<div key={ key } className="themer--styles__item__column">
+			<span className="themer--styles__item__label">{ key }</span>
 			<ColorPalette
 				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
@@ -49,16 +47,10 @@ const Color = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Color', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage palettes and the default color of different global elements on the site.',
-					'themer'
-				) }
-			</span>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ allPalettes }
 			</div>
 		</>

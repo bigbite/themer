@@ -53,14 +53,14 @@ const Typography = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Typography', 'themer' ) }
 			</span>
 			<FontFamily
 				typographyStyles={ typographyStyles }
 				onChange={ ( val ) => handleNewValue( { fontFamily: val } ) }
 			/>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				<FontSize
 					typographyStyles={ typographyStyles }
 					onChange={ ( val ) => handleNewValue( { fontSize: val } ) }

@@ -29,12 +29,16 @@ const Border = ( { selector } ) => {
 	};
 
 	return (
-		<BorderBoxControl
-			colors={ themePalette }
-			label={ __( 'Borders', 'themer' ) }
-			onChange={ onChange }
-			value={ value }
-		/>
+		<>
+			<span className="themer--styles__item__title">
+				{ __( 'Border', 'themer' ) }
+			</span>
+			<BorderBoxControl
+				colors={ themePalette }
+				onChange={ onChange }
+				value={ value }
+			/>
+		</>
 	);
 };
 

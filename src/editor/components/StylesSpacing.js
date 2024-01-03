@@ -124,7 +124,7 @@ const Spacing = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Spacing', 'themer' ) }
 			</span>
 			<UnitControl

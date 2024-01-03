@@ -100,19 +100,13 @@ const Dimensions = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Dimensions', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage the default dimensions of different global elements on the site.',
-					'themer'
-				) }
-			</span>
-			<span className="themer--blocks-item-component--styles--label">
+			<span className="themer--styles__item__label">
 				{ __( 'Min Height', 'themer' ) }
 			</span>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				<SelectControl
 					label={ __( 'Type', 'themer' ) }
 					options={ SELECT_OPTIONS }

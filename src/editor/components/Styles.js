@@ -24,15 +24,29 @@ const Styles = ( { selector } ) => {
 	}
 
 	return (
-		<div className="themer--blocks-item-component">
-			<div className="themer--blocks-item-component--styles">
+		<div className="themer--styles">
+			<div className="themer--styles__item">
 				<Border selector={ `${ selector }.border` } />
+			</div>
+			<div className="themer--styles__item">
 				<Color selector={ `${ selector }.color` } />
+			</div>
+			<div className="themer--styles__item">
 				<Typography selector={ `${ selector }.typography` } />
+			</div>
+			<div className="themer--styles__item">
 				<Filter selector={ `${ selector }.filter` } />
+			</div>
+			<div className="themer--styles__item">
 				<Spacing selector={ `${ selector }.spacing` } />
+			</div>
+			<div className="themer--styles__item">
 				<Dimensions selector={ `${ selector }.dimensions` } />
+			</div>
+			<div className="themer--styles__item">
 				<Outline selector={ `${ selector }.outline` } />
+			</div>
+			<div className="themer--styles__item">
 				<Shadow selector={ `${ selector }.shadow` } />
 			</div>
 		</div>
