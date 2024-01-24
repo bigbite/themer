@@ -162,7 +162,7 @@ class Rest_API {
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
-				'tax_query'              => array(
+				'tax_query'              => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- This could be a slow query, but it's necessary.
 					array(
 						'taxonomy' => 'wp_theme',
 						'field'    => 'name',
