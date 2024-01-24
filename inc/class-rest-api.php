@@ -153,26 +153,29 @@ class Rest_API {
 		$theme = get_stylesheet();
 		$posts = get_posts(
 			array(
-				'post_type'   => 'wp_global_styles',
-				'numberposts' => -1,
-				'post_status' => array( 'publish', 'draft' ),
+				'post_type'              => 'wp_global_styles',
+				'post_status'            => array( 'publish', 'draft' ),
+				'orderby'                => 'date',
+				'order'                  => 'desc',
+				'numberposts'            => -1,
+				'ignore_sticky_posts'    => true,
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'tax_query'              => array(
+					array(
+						'taxonomy' => 'wp_theme',
+						'field'    => 'name',
+						'terms'    => $theme,
+					),
+				),
 			)
 		);
 
-		$current_theme_posts = array_values(
-			array_filter(
-				$posts,
-				function ( $post ) use ( $theme ) {
-					$post_name = str_replace( 'wp-global-styles-', '', $post->post_name );
-					return $post_name === $theme;
-				}
-			)
-		);
-
-		if ( empty( $current_theme_posts ) ) {
+		if ( empty( $posts ) ) {
 			return new WP_Error( 'no_theme_styles', __( 'Unable to locate existing styles for the theme', 'themer' ) );
 		}
 
-		return rest_ensure_response( $current_theme_posts );
+		return rest_ensure_response( $posts );
 	}
 }
