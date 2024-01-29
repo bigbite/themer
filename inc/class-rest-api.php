@@ -73,6 +73,18 @@ class Rest_API {
 				},
 			)
 		);
+
+		register_rest_route(
+			'themer/v1',
+			'/create-theme-style-variation',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'create_theme_style_variation' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_theme_options' );
+				},
+			)
+		);
 	}
 
 	/**
@@ -208,5 +220,37 @@ class Rest_API {
 		}
 
 		return rest_ensure_response( new WP_REST_Response( array( 'error' => __( 'Unsupported request method.', 'themer' ) ), 405 ) );
+	}
+
+	public function create_theme_style_variation(): WP_REST_Response|WP_Error {
+		$theme = get_stylesheet();
+		// https://github.com/WordPress/WordPress/blob/aba105c851146ee5c812ab45fc9faac2dd3da69e/wp-includes/class-wp-theme-json-resolver.php#L465
+		$post_id = wp_insert_post(
+			array(
+				'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
+				'post_status'  => 'draft',
+				'post_title'   => 'Custom Styles',
+				'post_type'    => 'wp_global_styles',
+				'post_name'    => sprintf( 'wp-global-styles-%s', rawurlencode( $theme ) ),
+				'tax_input'    => array(
+					'wp_theme' => $theme,
+				),
+			),
+			true
+		);
+
+		if ( is_wp_error( $post_id ) ) {
+			return new WP_Error( 'unable_to_create_post', __( 'Unable to create post', 'themer' ) );
+		}
+
+		return rest_ensure_response(
+			new WP_REST_Response(
+				array(
+					'messsage' => __( 'Post inserted', 'themer' ),
+					'postId'   => $post_id,
+				),
+				200
+			)
+		);
 	}
 }

@@ -242,6 +242,24 @@ const ThemerComponent = () => {
 		);
 	};
 
+	const createVariation = async () => {
+		try {
+			const createVariationRes = await apiFetch( {
+				path: '/themer/v1/create-theme-style-variation',
+				method: 'POST',
+			} );
+			const styleVariationsRes = await apiFetch( {
+				path: '/themer/v1/theme-style-variations',
+				method: 'GET',
+			} );
+			setStyleVariations( styleVariationsRes );
+			setGlobalStylesId( createVariationRes?.postId );
+		} catch ( err ) {
+			// eslint-disable-next-line no-console
+			console.log( err );
+		}
+	};
+
 	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
@@ -320,6 +338,11 @@ const ThemerComponent = () => {
 									disabled={
 										publishedStylesId === globalStylesId
 									}
+								/>
+								<Button
+									isSecondary
+									onClick={ createVariation }
+									text="Create"
 								/>
 								<MoreMenuDropdown>
 									{ () => (
