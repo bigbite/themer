@@ -186,6 +186,10 @@ class Rest_API {
 		if ( 'POST' === $method ) {
 			$json_body        = $request->get_json_params();
 			$global_styles_id = $json_body['globalStylesId'];
+			$post_ids         = array_column( $posts, 'ID' );
+			if ( ! $global_styles_id || ! in_array( $global_styles_id, $post_ids, true ) ) {
+				return new WP_Error( 'invalid_global_styles_id', __( 'Invalid global styles ID', 'themer' ) );
+			}
 
 			foreach ( $posts as $post ) {
 				$post_status = 'draft';
@@ -200,9 +204,9 @@ class Rest_API {
 				);
 			}
 
-			return rest_ensure_response( new WP_REST_Response( array( 'message' => 'Active theme style variation updated.' ), 200 ) );
+			return rest_ensure_response( new WP_REST_Response( array( 'message' => __( 'Active theme style variation updated.', 'themer' ) ), 200 ) );
 		}
 
-		return rest_ensure_response( new WP_REST_Response( array( 'error' => 'Unsupported request method.' ), 405 ) );
+		return rest_ensure_response( new WP_REST_Response( array( 'error' => __( 'Unsupported request method.', 'themer' ) ), 405 ) );
 	}
 }
