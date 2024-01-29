@@ -64,10 +64,10 @@ class Rest_API {
 
 		register_rest_route(
 			'themer/v1',
-			'/theme-style-variation-posts',
+			'/theme-style-variations',
 			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_all_theme_style_variation_posts' ),
+				'methods'             => 'GET,POST',
+				'callback'            => array( $this, 'handle_theme_style_variations' ),
 				'permission_callback' => function () {
 					return true;
 				},
@@ -145,13 +145,16 @@ class Rest_API {
 	}
 
 	/**
-	 * Returns all 'wp_global_styles' posts linked to the current theme.
+	 * GET request returns all of the `wp_global_styles` posts for the current theme.
+	 * POST request publishes the post with the supplied ID and sets all other posts to draft.
 	 *
+	 * @param WP_REST_Request $request - The request object.
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_all_theme_style_variation_posts(): WP_REST_Response|WP_Error {
-		$theme = get_stylesheet();
-		$posts = get_posts(
+	public function handle_theme_style_variations( $request ): WP_REST_Response|WP_Error {
+		$method = $request->get_method();
+		$theme  = get_stylesheet();
+		$posts  = get_posts(
 			array(
 				'post_type'              => 'wp_global_styles',
 				'post_status'            => array( 'publish', 'draft' ),
@@ -176,6 +179,30 @@ class Rest_API {
 			return new WP_Error( 'no_theme_styles', __( 'Unable to locate existing styles for the theme', 'themer' ) );
 		}
 
-		return rest_ensure_response( $posts );
+		if ( 'GET' === $method ) {
+			return rest_ensure_response( $posts );
+		}
+
+		if ( 'POST' === $method ) {
+			$json_body        = $request->get_json_params();
+			$global_styles_id = $json_body['globalStylesId'];
+
+			foreach ( $posts as $post ) {
+				$post_status = 'draft';
+				if ( $post->ID === $global_styles_id ) {
+					$post_status = 'publish';
+				}
+				wp_update_post(
+					array(
+						'ID'          => $post->ID,
+						'post_status' => $post_status,
+					)
+				);
+			}
+
+			return rest_ensure_response( new WP_REST_Response( array( 'message' => 'Active theme style variation updated.' ), 200 ) );
+		}
+
+		return rest_ensure_response( new WP_REST_Response( array( 'error' => 'Unsupported request method.' ), 405 ) );
 	}
 }

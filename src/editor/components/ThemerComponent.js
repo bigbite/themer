@@ -40,6 +40,7 @@ const ThemerComponent = () => {
 	const [ validThemeJson, setValidThemeJson ] = useState();
 	const [ globalStylesId, setGlobalStylesId ] = useState( 0 );
 	const [ styleVariations, setStyleVariations ] = useState( [] );
+	const [ publishedStylesId, setPublishedStylesId ] = useState( 0 );
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -126,9 +127,14 @@ const ThemerComponent = () => {
 		setValidThemeJson( res );
 	};
 
+	/**
+	 * Retrieve all style variations for the theme and store the global style ID in state.
+	 *
+	 * @return {void}
+	 */
 	const getStyleVariations = async () => {
 		const styleVariationsRes = await apiFetch( {
-			path: '/themer/v1/theme-style-variation-posts',
+			path: '/themer/v1/theme-style-variations',
 			method: 'GET',
 		} );
 		setStyleVariations( styleVariationsRes );
@@ -139,6 +145,7 @@ const ThemerComponent = () => {
 		if ( ! activeVariation ) {
 			return;
 		}
+		setPublishedStylesId( activeVariation.ID );
 		setGlobalStylesId( activeVariation.ID );
 	};
 
@@ -207,6 +214,25 @@ const ThemerComponent = () => {
 		);
 	};
 
+	/**
+	 * Sets the active style variation for the theme.
+	 */
+	const activate = async () => {
+		try {
+			await apiFetch( {
+				path: '/themer/v1/theme-style-variations',
+				method: 'POST',
+				data: {
+					globalStylesId,
+				},
+			} );
+			setPublishedStylesId( globalStylesId );
+		} catch ( err ) {
+			// eslint-disable-next-line no-console
+			console.log( err );
+		}
+	};
+
 	const clearAllCustomisations = () => {
 		dispatch( 'core' ).editEntityRecord(
 			'root',
@@ -270,7 +296,9 @@ const ThemerComponent = () => {
 									options={ selectOptions }
 									value={ globalStylesId }
 									onChange={ ( value ) =>
-										setGlobalStylesId( value )
+										setGlobalStylesId(
+											parseInt( value, 10 )
+										)
 									}
 								/>
 								<Button
@@ -284,6 +312,14 @@ const ThemerComponent = () => {
 									onClick={ () => save() }
 									text="Save"
 									disabled={ ! hasUnsavedChanges }
+								/>
+								<Button
+									isPrimary
+									onClick={ activate }
+									text={ __( 'Activate', 'themer' ) }
+									disabled={
+										publishedStylesId === globalStylesId
+									}
 								/>
 								<MoreMenuDropdown>
 									{ () => (
