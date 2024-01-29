@@ -132,9 +132,13 @@ const ThemerComponent = () => {
 			method: 'GET',
 		} );
 		setStyleVariations( styleVariationsRes );
-		const activeVariation = styleVariationsRes.find(
+
+		const activeVariation = styleVariationsRes?.find(
 			( variation ) => variation.post_status === 'publish'
 		);
+		if ( ! activeVariation ) {
+			return;
+		}
 		setGlobalStylesId( activeVariation.ID );
 	};
 
