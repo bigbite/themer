@@ -260,6 +260,25 @@ const ThemerComponent = () => {
 		}
 	};
 
+	/**
+	 * Deletes the current style variation.
+	 */
+	const deleteVariation = async () => {
+		try {
+			await apiFetch( {
+				path: '/themer/v1/delete-theme-style-variation',
+				method: 'POST',
+				data: {
+					globalStylesId,
+				},
+			} );
+			getStyleVariations();
+		} catch ( err ) {
+			// eslint-disable-next-line no-console
+			console.log( err );
+		}
+	};
+
 	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
@@ -310,6 +329,26 @@ const ThemerComponent = () => {
 					{ validThemeJson === true && (
 						<>
 							<div className="themer-topbar">
+								<Button
+									variant="primary"
+									onClick={ createVariation }
+									text={ __(
+										'Create new variation',
+										'themer'
+									) }
+								/>
+								<Button
+									isDestructive
+									onClick={ deleteVariation }
+									text={ __(
+										'Delete current variation',
+										'themer'
+									) }
+									disabled={
+										publishedStylesId === globalStylesId
+									}
+									variant="primary"
+								/>
 								<SelectControl
 									options={ selectOptions }
 									value={ globalStylesId }
@@ -338,11 +377,6 @@ const ThemerComponent = () => {
 									disabled={
 										publishedStylesId === globalStylesId
 									}
-								/>
-								<Button
-									isSecondary
-									onClick={ createVariation }
-									text="Create"
 								/>
 								<MoreMenuDropdown>
 									{ () => (

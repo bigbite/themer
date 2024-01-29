@@ -85,6 +85,25 @@ class Rest_API {
 				},
 			)
 		);
+
+		register_rest_route(
+			'themer/v1',
+			'/delete-theme-style-variation',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( $this, 'delete_theme_style_variation' ),
+				'permission_callback' => function () {
+					return current_user_can( 'edit_theme_options' );
+				},
+				'args'                => array(
+					'globalStylesId' => array(
+						'validate_callback' => function( $param ) {
+							return is_numeric( $param );
+						},
+					),
+				),
+			)
+		);
 	}
 
 	/**
@@ -222,9 +241,13 @@ class Rest_API {
 		return rest_ensure_response( new WP_REST_Response( array( 'error' => __( 'Unsupported request method.', 'themer' ) ), 405 ) );
 	}
 
+	/**
+	 * Creates a new style variation post. Using the same args as core for inserting the post - https://github.com/WordPress/WordPress/blob/aba105c851146ee5c812ab45fc9faac2dd3da69e/wp-includes/class-wp-theme-json-resolver.php#L465
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
 	public function create_theme_style_variation(): WP_REST_Response|WP_Error {
-		$theme = get_stylesheet();
-		// https://github.com/WordPress/WordPress/blob/aba105c851146ee5c812ab45fc9faac2dd3da69e/wp-includes/class-wp-theme-json-resolver.php#L465
+		$theme   = get_stylesheet();
 		$post_id = wp_insert_post(
 			array(
 				'post_content' => '{"version": ' . WP_Theme_JSON::LATEST_SCHEMA . ', "isGlobalStylesUserThemeJSON": true }',
@@ -248,6 +271,31 @@ class Rest_API {
 				array(
 					'messsage' => __( 'Post inserted', 'themer' ),
 					'postId'   => $post_id,
+				),
+				200
+			)
+		);
+	}
+
+	/**
+	 * Deletes a style variation post given the ID as a request param.
+	 *
+	 * @param WP_REST_Request $request - The request object.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function delete_theme_style_variation( $request ): WP_REST_Response|WP_Error {
+		$json_body        = $request->get_json_params();
+		$global_styles_id = $json_body['globalStylesId'];
+		$deleted_post     = wp_delete_post( $global_styles_id );
+
+		if ( ! $deleted_post ) {
+			return new WP_Error( 'unable_to_delete_post', __( 'Unable to delete post', 'themer' ) );
+		}
+
+		return rest_ensure_response(
+			new WP_REST_Response(
+				array(
+					'messsage' => __( 'Post deleted.', 'themer' ),
 				),
 				200
 			)
