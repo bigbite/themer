@@ -69,7 +69,7 @@ class Rest_API {
 				'methods'             => 'GET,POST',
 				'callback'            => array( $this, 'handle_theme_style_variations' ),
 				'permission_callback' => function () {
-					return true;
+					return current_user_can( 'edit_theme_options' );
 				},
 			)
 		);
