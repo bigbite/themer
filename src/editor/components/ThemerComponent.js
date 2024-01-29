@@ -4,6 +4,7 @@ import {
 	Spinner,
 	MenuGroup,
 	MenuItem,
+	SelectControl,
 	__experimentalNavigatorProvider as NavigatorProvider,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
@@ -37,6 +38,8 @@ const ThemerComponent = () => {
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
+	const [ globalStylesId, setGlobalStylesId ] = useState( 0 );
+	const [ styleVariations, setStyleVariations ] = useState( [] );
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -47,33 +50,38 @@ const ThemerComponent = () => {
 		);
 	};
 
-	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
-		useSelect( ( select ) => {
+	const { baseConfig, userConfig, savedUserConfig } = useSelect(
+		( select ) => {
+			if ( ! globalStylesId ) {
+				return {
+					baseConfig: {},
+					userConfig: {},
+					savedUserConfig: {},
+				};
+			}
+
 			const {
-				__experimentalGetCurrentGlobalStylesId,
 				__experimentalGetCurrentThemeBaseGlobalStyles,
 				getEditedEntityRecord,
 				getEntityRecord,
 			} = select( 'core' );
 
-			const currentGlobalStylesId =
-				__experimentalGetCurrentGlobalStylesId();
-
 			return {
-				globalStylesId: currentGlobalStylesId, // eslint-disable no-underscore-dangle -- require underscore dangle for experimental functions
 				baseConfig: __experimentalGetCurrentThemeBaseGlobalStyles(), // eslint-disable no-underscore-dangle -- require underscore dangle for experimental functions
 				userConfig: getEditedEntityRecord(
 					'root',
 					'globalStyles',
-					currentGlobalStylesId
+					globalStylesId
 				),
 				savedUserConfig: getEntityRecord(
 					'root',
 					'globalStyles',
-					currentGlobalStylesId
+					globalStylesId
 				),
 			};
-		} );
+		},
+		[ globalStylesId ]
+	);
 
 	/**
 	 * Returns merged base and user configs
@@ -118,6 +126,18 @@ const ThemerComponent = () => {
 		setValidThemeJson( res );
 	};
 
+	const getStyleVariations = async () => {
+		const styleVariationsRes = await apiFetch( {
+			path: '/themer/v1/theme-style-variation-posts',
+			method: 'GET',
+		} );
+		setStyleVariations( styleVariationsRes );
+		const activeVariation = styleVariationsRes.find(
+			( variation ) => variation.post_status === 'publish'
+		);
+		setGlobalStylesId( activeVariation.ID );
+	};
+
 	/**
 	 * Resets preview blocks to default template
 	 */
@@ -135,6 +155,10 @@ const ThemerComponent = () => {
 			setSchema( schemaJson );
 		} )();
 		validateThemeJson();
+	}, [] );
+
+	useEffect( () => {
+		getStyleVariations();
 	}, [] );
 
 	/**
@@ -196,6 +220,19 @@ const ThemerComponent = () => {
 		);
 	}
 
+	const selectOptions = [
+		{
+			disabled: true,
+			label: __( 'Select a style variation', 'themer' ),
+			value: '',
+		},
+		,
+		...styleVariations.map( ( variation ) => ( {
+			label: variation.post_name,
+			value: variation.ID,
+		} ) ),
+	];
+
 	return (
 		<>
 			<EditorContext.Provider
@@ -225,6 +262,13 @@ const ThemerComponent = () => {
 					{ validThemeJson === true && (
 						<>
 							<div className="themer-topbar">
+								<SelectControl
+									options={ selectOptions }
+									value={ globalStylesId }
+									onChange={ ( value ) =>
+										setGlobalStylesId( value )
+									}
+								/>
 								<Button
 									isSecondary
 									onClick={ () => reset() }
