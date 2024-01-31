@@ -25,12 +25,13 @@ function get_theme_style_variation_posts() {
 			'no_found_rows'          => true,
 			'update_post_meta_cache' => false,
 			'update_post_term_cache' => false,
-			'tax_query'              => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- This could be a slow query, but it's necessary.
-			array(
-		'taxonomy' => 'wp_theme',
-		'field'    => 'name',
-		'terms'    => $stylesheet,
-			),
+			// phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- This could be a slow query, but it's necessary.
+			'tax_query'              => array(
+				array(
+					'taxonomy' => 'wp_theme',
+					'field'    => 'name',
+					'terms'    => $stylesheet,
+				),
 			),
 		)
 	);
