@@ -34,7 +34,7 @@ class Rest_API {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'get_styles' ),
-				'permission_callback' => function() {
+				'permission_callback' => function () {
 					return true;
 				},
 			)
@@ -56,7 +56,19 @@ class Rest_API {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'can_load_theme_json' ),
-				'permission_callback' => function() {
+				'permission_callback' => function () {
+					return true;
+				},
+			)
+		);
+
+		register_rest_route(
+			'themer/v1',
+			'/style-variations',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'get_all_theme_style_variation_posts' ),
+				'permission_callback' => function () {
 					return true;
 				},
 			)
@@ -119,7 +131,7 @@ class Rest_API {
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_theme_json(): WP_REST_Response | WP_Error {
+	public function get_theme_json(): WP_REST_Response|WP_Error {
 		$all_theme_json_layers = WP_Theme_JSON_Resolver::get_merged_data();
 
 		if ( ! $all_theme_json_layers instanceof WP_Theme_JSON ) {
@@ -130,5 +142,40 @@ class Rest_API {
 		$theme_json_flattened = $theme_json_raw_data->get_data();
 
 		return rest_ensure_response( $theme_json_flattened );
+	}
+
+	/**
+	 * Returns all 'wp_global_styles' posts linked to the current theme.
+	 *
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function get_all_theme_style_variation_posts(): WP_REST_Response|WP_Error {
+		$theme = get_stylesheet();
+		$posts = get_posts(
+			array(
+				'post_type'              => 'wp_global_styles',
+				'post_status'            => array( 'publish', 'draft' ),
+				'orderby'                => 'date',
+				'order'                  => 'desc',
+				'numberposts'            => -1,
+				'ignore_sticky_posts'    => true,
+				'no_found_rows'          => true,
+				'update_post_meta_cache' => false,
+				'update_post_term_cache' => false,
+				'tax_query'              => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- This could be a slow query, but it's necessary.
+					array(
+						'taxonomy' => 'wp_theme',
+						'field'    => 'name',
+						'terms'    => $theme,
+					),
+				),
+			)
+		);
+
+		if ( empty( $posts ) ) {
+			return new WP_Error( 'no_theme_styles', __( 'Unable to locate existing styles for the theme', 'themer' ) );
+		}
+
+		return rest_ensure_response( $posts );
 	}
 }
