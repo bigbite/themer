@@ -172,7 +172,7 @@ class Rest_API {
 
 		$posts = get_theme_style_variation_posts();
 
-		// Set the currently selected variation to draft and publish the new one.
+		// Sets the currently selected style variation to draft and publishes the newly selected one.
 		foreach ( $posts as $post ) {
 			if ( 'publish' !== $post->post_status && $post->ID !== $global_styles_id ) {
 				continue;
