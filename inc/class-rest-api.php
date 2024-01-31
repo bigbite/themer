@@ -191,7 +191,12 @@ class Rest_API {
 				return new WP_Error( 'invalid_global_styles_id', __( 'Invalid global styles ID', 'themer' ) );
 			}
 
+			// Set the currently selected variation to draft and publish the new one.
 			foreach ( $posts as $post ) {
+				if ( 'publish' !== $post->post_status && $post->ID !== $global_styles_id ) {
+					continue;
+				}
+
 				$post_status = 'draft';
 				if ( $post->ID === $global_styles_id ) {
 					$post_status = 'publish';
