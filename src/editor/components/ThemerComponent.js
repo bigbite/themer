@@ -134,7 +134,7 @@ const ThemerComponent = () => {
 	 */
 	const getStyleVariations = async () => {
 		const styleVariationsRes = await apiFetch( {
-			path: '/themer/v1/theme-style-variations',
+			path: '/themer/v1/style-variations',
 			method: 'GET',
 		} );
 		setStyleVariations( styleVariationsRes );
@@ -220,7 +220,7 @@ const ThemerComponent = () => {
 	const activate = async () => {
 		try {
 			await apiFetch( {
-				path: '/themer/v1/theme-style-variations',
+				path: '/themer/v1/style-variations',
 				method: 'POST',
 				data: {
 					globalStylesId,

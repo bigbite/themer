@@ -64,7 +64,7 @@ class Rest_API {
 
 		register_rest_route(
 			'themer/v1',
-			'/theme-style-variations',
+			'/style-variations',
 			array(
 				'methods'             => 'GET,POST',
 				'callback'            => array( $this, 'handle_theme_style_variations' ),
