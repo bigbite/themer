@@ -149,7 +149,7 @@ class Rest_API {
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_theme_style_variations(): WP_REST_Response|WP_Error {
+	private function get_theme_style_variations(): WP_REST_Response|WP_Error {
 		$posts = get_theme_style_variation_posts();
 
 		if ( empty( $posts ) ) {
@@ -165,7 +165,7 @@ class Rest_API {
 	 * @param int $global_styles_id - The ID of the style variation to be published.
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function set_new_active_style_variation( int $global_styles_id ): WP_REST_Response|WP_Error {
+	private function set_new_active_style_variation( int $global_styles_id ): WP_REST_Response|WP_Error {
 		if ( ! $global_styles_id || ! get_post_status( $global_styles_id ) ) {
 			return new WP_Error( 'invalid_global_styles_id', __( 'Invalid global styles ID', 'themer' ) );
 		}
