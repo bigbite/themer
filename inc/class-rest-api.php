@@ -71,6 +71,27 @@ class Rest_API {
 				'permission_callback' => function () {
 					return current_user_can( 'edit_theme_options' );
 				},
+				'args'                => array(
+					'globalStylesId' => array(
+						'validate_callback' => function( $param, $request ) {
+							if ( $request->get_method() === 'GET' ) {
+								return true;
+							}
+
+							$post = get_post( $param );
+							if ( ! $post ) {
+								return false;
+							}
+
+							$stylesheet = get_stylesheet();
+							if ( 'wp_global_styles' !== $post->post_type || ! has_term( $stylesheet, 'wp_theme', $post ) ) {
+								return false;
+							}
+
+							return true;
+						},
+					),
+				),
 			)
 		);
 	}
@@ -166,10 +187,6 @@ class Rest_API {
 	 * @return WP_REST_Response|WP_Error
 	 */
 	private function set_new_active_style_variation( int $global_styles_id ): WP_REST_Response|WP_Error {
-		if ( ! $global_styles_id || ! get_post_status( $global_styles_id ) ) {
-			return new WP_Error( 'invalid_global_styles_id', __( 'Invalid global styles ID', 'themer' ) );
-		}
-
 		$posts = get_theme_style_variation_posts();
 
 		// Sets the currently selected style variation to draft and publishes the newly selected one.
