@@ -66,11 +66,32 @@ class Rest_API {
 			'themer/v1',
 			'/style-variations',
 			array(
-				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_all_theme_style_variation_posts' ),
+				'methods'             => 'GET,POST',
+				'callback'            => array( $this, 'handle_theme_style_variations' ),
 				'permission_callback' => function () {
-					return true;
+					return current_user_can( 'edit_theme_options' );
 				},
+				'args'                => array(
+					'globalStylesId' => array(
+						'validate_callback' => function( $param, $request ) {
+							if ( $request->get_method() === 'GET' ) {
+								return true;
+							}
+
+							$post = get_post( $param );
+							if ( ! $post ) {
+								return false;
+							}
+
+							$stylesheet = get_stylesheet();
+							if ( 'wp_global_styles' !== $post->post_type || ! has_term( $stylesheet, 'wp_theme', $post ) ) {
+								return false;
+							}
+
+							return true;
+						},
+					),
+				),
 			)
 		);
 	}
@@ -145,37 +166,70 @@ class Rest_API {
 	}
 
 	/**
-	 * Returns all 'wp_global_styles' posts linked to the current theme.
+	 * Returns an array of all of the `wp_global_styles` posts linked to the active theme. If none exist, returns an error.
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_all_theme_style_variation_posts(): WP_REST_Response|WP_Error {
-		$theme = get_stylesheet();
-		$posts = get_posts(
-			array(
-				'post_type'              => 'wp_global_styles',
-				'post_status'            => array( 'publish', 'draft' ),
-				'orderby'                => 'date',
-				'order'                  => 'desc',
-				'numberposts'            => -1,
-				'ignore_sticky_posts'    => true,
-				'no_found_rows'          => true,
-				'update_post_meta_cache' => false,
-				'update_post_term_cache' => false,
-				'tax_query'              => array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query -- This could be a slow query, but it's necessary.
-					array(
-						'taxonomy' => 'wp_theme',
-						'field'    => 'name',
-						'terms'    => $theme,
-					),
-				),
-			)
-		);
+	private function get_theme_style_variations(): WP_REST_Response|WP_Error {
+		$posts = get_theme_style_variation_posts();
 
 		if ( empty( $posts ) ) {
 			return new WP_Error( 'no_theme_styles', __( 'Unable to locate existing styles for the theme', 'themer' ) );
 		}
 
 		return rest_ensure_response( $posts );
+	}
+
+	/**
+	 * Sets a new 'active' style variation by ensuring it is the only one linked to the current theme that is published.
+	 *
+	 * @param int $global_styles_id - The ID of the style variation to be published.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	private function set_new_active_style_variation( int $global_styles_id ): WP_REST_Response|WP_Error {
+		$posts = get_theme_style_variation_posts();
+
+		// Sets the currently selected style variation to draft and publishes the newly selected one.
+		foreach ( $posts as $post ) {
+			if ( 'publish' !== $post->post_status && $post->ID !== $global_styles_id ) {
+				continue;
+			}
+
+			$post_status = 'draft';
+			if ( $post->ID === $global_styles_id ) {
+				$post_status = 'publish';
+			}
+			wp_update_post(
+				array(
+					'ID'          => $post->ID,
+					'post_status' => $post_status,
+				)
+			);
+		}
+
+		return rest_ensure_response( new WP_REST_Response( array( 'message' => __( 'Active theme style variation updated.', 'themer' ) ), 200 ) );
+	}
+
+	/**
+	 * GET request returns all of the `wp_global_styles` posts for the current theme.
+	 * POST request publishes the post with the supplied ID and sets all other posts to draft.
+	 *
+	 * @param WP_REST_Request $request - The request object.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function handle_theme_style_variations( $request ): WP_REST_Response|WP_Error {
+		$method = $request->get_method();
+
+		if ( 'GET' === $method ) {
+			return $this->get_theme_style_variations();
+		}
+
+		if ( 'POST' === $method ) {
+			$json_body        = $request->get_json_params();
+			$global_styles_id = $json_body['globalStylesId'];
+			return $this->set_new_active_style_variation( $global_styles_id );
+		}
+
+		return rest_ensure_response( new WP_REST_Response( array( 'error' => __( 'Unsupported request method.', 'themer' ) ), 405 ) );
 	}
 }

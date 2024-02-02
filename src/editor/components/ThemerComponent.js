@@ -4,6 +4,7 @@ import {
 	Spinner,
 	MenuGroup,
 	MenuItem,
+	SelectControl,
 	__experimentalNavigatorProvider as NavigatorProvider,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
@@ -37,6 +38,9 @@ const ThemerComponent = () => {
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
+	const [ globalStylesId, setGlobalStylesId ] = useState( 0 );
+	const [ styleVariations, setStyleVariations ] = useState( [] );
+	const [ publishedStylesId, setPublishedStylesId ] = useState( 0 );
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -47,33 +51,38 @@ const ThemerComponent = () => {
 		);
 	};
 
-	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
-		useSelect( ( select ) => {
+	const { baseConfig, userConfig, savedUserConfig } = useSelect(
+		( select ) => {
+			if ( ! globalStylesId ) {
+				return {
+					baseConfig: {},
+					userConfig: {},
+					savedUserConfig: {},
+				};
+			}
+
 			const {
-				__experimentalGetCurrentGlobalStylesId,
 				__experimentalGetCurrentThemeBaseGlobalStyles,
 				getEditedEntityRecord,
 				getEntityRecord,
 			} = select( 'core' );
 
-			const currentGlobalStylesId =
-				__experimentalGetCurrentGlobalStylesId();
-
 			return {
-				globalStylesId: currentGlobalStylesId, // eslint-disable no-underscore-dangle -- require underscore dangle for experimental functions
 				baseConfig: __experimentalGetCurrentThemeBaseGlobalStyles(), // eslint-disable no-underscore-dangle -- require underscore dangle for experimental functions
 				userConfig: getEditedEntityRecord(
 					'root',
 					'globalStyles',
-					currentGlobalStylesId
+					globalStylesId
 				),
 				savedUserConfig: getEntityRecord(
 					'root',
 					'globalStyles',
-					currentGlobalStylesId
+					globalStylesId
 				),
 			};
-		} );
+		},
+		[ globalStylesId ]
+	);
 
 	/**
 	 * Returns merged base and user configs
@@ -119,6 +128,28 @@ const ThemerComponent = () => {
 	};
 
 	/**
+	 * Retrieve all style variations for the theme and store the global style ID in state.
+	 *
+	 * @return {void}
+	 */
+	const getStyleVariations = async () => {
+		const styleVariationsRes = await apiFetch( {
+			path: '/themer/v1/style-variations',
+			method: 'GET',
+		} );
+		setStyleVariations( styleVariationsRes );
+
+		const activeVariation = styleVariationsRes?.find(
+			( variation ) => variation.post_status === 'publish'
+		);
+		if ( ! activeVariation ) {
+			return;
+		}
+		setPublishedStylesId( activeVariation.ID );
+		setGlobalStylesId( activeVariation.ID );
+	};
+
+	/**
 	 * Resets preview blocks to default template
 	 */
 	const resetPreviewBlocks = useCallback( () => {
@@ -135,6 +166,10 @@ const ThemerComponent = () => {
 			setSchema( schemaJson );
 		} )();
 		validateThemeJson();
+	}, [] );
+
+	useEffect( () => {
+		getStyleVariations();
 	}, [] );
 
 	/**
@@ -179,6 +214,25 @@ const ThemerComponent = () => {
 		);
 	};
 
+	/**
+	 * Sets the active style variation for the theme.
+	 */
+	const activate = async () => {
+		try {
+			await apiFetch( {
+				path: '/themer/v1/style-variations',
+				method: 'POST',
+				data: {
+					globalStylesId,
+				},
+			} );
+			setPublishedStylesId( globalStylesId );
+		} catch ( err ) {
+			// eslint-disable-next-line no-console
+			console.log( err );
+		}
+	};
+
 	const clearAllCustomisations = () => {
 		dispatch( 'core' ).editEntityRecord(
 			'root',
@@ -195,6 +249,19 @@ const ThemerComponent = () => {
 			</>
 		);
 	}
+
+	const selectOptions = [
+		{
+			disabled: true,
+			label: __( 'Select a style variation', 'themer' ),
+			value: '',
+		},
+		,
+		...styleVariations.map( ( variation ) => ( {
+			label: variation.post_name,
+			value: variation.ID,
+		} ) ),
+	];
 
 	return (
 		<>
@@ -225,6 +292,15 @@ const ThemerComponent = () => {
 					{ validThemeJson === true && (
 						<>
 							<div className="themer-topbar">
+								<SelectControl
+									options={ selectOptions }
+									value={ globalStylesId }
+									onChange={ ( value ) =>
+										setGlobalStylesId(
+											parseInt( value, 10 )
+										)
+									}
+								/>
 								<Button
 									isSecondary
 									onClick={ () => reset() }
@@ -236,6 +312,14 @@ const ThemerComponent = () => {
 									onClick={ () => save() }
 									text="Save"
 									disabled={ ! hasUnsavedChanges }
+								/>
+								<Button
+									isPrimary
+									onClick={ activate }
+									text={ __( 'Activate', 'themer' ) }
+									disabled={
+										publishedStylesId === globalStylesId
+									}
 								/>
 								<MoreMenuDropdown>
 									{ () => (
