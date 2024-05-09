@@ -20,8 +20,8 @@
  * This is a workaround to enable sticky positioning for the style preview.
  * It overrides a dynamic class being added by the WP NavigatorProvider
  */
-.App{
-	.components-navigator-provider{
+.App {
+	.components-navigator-provider {
 		overflow-x: unset;
 	}
 }
