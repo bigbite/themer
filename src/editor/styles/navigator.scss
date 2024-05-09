@@ -15,3 +15,13 @@
 	border-bottom: #3858e9 1.5px solid;
 	font-weight: 600 !important;
 }
+
+/*
+ * This is a workaround to enable sticky positioning for the style preview.
+ * It overrides a dynamic class being added by the WP NavigatorProvider
+ */
+.App {
+	.components-navigator-provider {
+		overflow-x: unset;
+	}
+}

@@ -3,9 +3,9 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	height: 100%;
 
 	.editor-styles-wrapper {
-		max-width: 768px;
 		min-height: 754px;
 	}
 }
@@ -13,6 +13,8 @@
 .themer-preview {
 	background: #fff;
 	border: #ccc 1px solid;
+	position: sticky;
+	top: 55px;
 }
 
 .themer-preview__toolbar {

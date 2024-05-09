@@ -28,13 +28,13 @@ const Preview = ( { baseOptions, previewCss, previewSize } ) => {
 	const handlePreviewSize = () => {
 		switch ( previewSize ) {
 			case 'desktop':
-				return '768px';
+				return '100%';
 			case 'tablet':
 				return '514px';
 			case 'mobile':
 				return '384px';
 			default:
-				return '768px';
+				return '100%';
 		}
 	};
 

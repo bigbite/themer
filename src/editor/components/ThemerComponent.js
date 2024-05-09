@@ -263,6 +263,11 @@ const ThemerComponent = () => {
 		} ) ),
 	];
 
+	const themerPreviewSize =
+		previewSize === undefined || previewSize === 'desktop'
+			? { width: '100%' }
+			: {};
+
 	return (
 		<>
 			<EditorContext.Provider
@@ -359,7 +364,10 @@ const ThemerComponent = () => {
 											<StylesPanel />
 										</div>
 										<div className="themer-preview-container">
-											<div className="themer-preview">
+											<div
+												className="themer-preview"
+												style={ themerPreviewSize }
+											>
 												<PreviewToolbar />
 												<Preview
 													baseOptions={ baseConfig }
