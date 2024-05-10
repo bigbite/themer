@@ -17,6 +17,13 @@
 	display: none;
 }
 
+/**
+* Fixes collapse button font size when editor is open
+*/
+#collapse-button {
+	font-size: 13px;
+}
+
 .theme-settings-page-wrapper {
 	margin: 0;
 }
