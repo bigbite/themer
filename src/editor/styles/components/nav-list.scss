@@ -1,10 +1,6 @@
-.themer-nav-container {
-
-	> .themer-nav-list {
-		padding-block: 8px;
-		padding-inline-end: 8px;
-	}
-
+.themer-nav-container > .themer-nav-list {
+	padding-block: 8px;
+	padding-inline-end: 0.75rem;
 }
 
 .themer-nav-list {
@@ -31,19 +27,6 @@
 	--themer-nav-list-top-indent: 0px;
 	--themer-nav-list-item-height: 2.25rem;
 
-	> div {
-		position: relative;
-		z-index: 1;
-	}
-
-	> .themer-nav-list__item__content {
-		background-color: #fff;
-		position: sticky;
-		top: var(--themer-nav-list-top-indent);
-		z-index: 2;
-
-	}
-
 	.themer-nav-list__item {
 
 		> .themer-nav-list__item__content {
@@ -60,6 +43,18 @@
 
 	}
 
+}
+
+.themer-nav-list__item > div {
+	position: relative;
+	z-index: 1;
+}
+
+.themer-nav-list__item > .themer-nav-list__item__content {
+	background-color: #fff;
+	position: sticky;
+	top: var(--themer-nav-list-top-indent);
+	z-index: 2;
 }
 
 .themer-nav-list__item__content {

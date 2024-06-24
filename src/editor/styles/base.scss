@@ -42,6 +42,7 @@
 	&:last-child {
 		margin-bottom: 0;
 	}
+
 }
 
 .themer-body {
@@ -99,14 +100,15 @@
 @media only screen and (min-width: 1587px) {
 
 	.themer-styles-container {
-		height: 88dvh;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 		overflow: hidden;
+	}
 
-		.components-navigator-screen {
-			// This is to account for the padding on the container to stop padding altering height
-			box-sizing: border-box;
-		}
-
+	.themer-styles-container .components-navigator-screen {
+		// This is to account for the padding on the container to stop padding altering height
+		box-sizing: border-box;
 	}
 
 }
