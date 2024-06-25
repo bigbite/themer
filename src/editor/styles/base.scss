@@ -129,4 +129,9 @@
 		box-sizing: border-box;
 	}
 
+	.themer-content-container {
+		display: grid;
+		grid-template-columns: 300px minmax(0, 1fr);
+	}
+
 }

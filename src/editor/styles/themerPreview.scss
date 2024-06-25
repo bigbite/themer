@@ -4,11 +4,11 @@
 	flex-direction: column;
 	align-items: center;
 	height: 100%;
+	max-width: 100%;
+}
 
-	.editor-styles-wrapper {
-		min-height: 754px;
-	}
-
+.themer-preview-container .editor-styles-wrapper {
+	min-height: 754px;
 }
 
 .themer-preview {
@@ -17,7 +17,6 @@
 	max-height: var(--themer-preview-height);
 	overflow: hidden;
 }
-
 
 .themer-preview__toolbar {
 	background-color: #fff;
@@ -45,7 +44,6 @@
 	height: 100%;
 	flex-grow: 1;
 	flex-shrink: 1;
-	overflow: hidden;
-	overflow-y: auto;
+	overflow: auto;
 	overscroll-behavior: contain;
 }
