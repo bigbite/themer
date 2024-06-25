@@ -69,7 +69,7 @@
 	align-items: flex-start;
 	gap: 20px;
 	padding: 20px;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 }
 
 .themer-styles-container {
@@ -103,6 +103,10 @@
 }
 
 @media only screen and (max-width: 1570px) {
+
+	.themer-content-container {
+		flex-wrap: wrap;
+	}
 
 	.themer-content-container {
 		height: 100%;
