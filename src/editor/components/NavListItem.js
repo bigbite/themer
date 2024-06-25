@@ -73,7 +73,11 @@ const NavListItem = ( { children, icon, label, route, hasStyles } ) => {
 				</Button>
 			</div>
 
-			{ isOpen && <div>{ children }</div> }
+			{ isOpen && (
+				<div className="themer-nav-list__item__children">
+					{ children }
+				</div>
+			) }
 		</li>
 	);
 };

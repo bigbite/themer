@@ -39,7 +39,7 @@ const Preview = ( { baseOptions, previewCss, previewSize } ) => {
 	};
 
 	return (
-		<ShortcutProvider>
+		<ShortcutProvider className="themer-preview__container">
 			<BlockEditorProvider
 				value={ previewBlocks?.blocks }
 				settings={ baseOptions }
