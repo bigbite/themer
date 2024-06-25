@@ -23,13 +23,17 @@
 
 .themer-nav-list__item {
 	margin: 0;
+	// This gives the items clearance for button focus to stop element overlap
+	padding-block: 1px;
 }
 
 .themer-nav-list__item .themer-nav-list__item > .themer-nav-list__item__content {
+	// Offset the second level elements by the height of the list items
 	--themer-nav-list-top-indent: var(--themer-nav-list-item-height);
 }
 
 .themer-nav-list__item .themer-nav-list__item .themer-nav-list__item > .themer-nav-list__item__content {
+	// Offset the third level elements by double the height of the list items
 	--themer-nav-list-top-indent: calc(var(--themer-nav-list-item-height) * 2);
 }
 

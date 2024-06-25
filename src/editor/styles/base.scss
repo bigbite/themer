@@ -47,8 +47,7 @@
 .themer-body {
 	display: flex;
 	background-color: #F6F7F7;
-	// Browser height minus top bar height and WP bar height
-	height: calc(100dvh - 3.75rem - 32px);
+	height: var(--themer-body-height);
 	overflow: hidden;
 }
 
