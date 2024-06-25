@@ -42,7 +42,6 @@
 	&:last-child {
 		margin-bottom: 0;
 	}
-
 }
 
 .themer-body {
@@ -58,9 +57,7 @@
 	background-color: #fff;
 	border-right: #ccc 1px solid;
 	overflow: auto;
-	// padding: 8px;
 	padding: 0;
-
 	height: 100%;
 	overflow: hidden;
 	overflow-y: auto;
@@ -73,17 +70,6 @@
 	gap: 20px;
 	padding: 20px;
 	flex-wrap: wrap;
-
-}
-
-@media only screen and (max-width: 1587px) {
-
-	.themer-content-container {
-		height: 100%;
-		overflow: hidden;
-		overflow-y: auto;
-	}
-
 }
 
 .themer-styles-container {
@@ -95,22 +81,6 @@
 	&::empty {
 		display: none;
 	}
-}
-
-@media only screen and (min-width: 1587px) {
-
-	.themer-styles-container {
-		display: flex;
-		flex-direction: column;
-		height: 100%;
-		overflow: hidden;
-	}
-
-	.themer-styles-container .components-navigator-screen {
-		// This is to account for the padding on the container to stop padding altering height
-		box-sizing: border-box;
-	}
-
 }
 
 .themer-styles-container > .components-navigator-screen {
@@ -130,4 +100,30 @@
 
 .themer-styles-heading__right {
 	margin-left: auto;
+}
+
+@media only screen and (max-width: 1570px) {
+
+	.themer-content-container {
+		height: 100%;
+		overflow: hidden;
+		overflow-y: auto;
+	}
+
+}
+
+@media only screen and (min-width: 1571px) {
+
+	.themer-styles-container {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.themer-styles-container .components-navigator-screen {
+		// This is to account for the padding on the container to stop padding altering height
+		box-sizing: border-box;
+	}
+
 }
