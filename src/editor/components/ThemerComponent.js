@@ -41,6 +41,7 @@ const ThemerComponent = () => {
 	const [ globalStylesId, setGlobalStylesId ] = useState( 0 );
 	const [ styleVariations, setStyleVariations ] = useState( [] );
 	const [ publishedStylesId, setPublishedStylesId ] = useState( 0 );
+	const [ isCodeView, setCodeView ] = useState( false );
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -242,6 +243,10 @@ const ThemerComponent = () => {
 		);
 	};
 
+	const codeView = () => {
+		setCodeView( ! isCodeView );
+	};
+
 	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
@@ -320,6 +325,11 @@ const ThemerComponent = () => {
 								/>
 								<Button
 									isPrimary
+									onClick={ () => codeView() }
+									text="Code View"
+								/>
+								<Button
+									isPrimary
 									onClick={ activate }
 									text={ __( 'Activate', 'themer' ) }
 									disabled={
@@ -359,24 +369,42 @@ const ThemerComponent = () => {
 									<div className="themer-nav-container">
 										<Nav />
 									</div>
-									<div className="themer-content-container">
-										<div className="themer-styles-container">
-											<StylesPanel />
+									{ isCodeView ? (
+										<div className="themer-content-container">
+											<pre>
+												{ JSON.stringify(
+													themeConfig,
+													null,
+													2
+												) }
+											</pre>
 										</div>
-										<div className="themer-preview-container">
-											<div
-												className="themer-preview"
-												style={ themerPreviewSize }
-											>
-												<PreviewToolbar />
-												<Preview
-													baseOptions={ baseConfig }
-													previewCss={ previewCss }
-													previewSize={ previewSize }
-												/>
+									) : (
+										<div className="themer-content-container">
+											<div className="themer-styles-container">
+												<StylesPanel />
+											</div>
+											<div className="themer-preview-container">
+												<div
+													className="themer-preview"
+													style={ themerPreviewSize }
+												>
+													<PreviewToolbar />
+													<Preview
+														baseOptions={
+															baseConfig
+														}
+														previewCss={
+															previewCss
+														}
+														previewSize={
+															previewSize
+														}
+													/>
+												</div>
 											</div>
 										</div>
-									</div>
+									) }
 								</div>
 							</NavigatorProvider>
 						</>
