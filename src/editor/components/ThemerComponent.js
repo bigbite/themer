@@ -243,6 +243,9 @@ const ThemerComponent = () => {
 		);
 	};
 
+	/**
+	 * Sets code view preview state to active/not active.
+	 */
 	const codeView = () => {
 		setCodeView( ! isCodeView );
 	};
