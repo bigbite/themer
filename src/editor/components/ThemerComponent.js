@@ -15,9 +15,8 @@ import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
-import Preview from './Preview';
+import CodeView from './CodeView';
 import ButtonExport from './ButtonExport';
-import PreviewToolbar from './PreviewToolbar';
 import ThemerNotice from './ThemerNotice';
 import StylesPanel from './StylesPanel';
 
@@ -41,7 +40,6 @@ const ThemerComponent = () => {
 	const [ globalStylesId, setGlobalStylesId ] = useState( 0 );
 	const [ styleVariations, setStyleVariations ] = useState( [] );
 	const [ publishedStylesId, setPublishedStylesId ] = useState( 0 );
-	const [ isCodeView, setCodeView ] = useState( false );
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -243,13 +241,6 @@ const ThemerComponent = () => {
 		);
 	};
 
-	/**
-	 * Sets code view preview state to active/not active.
-	 */
-	const codeView = () => {
-		setCodeView( ! isCodeView );
-	};
-
 	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
@@ -270,11 +261,6 @@ const ThemerComponent = () => {
 			value: variation.ID,
 		} ) ),
 	];
-
-	const themerPreviewSize =
-		previewSize === undefined || previewSize === 'desktop'
-			? { width: '100%' }
-			: {};
 
 	return (
 		<>
@@ -328,15 +314,6 @@ const ThemerComponent = () => {
 								/>
 								<Button
 									isPrimary
-									onClick={ () => codeView() }
-									text={
-										isCodeView
-											? __( 'Styles View', 'themer' )
-											: __( 'Code View', 'themer' )
-									}
-								/>
-								<Button
-									isPrimary
 									onClick={ activate }
 									text={ __( 'Activate', 'themer' ) }
 									disabled={
@@ -376,42 +353,18 @@ const ThemerComponent = () => {
 									<div className="themer-nav-container">
 										<Nav />
 									</div>
-									{ isCodeView ? (
-										<div className="themer-content-container">
-											<pre>
-												{ JSON.stringify(
-													themeConfig,
-													null,
-													2
-												) }
-											</pre>
+									<div className="themer-content-container">
+										<div className="themer-styles-container">
+											<StylesPanel />
 										</div>
-									) : (
-										<div className="themer-content-container">
-											<div className="themer-styles-container">
-												<StylesPanel />
-											</div>
-											<div className="themer-preview-container">
-												<div
-													className="themer-preview"
-													style={ themerPreviewSize }
-												>
-													<PreviewToolbar />
-													<Preview
-														baseOptions={
-															baseConfig
-														}
-														previewCss={
-															previewCss
-														}
-														previewSize={
-															previewSize
-														}
-													/>
-												</div>
+										<div className="themer-code-view-container">
+											<div>
+												<CodeView
+													themeConfig={ themeConfig }
+												/>
 											</div>
 										</div>
-									) }
+									</div>
 								</div>
 							</NavigatorProvider>
 						</>
