@@ -15,9 +15,8 @@ import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
-import Preview from './Preview';
+import CodeView from './CodeView';
 import ButtonExport from './ButtonExport';
-import PreviewToolbar from './PreviewToolbar';
 import ThemerNotice from './ThemerNotice';
 import StylesPanel from './StylesPanel';
 
@@ -263,11 +262,6 @@ const ThemerComponent = () => {
 		} ) ),
 	];
 
-	const themerPreviewSize =
-		previewSize === undefined || previewSize === 'desktop'
-			? { width: '100%' }
-			: {};
-
 	return (
 		<>
 			<EditorContext.Provider
@@ -363,16 +357,10 @@ const ThemerComponent = () => {
 										<div className="themer-styles-container">
 											<StylesPanel />
 										</div>
-										<div className="themer-preview-container">
-											<div
-												className="themer-preview"
-												style={ themerPreviewSize }
-											>
-												<PreviewToolbar />
-												<Preview
-													baseOptions={ baseConfig }
-													previewCss={ previewCss }
-													previewSize={ previewSize }
+										<div className="themer-code-view-container">
+											<div>
+												<CodeView
+													themeConfig={ themeConfig }
 												/>
 											</div>
 										</div>
