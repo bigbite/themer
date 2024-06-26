@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 /**
  * Renders code view component.
  *
@@ -7,9 +8,13 @@
 const CodeView = ( { themeConfig } ) => {
 	return (
 		<>
-			<span className="themer--styles__item__title">Settings</span>
+			<span className="themer--styles__item__title">
+				{ __( 'Settings', 'themer' ) }
+			</span>
 			<pre>{ JSON.stringify( themeConfig.settings, null, 2 ) }</pre>
-			<span className="themer--styles__item__title">Styles</span>
+			<span className="themer--styles__item__title">
+				{ __( 'Styles', 'themer' ) }
+			</span>
 			<pre>{ JSON.stringify( themeConfig.styles, null, 2 ) }</pre>
 		</>
 	);
