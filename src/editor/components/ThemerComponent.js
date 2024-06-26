@@ -329,7 +329,11 @@ const ThemerComponent = () => {
 								<Button
 									isPrimary
 									onClick={ () => codeView() }
-									text="Code View"
+									text={
+										isCodeView
+											? __( 'Styles View', 'themer' )
+											: __( 'Code View', 'themer' )
+									}
 								/>
 								<Button
 									isPrimary
