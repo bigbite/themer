@@ -358,11 +358,9 @@ const ThemerComponent = () => {
 											<StylesPanel />
 										</div>
 										<div className="themer-code-view-container">
-											<div>
-												<CodeView
-													themeConfig={ themeConfig }
-												/>
-											</div>
+											<CodeView
+												themeConfig={ themeConfig }
+											/>
 										</div>
 									</div>
 								</div>
