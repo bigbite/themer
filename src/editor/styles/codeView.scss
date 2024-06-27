@@ -1,6 +1,6 @@
 .themer-code-view-container {
     border: #ccc 1px solid;
-    padding: 20px;
     max-height: var(--themer-preview-height);
-    overflow-y: auto;
+    overflow: auto;
+    margin-bottom: 20px;
 }
