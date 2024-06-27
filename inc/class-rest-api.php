@@ -61,39 +61,6 @@ class Rest_API {
 				},
 			)
 		);
-
-		register_rest_route(
-			'themer/v1',
-			'/style-variations',
-			array(
-				'methods'             => 'GET,POST',
-				'callback'            => array( $this, 'handle_theme_style_variations' ),
-				'permission_callback' => function () {
-					return current_user_can( 'edit_theme_options' );
-				},
-				'args'                => array(
-					'globalStylesId' => array(
-						'validate_callback' => function( $param, $request ) {
-							if ( $request->get_method() === 'GET' ) {
-								return true;
-							}
-
-							$post = get_post( $param );
-							if ( ! $post ) {
-								return false;
-							}
-
-							$stylesheet = get_stylesheet();
-							if ( 'wp_global_styles' !== $post->post_type || ! has_term( $stylesheet, 'wp_theme', $post ) ) {
-								return false;
-							}
-
-							return true;
-						},
-					),
-				),
-			)
-		);
 	}
 
 	/**
@@ -163,21 +130,6 @@ class Rest_API {
 		$theme_json_flattened = $theme_json_raw_data->get_data();
 
 		return rest_ensure_response( $theme_json_flattened );
-	}
-
-	/**
-	 * Returns an array of all of the `wp_global_styles` posts linked to the active theme. If none exist, returns an error.
-	 *
-	 * @return WP_REST_Response|WP_Error
-	 */
-	private function get_theme_style_variations(): WP_REST_Response|WP_Error {
-		$posts = get_theme_style_variation_posts();
-
-		if ( empty( $posts ) ) {
-			return new WP_Error( 'no_theme_styles', __( 'Unable to locate existing styles for the theme', 'themer' ) );
-		}
-
-		return rest_ensure_response( $posts );
 	}
 
 	/**
