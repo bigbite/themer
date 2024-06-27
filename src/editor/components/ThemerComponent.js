@@ -193,7 +193,7 @@ const ThemerComponent = () => {
 				<Spinner />
 			</>
 		);
-	};
+	}
 
 	return (
 		<>
