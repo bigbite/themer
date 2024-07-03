@@ -3,4 +3,8 @@
     max-height: var(--themer-preview-height);
     overflow: auto;
     margin-bottom: 20px;
+
+    code {
+        background: unset;
+    }
 }

@@ -22,6 +22,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+// Define the plugin path.
+if ( ! defined( 'THEMER_DIR' ) ) {
+	define( 'THEMER_DIR', plugin_dir_path( __FILE__ ) );
+}
+
+/**
+ * Check if the block theme is active.
+ */
+if ( ! wp_is_block_theme() ) {
+	require_once rtrim( \dirname( __FILE__ ) ) . '/inc/class-themer-activator.php';
+	Themer_Activator::activate();
+}
+
 require_once rtrim( \dirname( __FILE__ ) ) . '/vendor/autoload_packages.php';
+
 
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\setup', 0 );

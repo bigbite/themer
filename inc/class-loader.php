@@ -34,7 +34,7 @@ class Loader {
 		}
 
 		$plugin_name = basename( THEMER_DIR );
-		$asset_file  = include THEMER_DIR . '/build/index.asset.php';
+		$asset_file  = include THEMER_DIR . 'build/index.asset.php';
 
 		wp_enqueue_style( 'wp-components' );
 

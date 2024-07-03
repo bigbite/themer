@@ -18,7 +18,6 @@
     },
     "autoload": {
       "files": [
-        "inc/constants.php",
         "inc/utils.php",
         "inc/class-admin.php",
         "inc/setup.php"

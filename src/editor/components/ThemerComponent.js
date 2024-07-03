@@ -9,14 +9,12 @@ import {
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
 import { MoreMenuDropdown } from '@wordpress/interface';
-import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
 import CodeView from './CodeView';
 import ButtonExport from './ButtonExport';
-import ThemerNotice from './ThemerNotice';
 import StylesPanel from './StylesPanel';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
@@ -35,7 +33,6 @@ const ThemerComponent = () => {
 	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
-	const [ validThemeJson, setValidThemeJson ] = useState();
 
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
@@ -107,17 +104,6 @@ const ThemerComponent = () => {
 	);
 
 	/**
-	 * Check if a valid theme.json is loaded.
-	 */
-	const validateThemeJson = async () => {
-		const res = await apiFetch( {
-			path: '/themer/v1/theme-json-loaded',
-			method: 'GET',
-		} );
-		setValidThemeJson( res );
-	};
-
-	/**
 	 * Resets preview blocks to default template
 	 */
 	const resetPreviewBlocks = useCallback( () => {
@@ -133,7 +119,7 @@ const ThemerComponent = () => {
 			const schemaJson = await fetchSchema();
 			setSchema( schemaJson );
 		} )();
-		validateThemeJson();
+		// validateThemeJson();
 	}, [] );
 
 	/**
@@ -216,73 +202,64 @@ const ThemerComponent = () => {
 						setUserConfig,
 					} }
 				>
-					<ThemerNotice
-						status={ validThemeJson?.error_type }
-						message={ validThemeJson?.message }
-						isDismissible={ false }
-					/>
-					{ validThemeJson === true && (
-						<>
-							<div className="themer-topbar">
-								<Button
-									isSecondary
-									onClick={ () => reset() }
-									text="Reset"
-									disabled={ ! hasUnsavedChanges }
-								/>
-								<Button
-									isPrimary
-									onClick={ () => save() }
-									text="Save"
-									disabled={ ! hasUnsavedChanges }
-								/>
-								<MoreMenuDropdown>
-									{ () => (
-										<MenuGroup
-											label={ __( 'Tools', 'themer' ) }
-											className="themer-more-menu"
+					<>
+						<div className="themer-topbar">
+							<Button
+								isSecondary
+								onClick={ () => reset() }
+								text="Reset"
+								disabled={ ! hasUnsavedChanges }
+							/>
+							<Button
+								isPrimary
+								onClick={ () => save() }
+								text="Save"
+								disabled={ ! hasUnsavedChanges }
+							/>
+							<MoreMenuDropdown>
+								{ () => (
+									<MenuGroup
+										label={ __( 'Tools', 'themer' ) }
+										className="themer-more-menu"
+									>
+										<ButtonExport />
+										<MenuItem
+											role="menuitem"
+											icon={ trash }
+											info={ __(
+												'Resets all customisations to your initial theme.json configuration.',
+												'themer'
+											) }
+											onClick={ () =>
+												clearAllCustomisations()
+											}
+											isDestructive
 										>
-											<ButtonExport />
-											<MenuItem
-												role="menuitem"
-												icon={ trash }
-												info={ __(
-													'Resets all customisations to your initial theme.json configuration.',
-													'themer'
-												) }
-												onClick={ () =>
-													clearAllCustomisations()
-												}
-												isDestructive
-											>
-												{ __(
-													'Clear all customisations',
-													'themer'
-												) }
-											</MenuItem>
-										</MenuGroup>
-									) }
-								</MoreMenuDropdown>
-							</div>
-							<NavigatorProvider initialPath="/">
-								<div className="themer-body">
-									<div className="themer-nav-container">
-										<Nav />
+											{ __(
+												'Clear all customisations',
+												'themer'
+											) }
+										</MenuItem>
+									</MenuGroup>
+								) }
+							</MoreMenuDropdown>
+						</div>
+						<NavigatorProvider initialPath="/">
+							<div className="themer-body">
+								<div className="themer-nav-container">
+									<Nav />
+								</div>
+								<div className="themer-content-container">
+									<div className="themer-styles-container">
+										<StylesPanel />
 									</div>
-									<div className="themer-content-container">
-										<div className="themer-styles-container">
-											<StylesPanel />
-										</div>
-										<div className="themer-code-view-container">
-											<CodeView
-												themeConfig={ themeConfig }
-											/>
-										</div>
+									<div className="themer-code-view-container">
+										<CodeView themeConfig={ themeConfig } />
 									</div>
 								</div>
-							</NavigatorProvider>
-						</>
-					) }
+							</div>
+						</NavigatorProvider>
+					</>
 				</StylesContext.Provider>
 			</EditorContext.Provider>
 		</>
