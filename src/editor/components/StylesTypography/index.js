@@ -35,7 +35,7 @@ import FontSize from './FontSize';
  * @param {string} props.selector Property target selector
  */
 const Typography = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const typographyStyles = getThemeOption( selector, themeConfig );
 
@@ -46,7 +46,7 @@ const Typography = ( { selector } ) => {
 	 */
 	const handleNewValue = ( newVal ) => {
 		const newTypographyStyles = { ...typographyStyles, ...newVal };
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, newTypographyStyles );
 		setUserConfig( config );
 	};

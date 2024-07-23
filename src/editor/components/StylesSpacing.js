@@ -74,7 +74,7 @@ const parseMarginPaddingValues = ( type, spacingStyles, themeSpacingSizes ) => {
  * @param {string} props.selector Property target selector
  */
 const Spacing = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const spacingStyles = getThemeOption( selector, themeConfig );
 	const themeSpacingSizes = getThemeOption(
@@ -117,7 +117,7 @@ const Spacing = ( { selector } ) => {
 			};
 		}
 
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, newSpacingStyles );
 		setUserConfig( config );
 	};
