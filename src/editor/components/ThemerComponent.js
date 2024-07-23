@@ -187,6 +187,16 @@ const ThemerComponent = () => {
 		);
 	};
 
+	if ( validThemeJson?.error_type === 'error' ) {
+		return (
+			<ThemerNotice
+				status={ validThemeJson?.error_type }
+				message={ validThemeJson?.message }
+				isDismissible={ false }
+			/>
+		);
+	}
+
 	if ( ! themeConfig || ! previewCss || ! globalStylesId ) {
 		return (
 			<>
@@ -216,73 +226,62 @@ const ThemerComponent = () => {
 						setUserConfig,
 					} }
 				>
-					<ThemerNotice
-						status={ validThemeJson?.error_type }
-						message={ validThemeJson?.message }
-						isDismissible={ false }
-					/>
-					{ validThemeJson === true && (
-						<>
-							<div className="themer-topbar">
-								<Button
-									isSecondary
-									onClick={ () => reset() }
-									text="Reset"
-									disabled={ ! hasUnsavedChanges }
-								/>
-								<Button
-									isPrimary
-									onClick={ () => save() }
-									text="Save"
-									disabled={ ! hasUnsavedChanges }
-								/>
-								<MoreMenuDropdown>
-									{ () => (
-										<MenuGroup
-											label={ __( 'Tools', 'themer' ) }
-											className="themer-more-menu"
-										>
-											<ButtonExport />
-											<MenuItem
-												role="menuitem"
-												icon={ trash }
-												info={ __(
-													'Resets all customisations to your initial theme.json configuration.',
-													'themer'
-												) }
-												onClick={ () =>
-													clearAllCustomisations()
-												}
-												isDestructive
-											>
-												{ __(
-													'Clear all customisations',
-													'themer'
-												) }
-											</MenuItem>
-										</MenuGroup>
-									) }
-								</MoreMenuDropdown>
+					<div className="themer-topbar">
+						<Button
+							isSecondary
+							onClick={ () => reset() }
+							text="Reset"
+							disabled={ ! hasUnsavedChanges }
+						/>
+						<Button
+							isPrimary
+							onClick={ () => save() }
+							text="Save"
+							disabled={ ! hasUnsavedChanges }
+						/>
+						<MoreMenuDropdown>
+							{ () => (
+								<MenuGroup
+									label={ __( 'Tools', 'themer' ) }
+									className="themer-more-menu"
+								>
+									<ButtonExport />
+									<MenuItem
+										role="menuitem"
+										icon={ trash }
+										info={ __(
+											'Resets all customisations to your initial theme.json configuration.',
+											'themer'
+										) }
+										onClick={ () =>
+											clearAllCustomisations()
+										}
+										isDestructive
+									>
+										{ __(
+											'Clear all customisations',
+											'themer'
+										) }
+									</MenuItem>
+								</MenuGroup>
+							) }
+						</MoreMenuDropdown>
+					</div>
+					<NavigatorProvider initialPath="/">
+						<div className="themer-body">
+							<div className="themer-nav-container">
+								<Nav />
 							</div>
-							<NavigatorProvider initialPath="/">
-								<div className="themer-body">
-									<div className="themer-nav-container">
-										<Nav />
-									</div>
-									<div className="themer-content-container">
-										<div className="themer-styles-container">
-											<StylesPanel />
-										</div>
-										<div className="themer-code-view-container">
-											<CodeView
-												themeConfig={ themeConfig }
-											/>
-										</div>
-									</div>
+							<div className="themer-content-container">
+								<div className="themer-styles-container">
+									<StylesPanel />
 								</div>
-							</NavigatorProvider>
-						</>
-					) }
+								<div className="themer-code-view-container">
+									<CodeView themeConfig={ themeConfig } />
+								</div>
+							</div>
+						</div>
+					</NavigatorProvider>
 				</StylesContext.Provider>
 			</EditorContext.Provider>
 		</>
