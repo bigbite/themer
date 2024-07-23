@@ -30,7 +30,7 @@ const unitControlUnits = ALLOWED_UNITS.map( ( unit ) => {
  * @param {string} props.selector Property target selector
  */
 const Outline = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const outlineStyles = getThemeOption( selector, themeConfig );
 	const themePalette = getThemeOption(
@@ -58,7 +58,7 @@ const Outline = ( { selector } ) => {
 	// Updates a property value in the outline object.
 	const handleNewValue = ( value, key ) => {
 		const newOutlineStyles = { ...outlineStyles, [ key ]: value };
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, newOutlineStyles );
 		setUserConfig( config );
 	};

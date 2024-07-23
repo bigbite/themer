@@ -15,7 +15,7 @@ import { varToDuotone, duotoneToVar } from '../../utils/block-helpers';
  * @param {string} props.selector Property target selector
  */
 const Filter = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const duotoneThemeObj = getThemeOption(
 		'settings.color.duotone',
@@ -47,7 +47,7 @@ const Filter = ( { selector } ) => {
 			...filterStyles,
 			duotone: duotoneToVar( newVal, duotoneOptions ),
 		};
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, newFilterStyles );
 		setUserConfig( config );
 	};

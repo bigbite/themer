@@ -210,6 +210,7 @@ const ThemerComponent = () => {
 			<EditorContext.Provider
 				value={ {
 					globalStylesId,
+					userConfig,
 					themeConfig,
 					schema,
 					previewBlocks,

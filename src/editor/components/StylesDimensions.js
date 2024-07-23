@@ -58,7 +58,7 @@ const parseUnitValue = ( minHeight, typeValue ) => {
  * @param {string} props.selector Property target selector
  */
 const Dimensions = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const dimensionsStyles = getThemeOption( selector, themeConfig ) || {};
 	const { minHeight } = dimensionsStyles;
@@ -68,7 +68,7 @@ const Dimensions = ( { selector } ) => {
 	// Updates a property value in the outline object.
 	const handleNewValue = ( value ) => {
 		dimensionsStyles.minHeight = value;
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, dimensionsStyles );
 		setUserConfig( config );
 	};

@@ -47,7 +47,7 @@ const parseUserValue = ( value ) => {
  * @param {string} props.selector Property target selector
  */
 const Shadow = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const shadowStyles = getThemeOption( selector, themeConfig );
 	const themePalette = getThemeOption(
@@ -69,7 +69,7 @@ const Shadow = ( { selector } ) => {
 			.join( ' ' )
 			.trim();
 
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, updatedShadowStyles );
 		setUserConfig( config );
 	};

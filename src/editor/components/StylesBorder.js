@@ -14,7 +14,7 @@ import StylesContext from '../context/StylesContext';
  * @param {string} props.selector Property target selector
  */
 const Border = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
 	const themePalette = getThemeOption(
@@ -23,7 +23,7 @@ const Border = ( { selector } ) => {
 	);
 
 	const onChange = ( newValue ) => {
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, newValue );
 		setUserConfig( config );
 	};
