@@ -1,8 +1,8 @@
 :root {
 	--themer-nav-list-top-indent: 0px;
 	--themer-nav-list-item-height: 2.25rem;
-	// Browser height minus top bar height and WP bar height
+
 	--themer-body-height: calc(100dvh - 3.75rem - 32px);
-	// Themer body height minus 2.5rem for padding
+
 	--themer-preview-height: calc(var(--themer-body-height) - 2.5rem);
 }

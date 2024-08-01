@@ -1,4 +1,4 @@
-import { mergeWith, isEmpty, isEqual } from 'lodash';
+import { mergeWith, isEmpty, isEqual, set } from 'lodash';
 import {
 	Button,
 	Spinner,
@@ -12,6 +12,7 @@ import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
 import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
+import Ajv from 'ajv';
 
 import Nav from './Nav';
 import CodeView from './CodeView';
@@ -82,6 +83,7 @@ const ThemerComponent = () => {
 			return baseConfig;
 		}
 		const merged = mergeWith( {}, baseConfig, userConfig );
+		console.log( 'merged', merged );
 		return merged;
 	}, [ userConfig, baseConfig ] );
 
@@ -187,6 +189,31 @@ const ThemerComponent = () => {
 		);
 	};
 
+	const validateData = ( data, schemas ) => {
+		const ajv = new Ajv( { allowMatchingProperties: true } );
+		const validate = ajv.compile( schemas );
+		const valid = validate( data );
+		if ( ! valid ) {
+			return validate.errors;
+		}
+		return true;
+	};
+
+	const handleDataChange = ( newData ) => {
+		try {
+			newData = JSON.parse( newData );
+		} catch ( error ) {
+			return;
+		}
+		if ( ! isEqual( themeConfig, newData ) ) {
+			setUserConfig( newData );
+		}
+		const isValid = validateData( newData, schema );
+		if ( isValid === true ) {
+			console.log( newData );
+		}
+	};
+
 	if ( validThemeJson?.error_type === 'error' ) {
 		return (
 			<ThemerNotice
@@ -278,7 +305,10 @@ const ThemerComponent = () => {
 									<StylesPanel />
 								</div>
 								<div className="themer-code-view-container">
-									<CodeView themeConfig={ themeConfig } />
+									<CodeView
+										themeConfig={ themeConfig }
+										onDataChange={ handleDataChange }
+									/>
 								</div>
 							</div>
 						</div>
