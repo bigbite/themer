@@ -193,6 +193,7 @@ const ThemerComponent = () => {
 		const ajv = new Ajv( { allowMatchingProperties: true } );
 		const validate = ajv.compile( schemas );
 		const valid = validate( data );
+		console.log( valid );
 		if ( ! valid ) {
 			return validate.errors;
 		}
@@ -209,6 +210,7 @@ const ThemerComponent = () => {
 			setUserConfig( newData );
 		}
 		const isValid = validateData( newData, schema );
+		console.log( isValid );
 		if ( isValid === true ) {
 			console.log( newData );
 		}
