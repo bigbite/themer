@@ -1,4 +1,5 @@
-import { mergeWith, isEmpty, isEqual } from 'lodash';
+import { mergeWith, isEmpty, isEqual, set } from 'lodash';
+
 import {
 	Button,
 	Spinner,
@@ -26,6 +27,7 @@ import StylesContext from '../context/StylesContext';
 
 import fetchSchema from '../../utils/schema-helpers';
 import { getDefaultPreview } from '../../utils/blockPreviews';
+import uniqueId from '../../utils/uniqueId';
 
 /**
  * main component
@@ -37,6 +39,10 @@ const ThemerComponent = () => {
 	const [ schema, setSchema ] = useState( {} );
 	const [ validThemeJson, setValidThemeJson ] = useState();
 
+	// A theme json config object of which properties can be modified.  The values are unique ids we assign to
+	// each property.  Needed for creating a link to the property in the outputted code.
+	const [ propsMetaConfig, setPropsMetaConfig ] = useState({});
+
 	const setUserConfig = ( config ) => {
 		dispatch( 'core' ).editEntityRecord(
 			'root',
@@ -44,6 +50,26 @@ const ThemerComponent = () => {
 			globalStylesId,
 			config
 		);
+	};
+
+	/**
+	 * Adds a unique id to one of the paths of the user theme config using the provided selector
+	 * and stores it inside propsMetaConfig.
+	 * 
+	 * @param {string} selector the selector to add to the propsMetaConfig.
+	 * @returns {object} the object with the id assigned to the path in propsMetaConfig.
+	 */
+	const addPropToMetaConfig = (selector) => {
+		const newPropsMetaConfig = propsMetaConfig;
+		const id = uniqueId();
+
+		const themerPropsMeta = {
+			id,
+		};
+		
+		set(newPropsMetaConfig, `${selector}.themerPropsMeta`, themerPropsMeta);
+		setPropsMetaConfig(newPropsMetaConfig);
+		return themerPropsMeta;
 	};
 
 	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
@@ -212,6 +238,8 @@ const ThemerComponent = () => {
 					globalStylesId,
 					userConfig,
 					themeConfig,
+					propsMetaConfig,
+					addPropToMetaConfig,
 					schema,
 					previewBlocks,
 					setPreviewBlocks,

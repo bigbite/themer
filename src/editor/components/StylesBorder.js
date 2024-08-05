@@ -30,9 +30,6 @@ const Border = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--styles__item__title">
-				{ __( 'Border', 'themer' ) }
-			</span>
 			<BorderBoxControl
 				colors={ themePalette }
 				onChange={ onChange }

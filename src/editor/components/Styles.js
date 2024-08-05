@@ -1,3 +1,7 @@
+import { __ } from '@wordpress/i18n';
+
+import StylesItem from './StylesItem';
+
 import Border from './StylesBorder';
 import Color from './StylesColor';
 import Typography from './StylesTypography';
@@ -25,9 +29,9 @@ const Styles = ( { selector } ) => {
 
 	return (
 		<div className="themer--styles">
-			<div className="themer--styles__item">
+			<StylesItem selector={ `${ selector }.border` } title={ __( 'Border', 'themer' ) }>
 				<Border selector={ `${ selector }.border` } />
-			</div>
+			</StylesItem>
 			<div className="themer--styles__item">
 				<Color selector={ `${ selector }.color` } />
 			</div>
