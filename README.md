@@ -1,27 +1,11 @@
 # themer
 
-## Installing
+# Installation
 
-When installing to your site, add the following to you `composer.json` file. This will ensure that installation will use the build version of the package and allow it to be loaded using composer in the preferred path.
+## Prerequisites
 
-```json
-{
-	"repositories": [
-		{
-			"type": "vcs",
-			"url": "git@github.com:@big-bite/themer.git"
-		}
-	],
-	"require": {
-		"@big-bite/themer": "dev-main-built"
-	},
-	"extra": {
-		"installer-paths": {
-			"plugins/{$name}/": [ "type:wordpress-plugin" ]
-		}
-	}
-}
-```
+-   **WordPress:** 6.2
+-   **PHP:** 8.0
 
 ## Local Development or Manual Install
 
@@ -37,24 +21,23 @@ Install JS packages.
 npm install
 ```
 
-Build all assets
-
-```
-npm run build:prod
-```
-
 Install PHP packages and create autoloader for the plugin.
 
 ```
 composer update
 ```
 
-# Installation
+Build all assets
 
-## Prerequisites
+```
+npm run build:prod
+```
 
--   **WordPress:** 6.2
--   **PHP:** 8.0
+Or run in watch mode
+
+```
+npm run watch:dev
+```
 
 # Features
 
