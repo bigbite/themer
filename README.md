@@ -1,11 +1,21 @@
-# themer
+# Themer
 
-# Installation
+A UI for interacting with theme.json
 
-## Prerequisites
+## Overview
 
--   **WordPress:** 6.2
--   **PHP:** 8.0
+Themer gives the user an interface for modifying and exporting theme.json from within the admin page.
+
+![Screenshot on 2024-08-14 at 11-58-08](https://github.com/user-attachments/assets/e14437f8-6512-423b-8e77-35a12e5dc26d)
+
+## Documentation
+
+### Installing
+
+### Requirements
+
+-   **WordPress:** 6.2^
+-   **PHP:** 8.0^
 
 ## Local Development or Manual Install
 
@@ -39,9 +49,9 @@ Or run in watch mode
 npm run watch:dev
 ```
 
-# Features
+## Features
 
-## Obtaining data
+### Obtaining data
 
 Similar to how the core WP full site editor obtains data, the themer plugin uses experimental core functions to achieve this.
 
@@ -63,14 +73,14 @@ const getUserConfig = () => wp.data.select('core').getEditedEntityRecord(
 
 BaseConfig provides the basic empty object where userConfig is any edited values.
 
-## Saving data
+### Saving data
 
 On edit, the state is updated using `editEntityRecord('root', 'globalStyles', getGlobalStylesId(), { (value) })` then on save, these changes are published to the DB
 using `wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', getGlobalStylesId())`.
 
 A revision is also created in the DB for each save.
 
-## Using experimental APIs
+### Using experimental APIs
 
 There are 280 experimental APIs in WordPress core that shouldn't have been merged with the experimental prefix. By it's nature this plugin needs to use some of the latest APIs as full site editing is still in constant development. The guidance is to check the API still exists in core (don't check in the Gutenberg plugin as it could be removed). The core team now discourage the experimental prefix and all existing APIs are being converted so risk should be low. [Further reading](https://make.wordpress.org/core/2022/08/10/proposal-stop-merging-experimental-apis-from-gutenberg-to-wordpress-core/)
 
@@ -81,3 +91,11 @@ There are 280 experimental APIs in WordPress core that shouldn't have been merge
 `import { __experimentalVStack as VStack } from '@wordpress/components';`
 
 2. Only use \_\_experimental that have been merged to core, to ensure this DO NOT USE THE GUTENBERG PLUGIN , if an experimental API is merged to core then it will gradually get handled in future core releases.
+
+### Issues
+
+We welcome bug reports, feature requests, questions, and pull requests. If you spot any mistakes or have an idea to make the plugin better, just [open an issue](https://github.com/bigbite/themer/issues).
+
+### Contributing
+
+Please read [Code of Conduct](./CODE_OF_CONDUCT.md) for details on our code of conduct and [Contributing](./CONTRIBUTING.md) for details on the process for submitting pull requests to us.
