@@ -26,9 +26,6 @@ const Styles = ( { selector } ) => {
 	return (
 		<div className="themer--styles">
 			<div className="themer--styles__item">
-				<Border selector={ `${ selector }.border` } />
-			</div>
-			<div className="themer--styles__item">
 				<Color selector={ `${ selector }.color` } />
 			</div>
 			<div className="themer--styles__item">
@@ -48,6 +45,9 @@ const Styles = ( { selector } ) => {
 			</div>
 			<div className="themer--styles__item">
 				<Shadow selector={ `${ selector }.shadow` } />
+			</div>
+			<div className="themer--styles__item">
+				<Border selector={ `${ selector }.border` } />
 			</div>
 		</div>
 	);
