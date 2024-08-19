@@ -25,6 +25,7 @@ import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 
 import fetchSchema from '../../utils/schema-helpers';
+import { removeEmptyValues } from '../../utils/block-helpers';
 import { getDefaultPreview } from '../../utils/blockPreviews';
 
 /**
@@ -38,6 +39,7 @@ const ThemerComponent = () => {
 	const [ validThemeJson, setValidThemeJson ] = useState();
 
 	const setUserConfig = ( config ) => {
+		config = removeEmptyValues( config );
 		dispatch( 'core' ).editEntityRecord(
 			'root',
 			'globalStyles',
@@ -81,7 +83,9 @@ const ThemerComponent = () => {
 		if ( isEmpty( userConfig ) ) {
 			return baseConfig;
 		}
+
 		const merged = mergeWith( {}, baseConfig, userConfig );
+
 		return merged;
 	}, [ userConfig, baseConfig ] );
 

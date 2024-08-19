@@ -330,3 +330,57 @@ export const varToSpacing = ( spacingValue, themeSpacingSizes ) => {
 
 	return getCustomValueFromPreset( valueInCorrectFormat, themeSpacingSizes );
 };
+
+/**
+ * Recursively removes empty values from an object or array.
+ *
+ * This function traverses the input object or array and removes any values that are:
+ * - null
+ * - undefined
+ * - empty strings
+ * - empty arrays
+ * - empty objects
+ *
+ * If an array becomes empty after its elements are filtered, it is removed (i.e., replaced with null).
+ * If an object becomes empty after its properties are filtered, it is removed (i.e., replaced with null).
+ *
+ * @param {Object|Array} obj - The input object or array to be filtered.
+ * @return {Object|Array|null} - The filtered object or array, or null if it becomes empty.
+ */
+export const removeEmptyValues = ( obj ) => {
+	if ( Array.isArray( obj ) ) {
+		const filteredArray = obj
+			.map( ( item ) => removeEmptyValues( item ) )
+			.filter(
+				( item ) =>
+					item !== null &&
+					item !== undefined &&
+					item !== '' &&
+					! ( Array.isArray( item ) && item.length === 0 ) &&
+					! (
+						typeof item === 'object' &&
+						Object.keys( item ).length === 0
+					)
+			);
+		return filteredArray.length > 0 ? filteredArray : null;
+	} else if ( typeof obj === 'object' && obj !== null ) {
+		const filteredObject = Object.keys( obj ).reduce( ( acc, key ) => {
+			const value = removeEmptyValues( obj[ key ] );
+			if (
+				value !== null &&
+				value !== undefined &&
+				value !== '' &&
+				! ( Array.isArray( value ) && value.length === 0 ) &&
+				! (
+					typeof value === 'object' &&
+					Object.keys( value ).length === 0
+				)
+			) {
+				acc[ key ] = value;
+			}
+			return acc;
+		}, {} );
+		return Object.keys( filteredObject ).length > 0 ? filteredObject : null;
+	}
+	return obj;
+};
