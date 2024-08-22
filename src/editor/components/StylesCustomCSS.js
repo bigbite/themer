@@ -17,7 +17,7 @@ import StylesContext from '../context/StylesContext';
 const CustomCSS = ( { selector } ) => {
 	const { themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const cssStyles = getThemeOption( selector, themeConfig );
+	const cssStyles = getThemeOption( selector, themeConfig ) ?? '';
 
 	/**
 	 * Updates the theme config with the new value.
@@ -38,7 +38,6 @@ const CustomCSS = ( { selector } ) => {
 			<TextareaControl
 				help={
 					<p>
-						{ __( 'Check out this ', 'themer' ) }
 						<a
 							href={ encodeURI(
 								'https://developer.wordpress.org/news/2023/04/per-block-css-with-theme-json/'
@@ -46,13 +45,12 @@ const CustomCSS = ( { selector } ) => {
 							target="_blank"
 							rel="noreferrer"
 						>
-							{ __( 'WordPress blog post', 'themer' ) }
+							{ __( 'CSS syntax help', 'themer' ) }
 						</a>
-						{ __( ' for help with syntax. ', 'themer' ) }
 					</p>
 				}
 				value={ cssStyles }
-				onChange={ ( newVal ) => handleNewValue( newVal ) }
+				onChange={ handleNewValue }
 			/>
 		</>
 	);

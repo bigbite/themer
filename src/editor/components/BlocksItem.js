@@ -1,6 +1,6 @@
 import Border from './StylesBorder';
 import Color from './StylesColor';
-import CustomCSS from './StylesCustom';
+import CustomCSS from './StylesCustomCSS';
 import getThemeOption from '../../utils/get-theme-option';
 
 /**
