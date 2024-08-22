@@ -1,5 +1,3 @@
-/* eslint-disable @wordpress/no-unsafe-wp-apis */
-
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
@@ -16,7 +14,7 @@ import StylesContext from '../context/StylesContext';
  * @param {string} props.selector Property target selector
  */
 const Border = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
 	const themePalette = getThemeOption(
@@ -25,18 +23,22 @@ const Border = ( { selector } ) => {
 	);
 
 	const onChange = ( newValue ) => {
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set( config, selector, newValue );
 		setUserConfig( config );
 	};
 
 	return (
-		<BorderBoxControl
-			colors={ themePalette }
-			label={ __( 'Borders', 'themer' ) }
-			onChange={ onChange }
-			value={ value }
-		/>
+		<>
+			<span className="themer--styles__item__title">
+				{ __( 'Border', 'themer' ) }
+			</span>
+			<BorderBoxControl
+				colors={ themePalette }
+				onChange={ onChange }
+				value={ value }
+			/>
+		</>
 	);
 };
 

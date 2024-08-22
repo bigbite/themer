@@ -34,7 +34,7 @@ class Rest_API {
 			array(
 				'methods'             => 'POST',
 				'callback'            => array( $this, 'get_styles' ),
-				'permission_callback' => function() {
+				'permission_callback' => function () {
 					return true;
 				},
 			)
@@ -56,7 +56,7 @@ class Rest_API {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'can_load_theme_json' ),
-				'permission_callback' => function() {
+				'permission_callback' => function () {
 					return true;
 				},
 			)
@@ -119,7 +119,7 @@ class Rest_API {
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_theme_json(): WP_REST_Response | WP_Error {
+	public function get_theme_json(): WP_REST_Response|WP_Error {
 		$all_theme_json_layers = WP_Theme_JSON_Resolver::get_merged_data();
 
 		if ( ! $all_theme_json_layers instanceof WP_Theme_JSON ) {
@@ -130,5 +130,58 @@ class Rest_API {
 		$theme_json_flattened = $theme_json_raw_data->get_data();
 
 		return rest_ensure_response( $theme_json_flattened );
+	}
+
+	/**
+	 * Sets a new 'active' style variation by ensuring it is the only one linked to the current theme that is published.
+	 *
+	 * @param int $global_styles_id - The ID of the style variation to be published.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	private function set_new_active_style_variation( int $global_styles_id ): WP_REST_Response|WP_Error {
+		$posts = get_theme_style_variation_posts();
+
+		// Sets the currently selected style variation to draft and publishes the newly selected one.
+		foreach ( $posts as $post ) {
+			if ( 'publish' !== $post->post_status && $post->ID !== $global_styles_id ) {
+				continue;
+			}
+
+			$post_status = 'draft';
+			if ( $post->ID === $global_styles_id ) {
+				$post_status = 'publish';
+			}
+			wp_update_post(
+				array(
+					'ID'          => $post->ID,
+					'post_status' => $post_status,
+				)
+			);
+		}
+
+		return rest_ensure_response( new WP_REST_Response( array( 'message' => __( 'Active theme style variation updated.', 'themer' ) ), 200 ) );
+	}
+
+	/**
+	 * GET request returns all of the `wp_global_styles` posts for the current theme.
+	 * POST request publishes the post with the supplied ID and sets all other posts to draft.
+	 *
+	 * @param WP_REST_Request $request - The request object.
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function handle_theme_style_variations( $request ): WP_REST_Response|WP_Error {
+		$method = $request->get_method();
+
+		if ( 'GET' === $method ) {
+			return $this->get_theme_style_variations();
+		}
+
+		if ( 'POST' === $method ) {
+			$json_body        = $request->get_json_params();
+			$global_styles_id = $json_body['globalStylesId'];
+			return $this->set_new_active_style_variation( $global_styles_id );
+		}
+
+		return rest_ensure_response( new WP_REST_Response( array( 'error' => __( 'Unsupported request method.', 'themer' ) ), 405 ) );
 	}
 }

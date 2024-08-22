@@ -15,16 +15,16 @@ import StylesContext from '../context/StylesContext';
  * @param {string} props.selector Property target selector
  */
 const Color = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const colorStyles = getThemeOption( selector, themeConfig );
+	const colorStyles = getThemeOption( selector, themeConfig ) || {};
 	const themePalette = getThemeOption(
 		'settings.color.palette.theme',
 		themeConfig
 	);
 
 	const onChange = ( newValue, key ) => {
-		let config = structuredClone( themeConfig );
+		let config = structuredClone( userConfig );
 		config = set(
 			config,
 			[ selector, key ].join( '.' ),
@@ -33,11 +33,9 @@ const Color = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	const allPalettes = Object.keys( colorStyles ).map( ( key ) => (
-		<div key={ key } className="themer--blocks-item-component--column">
-			<span className="themer--blocks-item-component--styles--label">
-				{ key }
-			</span>
+	const allPalettes = [ 'background', 'text' ].map( ( key ) => (
+		<div key={ key } className="themer--styles__item__column">
+			<span className="themer--styles__item__label">{ key }</span>
 			<ColorPalette
 				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
@@ -49,16 +47,10 @@ const Color = ( { selector } ) => {
 
 	return (
 		<>
-			<span className="themer--blocks-item-component--styles--title">
+			<span className="themer--styles__item__title">
 				{ __( 'Color', 'themer' ) }
 			</span>
-			<span>
-				{ __(
-					'Manage palettes and the default color of different global elements on the site.',
-					'themer'
-				) }
-			</span>
-			<div className="themer--blocks-item-component--columns themer--blocks-item-component--columns-2">
+			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ allPalettes }
 			</div>
 		</>

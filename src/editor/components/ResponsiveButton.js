@@ -4,6 +4,9 @@ import {
 	MenuItemsChoice,
 } from '@wordpress/components';
 import { desktop, tablet, mobile } from '@wordpress/icons';
+import { useContext } from '@wordpress/element';
+
+import EditorContext from '../context/EditorContext';
 
 const options = [
 	{
@@ -23,12 +26,9 @@ const options = [
 /**
  * button to handle responsive preview options
  *
- * @param {Object}   props
- * @param {Function} props.setPreviewSize
- * @param {string}   props.previewSize
  */
-
-const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
+const ResponsiveButton = () => {
+	const { previewSize, setPreviewSize } = useContext( EditorContext );
 	/**
 	 * Updates icon depending on chosen screen size
 	 */
@@ -46,21 +46,19 @@ const ResponsiveButton = ( { setPreviewSize, previewSize } ) => {
 	};
 
 	return (
-		<div className="themer-responsive-top">
-			<DropdownMenu icon={ handleIcon } label="Select a size">
-				{ () => (
-					<MenuGroup>
-						<MenuItemsChoice
-							choices={ options }
-							value={ previewSize }
-							onSelect={ ( size ) => {
-								setPreviewSize( size );
-							} }
-						/>
-					</MenuGroup>
-				) }
-			</DropdownMenu>
-		</div>
+		<DropdownMenu icon={ handleIcon } label="Select a size">
+			{ () => (
+				<MenuGroup>
+					<MenuItemsChoice
+						choices={ options }
+						value={ previewSize }
+						onSelect={ ( size ) => {
+							setPreviewSize( size );
+						} }
+					/>
+				</MenuGroup>
+			) }
+		</DropdownMenu>
 	);
 };
 
