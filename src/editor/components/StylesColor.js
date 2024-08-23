@@ -28,7 +28,7 @@ const Color = ( { selector } ) => {
 		config = set(
 			config,
 			[ selector, key ].join( '.' ),
-			hexToVar( newValue, themePalette )
+			hexToVar( newValue, themePalette ) ?? ''
 		);
 		setUserConfig( config );
 	};
