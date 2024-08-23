@@ -6,6 +6,7 @@ import Spacing from './StylesSpacing';
 import Dimensions from './StylesDimensions';
 import Outline from './StylesOutline';
 import Shadow from './StylesShadow';
+import CustomCSS from './StylesCustomCSS';
 
 /**
  * Styles component
@@ -48,6 +49,9 @@ const Styles = ( { selector } ) => {
 			</div>
 			<div className="themer--styles__item">
 				<Border selector={ `${ selector }.border` } />
+			</div>
+			<div className="themer--styles__item">
+				<CustomCSS selector={ `${ selector }.css` } />
 			</div>
 		</div>
 	);
