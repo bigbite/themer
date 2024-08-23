@@ -13,7 +13,7 @@ namespace Big_Bite\themer;
  * @return void
  */
 function setup() : void {
-	new Loader();
+	// new Loader();
 	new Admin();
 	new Rest_API();
 }

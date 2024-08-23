@@ -14,6 +14,7 @@ import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
+import BlockView from './BlockView';
 import CodeView from './CodeView';
 import ButtonExport from './ButtonExport';
 import ThemerNotice from './ThemerNotice';
@@ -30,7 +31,7 @@ import { getDefaultPreview } from '../../utils/blockPreviews';
 /**
  * main component
  */
-const ThemerComponent = () => {
+const ThemerComponent = ( { editorSettings } ) => {
 	const [ previewSize, setPreviewSize ] = useState();
 	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
@@ -205,6 +206,11 @@ const ThemerComponent = () => {
 		);
 	}
 
+	const augmentedEditorSettings = {
+		...editorSettings,
+		styles: [ ...editorSettings.styles, { css: previewCss } ],
+	};
+
 	return (
 		<>
 			<EditorContext.Provider
@@ -278,7 +284,12 @@ const ThemerComponent = () => {
 									<StylesPanel />
 								</div>
 								<div className="themer-code-view-container">
-									<CodeView themeConfig={ themeConfig } />
+									{ /* <CodeView themeConfig={ themeConfig } /> */ }
+									<BlockView
+										editorSettings={
+											augmentedEditorSettings
+										}
+									/>
 								</div>
 							</div>
 						</div>

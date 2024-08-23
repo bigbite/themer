@@ -3,10 +3,10 @@ import ThemerComponent from './ThemerComponent';
 /**
  * Wrapper for app
  */
-const ComponentWrapper = () => (
+const ComponentWrapper = ( { editorSettings } ) => (
 	<>
 		<div className="App">
-			<ThemerComponent />
+			<ThemerComponent editorSettings={ editorSettings } />
 		</div>
 	</>
 );
