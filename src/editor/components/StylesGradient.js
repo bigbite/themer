@@ -15,7 +15,8 @@ const Gradient = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
-	const defaultPalette = getThemeOption( 
+
+	const defaultPalette = getThemeOption(
 		'settings.color.gradients.default',
 		themeConfig
 	);
@@ -25,6 +26,10 @@ const Gradient = ( { selector } ) => {
 	);
 	const defaultGradientOption = getThemeOption(
 		'settings.color.defaultGradients',
+		themeConfig
+	);
+	const customGradientOption = getThemeOption(
+		'settings.color.customGradient',
 		themeConfig
 	);
 
@@ -61,6 +66,7 @@ const Gradient = ( { selector } ) => {
 					value={ value }
 					onChange={ onChange }
 					gradients={ getGradients() }
+					disableCustomGradients={ ! customGradientOption }
 				/>
 			</div>
 		);
