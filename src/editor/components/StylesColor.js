@@ -7,6 +7,7 @@ import { varToHex, hexToVar } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+import Gradient from './StylesGradient';
 
 /**
  * Reusable color control style component
@@ -33,7 +34,7 @@ const Color = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	const allPalettes = [ 'background', 'text' ].map( ( key ) => (
+	const colorPalettes = [ 'background', 'text' ].map( ( key ) => (
 		<div key={ key } className="themer--styles__item__column">
 			<span className="themer--styles__item__label">{ key }</span>
 			<ColorPalette
@@ -51,7 +52,8 @@ const Color = ( { selector } ) => {
 				{ __( 'Color', 'themer' ) }
 			</span>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
-				{ allPalettes }
+				{ colorPalettes }
+				<Gradient selector={ `${ selector }.gradient` } />
 			</div>
 		</>
 	);
