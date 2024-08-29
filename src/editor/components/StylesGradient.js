@@ -39,8 +39,8 @@ const Gradient = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
-	// We only want to populate gradients object with defaultPalette if defaultGradientOption is true (which it is by default)
-	// and we only want to populate themePalette if themePalette is not empty to avoid unnecessary headings being created.
+	// We only want to populate themePalette if themePalette is not empty to avoid unnecessary headings being created.
+	// and we only want to populate gradients object with defaultPalette if defaultGradientOption is true (which it is by default)
 	const getGradients = () => {
 		const gradients = [];
 		if ( themePalette ) {
