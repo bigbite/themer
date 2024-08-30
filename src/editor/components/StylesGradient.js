@@ -1,4 +1,5 @@
 import { set } from 'lodash';
+import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { GradientPicker } from '@wordpress/components';
 
@@ -61,7 +62,9 @@ const Gradient = ( { selector } ) => {
 	if ( getGradients().length > 0 ) {
 		return (
 			<div key="Gradient" className="themer--styles__item__column">
-				<span className="themer--styles__item__label">Gradient</span>
+				<span className="themer--styles__item__label">
+					{ __( 'Gradient', 'themer' ) }
+				</span>
 				<GradientPicker
 					value={ value }
 					onChange={ onChange }
