@@ -27,6 +27,7 @@ import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 import FontFamily from './FontFamily';
 import FontSize from './FontSize';
+import ClearCustomisation from '../ClearCustomisation';
 
 /**
  * Reusable Typography component
@@ -55,6 +56,11 @@ const Typography = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Typography', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ typographyStyles }
+				/>
 			</span>
 			<FontFamily
 				typographyStyles={ typographyStyles }

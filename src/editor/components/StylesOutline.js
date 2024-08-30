@@ -11,6 +11,7 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import { hexToVar, varToHex, isCssLengthUnit } from '../../utils/block-helpers';
+import ClearCustomisation from './ClearCustomisation';
 
 // Specify the units we support as common units like % are not supported by outline, but you could still put that in theme.json.
 const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
@@ -67,6 +68,11 @@ const Outline = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Outline', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ outlineStyles }
+				/>
 			</span>
 			<UnitControl
 				label={ __( 'Width', 'themer' ) }

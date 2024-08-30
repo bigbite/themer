@@ -7,6 +7,7 @@ import { TextareaControl } from '@wordpress/components';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+import ClearCustomisation from './ClearCustomisation';
 
 /**
  * Reusable custom CSS component
@@ -15,7 +16,7 @@ import StylesContext from '../context/StylesContext';
  * @param {string} props.selector Property target selector
  */
 const CustomCSS = ( { selector } ) => {
-	const { themeConfig } = useContext( EditorContext );
+	const { themeConfig, userConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const cssStyles = getThemeOption( selector, themeConfig ) ?? '';
 
@@ -34,6 +35,11 @@ const CustomCSS = ( { selector } ) => {
 		<>
 			<span className="themer--blocks-item-component--styles--title is-custom-css">
 				{ __( 'Custom CSS', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ cssStyles }
+				/>
 			</span>
 			<TextareaControl
 				help={

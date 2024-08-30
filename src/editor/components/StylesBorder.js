@@ -6,6 +6,7 @@ import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/c
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+import ClearCustomisation from './ClearCustomisation';
 
 /**
  * Reusable border control style component
@@ -32,7 +33,13 @@ const Border = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Border', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ value }
+				/>
 			</span>
+
 			<BorderBoxControl
 				colors={ themePalette }
 				onChange={ onChange }
