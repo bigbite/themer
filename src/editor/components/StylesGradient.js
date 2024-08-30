@@ -1,6 +1,6 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { useContext, useMemo } from '@wordpress/element';
 import { GradientPicker } from '@wordpress/components';
 
 import getThemeOption from '../../utils/get-theme-option';
@@ -44,24 +44,27 @@ const Gradient = ( { selector } ) => {
 	 * We only want to populate themePalette if themePalette is not empty to avoid unnecessary headings being created.
 	 * and we only want to populate gradients object with defaultPalette if defaultGradientOption is true (which it is by default)
 	 */
-	const getGradients = () => {
-		const gradients = [];
+	const gradients = useMemo( () => {
+		const arr = [];
+
 		if ( themePalette ) {
-			gradients.push( {
+			arr.push( {
 				name: 'Theme',
 				gradients: themePalette,
 			} );
 		}
+
 		if ( defaultGradientOption && defaultPalette ) {
-			gradients.push( {
+			arr.push( {
 				name: 'Default',
 				gradients: defaultPalette,
 			} );
 		}
-		return gradients;
-	};
 
-	if ( getGradients().length > 0 ) {
+		return arr;
+	}, [ themePalette, defaultGradientOption, defaultPalette ] );
+
+	if ( customGradientOption !== false || gradients ) {
 		return (
 			<div key="Gradient" className="themer--styles__item__column">
 				<span className="themer--styles__item__label">
@@ -70,7 +73,7 @@ const Gradient = ( { selector } ) => {
 				<GradientPicker
 					value={ value }
 					onChange={ onChange }
-					gradients={ getGradients() }
+					gradients={ gradients }
 					disableCustomGradients={ ! customGradientOption }
 				/>
 			</div>
