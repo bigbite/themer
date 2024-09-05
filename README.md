@@ -1,6 +1,5 @@
 # themer
-
-
+WordPress plugin that presents the user with a UI to edit the theme.json from the currently active theme.
 
 ## Installing
 When installing to your site, add the following to you `composer.json` file. This will ensure that installation will use the build version of the package and allow it to be loaded using composer in the preferred path.
@@ -80,3 +79,12 @@ On edit, the state is updated using `editEntityRecord('root', 'globalStyles', ge
 using `wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', getGlobalStylesId())`.
 
 A revision is also created in the DB for each save. 
+
+
+## Issues
+
+ We welcome bug reports, feature requests, questions, and pull requests. If you spot any mistakes or have an idea to make the plugin better, just [open an issue](https://github.com/bigbite/themer/issues/new/choose).
+
+## Contributing
+
+Please read [Code of Conduct](./CODE_OF_CONDUCT.md) for details on our code of conduct and [Contributing](./CONTRIBUTING.md) for details on the process for submitting pull requests to us.
