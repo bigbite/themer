@@ -7,6 +7,7 @@ import Dimensions from './StylesDimensions';
 import Outline from './StylesOutline';
 import Shadow from './StylesShadow';
 import CustomCSS from './StylesCustomCSS';
+import StylesVariations from './StylesVariations';
 
 /**
  * Styles component
@@ -52,6 +53,9 @@ const Styles = ( { selector } ) => {
 			</div>
 			<div className="themer--styles__item">
 				<CustomCSS selector={ `${ selector }.css` } />
+			</div>
+			<div className="themer--styles__item">
+				<StylesVariations selector={ `${ selector }.variations` } />
 			</div>
 		</div>
 	);
