@@ -1,6 +1,6 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
+import { useContext, useState, useEffect } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
 import { ContrastChecker } from '@wordpress/block-editor';
 
@@ -35,6 +35,44 @@ const Color = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
+	/**
+	 * Define mouse state and related functions
+	 */
+	const [ isMouseDown, setIsMouseDown ] = useState( false );
+	const handleMouseDown = () => setIsMouseDown( true );
+	const handleMouseUp = () => setIsMouseDown( false );
+
+	/**
+	 * Define colour variables, used to avoid jumping colour picker when ContrastChecker display toggles
+	 */
+	const [ textColour, setTextColour ] = useState( colorStyles.text );
+	const [ backgroundColour, setBackgroundColour ] = useState(
+		colorStyles.background
+	);
+
+	/**
+	 * When the values are changed, ensure the mouse buttons have been released before updating
+	 */
+	useEffect( () => {
+		if ( ! isMouseDown ) {
+			setTextColour( colorStyles.text );
+			setBackgroundColour( colorStyles.background );
+		}
+	}, [ isMouseDown, colorStyles.text, colorStyles.background ] );
+
+	/**
+	 * Add and remove the mouse event listeners
+	 */
+	useEffect( () => {
+		window.addEventListener( 'mousedown', handleMouseDown );
+		window.addEventListener( 'mouseup', handleMouseUp );
+
+		return () => {
+			window.removeEventListener( 'mousedown', handleMouseDown );
+			window.removeEventListener( 'mouseup', handleMouseUp );
+		};
+	}, [] );
+
 	const colorPalettes = [ 'background', 'text' ].map( ( key ) => (
 		<div key={ key } className="themer--styles__item__column">
 			<span className="themer--styles__item__label">{ key }</span>
@@ -53,11 +91,8 @@ const Color = ( { selector } ) => {
 				{ __( 'Color', 'themer' ) }
 			</span>
 			<ContrastChecker
-				textColor={ varToHex( colorStyles.text, themePalette ) }
-				backgroundColor={ varToHex(
-					colorStyles.background,
-					themePalette
-				) }
+				textColor={ varToHex( textColour, themePalette ) }
+				backgroundColor={ varToHex( backgroundColour, themePalette ) }
 			/>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ colorPalettes }
