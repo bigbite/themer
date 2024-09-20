@@ -2,6 +2,7 @@ import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
+import { ContrastChecker } from '@wordpress/block-editor';
 
 import { varToHex, hexToVar } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
@@ -51,6 +52,13 @@ const Color = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Color', 'themer' ) }
 			</span>
+			<ContrastChecker
+				textColor={ varToHex( colorStyles.text, themePalette ) }
+				backgroundColor={ varToHex(
+					colorStyles.background,
+					themePalette
+				) }
+			/>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ colorPalettes }
 				<Gradient selector={ `${ selector }.gradient` } />
