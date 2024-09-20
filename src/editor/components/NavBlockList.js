@@ -22,10 +22,15 @@ const NavBlockList = () => {
 	// get styles for all blocks
 	const themeBlockStyles = getThemeOption( `styles.blocks`, themeConfig );
 
+	// sort the blocks by title
+	const orderedSchema = schemaBlocks.sort( ( a, b ) =>
+		a.title.localeCompare( b.title )
+	);
+
 	return (
 		<section>
 			<ul className="themer-nav-list">
-				{ schemaBlocks.map( ( block ) => {
+				{ orderedSchema.map( ( block ) => {
 					// get all styles for this block
 					const blockStyles = themeBlockStyles[ block.name ] || {};
 
