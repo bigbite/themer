@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { TabPanel, PanelBody } from '@wordpress/components';
@@ -30,9 +31,13 @@ const StylesVariations = ( { selector } ) => {
 		return;
 	}
 
-	const blockStyles = getThemeOption( selector, themeConfig ) || {};
+	const blockVariation = getThemeOption( selector, themeConfig ) || {};
 
-	const tabs = Object.entries( blockStyles ).map( ( [ name ] ) => {
+	if ( isEmpty( blockVariation ) ) {
+		return null;
+	}
+
+	const tabs = Object.entries( blockVariation ).map( ( [ name ] ) => {
 		return {
 			name,
 			title: name.charAt( 0 ).toUpperCase() + name.slice( 1 ),
