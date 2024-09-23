@@ -34,6 +34,7 @@ const NavBlockList = () => {
 					// check if the block has any styles that aren't elements
 					const { elements, ...rest } = blockStyles;
 					const hasBlockStyles = Object.keys( rest ).length > 0;
+					const varHasStyles = rest?.variations;
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
 					const elementRoute =
@@ -59,6 +60,7 @@ const NavBlockList = () => {
 								key={ 'elements' }
 								label={ 'Elements' }
 								icon={ html }
+								hasStyles={ elements }
 							>
 								<NavElementList
 									selector={ elementsSelector }
@@ -69,6 +71,7 @@ const NavBlockList = () => {
 								key={ 'variations' }
 								label={ 'Variations' }
 								icon={ styles }
+								hasStyles={ varHasStyles }
 							>
 								<NavVariationList
 									selector={ `blocks.${ block.name }.variations` }

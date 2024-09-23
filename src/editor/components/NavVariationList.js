@@ -1,3 +1,5 @@
+import { isEmpty } from 'lodash';
+
 import { useContext } from '@wordpress/element';
 import { handle } from '@wordpress/icons';
 
@@ -39,6 +41,9 @@ const NavVariationList = ( { selector, route } ) => {
 							label={ variation.name }
 							route={ varRoute }
 							icon={ handle }
+							hasStyles={
+								! isEmpty( themeVarStyles[ variation.name ] )
+							}
 						/>
 					);
 				} ) }
