@@ -14,7 +14,7 @@ const BBContrastChecker = ( { background, foreground } ) => {
 	 *
 	 * @param {string} colour The colour to convert to luminance value
 	 *
-	 * @return {int} The luminance value
+	 * @return {number} The luminance value
 	 */
 	const getLuminance = ( colour ) => {
 		const rgb = colour
