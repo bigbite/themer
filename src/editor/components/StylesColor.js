@@ -9,6 +9,7 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import Gradient from './StylesGradient';
+import BBContrastChecker from './BBContrastChecker';
 
 /**
  * Reusable color control style component
@@ -62,6 +63,8 @@ const Color = ( { selector } ) => {
 
 	/**
 	 * Add and remove the mouse event listeners
+	 *
+	 * TODO - Restruct this to just clicks within the container as it fires all the time
 	 */
 	useEffect( () => {
 		window.addEventListener( 'mousedown', handleMouseDown );
@@ -90,9 +93,9 @@ const Color = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Color', 'themer' ) }
 			</span>
-			<ContrastChecker
-				textColor={ varToHex( textColour, themePalette ) }
-				backgroundColor={ varToHex( backgroundColour, themePalette ) }
+			<BBContrastChecker
+				background={ varToHex( backgroundColour, themePalette ) }
+				foreground={ varToHex( textColour, themePalette ) }
 			/>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ colorPalettes }

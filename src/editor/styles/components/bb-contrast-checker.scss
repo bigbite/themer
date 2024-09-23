@@ -1,0 +1,57 @@
+.contrast-checker {
+	align-items: center;
+	border: 1px solid green;
+	border-radius: 0.5rem;
+	display: flex;
+	gap: 1rem;
+	justify-content: flex-start;
+	padding: 0.5rem;
+
+	transition: border-color 0.25s ease-in-out;
+}
+
+.contrast-checker:has(p.fail) {
+	border-color: blue;
+}
+
+.contrast-checker:has(p.fail + p.fail) {
+	border-color: red;
+}
+
+.contrast-checker p {
+	margin-block: 0;
+}
+
+.contrast-checker-title {
+	font-size: 0.75rem;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+.contrast-checker-ratio {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-inline-start: auto;
+}
+
+.contrast-checker-badges {
+	align-items: center;
+	display: flex;
+	gap: 0.5rem;
+}
+
+.contrast-checker-badges > p {
+	background-color: green;
+	border-radius: 0.25rem;
+	color: #fff;
+	display: block;
+	padding: 0.25rem 0.5rem;
+
+	transition: background-color 0.25s ease-in-out,
+		color 0.25s ease-in-out;
+}
+
+.contrast-checker-badges > p.fail {
+	background-color: red;
+	color: #000;
+}
