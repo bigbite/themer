@@ -1,8 +1,7 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect } from '@wordpress/element';
+import { useContext, useState, useEffect, useRef } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
-import { ContrastChecker } from '@wordpress/block-editor';
 
 import { varToHex, hexToVar } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
@@ -18,6 +17,7 @@ import BBContrastChecker from './BBContrastChecker';
  * @param {string} props.selector Property target selector
  */
 const Color = ( { selector } ) => {
+	const containerRef = useRef( null );
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const colorStyles = getThemeOption( selector, themeConfig ) || {};
@@ -63,16 +63,20 @@ const Color = ( { selector } ) => {
 
 	/**
 	 * Add and remove the mouse event listeners
-	 *
-	 * TODO - Restruct this to just clicks within the container as it fires all the time
 	 */
 	useEffect( () => {
-		window.addEventListener( 'mousedown', handleMouseDown );
-		window.addEventListener( 'mouseup', handleMouseUp );
+		const container = containerRef.current;
+
+		if ( container ) {
+			container.addEventListener( 'mousedown', handleMouseDown );
+			container.addEventListener( 'mouseup', handleMouseUp );
+		}
 
 		return () => {
-			window.removeEventListener( 'mousedown', handleMouseDown );
-			window.removeEventListener( 'mouseup', handleMouseUp );
+			if ( container ) {
+				container.removeEventListener( 'mousedown', handleMouseDown );
+				container.removeEventListener( 'mouseup', handleMouseUp );
+			}
 		};
 	}, [] );
 
@@ -97,7 +101,10 @@ const Color = ( { selector } ) => {
 				background={ varToHex( backgroundColour, themePalette ) }
 				foreground={ varToHex( textColour, themePalette ) }
 			/>
-			<div className="themer--styles__item__columns themer--styles__item__columns--2">
+			<div
+				ref={ containerRef }
+				className="themer--styles__item__columns themer--styles__item__columns--2"
+			>
 				{ colorPalettes }
 				<Gradient selector={ `${ selector }.gradient` } />
 			</div>
