@@ -1,3 +1,8 @@
+.themer--styles__item:has(.contrast-checker) {
+	container-type: inline-size;
+	container-name: contrast-checker-outer;
+}
+
 .contrast-checker {
 	align-items: center;
 	border: 1px solid green;
@@ -54,4 +59,24 @@
 .contrast-checker-badges > p.fail {
 	background-color: red;
 	color: #000;
+}
+
+
+@container contrast-checker-outer (max-width: 350px) {
+
+	.contrast-checker {
+		align-items: center;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+
+	.contrast-checker-title {
+		text-align: center;
+		width: 100%;
+	}
+
+	.contrast-checker-ratio {
+		margin-inline-start: 0;
+	}
+
 }
