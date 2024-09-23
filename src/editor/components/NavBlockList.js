@@ -1,4 +1,5 @@
 import { useContext } from '@wordpress/element';
+import { html, styles } from '@wordpress/icons';
 
 import EditorContext from '../context/EditorContext';
 
@@ -7,6 +8,7 @@ import getThemeOption from '../../utils/get-theme-option';
 
 import NavListItem from './NavListItem';
 import NavElementList from './NavElementList';
+import NavVariationList from './NavVariationList';
 
 /**
  * Nav Block list
@@ -34,7 +36,16 @@ const NavBlockList = () => {
 					const hasBlockStyles = Object.keys( rest ).length > 0;
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
+					const elementRoute =
+						'/blocks/' +
+						encodeURIComponent( block.name ) +
+						'/elements';
 					const elementsSelector = `blocks.${ block.name }.elements`;
+
+					const varRoute =
+						'/blocks/' +
+						encodeURIComponent( block.name ) +
+						'/variations';
 
 					return (
 						<NavListItem
@@ -44,10 +55,26 @@ const NavBlockList = () => {
 							route={ route }
 							hasStyles={ hasBlockStyles }
 						>
-							<NavElementList
-								selector={ elementsSelector }
-								route={ route }
-							/>
+							<NavListItem
+								key={ 'elements' }
+								label={ 'Elements' }
+								icon={ html }
+							>
+								<NavElementList
+									selector={ elementsSelector }
+									route={ elementRoute }
+								/>
+							</NavListItem>
+							<NavListItem
+								key={ 'variations' }
+								label={ 'Variations' }
+								icon={ styles }
+							>
+								<NavVariationList
+									selector={ `blocks.${ block.name }.variations` }
+									route={ varRoute }
+								/>
+							</NavListItem>
 						</NavListItem>
 					);
 				} ) }

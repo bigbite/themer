@@ -82,6 +82,10 @@
 	padding-left: calc(var(--themer-nav-list-indent) + 4px);
 }
 
+.themer-nav-list__item__children {
+	padding-left: calc(var(--themer-nav-list-indent) / 4)
+}
+
 .components-button.has-icon.themer-nav-list__item__toggle {
 	padding: 4px;
 	min-width: 0;

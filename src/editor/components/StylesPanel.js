@@ -36,7 +36,7 @@ const StylesPanel = () => {
 			</NavigatorScreen>
 
 			{ /* block/element screen */ }
-			<NavigatorScreen path="/blocks/:blockName/:elementName">
+			<NavigatorScreen path="/blocks/:blockName/elements/:elementName">
 				<ElementItem
 					name={ params.elementName }
 					selector={ `blocks.${ params.blockName }.elements.${ params.elementName }` }
@@ -44,10 +44,18 @@ const StylesPanel = () => {
 			</NavigatorScreen>
 
 			{ /* block/element/psuedo screen */ }
-			<NavigatorScreen path="/blocks/:blockName/:elementName/:pseudoName">
+			<NavigatorScreen path="/blocks/:blockName/elements/:elementName/:pseudoName">
 				<PseudoItem
 					name={ params.pseudoName }
 					selector={ `blocks.${ params.blockName }.elements.${ params.elementName }.${ params.pseudoName }` }
+				/>
+			</NavigatorScreen>
+
+			{ /* block/variation screen */ }
+			<NavigatorScreen path="/blocks/:blockName/variations/:varName">
+				<PseudoItem
+					name={ params.varName }
+					selector={ `blocks.${ params.blockName }.variations.${ params.varName }` }
 				/>
 			</NavigatorScreen>
 
