@@ -1,6 +1,6 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect } from '@wordpress/element';
+import { useContext, useState, useEffect, useRef } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
 import { ContrastChecker } from '@wordpress/block-editor';
 
@@ -17,6 +17,7 @@ import Gradient from './StylesGradient';
  * @param {string} props.selector Property target selector
  */
 const Color = ( { selector } ) => {
+	const containerRef = useRef( null );
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const colorStyles = getThemeOption( selector, themeConfig ) || {};
@@ -64,12 +65,18 @@ const Color = ( { selector } ) => {
 	 * Add and remove the mouse event listeners
 	 */
 	useEffect( () => {
-		window.addEventListener( 'mousedown', handleMouseDown );
-		window.addEventListener( 'mouseup', handleMouseUp );
+		const container = containerRef.current;
+
+		if ( container ) {
+			container.addEventListener( 'mousedown', handleMouseDown );
+			container.addEventListener( 'mouseup', handleMouseUp );
+		}
 
 		return () => {
-			window.removeEventListener( 'mousedown', handleMouseDown );
-			window.removeEventListener( 'mouseup', handleMouseUp );
+			if ( container ) {
+				container.removeEventListener( 'mousedown', handleMouseDown );
+				container.removeEventListener( 'mouseup', handleMouseUp );
+			}
 		};
 	}, [] );
 
@@ -77,8 +84,8 @@ const Color = ( { selector } ) => {
 		<div key={ key } className="themer--styles__item__column">
 			<span className="themer--styles__item__label">{ key }</span>
 			<ColorPalette
-				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
+				label={ __( 'Color', 'themer' ) }
 				onChange={ ( value ) => onChange( value, key ) }
 				value={ varToHex( colorStyles[ key ], themePalette ) }
 			/>
@@ -94,7 +101,10 @@ const Color = ( { selector } ) => {
 				textColor={ varToHex( textColour, themePalette ) }
 				backgroundColor={ varToHex( backgroundColour, themePalette ) }
 			/>
-			<div className="themer--styles__item__columns themer--styles__item__columns--2">
+			<div
+				ref={ containerRef }
+				className="themer--styles__item__columns themer--styles__item__columns--2"
+			>
 				{ colorPalettes }
 				<Gradient selector={ `${ selector }.gradient` } />
 			</div>
