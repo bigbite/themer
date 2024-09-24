@@ -1,4 +1,4 @@
-import { set } from 'lodash';
+import { set, debounce } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
@@ -8,6 +8,7 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import Gradient from './StylesGradient';
+import BBContrastChecker from './BBContrastChecker';
 
 /**
  * Reusable color control style component
@@ -24,7 +25,13 @@ const Color = ( { selector } ) => {
 		themeConfig
 	);
 
-	const onChange = ( newValue, key ) => {
+	/**
+	 * Function to handle the colour palette changes
+	 *
+	 * @param {string} newValue The value of the setting
+	 * @param {string} key      The key of the setting
+	 */
+	const onChange = debounce( ( newValue, key ) => {
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
@@ -32,14 +39,14 @@ const Color = ( { selector } ) => {
 			hexToVar( newValue, themePalette ) ?? ''
 		);
 		setUserConfig( config );
-	};
+	}, 50 );
 
 	const colorPalettes = [ 'background', 'text' ].map( ( key ) => (
 		<div key={ key } className="themer--styles__item__column">
 			<span className="themer--styles__item__label">{ key }</span>
 			<ColorPalette
-				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
+				label={ __( 'Color', 'themer' ) }
 				onChange={ ( value ) => onChange( value, key ) }
 				value={ varToHex( colorStyles[ key ], themePalette ) }
 			/>
@@ -51,6 +58,10 @@ const Color = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Color', 'themer' ) }
 			</span>
+			<BBContrastChecker
+				background={ varToHex( colorStyles.background, themePalette ) }
+				foreground={ varToHex( colorStyles.text, themePalette ) }
+			/>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ colorPalettes }
 				<Gradient selector={ `${ selector }.gradient` } />
