@@ -1,6 +1,6 @@
 import { set, debounce } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
 import { ContrastChecker } from '@wordpress/block-editor';
 
@@ -26,20 +26,12 @@ const Color = ( { selector } ) => {
 	);
 
 	/**
-	 * Define colour variables, used to avoid jumping colour picker when ContrastChecker display toggles
-	 */
-	const [ textColour, setTextColour ] = useState( colorStyles.text );
-	const [ backgroundColour, setBackgroundColour ] = useState(
-		colorStyles.background
-	);
-
-	/**
 	 * Function to handle the colour palette changes
 	 *
 	 * @param {string} newValue The value of the setting
 	 * @param {string} key      The key of the setting
 	 */
-	const onChange = ( newValue, key ) => {
+	const onChange = debounce( ( newValue, key ) => {
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
@@ -47,26 +39,7 @@ const Color = ( { selector } ) => {
 			hexToVar( newValue, themePalette ) ?? ''
 		);
 		setUserConfig( config );
-	};
-
-	/**
-	 * Function to debounce the assignment of colours
-	 * This approach addresses an interaction issue with custom colour palettes
-	 */
-	const debouncedUpdateColors = debounce( () => {
-		setTextColour( colorStyles.text );
-		setBackgroundColour( colorStyles.background );
-	}, 150 );
-
-	/**
-	 * useEffect when colours are updated
-	 */
-	useEffect( () => {
-		debouncedUpdateColors();
-		return () => {
-			debouncedUpdateColors.cancel();
-		};
-	}, [ colorStyles.text, colorStyles.background, debouncedUpdateColors ] );
+	}, 50 );
 
 	const colorPalettes = [ 'background', 'text' ].map( ( key ) => (
 		<div key={ key } className="themer--styles__item__column">
@@ -86,8 +59,11 @@ const Color = ( { selector } ) => {
 				{ __( 'Color', 'themer' ) }
 			</span>
 			<ContrastChecker
-				textColor={ varToHex( textColour, themePalette ) }
-				backgroundColor={ varToHex( backgroundColour, themePalette ) }
+				textColor={ varToHex( colorStyles.text, themePalette ) }
+				backgroundColor={ varToHex(
+					colorStyles.background,
+					themePalette
+				) }
 			/>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ colorPalettes }
