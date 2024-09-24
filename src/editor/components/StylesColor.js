@@ -1,6 +1,6 @@
-import { set } from 'lodash';
+import { set, debounce } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect, useRef } from '@wordpress/element';
+import { useContext } from '@wordpress/element';
 import { ColorPalette } from '@wordpress/components';
 
 import { varToHex, hexToVar } from '../../utils/block-helpers';
@@ -17,7 +17,6 @@ import BBContrastChecker from './BBContrastChecker';
  * @param {string} props.selector Property target selector
  */
 const Color = ( { selector } ) => {
-	const containerRef = useRef( null );
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const colorStyles = getThemeOption( selector, themeConfig ) || {};
@@ -26,7 +25,13 @@ const Color = ( { selector } ) => {
 		themeConfig
 	);
 
-	const onChange = ( newValue, key ) => {
+	/**
+	 * Function to handle the colour palette changes
+	 *
+	 * @param {string} newValue The value of the setting
+	 * @param {string} key      The key of the setting
+	 */
+	const onChange = debounce( ( newValue, key ) => {
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
@@ -34,58 +39,14 @@ const Color = ( { selector } ) => {
 			hexToVar( newValue, themePalette ) ?? ''
 		);
 		setUserConfig( config );
-	};
-
-	/**
-	 * Define mouse state and related functions
-	 */
-	const [ isMouseDown, setIsMouseDown ] = useState( false );
-	const handleMouseDown = () => setIsMouseDown( true );
-	const handleMouseUp = () => setIsMouseDown( false );
-
-	/**
-	 * Define colour variables, used to avoid jumping colour picker when ContrastChecker display toggles
-	 */
-	const [ textColour, setTextColour ] = useState( colorStyles.text );
-	const [ backgroundColour, setBackgroundColour ] = useState(
-		colorStyles.background
-	);
-
-	/**
-	 * When the values are changed, ensure the mouse buttons have been released before updating
-	 */
-	useEffect( () => {
-		if ( ! isMouseDown ) {
-			setTextColour( colorStyles.text );
-			setBackgroundColour( colorStyles.background );
-		}
-	}, [ isMouseDown, colorStyles.text, colorStyles.background ] );
-
-	/**
-	 * Add and remove the mouse event listeners
-	 */
-	useEffect( () => {
-		const container = containerRef.current;
-
-		if ( container ) {
-			container.addEventListener( 'mousedown', handleMouseDown );
-			container.addEventListener( 'mouseup', handleMouseUp );
-		}
-
-		return () => {
-			if ( container ) {
-				container.removeEventListener( 'mousedown', handleMouseDown );
-				container.removeEventListener( 'mouseup', handleMouseUp );
-			}
-		};
-	}, [] );
+	}, 50 );
 
 	const colorPalettes = [ 'background', 'text' ].map( ( key ) => (
 		<div key={ key } className="themer--styles__item__column">
 			<span className="themer--styles__item__label">{ key }</span>
 			<ColorPalette
-				label={ __( 'Color', 'themer' ) }
 				colors={ themePalette }
+				label={ __( 'Color', 'themer' ) }
 				onChange={ ( value ) => onChange( value, key ) }
 				value={ varToHex( colorStyles[ key ], themePalette ) }
 			/>
@@ -98,13 +59,10 @@ const Color = ( { selector } ) => {
 				{ __( 'Color', 'themer' ) }
 			</span>
 			<BBContrastChecker
-				background={ varToHex( backgroundColour, themePalette ) }
-				foreground={ varToHex( textColour, themePalette ) }
+				background={ varToHex( colorStyles.background, themePalette ) }
+				foreground={ varToHex( colorStyles.text, themePalette ) }
 			/>
-			<div
-				ref={ containerRef }
-				className="themer--styles__item__columns themer--styles__item__columns--2"
-			>
+			<div className="themer--styles__item__columns themer--styles__item__columns--2">
 				{ colorPalettes }
 				<Gradient selector={ `${ selector }.gradient` } />
 			</div>
