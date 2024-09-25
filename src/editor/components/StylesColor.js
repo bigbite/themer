@@ -58,8 +58,6 @@ const Color = ( { selector } ) => {
 			setTextColor( colorStyles.text );
 			setBackgroundColor( colorStyles.background );
 		}, 150 );
-
-		//
 		debouncedUpdateColors();
 
 		return () => {
