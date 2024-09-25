@@ -1,5 +1,6 @@
 import { useContext } from '@wordpress/element';
 import { html, styles } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
 
 import EditorContext from '../context/EditorContext';
 
@@ -58,7 +59,7 @@ const NavBlockList = () => {
 						>
 							<NavListItem
 								key={ 'elements' }
-								label={ 'Elements' }
+								label={ __( 'Elements', 'themer' ) }
 								icon={ html }
 								hasStyles={ elements }
 							>
@@ -69,7 +70,7 @@ const NavBlockList = () => {
 							</NavListItem>
 							<NavListItem
 								key={ 'variations' }
-								label={ 'Variations' }
+								label={ __( 'Variations', 'themer' ) }
 								icon={ styles }
 								hasStyles={ varHasStyles }
 							>
