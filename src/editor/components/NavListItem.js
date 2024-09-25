@@ -24,6 +24,10 @@ const NavListItem = ( { children, icon, label, route, hasStyles } ) => {
 		if ( route ) goTo( route );
 	};
 
+	const handleSettingsClick = () => {
+		if ( route ) goTo( `${ route }/settings` );
+	};
+
 	const handleExpandClick = ( event ) => {
 		event.stopPropagation();
 		setIsOpen( ( prev ) => ! prev );
@@ -71,6 +75,7 @@ const NavListItem = ( { children, icon, label, route, hasStyles } ) => {
 						{ label }
 					</div>
 				</Button>
+				<Button onClick={ handleSettingsClick }>{ 'Settings' }</Button>
 			</div>
 
 			{ isOpen && (

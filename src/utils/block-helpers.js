@@ -156,6 +156,40 @@ export const getCoreBlocksFromSchema = ( schema ) => {
 };
 
 /**
+ * Returns a list of core blocks defined by the schema with supplemental metadata
+ *
+ * @param {Object} schema Theme schema JSON
+ *
+ * @return {Array} Core blocks
+ */
+export const getBlockSettingsFromSchema = ( schema ) => {
+	const schemaBlocks = Object.keys(
+		schema?.definitions?.settingsBlocksPropertiesComplete?.properties || {}
+	);
+
+	const blocks = schemaBlocks.map( ( blockName ) => {
+		/**
+		 * Pull additional block data from the core store
+		 */
+		const block = select( 'core/blocks' ).getBlockType( blockName );
+
+		/**
+		 * If the block is not registered, construct a fallback
+		 */
+		if ( ! block ) {
+			const title = getBlockTitleFromName( blockName );
+			return {
+				name: blockName,
+				title,
+				icon: { src: blockDefault },
+			};
+		}
+		return block;
+	} );
+	return blocks;
+};
+
+/**
  * Generate a title from a block name
  * ie: core/comment-author-avatar -> Comment Author Avatar
  *

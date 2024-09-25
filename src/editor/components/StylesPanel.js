@@ -8,6 +8,7 @@ import Site from './Site';
 import BlockItem from './BlockItem';
 import ElementItem from './ElementItem';
 import PseudoItem from './PseudoItem';
+import SettingsItem from './Settings/SettingsItem';
 
 /**
  * Styles Panel
@@ -35,6 +36,12 @@ const StylesPanel = () => {
 				/>
 			</NavigatorScreen>
 
+			<NavigatorScreen path="/blocks/:blockName/:settingsName">
+				<SettingsItem
+					name={ params.blockName }
+					selector={ `blocks.${ params.blockName }` }
+				/>
+			</NavigatorScreen>
 			{ /* block/element screen */ }
 			<NavigatorScreen path="/blocks/:blockName/:elementName">
 				<ElementItem
@@ -64,6 +71,13 @@ const StylesPanel = () => {
 				<PseudoItem
 					name={ params.pseudoName }
 					selector={ `elements.${ params.elementName }.${ params.pseudoName }` }
+				/>
+			</NavigatorScreen>
+
+			<NavigatorScreen path="/:settingsName">
+				<SettingsItem
+					name={ params.settingsName }
+					selector={ `settings` }
 				/>
 			</NavigatorScreen>
 		</>
