@@ -3,6 +3,7 @@ import { BlockEditorProvider, BlockCanvas } from '@wordpress/block-editor';
 import { SlotFillProvider, Spinner } from '@wordpress/components';
 
 import EditorContext from '../context/EditorContext';
+import classnames from 'classnames';
 
 /**
  * @param {object}  props
@@ -19,15 +20,14 @@ const BlockEditorPreview = ( {
 	editorSettings,
 	// blockStyles,
 } ) => {
-	const { previewBlocks, resetPreviewBlocks } = useContext( EditorContext );
+	const { previewBlocks, resetPreviewBlocks, previewSize } =
+		useContext( EditorContext );
 
 	useEffect( () => {
 		if ( ! previewBlocks ) {
 			resetPreviewBlocks();
 		}
 	}, [ previewBlocks, resetPreviewBlocks ] );
-
-	console.log( previewBlocks );
 
 	/**
 	 * The memoized settings for the block editor.
@@ -44,16 +44,22 @@ const BlockEditorPreview = ( {
 		[ editorSettings ]
 	);
 
+	const wrapperClasses = classnames(
+		'themer-block-preview',
+		`themer-block-preview--${ previewSize }`,
+		className
+	);
+
 	if ( ! previewBlocks?.blocks ) {
 		return (
-			<div className={ className }>
+			<div className={ wrapperClasses }>
 				<Spinner />
 			</div>
 		);
 	}
 
 	return (
-		<div className={ className }>
+		<div className={ wrapperClasses }>
 			<SlotFillProvider>
 				<BlockEditorProvider
 					value={ previewBlocks.blocks }

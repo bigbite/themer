@@ -28,7 +28,8 @@ const options = [
  *
  */
 const ResponsiveButton = () => {
-	const { previewSize, setPreviewSize } = useContext( EditorContext );
+	const { previewSize, setPreviewSize, previewMode } =
+		useContext( EditorContext );
 	/**
 	 * Updates icon depending on chosen screen size
 	 */
@@ -46,7 +47,11 @@ const ResponsiveButton = () => {
 	};
 
 	return (
-		<DropdownMenu icon={ handleIcon } label="Select a size">
+		<DropdownMenu
+			icon={ handleIcon }
+			label="Select a size"
+			toggleProps={ { disabled: previewMode === 'code' } }
+		>
 			{ () => (
 				<MenuGroup>
 					<MenuItemsChoice

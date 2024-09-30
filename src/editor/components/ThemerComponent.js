@@ -14,8 +14,7 @@ import { trash } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
-import BlockView from './BlockView';
-import CodeView from './CodeView';
+import Preview from './Preview';
 import ButtonExport from './ButtonExport';
 import ThemerNotice from './ThemerNotice';
 import StylesPanel from './StylesPanel';
@@ -32,7 +31,8 @@ import { getDefaultPreview } from '../../utils/blockPreviews';
  * main component
  */
 const ThemerComponent = ( { editorSettings } ) => {
-	const [ previewSize, setPreviewSize ] = useState();
+	const [ previewMode, setPreviewMode ] = useState( 'visual' );
+	const [ previewSize, setPreviewSize ] = useState( 'desktop' );
 	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
@@ -222,6 +222,8 @@ const ThemerComponent = ( { editorSettings } ) => {
 					previewBlocks,
 					setPreviewBlocks,
 					resetPreviewBlocks,
+					previewMode,
+					setPreviewMode,
 					previewSize,
 					setPreviewSize,
 					previewExampleIsActive,
@@ -283,9 +285,9 @@ const ThemerComponent = ( { editorSettings } ) => {
 								<div className="themer-styles-container">
 									<StylesPanel />
 								</div>
-								<div className="themer-code-view-container">
-									{ /* <CodeView themeConfig={ themeConfig } /> */ }
-									<BlockView
+
+								<div className="themer-preview-container">
+									<Preview
 										editorSettings={
 											augmentedEditorSettings
 										}
