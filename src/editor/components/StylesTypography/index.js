@@ -1,6 +1,3 @@
-// TODO: NOT YET IN CORE WP BUT IN THEME.JSON SCHEMA
-// writing-mode - __experimentalWritingModeControl
-
 import { __ } from '@wordpress/i18n';
 import { set } from 'lodash';
 import { useContext } from '@wordpress/element';

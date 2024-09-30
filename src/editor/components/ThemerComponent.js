@@ -125,8 +125,7 @@ const ThemerComponent = () => {
 	}, [ setPreviewBlocks ] );
 
 	/**
-	 * TODO: For demo purpose only, this should be refactored and
-	 * implemented into the processing of the schema file task
+	 * Fetch schema and validate theme.json
 	 */
 	useEffect( () => {
 		( async () => {
