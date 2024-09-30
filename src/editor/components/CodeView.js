@@ -70,8 +70,8 @@ const CodeView = ( { themeConfig } ) => {
 	}, [ themeConfig, location ] );
 
 	return (
-		<pre>
-			<code>{ JSON.stringify( code, null, 2 ) }</code>
+		<pre className="themer-code-preview">
+			<code>{ JSON.stringify( code, null, 2 ) || '{}' }</code>
 		</pre>
 	);
 };
