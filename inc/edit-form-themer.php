@@ -1,5 +1,4 @@
 <?php
-
 /**
  * A page template for displaying the themer admin page.
  *
@@ -23,19 +22,17 @@ require_once ABSPATH . 'wp-admin/admin.php';
 
 if ( ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
-		'<h1>' . __( 'You need a higher level of permission.', 'default' ) . '</h1>' .
-		'<p>' . __( 'Sorry, you are not allowed to edit styles on this site.', 'themer' ) . '</p>',
+		esc_html('<h1>' . __( 'You need a higher level of permission.', 'default' ) . '</h1>') .
+		esc_html('<p>' . __( 'Sorry, you are not allowed to edit styles on this site.', 'themer' ) . '</p>'),
 		403
 	);
 }
 
 if ( ! wp_is_block_theme() ) {
-	wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.', 'default' ) );
+	wp_die( esc_html__( 'The theme you are currently using is not compatible with the Site Editor.', 'default' ) );
 }
 
 $title = _x( 'Styles Editor', 'themer' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Required to set the page title for this view.
-
-$parent_file = 'themes.php';
 
 // Flag that we're loading the block editor.
 $current_screen = get_current_screen();
@@ -91,7 +88,7 @@ block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
 $editor_settings = get_block_editor_settings( $editor_settings, $block_editor_context );
 
-// Add some custom styles
+// Add some custom styles.
 $editor_settings['styles'][] = array(
 	'css' => '
 		body { padding: 20px; }
