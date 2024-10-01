@@ -1,5 +1,7 @@
 # themer
 
+WordPress plugin that presents the user with a UI to edit the theme.json from the currently active theme.
+
 ## Installing
 
 When installing to your site, add the following to you `composer.json` file. This will ensure that installation will use the build version of the package and allow it to be loaded using composer in the preferred path.
@@ -87,14 +89,10 @@ using `wp.data.dispatch('core').saveEditedEntityRecord('root', 'globalStyles', g
 
 A revision is also created in the DB for each save.
 
-## Using experimental APIs
+## Issues
 
-There are 280 experimental APIs in WordPress core that shouldn't have been merged with the experimental prefix. By it's nature this plugin needs to use some of the latest APIs as full site editing is still in constant development. The guidance is to check the API still exists in core (don't check in the Gutenberg plugin as it could be removed). The core team now discourage the experimental prefix and all existing APIs are being converted so risk should be low. [Further reading](https://make.wordpress.org/core/2022/08/10/proposal-stop-merging-experimental-apis-from-gutenberg-to-wordpress-core/)
+We welcome bug reports, feature requests, questions, and pull requests. If you spot any mistakes or have an idea to make the plugin better, just [open an issue](https://github.com/bigbite/themer/issues/new/choose).
 
-### Please ensure the following when using experimental APIs
+## Contributing
 
-1. Make sure we’re using the stable alias on experimental imports, for example
-
-`import { __experimentalVStack as VStack } from '@wordpress/components';`
-
-2. Only use \_\_experimental that have been merged to core, to ensure this DO NOT USE THE GUTENBERG PLUGIN , if an experimental API is merged to core then it will gradually get handled in future core releases.
+Please read [Code of Conduct](./CODE_OF_CONDUCT.md) for details on our code of conduct and [Contributing](./CONTRIBUTING.md) for details on the process for submitting pull requests to us.
