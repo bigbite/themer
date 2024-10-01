@@ -1,7 +1,7 @@
 {
 	"name": "@big-bite/themer",
-	"description": "",
-	"version": "1.0.0-alpha.1",
+	"description": "A plugin to help you style themes faster.",
+	"version": "1.0.0-rc.1",
 	"author": "Big Bite",
 	"prettier": "@wordpress/prettier-config",
 	"scripts": {
@@ -18,7 +18,10 @@
 		"@wordpress/edit-site": "^5.8.0",
 		"@wordpress/element": "^5.8.0",
 		"@wordpress/i18n": "^4.20.0",
+		"@wordpress/icons": "^9.28.0",
+		"@wordpress/interface": "^5.12.12",
 		"@wordpress/plugins": "^6.3.0",
+		"classnames": "^2.3.2",
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {

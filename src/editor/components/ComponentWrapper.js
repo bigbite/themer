@@ -1,4 +1,4 @@
-import ThemerComponent from './fields/ThemerComponent';
+import ThemerComponent from './ThemerComponent';
 
 /**
  * Wrapper for app
