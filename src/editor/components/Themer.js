@@ -28,9 +28,12 @@ import fetchSchema from '../../utils/schema-helpers';
 import { getDefaultPreview } from '../../utils/blockPreviews';
 
 /**
- * main component
+ * Themer App component
+ *
+ * @param {Object} props
+ * @param {Object} props.editorSettings Localized settings for the block editor preview
  */
-const ThemerComponent = ( { editorSettings } ) => {
+const Themer = ( { editorSettings } ) => {
 	const [ previewMode, setPreviewMode ] = useState( 'visual' );
 	const [ previewSize, setPreviewSize ] = useState( 'desktop' );
 	const [ previewBlocks, setPreviewBlocks ] = useState();
@@ -47,6 +50,11 @@ const ThemerComponent = ( { editorSettings } ) => {
 		);
 	};
 
+	/**
+	 * baseConfig: The base theme.json configuration
+	 * userConfig: The user's edited theme.json configuration
+	 * savedUserConfig: The user's most recently saved theme.json configuration
+	 */
 	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
 		useSelect( ( select ) => {
 			const {
@@ -76,7 +84,7 @@ const ThemerComponent = ( { editorSettings } ) => {
 		} );
 
 	/**
-	 * Returns merged base and user configs
+	 * The merged theme.json configuration, combining the base and user configurations
 	 */
 	const themeConfig = useMemo( () => {
 		if ( isEmpty( userConfig ) ) {
@@ -108,17 +116,6 @@ const ThemerComponent = ( { editorSettings } ) => {
 	);
 
 	/**
-	 * Check if a valid theme.json is loaded.
-	 */
-	const validateThemeJson = async () => {
-		const res = await apiFetch( {
-			path: '/themer/v1/theme-json-loaded',
-			method: 'GET',
-		} );
-		setValidThemeJson( res );
-	};
-
-	/**
 	 * Resets preview blocks to default template
 	 */
 	const resetPreviewBlocks = useCallback( () => {
@@ -126,16 +123,27 @@ const ThemerComponent = ( { editorSettings } ) => {
 	}, [ setPreviewBlocks ] );
 
 	/**
-	 * TODO: For demo purpose only, this should be refactored and
-	 * implemented into the processing of the schema file task
+	 * Loads the schema and validates the theme.json
 	 */
 	useEffect( () => {
-		( async () => {
-			const schemaJson = await fetchSchema();
-			setSchema( schemaJson );
-		} )();
-		validateThemeJson();
-	}, [] );
+		const loadSchemaAndValidateThemeJson = async () => {
+			try {
+				const schemaJson = await fetchSchema();
+				setSchema( schemaJson );
+
+				const themeJsonLoaded = await apiFetch( {
+					path: '/themer/v1/theme-json-loaded',
+					method: 'GET',
+				} );
+				setValidThemeJson( themeJsonLoaded );
+			} catch ( err ) {
+				// eslint-disable-next-line no-console
+				console.log( err );
+			}
+		};
+
+		loadSchemaAndValidateThemeJson();
+	}, [ setSchema, setValidThemeJson ] );
 
 	/**
 	 * Alert user if they try to leave Themer without saving.
@@ -206,6 +214,9 @@ const ThemerComponent = ( { editorSettings } ) => {
 		);
 	}
 
+	/**
+	 * Add the live preview CSS to the block editor settings
+	 */
 	const augmentedEditorSettings = {
 		...editorSettings,
 		styles: [ ...editorSettings.styles, { css: previewCss } ],
@@ -239,7 +250,7 @@ const ThemerComponent = ( { editorSettings } ) => {
 						<Button
 							isSecondary
 							onClick={ () => reset() }
-							text="Reset"
+							text={ __( 'Reset', 'themer' ) }
 							disabled={ ! hasUnsavedChanges }
 						/>
 						<Button
@@ -302,4 +313,4 @@ const ThemerComponent = ( { editorSettings } ) => {
 	);
 };
 
-export default ThemerComponent;
+export default Themer;

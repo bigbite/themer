@@ -2,7 +2,7 @@ import { createRoot } from '@wordpress/element';
 import { registerCoreBlocks } from '@wordpress/block-library';
 import { set } from 'lodash';
 
-import ComponentWrapper from './editor/components/ComponentWrapper';
+import Themer from './editor/components/Themer';
 
 import './editor/styles/index.scss';
 
@@ -17,9 +17,7 @@ function initializeEditor( id, settings ) {
 	const root = document.getElementById( id );
 	if ( root ) {
 		registerCoreBlocks();
-		createRoot( root ).render(
-			<ComponentWrapper editorSettings={ settings } />
-		);
+		createRoot( root ).render( <Themer editorSettings={ settings } /> );
 	}
 }
 
