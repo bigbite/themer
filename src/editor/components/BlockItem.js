@@ -17,7 +17,7 @@ import PreviewExampleButton from './PreviewExampleButton';
  * @param {string} props.selector Selector to locate this block in the schema
  */
 const BlockItem = ( { name, selector } ) => {
-	const { schema, previewBlocks } = useContext( EditorContext );
+	const { schema } = useContext( EditorContext );
 
 	if ( ! name ) {
 		return;
