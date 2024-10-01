@@ -31,7 +31,6 @@ const BlockView = ( { className, editorSettings } ) => {
 			__unstableIsPreviewMode: true,
 			styles: {
 				...editorSettings.styles,
-				// blockStyles,
 			},
 		} ),
 		[ editorSettings ]
