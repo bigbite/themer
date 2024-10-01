@@ -16,28 +16,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 	die( '-1' );
 }
 
-/**
- * Load WordPress globals
- *
- * @global string       $post_type
- * @global WP_Post_Type $post_type_object
- * @global WP_Post      $post
- * @global string       $title
- * @global array        $wp_meta_boxes
- */
-global $post_type, $post_type_object, $post, $title, $wp_meta_boxes;
+global $editor_styles;
 
-$title = __( 'Styles Editor', 'themer' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Required to set the page title for this view.
+/** WordPress Administration Bootstrap */
+require_once ABSPATH . 'wp-admin/admin.php';
+
+if ( ! current_user_can( 'edit_theme_options' ) ) {
+	wp_die(
+		'<h1>' . __( 'You need a higher level of permission.', 'default' ) . '</h1>' .
+		'<p>' . __( 'Sorry, you are not allowed to edit styles on this site.', 'themer' ) . '</p>',
+		403
+	);
+}
+
+if ( ! wp_is_block_theme() ) {
+	wp_die( __( 'The theme you are currently using is not compatible with the Site Editor.', 'default' ) );
+}
+
+$title = _x( 'Styles Editor', 'themer' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Required to set the page title for this view.
+
+$parent_file = 'themes.php';
+
+// Flag that we're loading the block editor.
+$current_screen = get_current_screen();
+$current_screen->is_block_editor( true );
 
 $block_editor_context = new WP_Block_Editor_Context( array( 'name' => 'core/edit-site' ) );
-
-// Default to is-fullscreen-mode to avoid jumps in the UI.
-add_filter(
-	'admin_body_class',
-	static function ( $classes ) {
-		return "$classes is-fullscreen-mode";
-	}
-);
 
 /*
  * Emoji replacement is disabled for now, until it plays nicely with React.
@@ -48,16 +52,6 @@ remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
  * Block editor implements its own Options menu for toggling Document Panels.
  */
 add_filter( 'screen_options_show_screen', '__return_false' );
-
-// Preload common data.
-$preload_paths = array(
-	'/wp/v2/types?context=view',
-	'/wp/v2/users/me',
-	'/wp/v2/settings',
-	array( '/wp/v2/settings', 'OPTIONS' ),
-);
-
-block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
 // Preload server-registered block schemas.
 wp_add_inline_script(
@@ -72,10 +66,28 @@ $editor_settings = array(
 	'codeEditingEnabled' => false,
 	'focusMode'          => false,
 	'enableCustomFields' => false,
+	'styles'             => get_block_editor_theme_styles()
 );
 
-wp_enqueue_style( 'wp-edit-post' );
-do_action( 'enqueue_block_editor_assets' );
+$active_global_styles_id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
+$active_theme            = get_stylesheet();
+
+$preload_paths = array(
+	array( rest_get_route_for_post_type_items( 'attachment' ), 'OPTIONS' ),
+	array( rest_get_route_for_post_type_items( 'page' ), 'OPTIONS' ),
+	'/wp/v2/types?context=view',
+	'/wp/v2/types/wp_template?context=edit',
+	'/wp/v2/types/wp_template_part?context=edit',
+	'/wp/v2/templates?context=edit&per_page=-1',
+	'/wp/v2/template-parts?context=edit&per_page=-1',
+	'/wp/v2/themes?context=edit&status=active',
+	'/wp/v2/global-styles/' . $active_global_styles_id . '?context=edit',
+	'/wp/v2/global-styles/' . $active_global_styles_id,
+	'/wp/v2/global-styles/themes/' . $active_theme,
+	'themer/v1/styles',
+);
+
+block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
 $editor_settings = get_block_editor_settings( $editor_settings, $block_editor_context );
 
@@ -103,6 +115,10 @@ $script = sprintf(
 
 wp_add_inline_script( 'themer', $script );
 
+wp_enqueue_style( 'wp-edit-post' );
+
+do_action( 'enqueue_block_editor_assets' );
+
 require_once ABSPATH . 'wp-admin/admin-header.php';
 ?>
 
@@ -110,3 +126,6 @@ require_once ABSPATH . 'wp-admin/admin-header.php';
 	<h1 class="screen-reader-text hide-if-no-js"><?php echo esc_html( $title ); ?></h1>
 	<div id="themer-root"></div>
 </div>
+
+<?php
+require_once ABSPATH . 'wp-admin/admin-footer.php';

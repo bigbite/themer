@@ -33,7 +33,7 @@ class Admin {
 		wp_enqueue_script(
 			'themer',
 			plugins_url( $plugin_name . '/build/index.js', $plugin_name ),
-			array_merge( $asset_file['dependencies'], array( 'wp-edit-post' ) ),
+			$asset_file['dependencies'],
 			$asset_file['version'],
 			false
 		);
