@@ -9,6 +9,9 @@ import PreviewToolbar from './PreviewToolbar';
 
 /**
  * Preview component
+ *
+ * @param {Object} props
+ * @param {Object} props.editorSettings Settings for the block editor
  */
 const Preview = ( { editorSettings } ) => {
 	const { themeConfig, previewMode } = useContext( EditorContext );
