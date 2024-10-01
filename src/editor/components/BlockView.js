@@ -58,7 +58,7 @@ const BlockView = ( { className, editorSettings } ) => {
 					value={ previewBlocks.blocks }
 					settings={ settings }
 				>
-					<BlockCanvas height="80vh" styles={ settings.styles } />
+					<BlockCanvas height="100%" styles={ settings.styles } />
 				</BlockEditorProvider>
 			</SlotFillProvider>
 		</div>
