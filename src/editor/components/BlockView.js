@@ -6,20 +6,13 @@ import EditorContext from '../context/EditorContext';
 import classnames from 'classnames';
 
 /**
- * @param {object}  props
- * @param {string}  props.className
- * @param {Array}   props.blocks         The blocks to render
- * @param {boolean} props.isBusy         Whether the preview is loading
- * @param {object}  props.editorSettings Settings for the block editor
- * @param {object}  props.blockStyles    Styles for the block editor iFrame
+ * @param {Object} props
+ * @param {string} props.className
+ * @param {Object} props.editorSettings Settings for the block editor
  *
  * @return {JSX.Element} A non-interactive preview of the blocks
  */
-const BlockEditorPreview = ( {
-	className,
-	editorSettings,
-	// blockStyles,
-} ) => {
+const BlockView = ( { className, editorSettings } ) => {
 	const { previewBlocks, resetPreviewBlocks, previewSize } =
 		useContext( EditorContext );
 
@@ -72,4 +65,4 @@ const BlockEditorPreview = ( {
 	);
 };
 
-export default BlockEditorPreview;
+export default BlockView;
