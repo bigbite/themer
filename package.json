@@ -1,7 +1,7 @@
 {
 	"name": "@big-bite/themer",
 	"description": "A plugin to help you style themes faster.",
-	"version": "1.0.0-rc.1",
+	"version": "1.0.0",
 	"author": "Big Bite",
 	"prettier": "@wordpress/prettier-config",
 	"scripts": {

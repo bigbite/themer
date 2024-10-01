@@ -22,6 +22,11 @@ const NavElementList = ( { selector, route } ) => {
 	// get all valid elements from the schema
 	const schemaElements = getElementsFromSchema( schema );
 
+	// sort the elements by name
+	const orderedSchema = schemaElements.sort( ( a, b ) =>
+		a.name.localeCompare( b.name )
+	);
+
 	// get styles for all elements at this selector
 	const themeElementStyles =
 		getThemeOption( `styles.${ selector }`, themeConfig ) || {};
@@ -29,7 +34,7 @@ const NavElementList = ( { selector, route } ) => {
 	return (
 		<section>
 			<ul className="themer-nav-list">
-				{ schemaElements.map( ( element ) => {
+				{ orderedSchema.map( ( element ) => {
 					// get all styles for this element
 					const elementStyles =
 						themeElementStyles[ element.name ] || {};

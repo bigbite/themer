@@ -1,8 +1,8 @@
 {
-    "name": "big-bite/themer",
+    "name": "bigbite/themer",
     "description": "",
     "type": "wordpress-plugin",
-    "version": "1.0.0-rc.1",
+    "version": "1.0.0",
     "repositories": [
       {
           "url": "git@github.com:bigbite/phpcs-config.git",
