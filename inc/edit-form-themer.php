@@ -22,8 +22,8 @@ require_once ABSPATH . 'wp-admin/admin.php';
 
 if ( ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
-		esc_html('<h1>' . __( 'You need a higher level of permission.', 'default' ) . '</h1>') .
-		esc_html('<p>' . __( 'Sorry, you are not allowed to edit styles on this site.', 'themer' ) . '</p>'),
+		esc_html( '<h1>' . __( 'You need a higher level of permission.', 'default' ) . '</h1>' ) .
+		esc_html( '<p>' . __( 'Sorry, you are not allowed to edit styles on this site.', 'themer' ) . '</p>' ),
 		403
 	);
 }
@@ -34,8 +34,7 @@ if ( ! wp_is_block_theme() ) {
 
 $title = _x( 'Styles Editor', 'themer' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Required to set the page title for this view.
 
-// Flag that we're loading the block editor.
-$current_screen = get_current_screen();
+$current_screen = get_current_screen(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Required flag we're loading the block editor.
 $current_screen->is_block_editor( true );
 
 $block_editor_context = new WP_Block_Editor_Context( array( 'name' => 'core/edit-site' ) );
@@ -63,7 +62,7 @@ $editor_settings = array(
 	'codeEditingEnabled' => false,
 	'focusMode'          => false,
 	'enableCustomFields' => false,
-	'styles'             => get_block_editor_theme_styles()
+	'styles'             => get_block_editor_theme_styles(),
 );
 
 $active_global_styles_id = WP_Theme_JSON_Resolver::get_user_global_styles_post_id();
