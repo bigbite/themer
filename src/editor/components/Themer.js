@@ -1,23 +1,17 @@
 import { mergeWith, isEmpty, isEqual } from 'lodash';
 import {
-	Button,
 	Spinner,
-	MenuGroup,
-	MenuItem,
 	__experimentalNavigatorProvider as NavigatorProvider,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
-import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
-import { trash } from '@wordpress/icons';
-import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
 import Preview from './Preview';
-import ButtonExport from './ButtonExport';
-import ThemerNotice from './ThemerNotice';
 import StylesPanel from './StylesPanel';
+import ThemerNotice from './ThemerNotice';
+import Topbar from './Topbar';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
 
@@ -246,47 +240,12 @@ const Themer = ( { editorSettings } ) => {
 						setUserConfig,
 					} }
 				>
-					<div className="themer-topbar">
-						<Button
-							isSecondary
-							onClick={ () => reset() }
-							text={ __( 'Reset', 'themer' ) }
-							disabled={ ! hasUnsavedChanges }
-						/>
-						<Button
-							isPrimary
-							onClick={ () => save() }
-							text="Save"
-							disabled={ ! hasUnsavedChanges }
-						/>
-						<MoreMenuDropdown>
-							{ () => (
-								<MenuGroup
-									label={ __( 'Tools', 'themer' ) }
-									className="themer-more-menu"
-								>
-									<ButtonExport />
-									<MenuItem
-										role="menuitem"
-										icon={ trash }
-										info={ __(
-											'Resets all customisations to your initial theme.json configuration.',
-											'themer'
-										) }
-										onClick={ () =>
-											clearAllCustomisations()
-										}
-										isDestructive
-									>
-										{ __(
-											'Clear all customisations',
-											'themer'
-										) }
-									</MenuItem>
-								</MenuGroup>
-							) }
-						</MoreMenuDropdown>
-					</div>
+					<Topbar
+						isDirty={ hasUnsavedChanges }
+						onReset={ reset }
+						onSave={ save }
+						onClear={ clearAllCustomisations }
+					/>
 					<NavigatorProvider initialPath="/">
 						<div className="themer-body">
 							<div className="themer-nav-container">
