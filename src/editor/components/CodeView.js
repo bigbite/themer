@@ -45,17 +45,6 @@ const CodeView = ( { themeConfig } ) => {
 		} );
 
 		/**
-		 * Elements nested under blocks are stored in the styles object
-		 * as `blocks.blockName.elements.elementName`. This code ensures
-		 * that the correct path is used in these cases.
-		 *
-		 * e.g. `/blocks/core%2Fbutton/link` -> `blocks.['core/button'].elements.link`
-		 */
-		if ( pathParts[ 0 ] === 'blocks' && pathParts.length >= 3 ) {
-			pathParts.splice( 2, 0, 'elements' );
-		}
-
-		/**
 		 * Traverse the theme config object to find the code section
 		 * that relates to the current navigator location.
 		 */

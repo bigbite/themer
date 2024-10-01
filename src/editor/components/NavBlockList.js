@@ -1,4 +1,6 @@
 import { useContext } from '@wordpress/element';
+import { html, styles } from '@wordpress/icons';
+import { __ } from '@wordpress/i18n';
 
 import EditorContext from '../context/EditorContext';
 
@@ -7,6 +9,7 @@ import getThemeOption from '../../utils/get-theme-option';
 
 import NavListItem from './NavListItem';
 import NavElementList from './NavElementList';
+import NavVariationList from './NavVariationList';
 
 /**
  * Nav Block list
@@ -37,9 +40,19 @@ const NavBlockList = () => {
 					// check if the block has any styles that aren't elements
 					const { elements, ...rest } = blockStyles;
 					const hasBlockStyles = Object.keys( rest ).length > 0;
+					const varHasStyles = rest?.variations;
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
+					const elementRoute =
+						'/blocks/' +
+						encodeURIComponent( block.name ) +
+						'/elements';
 					const elementsSelector = `blocks.${ block.name }.elements`;
+
+					const varRoute =
+						'/blocks/' +
+						encodeURIComponent( block.name ) +
+						'/variations';
 
 					return (
 						<NavListItem
@@ -49,10 +62,28 @@ const NavBlockList = () => {
 							route={ route }
 							hasStyles={ hasBlockStyles }
 						>
-							<NavElementList
-								selector={ elementsSelector }
-								route={ route }
-							/>
+							<NavListItem
+								key={ 'elements' }
+								label={ __( 'Elements', 'themer' ) }
+								icon={ html }
+								hasStyles={ elements }
+							>
+								<NavElementList
+									selector={ elementsSelector }
+									route={ elementRoute }
+								/>
+							</NavListItem>
+							<NavListItem
+								key={ 'variations' }
+								label={ __( 'Variations', 'themer' ) }
+								icon={ styles }
+								hasStyles={ varHasStyles }
+							>
+								<NavVariationList
+									selector={ `blocks.${ block.name }.variations` }
+									route={ varRoute }
+								/>
+							</NavListItem>
 						</NavListItem>
 					);
 				} ) }
