@@ -47,6 +47,9 @@
 }
 
 .themer--styles__item__title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	font-weight: 600;
 	font-size: 14px;
 	line-height: 20px;

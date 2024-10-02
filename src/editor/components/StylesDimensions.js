@@ -10,6 +10,7 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import { isCssLengthUnit } from '../../utils/block-helpers';
+import ClearCustomisation from './ClearCustomisation';
 
 const SELECT_OPTIONS = [
 	{
@@ -102,6 +103,11 @@ const Dimensions = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Dimensions', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ dimensionsStyles }
+				/>
 			</span>
 			<span className="themer--styles__item__label">
 				{ __( 'Min Height', 'themer' ) }

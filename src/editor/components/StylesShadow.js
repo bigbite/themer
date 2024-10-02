@@ -11,6 +11,7 @@ import { varToHex, hexToVar, isCssLengthUnit } from '../../utils/block-helpers';
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+import ClearCustomisation from './ClearCustomisation';
 
 // Specify the units we support as common units like % are not supported by box shadow, but you could still put that in theme.json.
 const ALLOWED_UNITS = [ 'px', 'em', 'rem', 'vh', 'vw' ];
@@ -97,6 +98,11 @@ const Shadow = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Shadow', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ shadowStyles }
+				/>
 			</span>
 			<ToggleControl
 				checked={ shadowObj.inset === 'inset' }

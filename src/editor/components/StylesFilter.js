@@ -7,6 +7,7 @@ import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
 import { varToDuotone, duotoneToVar } from '../../utils/block-helpers';
+import ClearCustomisation from './ClearCustomisation';
 
 /**
  * Reusable filter control style component
@@ -56,6 +57,11 @@ const Filter = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title themer--styles__item__title--filter">
 				{ __( 'Filter', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ duotoneThemeObj }
+				/>
 			</span>
 			<DuotonePicker
 				duotonePalette={ duotoneOptions }

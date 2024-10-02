@@ -14,6 +14,7 @@ import {
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
+import ClearCustomisation from './ClearCustomisation';
 
 /**
  * Parses a user value from theme.json into a valid CSS value.
@@ -125,6 +126,11 @@ const Spacing = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Spacing', 'themer' ) }
+				<ClearCustomisation
+					selector={ selector }
+					userConfig={ userConfig }
+					themeConfig={ spacingStyles }
+				/>
 			</span>
 			<UnitControl
 				label={ __( 'Block Gap', 'themer' ) }
