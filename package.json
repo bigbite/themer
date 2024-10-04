@@ -3,6 +3,10 @@
 	"description": "A plugin to help you style themes faster.",
 	"version": "1.0.0",
 	"author": "Big Bite",
+	"engines": {
+    "node": ">=16.16.0",
+    "npm": ">=8.19.2"
+  },
 	"prettier": "@wordpress/prettier-config",
 	"scripts": {
 		"watch:dev": "wp-scripts start",
