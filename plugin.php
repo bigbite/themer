@@ -1,15 +1,16 @@
 <?php
 /**
- * Plugin Name:       themer
- * Description:
- * Version:           1.0.0-alpha.1
- * Requires at least: 5.5
- * Requires PHP:      7.4
+ * Plugin Name:       Themer
+ * Description:       A plugin to help you style themes faster.
+ * Version:           1.0.0
+ * Requires at least: 6.2
+ * Requires PHP:      8.0
  * Author:            Big Bite
+ * Author URI:        https://bigbite.net
+ * Plugin URI:        https://github.com/bigbite/themer/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Update URI:        https://example.com/my-plugin/
- * Text Domain:
+ * Update URI:        https://github.com/bigbite/themer/releases/
  *
  * @package themer
  */

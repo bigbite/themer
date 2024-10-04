@@ -1,0 +1,95 @@
+.themer-nav-container > .themer-nav-list {
+	padding-block: 8px;
+	padding-inline-end: 0.75rem;
+}
+
+.themer-nav-list {
+	margin: 0;
+
+	--themer-nav-list-indent: 22px;
+
+	.themer-nav-list {
+		--themer-nav-list-indent: 44px;
+
+		.themer-nav-list {
+			--themer-nav-list-indent: 66px;
+
+			.themer-nav-list {
+				--themer-nav-list-indent: 88px;
+			}
+		}
+	}
+}
+
+.themer-nav-list__item {
+	margin: 0;
+	// This gives the items clearance for button focus to stop element overlap
+	padding-block: 1px;
+}
+
+.themer-nav-list__item .themer-nav-list__item > .themer-nav-list__item__content {
+	// Offset the second level elements by the height of the list items
+	--themer-nav-list-top-indent: var(--themer-nav-list-item-height);
+}
+
+.themer-nav-list__item .themer-nav-list__item .themer-nav-list__item > .themer-nav-list__item__content {
+	// Offset the third level elements by double the height of the list items
+	--themer-nav-list-top-indent: calc(var(--themer-nav-list-item-height) * 2);
+}
+
+.themer-nav-list__item > .themer-nav-list__item__children {
+	position: relative;
+	z-index: 1;
+}
+
+.themer-nav-list__item > .themer-nav-list__item__content {
+	background-color: #fff;
+	position: sticky;
+	top: var(--themer-nav-list-top-indent);
+	z-index: 2;
+}
+
+.themer-nav-list__item__content {
+	display: flex;
+	position: relative;
+}
+
+.themer-nav-list__item__content--active .themer-nav-list__item__button,
+.themer-nav-list__item__content--active .themer-nav-list__item__toggle {
+	background-color: var(--wp-admin-theme-color);
+	color: #fff !important;
+}
+
+.themer-nav-list__item__content--disabled .themer-nav-list__item__button,
+.themer-nav-list__item__content--disabled .themer-nav-list__item__button:hover,
+.themer-nav-list__item__content--disabled .themer-nav-list__item__button:focus,
+.themer-nav-list__item__content--disabled .themer-nav-list__item__button:active {
+	color: rgba(0, 0, 0, 0.5);
+}
+
+.themer--nav-list__item__label {
+	display: flex;
+	align-items: center;
+	text-transform: capitalize;
+	margin-right: 8px;
+}
+
+.themer-nav-list__item__button {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start !important;
+	padding-left: calc(var(--themer-nav-list-indent) + 4px);
+}
+
+.components-button.has-icon.themer-nav-list__item__toggle {
+	padding: 4px;
+	min-width: 0;
+}
+
+.themer-nav-list__item__toggle {
+	height: calc(var(--themer-nav-list-item-height) - 4px);
+	position: absolute;
+	left: calc(var(--themer-nav-list-indent) - 22px);
+	top: 2px;
+}
