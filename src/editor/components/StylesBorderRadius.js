@@ -46,9 +46,20 @@ const BorderRadius = ( { selector } ) => {
 	const handleToggleValueType = () => {
 		setHasLinkedValues( ! hasLinkedValues );
 
-		// When switching from unlinked to linked values, set the value to the topleft value
-		if ( ! hasLinkedValues ) {
-			onChange( value?.topLeft );
+		/**
+		 * When switching to unlinked values, set each corner to the current value
+		 *
+		 * When switching to linked values, set the value to the topleft value (or the next defined value)
+		 */
+		if ( hasLinkedValues ) {
+			onChange( handleUnlinkedValueChange() );
+		} else {
+			onChange(
+				value?.topLeft ||
+					value?.topRight ||
+					value?.bottomRight ||
+					value?.bottomLeft
+			);
 		}
 	};
 
@@ -86,6 +97,11 @@ const BorderRadius = ( { selector } ) => {
 			bottomLeft: value?.bottomLeft ?? value,
 			bottomRight: value?.bottomRight ?? value,
 		};
+
+		// If a value and position are not defined, return the strucure with default values
+		if ( ! newValue && ! position ) {
+			return unlinkedStructure;
+		}
 
 		// Insert in the updated value
 		const updatedValue = {
