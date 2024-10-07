@@ -84,12 +84,13 @@ const BorderRadius = ( { selector } ) => {
 	 * @param {string} newValue The updated value
 	 */
 	const addMeasurement = ( newValue ) => {
-		// Get the unit of measurement
-		const measurementUnit = String( linkedValue ).replace( /[0-9.]/g, '' );
+		// Get the unit of measurement, or default to px
+		const measurementUnit = linkedValue
+			? String( linkedValue ).replace( /[0-9.]/g, '' )
+			: 'px';
 
 		// Concatenate the new value with the unit of measurement (or use px if one isn't defined)
-		const updatedValue =
-			newValue + ( measurementUnit ? measurementUnit : 'px' );
+		const updatedValue = newValue + ( measurementUnit ?? 'px' );
 
 		// Update the linked value
 		handleLinkedValueChange( updatedValue );
