@@ -1,6 +1,6 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect, useRef } from '@wordpress/element';
+import { useContext, useState } from '@wordpress/element';
 import {
 	__experimentalUnitControl as UnitControl,
 	RangeControl,
@@ -29,71 +29,45 @@ const BorderRadius = ( { selector } ) => {
 		typeof value === 'object' ? false : true
 	);
 
-	// Set initial state for the linked value
-	const [ linkedValue, setLinkedValue ] = useState( value?.topLeft ?? value );
-
-	// Set initial state for the unlinked values
-	const [ unlinkedValues, setUnlinkedValues ] = useState( {
-		topLeft: value?.topLeft ?? value,
-		topRight: value?.topRight ?? value,
-		bottomRight: value?.bottomRight ?? value,
-		bottomLeft: value?.bottomLeft ?? value,
-	} );
-
-	// Set mount reference to avoid unlinked values being changes on initial mount
-	const isInitialMount = useRef( true );
-
-	// Main function to push data to the user config
+	/**
+	 * Handle changes to the border radius value
+	 *
+	 * @param {string} newValue The updated linked value
+	 */
 	const onChange = ( newValue ) => {
 		let config = structuredClone( userConfig );
 		config = set( config, selector, newValue );
 		setUserConfig( config );
 	};
 
-	// When the values change, update the user config
-	useEffect( () => {
-		if ( isInitialMount.current ) {
-			isInitialMount.current = false;
-		} else {
-			onChange( hasLinkedValues ? linkedValue : unlinkedValues );
-		}
-	}, [ unlinkedValues, linkedValue, hasLinkedValues ] );
-
 	/**
-	 * Handle changes to the linked value
-	 *
-	 * @param {string} newValue The updated linked value
+	 * Handle toggling between linked and unlinked values
 	 */
-	const handleLinkedValueChange = ( newValue ) => {
-		// Set the linked value
-		setLinkedValue( newValue );
+	const handleToggleValueType = () => {
+		setHasLinkedValues( ! hasLinkedValues );
 
-		// Also set the unlinked values to the new linked value
-		const updatedUnlinkedValues = {
-			topLeft: newValue,
-			topRight: newValue,
-			bottomRight: newValue,
-			bottomLeft: newValue,
-		};
-		setUnlinkedValues( updatedUnlinkedValues );
+		// When switching from unlinked to linked values, set the value to the topleft value
+		if ( ! hasLinkedValues ) {
+			onChange( value?.topLeft );
+		}
 	};
 
 	/**
-	 * Add the measurement unit to the value from the slider
+	 * Handle value changes made via the range control
 	 *
 	 * @param {string} newValue The updated value
 	 */
-	const addMeasurement = ( newValue ) => {
+	const handleRangeValue = ( newValue ) => {
 		// Get the unit of measurement, or default to px
-		const measurementUnit = linkedValue
-			? String( linkedValue ).replace( /[0-9.]/g, '' )
+		const valueUnit = value
+			? String( value ).replace( /[0-9.]/g, '' )
 			: 'px';
 
 		// Concatenate the new value with the unit of measurement (or use px if one isn't defined)
-		const updatedValue = newValue + ( measurementUnit ?? 'px' );
+		const updatedValue = newValue + ( valueUnit ?? 'px' );
 
-		// Update the linked value
-		handleLinkedValueChange( updatedValue );
+		// Update the value
+		onChange( updatedValue );
 	};
 
 	/**
@@ -105,11 +79,21 @@ const BorderRadius = ( { selector } ) => {
 	 * @return {Object} The updated unlinked values
 	 */
 	const handleUnlinkedValueChange = ( newValue, position ) => {
+		// Define the structure of the unlinked values and set default values, if required
+		const unlinkedStructure = {
+			topLeft: value?.topLeft ?? value,
+			topRight: value?.topRight ?? value,
+			bottomLeft: value?.bottomLeft ?? value,
+			bottomRight: value?.bottomRight ?? value,
+		};
+
+		// Insert in the updated value
 		const updatedValue = {
-			...unlinkedValues,
+			...unlinkedStructure,
 			[ position ]: newValue,
 		};
 
+		// Return the updated values
 		return updatedValue;
 	};
 
@@ -120,8 +104,8 @@ const BorderRadius = ( { selector } ) => {
 					<HStack spacing="3">
 						<div className="components-base-control components-input-control components-number-control components-unit-control components-unit-control-wrapper e1bagdl32 ep09it41 css-x5161z ej5x27r4">
 							<UnitControl
-								onChange={ handleLinkedValueChange }
-								value={ linkedValue }
+								onChange={ onChange }
+								value={ value }
 							/>
 						</div>
 						<div className="components-base-control components-range-control css-mn3isp ej5x27r4">
@@ -133,11 +117,9 @@ const BorderRadius = ( { selector } ) => {
 									initialPosition={ 0 }
 									max={ 100 }
 									min={ 0 }
-									onChange={ addMeasurement }
+									onChange={ handleRangeValue }
 									step={ 1 }
-									value={
-										parseInt( linkedValue ) || undefined
-									}
+									value={ parseInt( value ) || undefined }
 									withInputField={ false }
 								/>
 							</div>
@@ -149,7 +131,7 @@ const BorderRadius = ( { selector } ) => {
 							label={ __( 'Top left border radius', 'themer' ) }
 							hideLabelFromVision
 							onChange={ ( topLeftValue ) =>
-								setUnlinkedValues(
+								onChange(
 									handleUnlinkedValueChange(
 										topLeftValue,
 										'topLeft'
@@ -162,7 +144,7 @@ const BorderRadius = ( { selector } ) => {
 							label={ __( 'Top right border radius', 'themer' ) }
 							hideLabelFromVision
 							onChange={ ( topRightValue ) =>
-								setUnlinkedValues(
+								onChange(
 									handleUnlinkedValueChange(
 										topRightValue,
 										'topRight'
@@ -178,7 +160,7 @@ const BorderRadius = ( { selector } ) => {
 							) }
 							hideLabelFromVision
 							onChange={ ( bottomLeftValue ) =>
-								setUnlinkedValues(
+								onChange(
 									handleUnlinkedValueChange(
 										bottomLeftValue,
 										'bottomLeft'
@@ -194,7 +176,7 @@ const BorderRadius = ( { selector } ) => {
 							) }
 							hideLabelFromVision
 							onChange={ ( bottomRightValue ) =>
-								setUnlinkedValues(
+								onChange(
 									handleUnlinkedValueChange(
 										bottomRightValue,
 										'bottomRight'
@@ -206,7 +188,7 @@ const BorderRadius = ( { selector } ) => {
 					</Grid>
 				) }
 				<Button
-					onClick={ () => setHasLinkedValues( ! hasLinkedValues ) }
+					onClick={ handleToggleValueType }
 					icon={ hasLinkedValues ? 'admin-links' : 'editor-unlink' }
 					isSmall
 					label={
