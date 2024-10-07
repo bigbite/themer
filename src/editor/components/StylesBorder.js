@@ -25,8 +25,20 @@ const Border = ( { selector } ) => {
 	);
 
 	const onChange = ( newValue ) => {
+		// If the value has a radius, we need to merge it with the new value
+		const valueRadius = value?.radius;
+		console.log( valueRadius );
+		let updatedValue = newValue;
+		if ( valueRadius ) {
+			updatedValue = {
+				...newValue,
+				radius: valueRadius,
+			};
+		}
+
+		// Set the new value in the user config
 		let config = structuredClone( userConfig );
-		config = set( config, selector, newValue );
+		config = set( config, selector, updatedValue );
 		setUserConfig( config );
 	};
 
