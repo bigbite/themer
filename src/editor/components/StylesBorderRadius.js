@@ -87,8 +87,9 @@ const BorderRadius = ( { selector } ) => {
 		// Get the unit of measurement
 		const measurementUnit = String( linkedValue ).replace( /[0-9.]/g, '' );
 
-		// Concatenate the new value with the unit of measurement
-		const updatedValue = newValue + measurementUnit;
+		// Concatenate the new value with the unit of measurement (or use px if one isn't defined)
+		const updatedValue =
+			newValue + ( measurementUnit ? measurementUnit : 'px' );
 
 		// Update the linked value
 		handleLinkedValueChange( updatedValue );
