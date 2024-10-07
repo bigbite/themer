@@ -133,7 +133,9 @@ const BorderRadius = ( { selector } ) => {
 									min={ 0 }
 									onChange={ addMeasurement }
 									step={ 1 }
-									value={ linkedValue || undefined }
+									value={
+										parseInt( linkedValue ) || undefined
+									}
 									withInputField={ false }
 								/>
 							</div>
