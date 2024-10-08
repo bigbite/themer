@@ -5,6 +5,7 @@ import {
 } from '@wordpress/components';
 import { useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { moreVertical } from '@wordpress/icons';
 
 import EditorContext from '../context/EditorContext';
 
@@ -20,14 +21,16 @@ const options = [
 ];
 
 /**
- * button to handle responsive preview options
- *
+ * Dropdown menu to select the preview mode
  */
-const ResponsiveButton = () => {
+const PreviewModeSelector = () => {
 	const { previewMode, setPreviewMode } = useContext( EditorContext );
 
 	return (
-		<DropdownMenu label={ __( 'Select a mode', 'themer' ) }>
+		<DropdownMenu
+			icon={ moreVertical }
+			label={ __( 'Select a mode', 'themer' ) }
+		>
 			{ () => (
 				<MenuGroup>
 					<MenuItemsChoice
@@ -43,4 +46,4 @@ const ResponsiveButton = () => {
 	);
 };
 
-export default ResponsiveButton;
+export default PreviewModeSelector;
