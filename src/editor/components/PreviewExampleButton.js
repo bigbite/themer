@@ -20,6 +20,7 @@ const PreviewExampleButton = () => {
 		setPreviewExampleIsActive,
 		setPreviewBlocks,
 		resetPreviewBlocks,
+		previewMode,
 	} = useContext( EditorContext );
 
 	const { params } = useNavigator();
@@ -52,7 +53,8 @@ const PreviewExampleButton = () => {
 			className="themer-styles-heading__right"
 			onClick={ handlePreviewExampleToggle }
 			icon={ seen }
-			isPressed={ previewExampleIsActive }
+			isPressed={ previewExampleIsActive && previewMode !== 'code' }
+			disabled={ previewMode === 'code' }
 			label={ __( 'Toggle example', 'themer' ) }
 		/>
 	);

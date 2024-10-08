@@ -1,24 +1,24 @@
-import { registerPlugin } from '@wordpress/plugins';
-import { render } from '@wordpress/element';
-import domReady from '@wordpress/dom-ready';
+import { createRoot } from '@wordpress/element';
 import { registerCoreBlocks } from '@wordpress/block-library';
+import { set } from 'lodash';
 
-import { NAMESPACE } from './editor/settings';
-import ComponentWrapper from './editor/components/ComponentWrapper';
+import Themer from './editor/components/Themer';
 
 import './editor/styles/index.scss';
 
-// Register the plugin.
-domReady( () => {
-	registerPlugin( NAMESPACE, {
-		icon: 'editor-paragraph',
-		render: ComponentWrapper,
-	} );
+/**
+ * Initialise the editor and render the themer react component.
+ * This function is called within the PHP template for the themer page.
+ *
+ * @param {string} id       The ID of the root element to render the editor into
+ * @param {Object} settings The editor settings
+ */
+function initializeEditor( id, settings ) {
+	const root = document.getElementById( id );
+	if ( root ) {
+		registerCoreBlocks();
+		createRoot( root ).render( <Themer editorSettings={ settings } /> );
+	}
+}
 
-	registerCoreBlocks();
-
-	render(
-		<ComponentWrapper />,
-		document.getElementById( 'themer-admin-screen' )
-	);
-} );
+set( window, 'themer.initializeEditor', initializeEditor );

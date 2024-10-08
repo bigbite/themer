@@ -5,6 +5,7 @@ import {
 } from '@wordpress/components';
 import { desktop, tablet, mobile } from '@wordpress/icons';
 import { useContext } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 
 import EditorContext from '../context/EditorContext';
 
@@ -28,7 +29,8 @@ const options = [
  *
  */
 const ResponsiveButton = () => {
-	const { previewSize, setPreviewSize } = useContext( EditorContext );
+	const { previewSize, setPreviewSize, previewMode } =
+		useContext( EditorContext );
 	/**
 	 * Updates icon depending on chosen screen size
 	 */
@@ -46,7 +48,11 @@ const ResponsiveButton = () => {
 	};
 
 	return (
-		<DropdownMenu icon={ handleIcon } label="Select a size">
+		<DropdownMenu
+			icon={ handleIcon }
+			label={ __( 'Select a size', 'themer' ) }
+			toggleProps={ { disabled: previewMode === 'code' } }
+		>
 			{ () => (
 				<MenuGroup>
 					<MenuItemsChoice
