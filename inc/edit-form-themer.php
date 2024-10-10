@@ -87,13 +87,6 @@ block_editor_rest_api_preload( $preload_paths, $block_editor_context );
 
 $editor_settings = get_block_editor_settings( $editor_settings, $block_editor_context );
 
-// Add some custom styles.
-$editor_settings['styles'][] = array(
-	'css' => '
-		body { padding: 20px; }
-	',
-);
-
 $init_script = <<<JS
 ( function() {
 	window._wpLoadBlockEditor = new Promise( function( resolve ) {
