@@ -18,7 +18,7 @@ Themer is a WordPress plugin that provides a UI for users to edit the [theme.jso
 
 ### Prerequisites
 
--   **WordPress:** 6.2
+-   **WordPress:** 6.4
 -   **PHP:** 8.0
 
 ### Via Composer

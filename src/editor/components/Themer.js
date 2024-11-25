@@ -1,23 +1,17 @@
 import { mergeWith, isEmpty, isEqual } from 'lodash';
 import {
-	Button,
 	Spinner,
-	MenuGroup,
-	MenuItem,
 	__experimentalNavigatorProvider as NavigatorProvider,
 } from '@wordpress/components';
 import { useSelect, dispatch } from '@wordpress/data';
 import { useEffect, useState, useMemo, useCallback } from '@wordpress/element';
-import { MoreMenuDropdown } from '@wordpress/interface';
 import apiFetch from '@wordpress/api-fetch';
-import { trash } from '@wordpress/icons';
-import { __ } from '@wordpress/i18n';
 
 import Nav from './Nav';
-import CodeView from './CodeView';
-import ButtonExport from './ButtonExport';
-import ThemerNotice from './ThemerNotice';
+import Preview from './Preview';
 import StylesPanel from './StylesPanel';
+import ThemerNotice from './ThemerNotice';
+import Topbar from './Topbar';
 
 import useDebouncedApiFetch from '../../hooks/useDebouncedApiFetch';
 
@@ -28,10 +22,14 @@ import fetchSchema from '../../utils/schema-helpers';
 import { getDefaultPreview } from '../../utils/blockPreviews';
 
 /**
- * main component
+ * Themer App component
+ *
+ * @param {Object} props
+ * @param {Object} props.editorSettings Localized settings for the block editor preview
  */
-const ThemerComponent = () => {
-	const [ previewSize, setPreviewSize ] = useState();
+const Themer = ( { editorSettings } ) => {
+	const [ previewMode, setPreviewMode ] = useState( 'visual' );
+	const [ previewSize, setPreviewSize ] = useState( 'desktop' );
 	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
@@ -46,6 +44,11 @@ const ThemerComponent = () => {
 		);
 	};
 
+	/**
+	 * baseConfig: The base theme.json configuration
+	 * userConfig: The user's edited theme.json configuration
+	 * savedUserConfig: The user's most recently saved theme.json configuration
+	 */
 	const { globalStylesId, baseConfig, userConfig, savedUserConfig } =
 		useSelect( ( select ) => {
 			const {
@@ -75,7 +78,7 @@ const ThemerComponent = () => {
 		} );
 
 	/**
-	 * Returns merged base and user configs
+	 * The merged theme.json configuration, combining the base and user configurations
 	 */
 	const themeConfig = useMemo( () => {
 		if ( isEmpty( userConfig ) ) {
@@ -107,17 +110,6 @@ const ThemerComponent = () => {
 	);
 
 	/**
-	 * Check if a valid theme.json is loaded.
-	 */
-	const validateThemeJson = async () => {
-		const res = await apiFetch( {
-			path: '/themer/v1/theme-json-loaded',
-			method: 'GET',
-		} );
-		setValidThemeJson( res );
-	};
-
-	/**
 	 * Resets preview blocks to default template
 	 */
 	const resetPreviewBlocks = useCallback( () => {
@@ -125,15 +117,27 @@ const ThemerComponent = () => {
 	}, [ setPreviewBlocks ] );
 
 	/**
-	 * Fetch schema and validate theme.json
+	 * Loads the schema and validates the theme.json
 	 */
 	useEffect( () => {
-		( async () => {
-			const schemaJson = await fetchSchema();
-			setSchema( schemaJson );
-		} )();
-		validateThemeJson();
-	}, [] );
+		const loadSchemaAndValidateThemeJson = async () => {
+			try {
+				const schemaJson = await fetchSchema();
+				setSchema( schemaJson );
+
+				const themeJsonLoaded = await apiFetch( {
+					path: '/themer/v1/theme-json-loaded',
+					method: 'GET',
+				} );
+				setValidThemeJson( themeJsonLoaded );
+			} catch ( err ) {
+				// eslint-disable-next-line no-console
+				console.log( err );
+			}
+		};
+
+		loadSchemaAndValidateThemeJson();
+	}, [ setSchema, setValidThemeJson ] );
 
 	/**
 	 * Alert user if they try to leave Themer without saving.
@@ -204,6 +208,14 @@ const ThemerComponent = () => {
 		);
 	}
 
+	/**
+	 * Add the live preview CSS to the block editor settings
+	 */
+	const augmentedEditorSettings = {
+		...editorSettings,
+		styles: [ ...editorSettings.styles, { css: previewCss } ],
+	};
+
 	return (
 		<>
 			<EditorContext.Provider
@@ -215,6 +227,8 @@ const ThemerComponent = () => {
 					previewBlocks,
 					setPreviewBlocks,
 					resetPreviewBlocks,
+					previewMode,
+					setPreviewMode,
 					previewSize,
 					setPreviewSize,
 					previewExampleIsActive,
@@ -226,47 +240,12 @@ const ThemerComponent = () => {
 						setUserConfig,
 					} }
 				>
-					<div className="themer-topbar">
-						<Button
-							isSecondary
-							onClick={ () => reset() }
-							text="Reset"
-							disabled={ ! hasUnsavedChanges }
-						/>
-						<Button
-							isPrimary
-							onClick={ () => save() }
-							text="Save"
-							disabled={ ! hasUnsavedChanges }
-						/>
-						<MoreMenuDropdown>
-							{ () => (
-								<MenuGroup
-									label={ __( 'Tools', 'themer' ) }
-									className="themer-more-menu"
-								>
-									<ButtonExport />
-									<MenuItem
-										role="menuitem"
-										icon={ trash }
-										info={ __(
-											'Resets all customisations to your initial theme.json configuration.',
-											'themer'
-										) }
-										onClick={ () =>
-											clearAllCustomisations()
-										}
-										isDestructive
-									>
-										{ __(
-											'Clear all customisations',
-											'themer'
-										) }
-									</MenuItem>
-								</MenuGroup>
-							) }
-						</MoreMenuDropdown>
-					</div>
+					<Topbar
+						isDirty={ hasUnsavedChanges }
+						onReset={ reset }
+						onSave={ save }
+						onClear={ clearAllCustomisations }
+					/>
 					<NavigatorProvider initialPath="/">
 						<div className="themer-body">
 							<div className="themer-nav-container">
@@ -276,8 +255,13 @@ const ThemerComponent = () => {
 								<div className="themer-styles-container">
 									<StylesPanel />
 								</div>
-								<div className="themer-code-view-container">
-									<CodeView themeConfig={ themeConfig } />
+
+								<div className="themer-preview-container">
+									<Preview
+										editorSettings={
+											augmentedEditorSettings
+										}
+									/>
 								</div>
 							</div>
 						</div>
@@ -288,4 +272,4 @@ const ThemerComponent = () => {
 	);
 };
 
-export default ThemerComponent;
+export default Themer;

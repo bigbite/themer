@@ -7,6 +7,8 @@ import EditorContext from '../context/EditorContext';
 
 import { getCoreBlocksFromSchema } from '../../utils/block-helpers';
 
+import PreviewExampleButton from './PreviewExampleButton';
+
 /**
  * Renders the block styles visible in the styles panel
  *
@@ -33,6 +35,7 @@ const BlockItem = ( { name, selector } ) => {
 			<span className="themer-styles-heading">
 				<Icon icon={ block.icon.src } size={ 24 } />
 				<Heading level={ 4 }>{ block.title }</Heading>
+				<PreviewExampleButton />
 			</span>
 			<p>{ block.description }</p>
 			<Styles selector={ stylesSelector } />
