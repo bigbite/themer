@@ -24,6 +24,8 @@ const Styles = ( { selector } ) => {
 		return;
 	}
 
+	console.log('styles', selector);
+
 	return (
 		<div className="themer--styles">
 			<div className="themer--styles__item">

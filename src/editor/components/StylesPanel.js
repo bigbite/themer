@@ -8,6 +8,8 @@ import Site from './Site';
 import BlockItem from './BlockItem';
 import ElementItem from './ElementItem';
 import PseudoItem from './PseudoItem';
+import SiteSettings from './ComponentSettings/SiteSettings';
+import BlockSettingItem from './ComponentSettings/BlockSettingItem';
 
 /**
  * Styles Panel
@@ -25,6 +27,17 @@ const StylesPanel = () => {
 			{ /* site screen */ }
 			<NavigatorScreen path="/">
 				<Site />
+			</NavigatorScreen>
+
+
+			{ /* site settings screen */ }
+			<NavigatorScreen path="/settings">
+				<SiteSettings />
+			</NavigatorScreen>
+
+			{ /* block settings screen */ }
+			<NavigatorScreen path="/settings/:blockName">
+				<BlockSettingItem name={ params.blockName } selector={ `blocks['${ params.blockName }']` }/>
 			</NavigatorScreen>
 
 			{ /* block screen */ }

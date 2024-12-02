@@ -1,4 +1,5 @@
 import { useContext } from '@wordpress/element';
+import { settings } from '@wordpress/icons';
 
 import EditorContext from '../context/EditorContext';
 
@@ -27,6 +28,7 @@ const NavBlockList = () => {
 		a.title.localeCompare( b.title )
 	);
 
+
 	return (
 		<section>
 			<ul className="themer-nav-list">
@@ -40,6 +42,7 @@ const NavBlockList = () => {
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
 					const elementsSelector = `blocks.${ block.name }.elements`;
+					const settingsRoute = '/settings/' + encodeURIComponent( block.name );
 
 					return (
 						<NavListItem
@@ -49,6 +52,7 @@ const NavBlockList = () => {
 							route={ route }
 							hasStyles={ hasBlockStyles }
 						>
+						<NavListItem icon={settings} route={settingsRoute} hasStyles />
 							<NavElementList
 								selector={ elementsSelector }
 								route={ route }
