@@ -75,3 +75,23 @@
 	.components-color-list-picker {
 	display: none;
 }
+
+.themer--styles__duotone__colorPicker-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.themer--styles__duotone__modal-wrapper {
+	width: 500px;
+}
+
+.themer--duotone-item-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.themer--duotone-item-wrapper .components-panel__body {
+	border: none;
+	width: 700px;
+	padding: 10px 0;
+}

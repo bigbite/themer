@@ -7,6 +7,8 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
+import SettingsDuotoneComponent from './SettingsDuotoneComponent';
+
 /**
  * Component for color settings
  *
@@ -65,6 +67,10 @@ const SettingsBorder = ( { selector } ) => {
                     label={ __( 'Default Palette', 'themer' ) }
                     checked={ value?.defaultPalette }
                     onChange={ ( newValue ) => handleNewValue( newValue, 'defaultPalette' ) }
+                />
+                <SettingsDuotoneComponent 
+                    label={ __ ( 'Duotone Settings', 'themer')} 
+                    selector={ `${ selector }.duotone` } 
                 />
                 <ToggleControl
                     label={ __( 'Link', 'themer' ) }
