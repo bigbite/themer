@@ -17,12 +17,12 @@ const SettingsComponent = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
-	const siteSettings = getThemeOption( selector, themeConfig );
 
-	const handleNewValue = ( value, key ) => {
-		const newSiteSettings = { ...siteSettings, [ key ]: value };
+	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set( config, selector, newSiteSettings );
+		config = set(
+			config,
+			[ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 

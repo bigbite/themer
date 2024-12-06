@@ -1,6 +1,6 @@
 import SettingsComponent from './SettingsComponent';
 import SettingsBorder from './SettingsBorder';
-import ColorSettings from './ColorSettings';
+import SettingsColor from './SettingsColor';
 // import CustomSettings from './CustomSettings';
 import LayoutSettings from './LayoutSettings';
 import SpacingSettings from './SpacingSettings';
@@ -30,7 +30,7 @@ const Styles = ( { selector } ) => {
 			<div className="themer--styles__item">
         <SettingsComponent selector={ `${ selector }` } />
 		<SettingsBorder selector={ `${ selector }.border` } />
-		{/* <ColorSettings selector={ `${ selector }.color` } /> */}
+		<SettingsColor selector={ `${ selector }.color` } />
 		{/* <CustomSettings selector={ `${ selector }.custom` } /> */}
 		{/* <LayoutSettings selector={ `${ selector }.layout` } /> */}
 		{/* <SpacingSettings selector={ `${ selector }.spacing` } /> */}
