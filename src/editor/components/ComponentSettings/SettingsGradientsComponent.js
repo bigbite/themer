@@ -1,58 +1,34 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState } from '@wordpress/element';
-import { TextControl, GradientPicker, Button, Modal, PanelBody } from '@wordpress/components';
-import { cancelCircleFilled } from '@wordpress/icons';
+import { useContext, useState, useEffect } from '@wordpress/element';
+import { TextControl, GradientPicker, Button, Modal } from '@wordpress/components';
+import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsGradientsComponent = ( { selector, label } ) => {
+const SettingsGradientComponent = ( { selector, label } ) => {
 
     const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ).custom || {};
-    const [newGradient, setNewGradient] = useState( { name: '', gradient: '', slug: '' } );
-    const [isOpen, setIsOpen] = useState( false );
 
-	const onChange = ( newValue, key, field ) => {
+    const [ newGradient, setNewGradient ] = useState( { gradient: null, name: '', slug: '' } );
+    const [ currentGradient, setCurrentGradient ] = useState ( { value: '', key: '' } );
+    const [ isOpen, setIsOpen ] = useState( false );
+
+	const onChange = ( newValue ) => {
         let config = structuredClone( userConfig );
 		config = set(
 			config,
-            `${selector}.custom[${key}].${field}`, newValue );
+            `${selector}.custom[${currentGradient.key}].gradient`, newValue );
 		setUserConfig( config );
 	};
 
-    const saveNewGradient = () => {
-        let config = structuredClone( userConfig );
-        let obj = get(
-        config,
-        `${selector}.custom`
-        );
-
-        if ( !obj ) {
-            config = set(
-                config,
-                `${selector}.custom`, []
-            );
-        }
-
-        obj = get( config, 
-            `${selector}.custom`
-        )
-
-        obj.push(newGradient);
-
-        config = set (
-            config, 
-            `${selector}.custom`, obj
-        );
-
-        setUserConfig( config );
-        setNewGradient( { name: '', gradient: '', slug: '' } );
-        setIsOpen( false );
-    }
+    useEffect(() => {
+        setCurrentGradient( { value: value[currentGradient.key]?.gradient, key: currentGradient.key } );
+    }, [ value ])
 
     const handleDeleteGradient = ( key ) => {
         let config = structuredClone( userConfig );
@@ -67,62 +43,63 @@ const SettingsGradientsComponent = ( { selector, label } ) => {
             config, 
             `${selector}.custom`, obj
         );
-
+        setCurrentGradient( { value: '', key: '' } );
         setUserConfig( config );
     };
+
+    const handleNewGradient = () => {
+        let config = structuredClone( userConfig );
+        let obj = get(
+        config,
+        `${selector}.custom`
+        );
+        obj.push({ ...newGradient });
+        config = set (
+            config, 
+            `${selector}.custom`, obj
+        );
+        setIsOpen( false );
+        setNewGradient( { gradient: '', name: '', slug: '' } );
+        setUserConfig( config );
+    }
 
     return (
         <div>
             <span className="themer--styles__item__title">
-                { __( label, 'themer' ) }
+                { label }
             </span>
-            <div>
-            {isOpen && (
-                <Modal 
+            <span class="themer--color-palette">
+            <GradientPicker value={ currentGradient.value } clearable={ false } gradients={ value } onChange={ ( newValue, key ) => setCurrentGradient( { value: newValue, key } ) } disableCustomGradients={true} />
+            <Button icon={plus} onClick={()=>setIsOpen(!isOpen)}/>
+            </span>
+            { currentGradient.value && 
+            <Modal
+            title={__('Edit Gradient', 'themer')}
+            shouldCloseOnEsc
+            shouldCloseOnClickOutside
+            onRequestClose={() => setCurrentGradient({ value: '', key: '' })}
+            >
+            <GradientPicker value={ currentGradient.value ?? null } onChange={ ( newValue ) => onChange( newValue ) } />
+            <Button isPrimary onClick={ ()=>{ setCurrentGradient( { value: '', key: '' } ) } }>Save Gradient</Button>
+            <Button isPrimary onClick={ ()=>{ handleDeleteGradient( currentGradient.key ) } }>Delete Gradient</Button>
+            </Modal>
+                }
+            { isOpen && (
+                <Modal
+                title={__('Add New Gradient', 'themer')}
                 shouldCloseOnEsc
                 shouldCloseOnClickOutside
                 onRequestClose={() => setIsOpen(!isOpen)}
-                title={__('Add Gradient', 'themer')}>
-                <div class="themer--styles__modal-wrapper">
-                <TextControl label={ __( 'Name', 'themer' ) } value={ newGradient.name } onChange={( name )=>setNewGradient( {...newGradient, name} )} />
-                <TextControl label={ __( 'Slug', 'themer' ) } onChange={(slug)=>setNewGradient({ ...newGradient, slug })}/>
-                <div class="themer--styles__colorPicker-wrapper">
-                    <GradientPicker value={ newGradient.gradient } onChange={( gradient )=>{ setNewGradient({ ...newGradient, gradient }) }}/>
-                </div>
-                <Button  
-                    onClick={() => { saveNewGradient() }}
-                    isPrimary>
-                        Save Gradient
-                </Button>
-                
-                </div>
-                </Modal> 
-                )
-            }
-             </div>
-            {value.length > 0 && 
-                value.map(( val, key ) => {
-                    return (
-                        <div class="themer--item-wrapper">
-                            <PanelBody title={ val['name'] } initialOpen={ false }>
-                                <TextControl label={ __( 'Name', 'themer' ) } value={ val['name'] } onChange={( newValue )=>{ onChange( newValue, key, 'name' ) }}/>
-                                <TextControl label={ __( 'Slug', 'themer' ) } value={ val['slug'] } onChange={( newValue )=>{ onChange( newValue, key, 'slug' ) }}/>
-                                <div class="themer--styles__colorPicker-wrapper">
-                                    <span class="themer--styles__item__title">
-                                    {__('Gradient', 'themer')}
-                                    <GradientPicker value={ val['gradient'] } onChange={ ( gradient )=>{ onChange( gradient, key, 'gradient' )} }/>
-                                    </span>
-                                </div>    
-                            </PanelBody>
-                            <Button icon={ cancelCircleFilled } onClick={ ()=>{ handleDeleteGradient( key ) } } />
-                        </div>
-                    )
-                })
-            }
-            <Button isPrimary onClick={ () => setIsOpen( !isOpen ) }>Add Gradient</Button>
+                >
+                    <TextControl label={ __( 'Name', 'themer' ) } value={ newGradient.name } onChange={( name )=>{ setNewGradient({ ...newGradient, name }) }} />
+                    <TextControl label={ __( 'Slug', 'themer' ) } value={ newGradient.slug } onChange={( slug )=>{ setNewGradient({ ...newGradient, slug }) }} />
+                    <GradientPicker value={ newGradient.gradient ?? null } onChange={( gradient )=>{ setNewGradient({ ...newGradient, gradient }) }} />
+                    <Button isPrimary onClick={ ()=>{ handleNewGradient() } }>{ __( 'Add Gradient', 'themer' ) }</Button>
+                </Modal>
+            )}
         </div>
     )
 
-};
+}
 
-export default SettingsGradientsComponent;
+export default SettingsGradientComponent;
