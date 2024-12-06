@@ -1,4 +1,4 @@
-import { set, assign, get } from 'lodash';
+import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { TextControl, ColorPicker, Button, Modal, PanelBody } from '@wordpress/components';

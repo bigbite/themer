@@ -95,3 +95,12 @@
 	width: 700px;
 	padding: 10px 0;
 }
+
+.themer--color-palette {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.themer--color-palette .components-circular-option-picker {
+	min-width: unset;
+}

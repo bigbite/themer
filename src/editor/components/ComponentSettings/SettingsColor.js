@@ -9,6 +9,7 @@ import StylesContext from '../../context/StylesContext';
 
 import SettingsDuotoneComponent from './SettingsDuotoneComponent';
 import SettingsGradientsComponent from './SettingsGradientsComponent';
+import SettingsPaletteComponent from './SettingsPaletteComponent';
 
 /**
  * Component for color settings
@@ -81,6 +82,10 @@ const SettingsBorder = ( { selector } ) => {
                     label={ __( 'Link', 'themer' ) }
                     checked={ value?.link }
                     onChange={ ( newValue ) => handleNewValue( newValue, 'link' ) }
+                />
+                <SettingsPaletteComponent
+                    label={ __ ( 'Palette Settings', 'themer')}
+                    selector={ `${ selector }.palette` }
                 />
                 <ToggleControl
                     label={ __( 'Text', 'themer' ) }

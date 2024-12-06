@@ -1,4 +1,4 @@
-import { set, assign, get } from 'lodash';
+import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { TextControl, GradientPicker, Button, Modal, PanelBody } from '@wordpress/components';
@@ -87,7 +87,7 @@ const SettingsGradientsComponent = ( { selector, label } ) => {
                 <TextControl label={ __( 'Name', 'themer' ) } value={ newGradient.name } onChange={( name )=>setNewGradient( {...newGradient, name} )} />
                 <TextControl label={ __( 'Slug', 'themer' ) } onChange={(slug)=>setNewGradient({ ...newGradient, slug })}/>
                 <div class="themer--styles__colorPicker-wrapper">
-                    <GradientPicker color={ newGradient.gradient } onChange={( gradient )=>{ setNewGradient({ ...newGradient, gradient }) }}/>
+                    <GradientPicker value={ newGradient.gradient } onChange={( gradient )=>{ setNewGradient({ ...newGradient, gradient }) }}/>
                 </div>
                 <Button  
                     onClick={() => { saveNewGradient() }}
