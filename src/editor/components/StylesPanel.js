@@ -37,7 +37,7 @@ const StylesPanel = () => {
 
 			{ /* block settings screen */ }
 			<NavigatorScreen path="/settings/:blockName">
-				<BlockSettingItem name={ params.blockName } selector={ `blocks['${ params.blockName }']` }/>
+				<BlockSettingItem name={ params.blockName } selector={ `blocks.${ params.blockName }` }/>
 			</NavigatorScreen>
 
 			{ /* block screen */ }
