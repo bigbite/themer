@@ -8,6 +8,7 @@ import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
 import SettingsDuotoneComponent from './SettingsDuotoneComponent';
+import SettingsGradientsComponent from './SettingsGradientsComponent';
 
 /**
  * Component for color settings
@@ -71,6 +72,10 @@ const SettingsBorder = ( { selector } ) => {
                 <SettingsDuotoneComponent 
                     label={ __ ( 'Duotone Settings', 'themer')} 
                     selector={ `${ selector }.duotone` } 
+                />
+                <SettingsGradientsComponent 
+                    label={ __ ( 'Gradient Settings', 'themer')} 
+                    selector={ `${ selector }.gradients` } 
                 />
                 <ToggleControl
                     label={ __( 'Link', 'themer' ) }

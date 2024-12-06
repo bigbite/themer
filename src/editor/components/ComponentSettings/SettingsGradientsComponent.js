@@ -1,19 +1,19 @@
 import { set, assign, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
-import { TextControl, ColorPicker, Button, Modal, PanelBody } from '@wordpress/components';
+import { TextControl, GradientPicker, Button, Modal, PanelBody } from '@wordpress/components';
 import { cancelCircleFilled } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsDuotoneComponent = ( { selector, label } ) => {
+const SettingsGradientsComponent = ( { selector, label } ) => {
 
     const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ).custom || {};
-    const [newDuotone, setNewDuotone] = useState( { name: '', colors: ['', ''], slug: '' } );
+    const [newGradient, setNewGradient] = useState( { name: '', gradient: '', slug: '' } );
     const [isOpen, setIsOpen] = useState( false );
 
 	const onChange = ( newValue, key, field ) => {
@@ -24,13 +24,7 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
 		setUserConfig( config );
 	};
 
-   const handleNewDuotone = ( newVal, index ) => {
-        let newState = structuredClone( newDuotone );
-        newState.colors[index] = newVal;
-        setNewDuotone( newState );
-    }
-
-    const saveNewDuotone = () => {
+    const saveNewGradient = () => {
         let config = structuredClone( userConfig );
         let obj = get(
         config,
@@ -48,7 +42,7 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
             `${selector}.custom`
         )
 
-        obj.push(newDuotone);
+        obj.push(newGradient);
 
         config = set (
             config, 
@@ -56,11 +50,11 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
         );
 
         setUserConfig( config );
-        setNewDuotone( { name: '', colors: ['', ''], slug: '' } );
+        setNewGradient( { name: '', gradient: '', slug: '' } );
         setIsOpen( false );
     }
 
-    const handleDeleteDuotone = ( key ) => {
+    const handleDeleteGradient = ( key ) => {
         let config = structuredClone( userConfig );
         let obj = get(
             config,
@@ -88,18 +82,17 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
                 shouldCloseOnEsc
                 shouldCloseOnClickOutside
                 onRequestClose={() => setIsOpen(!isOpen)}
-                title={__('Add Duotone', 'themer')}>
+                title={__('Add Gradient', 'themer')}>
                 <div class="themer--styles__modal-wrapper">
-                <TextControl label={ __( 'Name', 'themer' ) } onChange={( name )=>setNewDuotone( {...newDuotone, name} )} />
-                <TextControl label={ __( 'Slug', 'themer' ) } onChange={(slug)=>setNewDuotone({ ...newDuotone, slug })}/>
+                <TextControl label={ __( 'Name', 'themer' ) } value={ newGradient.name } onChange={( name )=>setNewGradient( {...newGradient, name} )} />
+                <TextControl label={ __( 'Slug', 'themer' ) } onChange={(slug)=>setNewGradient({ ...newGradient, slug })}/>
                 <div class="themer--styles__colorPicker-wrapper">
-                    <ColorPicker label={ __( 'Color 1', 'themer' ) } onChange={( color )=>{handleNewDuotone(color, [0]) }}/>
-                    <ColorPicker label={ __( 'Color 2', 'themer' ) } onChange={( color )=>{handleNewDuotone(color, [1]) }}/>
+                    <GradientPicker color={ newGradient.gradient } onChange={( gradient )=>{ setNewGradient({ ...newGradient, gradient }) }}/>
                 </div>
                 <Button  
-                    onClick={() => { saveNewDuotone() }}
+                    onClick={() => { saveNewGradient() }}
                     isPrimary>
-                        Save Duotone
+                        Save Gradient
                 </Button>
                 
                 </div>
@@ -116,24 +109,20 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
                                 <TextControl label={ __( 'Slug', 'themer' ) } value={ val['slug'] } onChange={( newValue )=>{ onChange( newValue, key, 'slug' ) }}/>
                                 <div class="themer--styles__colorPicker-wrapper">
                                     <span class="themer--styles__item__title">
-                                    {__('Color 1', 'themer')}
-                                    <ColorPicker color={ val['colors'][0] } onChange={ ( color )=>{onChange( color, key, 'colors[0]' )} }/>
-                                    </span>
-                                    <span class="themer--styles__item__title">
-                                    {__('Color 2', 'themer')}
-                                    <ColorPicker color={ val['colors'][1] } onChange={ ( color )=>{onChange( color, key, 'colors[1]' )} }/>
+                                    {__('Gradient', 'themer')}
+                                    <GradientPicker value={ val['gradient'] } onChange={ ( gradient )=>{ onChange( gradient, key, 'gradient' )} }/>
                                     </span>
                                 </div>    
                             </PanelBody>
-                            <Button icon={ cancelCircleFilled } onClick={ ()=>{ handleDeleteDuotone( key ) } } />
+                            <Button icon={ cancelCircleFilled } onClick={ ()=>{ handleDeleteGradient( key ) } } />
                         </div>
                     )
                 })
             }
-            <Button isPrimary onClick={ () => setIsOpen( !isOpen ) }>Add Duotone</Button>
+            <Button isPrimary onClick={ () => setIsOpen( !isOpen ) }>Add Gradient</Button>
         </div>
     )
 
 };
 
-export default SettingsDuotoneComponent;
+export default SettingsGradientsComponent;
