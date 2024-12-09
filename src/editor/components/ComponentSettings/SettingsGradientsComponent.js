@@ -1,7 +1,7 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState, useEffect } from '@wordpress/element';
-import { TextControl, GradientPicker, Button, Modal } from '@wordpress/components';
+import { TextControl, GradientPicker, Button, Modal, ColorIndicator } from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
@@ -69,7 +69,23 @@ const SettingsGradientComponent = ( { selector, label } ) => {
                 { label }
             </span>
             <span class="themer--color-palette">
-            <GradientPicker value={ currentGradient.value } clearable={ false } gradients={ value } onChange={ ( newValue, key ) => setCurrentGradient( { value: newValue, key } ) } disableCustomGradients={true} />
+            {value.map((val, index) => {
+                return (
+                <div>
+                    <Button 
+                    className="components-color-list-picker__swatch-button"
+                    icon={
+                    val?.gradient ?
+                    <ColorIndicator 
+                        colorValue={ val?.gradient }
+                        className="components-color-list-picker__swatch-color"
+                        />
+                    : swatch
+                    } 
+                    onClick={()=>{setCurrentGradient({ value: val?.gradient, key: index })}} />
+                </div>
+            )
+            })}
             <Button icon={plus} onClick={()=>setIsOpen(!isOpen)}/>
             </span>
             { currentGradient.value && 

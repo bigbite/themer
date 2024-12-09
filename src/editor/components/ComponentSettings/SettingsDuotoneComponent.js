@@ -70,8 +70,6 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
                 { label }
             </span>
             <span class="themer--color-palette">
-            { // Unable to use DuotonePicker here because it does not pass the index within the onChange function
-        }
             {value.map((duotone, index) => {
                 const color = getGradientFromCSSColors(duotone.colors);
                 return (
