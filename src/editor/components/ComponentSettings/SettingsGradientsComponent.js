@@ -1,6 +1,6 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect } from '@wordpress/element';
+import { useContext, useState } from '@wordpress/element';
 import { TextControl, GradientPicker, Button, Modal, ColorIndicator } from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 
@@ -12,23 +12,20 @@ const SettingsGradientComponent = ( { selector, label } ) => {
 
     const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig ).custom || {};
+	const value = getThemeOption( selector, themeConfig )?.custom || [];
 
     const [ newGradient, setNewGradient ] = useState( { gradient: null, name: '', slug: '' } );
     const [ currentGradient, setCurrentGradient ] = useState ( { value: '', key: '' } );
     const [ isOpen, setIsOpen ] = useState( false );
 
 	const onChange = ( newValue ) => {
+        setCurrentGradient( { value: newValue, key: currentGradient.key } );
         let config = structuredClone( userConfig );
 		config = set(
 			config,
             `${selector}.custom[${currentGradient.key}].gradient`, newValue );
 		setUserConfig( config );
 	};
-
-    useEffect(() => {
-        setCurrentGradient( { value: value[currentGradient.key]?.gradient, key: currentGradient.key } );
-    }, [ value ])
 
     const handleDeleteGradient = ( key ) => {
         let config = structuredClone( userConfig );

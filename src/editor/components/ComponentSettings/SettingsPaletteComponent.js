@@ -2,7 +2,7 @@ import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import { TextControl, ColorPicker, Button, Modal, ColorIndicator } from '@wordpress/components';
-import { plus } from '@wordpress/icons';
+import { plus, swatch } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
@@ -12,7 +12,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
     const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig ).custom;
+	const value = getThemeOption( selector, themeConfig )?.custom || [];
 
     const [ newColor, setNewColor ] = useState( { color: '', name: '', slug: '' } );
     const [ currentColor, setCurrentColor ] = useState ( { value: '', key: '' } );

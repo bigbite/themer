@@ -1,6 +1,6 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState, useEffect } from '@wordpress/element';
+import { useContext, useState } from '@wordpress/element';
 import { TextControl, DuotonePicker, Button, Modal, ColorIndicator } from '@wordpress/components';
 import { plus, swatch } from '@wordpress/icons';
 
@@ -13,23 +13,20 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
 
     const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig ).custom || {};
+	const value = getThemeOption( selector, themeConfig )?.custom || [];
 
     const [ newDuotone, setNewDuotone ] = useState( { colors: [], name: '', slug: '' } );
     const [ currentDuotone, setCurrentDuotone ] = useState ( { value: '', key: '' } );
     const [ isOpen, setIsOpen ] = useState( false );
 
 	const onChange = ( newValue ) => {
+        setCurrentDuotone( { value: newValue, key: currentDuotone.key } );
         let config = structuredClone( userConfig );
 		config = set(
 			config,
             `${selector}.custom[${currentDuotone.key}].colors`, newValue );
 		setUserConfig( config );
 	};
-
-    useEffect(() => {
-        setCurrentDuotone( { value: value[currentDuotone.key]?.colors, key: currentDuotone.key } );
-    }, [ value ])
 
     const handleDeleteDuotone = ( key ) => {
         let config = structuredClone( userConfig );
@@ -70,7 +67,7 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
                 { label }
             </span>
             <span class="themer--color-palette">
-            {value.map((duotone, index) => {
+            { value.map((duotone, index) => {
                 const color = getGradientFromCSSColors(duotone.colors);
                 return (
                 <div>
