@@ -14,8 +14,6 @@ const SettingsSpacing = ( { selector } ) => {
 	const value = getThemeOption( selector, themeConfig );
 	const [ newUnit, setNewUnit ] = useState( '' );
 
-	console.log( userConfig );
-
 	const onChange = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
 		config = set( config, [ selector, key ].join( '.' ), newValue );
@@ -32,11 +30,8 @@ const SettingsSpacing = ( { selector } ) => {
 		let config = structuredClone( userConfig );
 		let obj = get( config, `${ selector }.units` );
 		obj.splice( index, 1 );
-		console.log( obj );
 		config = set( config, `${ selector }.units`, obj );
-		console.log( get( config, `${ selector }.units` ) );
 		setUserConfig( config );
-		console.log( value?.units );
 	};
 
 	const handleNewUnit = () => {
