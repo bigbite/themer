@@ -1,12 +1,13 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState, useEffect } from '@wordpress/element';
-import { TextControl, DuotonePicker, Button, Modal } from '@wordpress/components';
-import { plus } from '@wordpress/icons';
+import { TextControl, DuotonePicker, Button, Modal, ColorIndicator } from '@wordpress/components';
+import { plus, swatch } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
+import { getGradientFromCSSColors } from '../../../utils/style-helpers';
 
 const SettingsDuotoneComponent = ( { selector, label } ) => {
 
@@ -69,10 +70,23 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
                 { label }
             </span>
             <span class="themer--color-palette">
+            { // Unable to use DuotonePicker here because it does not pass the index within the onChange function
+        }
             {value.map((duotone, index) => {
+                const color = getGradientFromCSSColors(duotone.colors);
                 return (
                 <div>
-                    <Button onClick={()=>{setCurrentDuotone({ value: duotone?.colors, key: index })}} >{ duotone.name }</Button>
+                    <Button 
+                    className="components-color-list-picker__swatch-button"
+                    icon={
+                    duotone?.colors ?
+                    <ColorIndicator 
+                        colorValue={ color }
+                        className="components-color-list-picker__swatch-color"
+                        />
+                    : swatch
+                    } 
+                    onClick={()=>{setCurrentDuotone({ value: duotone?.colors, key: index })}} />
                 </div>
             )
             })}
@@ -85,7 +99,7 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
             shouldCloseOnClickOutside
             onRequestClose={() => setCurrentDuotone({ value: '', key: '' })}
             >
-            <DuotonePicker value={ currentDuotone.value ?? null } duotonePalette={[]} colorPalette={[]} onChange={ ( newValue ) => onChange( newValue ) } />
+            <DuotonePicker value={ currentDuotone.value ?? null } duotonePalette={[]} colorPalette={[]} unsetable={ false } onChange={ ( newValue ) => onChange( newValue ) } />
             <Button isPrimary onClick={ ()=>{ setCurrentDuotone( { value: '', key: '' } ) } }>Save Duotone</Button>
             <Button isPrimary onClick={ ()=>{ handleDeleteDuotone( currentDuotone.key ) } }>Delete Duotone</Button>
             </Modal>
