@@ -52,7 +52,7 @@ const SettingsGradientComponent = ( { selector, label } ) => {
         let obj = get(
         config,
         `${selector}.custom`
-        );
+        ) || [];
         obj.push({ ...newGradient });
         config = set (
             config, 

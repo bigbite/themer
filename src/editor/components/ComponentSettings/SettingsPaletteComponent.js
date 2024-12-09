@@ -12,7 +12,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
     const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig ).custom || {};
+	const value = getThemeOption( selector, themeConfig ).custom;
 
     const [ newColor, setNewColor ] = useState( { color: '', name: '', slug: '' } );
     const [ currentColor, setCurrentColor ] = useState ( { value: '', key: '' } );
@@ -48,9 +48,10 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
         let obj = get(
         config,
         `${selector}.custom`
-        );
+        ) || [];
 
         obj.push({ ...newColor });
+
         config = set (
             config, 
             `${selector}.custom`, obj
