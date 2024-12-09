@@ -28,8 +28,6 @@ const BlockItem = ( { name, selector } ) => {
 
 	const stylesSelector = `settings.${ selector }`;
 
-    console.log(stylesSelector);
-
 	return (
 		<>
 			<span className="themer-styles-heading">

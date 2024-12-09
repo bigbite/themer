@@ -24,9 +24,7 @@ const SettingsBorder = ( { selector } ) => {
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set(
-			config,
-			[ selector, key ].join( '.' ), newValue );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 
@@ -34,64 +32,78 @@ const SettingsBorder = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Color Settings', 'themer' ) }
-				</span>
-				<ToggleControl
-					label={ __( 'Background', 'themer' ) }
-					checked={ value?.background }
-					onChange={ ( newValue ) => handleNewValue( newValue, 'background' ) }
-					/>
-				<ToggleControl
-					label={ __( 'Custom', 'themer' ) }
-					checked={ value?.custom }
-					onChange={ ( newValue ) => handleNewValue( newValue, 'custom' ) }
-					/>
-                <ToggleControl
-					label={ __( 'Custom Duotone', 'themer' ) }
-					checked={ value?.customDuotone }
-					onChange={ ( newValue ) => handleNewValue( newValue, 'customDuotone' ) }
-					/>
-				<ToggleControl
-					label={ __( 'Custom Gradient', 'themer' ) }
-					checked={ value?.customGradient }
-					onChange={ ( newValue ) => handleNewValue( newValue, 'customGradient' ) }
-					/>
-                <ToggleControl
-                    label={ __( 'Default Duotone', 'themer' ) }
-                    checked={ value?.defaultDuotone }
-                    onChange={ ( newValue ) => handleNewValue( newValue, 'defaultDuotone' ) }
-                />
-                <ToggleControl
-                    label={ __( 'Default Gradients', 'themer' ) }
-                    checked={ value?.defaultGradients }
-                    onChange={ ( newValue ) => handleNewValue( newValue, 'defaultGradients' ) }
-                />
-                <ToggleControl
-                    label={ __( 'Default Palette', 'themer' ) }
-                    checked={ value?.defaultPalette }
-                    onChange={ ( newValue ) => handleNewValue( newValue, 'defaultPalette' ) }
-                />
-                <SettingsDuotoneComponent 
-                    label={ __ ( 'Duotone Settings', 'themer')} 
-                    selector={ `${ selector }.duotone` } 
-                />
-                <SettingsGradientsComponent 
-                    label={ __ ( 'Gradient Settings', 'themer')} 
-                    selector={ `${ selector }.gradients` } 
-                />
-                <ToggleControl
-                    label={ __( 'Link', 'themer' ) }
-                    checked={ value?.link }
-                    onChange={ ( newValue ) => handleNewValue( newValue, 'link' ) }
-                />
-                <SettingsPaletteComponent
-                    label={ __ ( 'Palette Settings', 'themer')}
-                    selector={ `${ selector }.palette` }
-                />
-                <ToggleControl
-                    label={ __( 'Text', 'themer' ) }
-                    checked={ value?.text }
-                    onChange={ ( newValue ) => handleNewValue( newValue, 'text' ) }
-                />
+			</span>
+			<ToggleControl
+				label={ __( 'Background', 'themer' ) }
+				checked={ value?.background }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'background' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Custom', 'themer' ) }
+				checked={ value?.custom }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'custom' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Custom Duotone', 'themer' ) }
+				checked={ value?.customDuotone }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'customDuotone' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Custom Gradient', 'themer' ) }
+				checked={ value?.customGradient }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'customGradient' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Default Duotone', 'themer' ) }
+				checked={ value?.defaultDuotone }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'defaultDuotone' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Default Gradients', 'themer' ) }
+				checked={ value?.defaultGradients }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'defaultGradients' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Default Palette', 'themer' ) }
+				checked={ value?.defaultPalette }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'defaultPalette' )
+				}
+			/>
+			<SettingsDuotoneComponent
+				label={ __( 'Duotone Settings', 'themer' ) }
+				selector={ `${ selector }.duotone` }
+			/>
+			<SettingsGradientsComponent
+				label={ __( 'Gradient Settings', 'themer' ) }
+				selector={ `${ selector }.gradients` }
+			/>
+			<ToggleControl
+				label={ __( 'Link', 'themer' ) }
+				checked={ value?.link }
+				onChange={ ( newValue ) => handleNewValue( newValue, 'link' ) }
+			/>
+			<SettingsPaletteComponent
+				label={ __( 'Palette Settings', 'themer' ) }
+				selector={ `${ selector }.palette` }
+			/>
+			<ToggleControl
+				label={ __( 'Text', 'themer' ) }
+				checked={ value?.text }
+				onChange={ ( newValue ) => handleNewValue( newValue, 'text' ) }
+			/>
 		</>
 	);
 };

@@ -20,9 +20,7 @@ const SettingsComponent = ( { selector } ) => {
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set(
-			config,
-			[ selector, key ].join( '.' ), newValue );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 
@@ -30,17 +28,21 @@ const SettingsComponent = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Site Settings', 'themer' ) }
-				</span>
-				<ToggleControl
-					label={ __( 'Appearance Tools', 'themer' ) }
-					checked={ value?.appearanceTools }
-					onChange={ ( newValue ) => handleNewValue( newValue, 'appearanceTools' ) }
-					/>
-				<ToggleControl
-					label={ __( 'Use Root Padding Aware Alignments', 'themer' ) }
-					checked={ value?.useRootPaddingAwareAlignments }
-					onChange={ ( newValue ) => handleNewValue( newValue, 'useRootPaddingAwareAlignments' ) }
-					/>
+			</span>
+			<ToggleControl
+				label={ __( 'Appearance Tools', 'themer' ) }
+				checked={ value?.appearanceTools }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'appearanceTools' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Use Root Padding Aware Alignments', 'themer' ) }
+				checked={ value?.useRootPaddingAwareAlignments }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'useRootPaddingAwareAlignments' )
+				}
+			/>
 		</>
 	);
 };

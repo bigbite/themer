@@ -7,9 +7,8 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-
-const TypographySettings = ({selector}) => {
-    const { userConfig, themeConfig } = useContext( EditorContext );
+const TypographySettings = ( { selector } ) => {
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
 	const borderStyles = getThemeOption( selector, themeConfig );
@@ -21,25 +20,28 @@ const TypographySettings = ({selector}) => {
 		setUserConfig( config );
 	};
 
-    return ( <>
-        <span className="themer--styles__item__title">
-            { __( 'Typography', 'themer' ) }
-            {Object.keys(value).map((key) => {
-                if (typeof value[key] !== 'object') {
-                    return (
-                        <ToggleControl 
-                        key={key}
-                        label={key}
-                        checked={value[key]}
-                        onChange={(newValue) => handleNewValue( newValue, key)}
-                        />
-                    )
-                } 
-                // we need to handle objects here
-            })
-            }
-        </span>
-    </>)
-}
+	return (
+		<>
+			<span className="themer--styles__item__title">
+				{ __( 'Typography', 'themer' ) }
+				{ Object.keys( value ).map( ( key ) => {
+					if ( typeof value[ key ] !== 'object' ) {
+						return (
+							<ToggleControl
+								key={ key }
+								label={ key }
+								checked={ value[ key ] }
+								onChange={ ( newValue ) =>
+									handleNewValue( newValue, key )
+								}
+							/>
+						);
+					}
+					// we need to handle objects here
+				} ) }
+			</span>
+		</>
+	);
+};
 
 export default TypographySettings;
