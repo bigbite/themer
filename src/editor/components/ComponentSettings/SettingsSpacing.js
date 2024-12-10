@@ -11,7 +11,8 @@ import StylesContext from '../../context/StylesContext';
 const SettingsSpacing = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig );
+	const value = getThemeOption( selector, themeConfig ) || [];
+	const units = value?.units || [];
 	const [ newUnit, setNewUnit ] = useState( '' );
 
 	const onChange = ( newValue, key ) => {
@@ -70,7 +71,7 @@ const SettingsSpacing = ( { selector } ) => {
 				} }
 			/>
 			Units
-			{ value?.units.map( ( unit, index ) => {
+			{ units.map( ( unit, index ) => {
 				return (
 					<div
 						className="themer--styles__item__control"

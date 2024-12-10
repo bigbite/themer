@@ -7,16 +7,14 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const DimensionSettings = ( { selector } ) => {
+const SettingsDimensions = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
-	const borderStyles = getThemeOption( selector, themeConfig );
 
-	const handleNewValue = ( value, key ) => {
-		const newBorderStyles = { ...borderStyles, [ key ]: value };
+	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set( config, selector, newBorderStyles );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 
@@ -24,23 +22,23 @@ const DimensionSettings = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Dimensions Settings', 'themer' ) }
-				{ Object.keys( value ).map( ( key ) => {
-					if ( typeof value[ key ] !== 'object' ) {
-						return (
-							<ToggleControl
-								key={ key }
-								label={ key }
-								checked={ value[ key ] }
-								onChange={ ( newValue ) =>
-									handleNewValue( newValue, key )
-								}
-							/>
-						);
-					}
-				} ) }
 			</span>
+				<ToggleControl
+					label={ __( 'Aspect Ratio', 'themer' ) }
+					checked={ value?.aspectRatio }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'aspectRatio' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Min Height', 'themer' ) }
+					checked={ value?.minHeight }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'minHeight' );
+					} }
+				/>
 		</>
 	);
 };
 
-export default DimensionSettings;
+export default SettingsDimensions;

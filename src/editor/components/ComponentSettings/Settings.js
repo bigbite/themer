@@ -5,7 +5,7 @@ import SettingsColor from './SettingsColor';
 import SettingsLayout from './SettingsLayout';
 import SettingsSpacing from './SettingsSpacing';
 import TypographySettings from './TypographySettings';
-import DimensionSettings from './DimensionSettings';
+import SettingsDimensions from './SettingsDimensions';
 import ShadowSettings from './ShadowSettings';
 // import BackgroundSettings from './BackgroundSettings';
 
@@ -28,14 +28,14 @@ const Styles = ( { selector } ) => {
 	return (
 		<div className="themer--styles">
 			<div className="themer--styles__item">
-				<SettingsComponent selector={ `${ selector }` } />
+				{ /* <SettingsComponent selector={ `${ selector }` } />
 				<SettingsBorder selector={ `${ selector }.border` } />
-				<SettingsColor selector={ `${ selector }.color` } />
+				<SettingsColor selector={ `${ selector }.color` } /> */ }
 				{ /* <CustomSettings selector={ `${ selector }.custom` } /> */ }
-				<SettingsLayout selector={ `${ selector }.layout` } />
-				<SettingsSpacing selector={ `${ selector }.spacing` } />
-				{ /* <TypographySettings selector={ `${ selector }.typography` } /> */ }
-				{ /* <DimensionSettings selector={ `${ selector }.dimensions` } /> */ }
+				{ /* <SettingsLayout selector={ `${ selector }.layout` } />
+				<SettingsSpacing selector={ `${ selector }.spacing` } /> */ }
+				{/* <TypographySettings selector={ `${ selector }.typography` } /> */}
+				<SettingsDimensions selector={ `${ selector }.dimensions` } />
 				{ /* <ShadowSettings selector={ `${ selector }.shadow` } /> */ }
 				{ /* <BackgroundSettings selector={ `${ selector }.background` } /> */ }
 			</div>

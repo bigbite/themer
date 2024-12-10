@@ -1,45 +1,62 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, Button } from '@wordpress/components';
+import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
+import FontFamilies from './TypographySettings/FontFamilies';
 
 const TypographySettings = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig ) || {};
-	const borderStyles = getThemeOption( selector, themeConfig );
+	const value = getThemeOption( selector, themeConfig ) || [];
+    const fontFamilies = value?.fontFamilies?.custom || [];
 
-	const handleNewValue = ( value, key ) => {
-		const newBorderStyles = { ...borderStyles, [ key ]: value };
+	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set( config, selector, newBorderStyles );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
-
 	return (
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Typography', 'themer' ) }
-				{ Object.keys( value ).map( ( key ) => {
-					if ( typeof value[ key ] !== 'object' ) {
-						return (
-							<ToggleControl
-								key={ key }
-								label={ key }
-								checked={ value[ key ] }
-								onChange={ ( newValue ) =>
-									handleNewValue( newValue, key )
-								}
-							/>
-						);
-					}
-					// we need to handle objects here
-				} ) }
 			</span>
+			<div>
+				<ToggleControl
+					label={ __( 'Custom Font Size', 'themer' ) }
+					checked={ value?.customFontSize }
+					onChange={ ( val ) => {
+						handleNewValue(val, 'customFontSize');
+					} }
+				/>
+                <ToggleControl
+					label={ __( 'Drop Cap', 'themer' ) }
+					checked={ value?.dropCap }
+					onChange={ ( val ) => {
+						handleNewValue(val, 'dropCap');
+					} }
+				/>
+                {
+                    // fontFamilies.map( ( font, index ) => { 
+                    //     console.log(font, index, 'text');
+                    //     return (
+                    // <div>test</div>
+                    // )})
+                }
+                {
+                    <>
+                    <Button isSecondary icon={plus} onClick={ () => {
+                        console.log('test') 
+                    }} />
+                    <FontFamilies selector={`${selector}.fontFamilies.custom[0]`}/>
+                    </>
+                }
+
+			</div>
 		</>
 	);
 };

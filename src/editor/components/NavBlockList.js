@@ -28,7 +28,6 @@ const NavBlockList = () => {
 		a.title.localeCompare( b.title )
 	);
 
-
 	return (
 		<section>
 			<ul className="themer-nav-list">
@@ -42,22 +41,29 @@ const NavBlockList = () => {
 
 					const route = '/blocks/' + encodeURIComponent( block.name );
 					const elementsSelector = `blocks.${ block.name }.elements`;
-					const settingsRoute = '/settings/' + encodeURIComponent( block.name );
+					const settingsRoute =
+						'/settings/' + encodeURIComponent( block.name );
 
 					return (
-						<NavListItem
-							key={ block.name }
-							icon={ block?.icon?.src }
-							label={ block.title }
-							route={ route }
-							hasStyles={ hasBlockStyles }
-						>
-						<NavListItem icon={settings} route={settingsRoute} hasStyles />
-							<NavElementList
-								selector={ elementsSelector }
+						<span class="themer-nav-list__item themer-nav-list__item--hasSettings">
+							<NavListItem
+								key={ block.name }
+								icon={ block?.icon?.src }
+								label={ block.title }
 								route={ route }
+								hasStyles={ hasBlockStyles }
+							>
+								<NavElementList
+									selector={ elementsSelector }
+									route={ route }
+								/>
+							</NavListItem>
+							<NavListItem
+								icon={ settings }
+								route={ settingsRoute }
+								hasStyles
 							/>
-						</NavListItem>
+						</span>
 					);
 				} ) }
 			</ul>
