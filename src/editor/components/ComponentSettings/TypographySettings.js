@@ -13,7 +13,7 @@ const TypographySettings = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
-    const fontFamilies = value?.fontFamilies?.custom || [];
+	const fontFamilies = value?.fontFamilies?.custom || [];
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
@@ -30,32 +30,21 @@ const TypographySettings = ( { selector } ) => {
 					label={ __( 'Custom Font Size', 'themer' ) }
 					checked={ value?.customFontSize }
 					onChange={ ( val ) => {
-						handleNewValue(val, 'customFontSize');
+						handleNewValue( val, 'customFontSize' );
 					} }
 				/>
-                <ToggleControl
+				<ToggleControl
 					label={ __( 'Drop Cap', 'themer' ) }
 					checked={ value?.dropCap }
 					onChange={ ( val ) => {
-						handleNewValue(val, 'dropCap');
+						handleNewValue( val, 'dropCap' );
 					} }
 				/>
-                {
-                    // fontFamilies.map( ( font, index ) => { 
-                    //     console.log(font, index, 'text');
-                    //     return (
-                    // <div>test</div>
-                    // )})
-                }
-                {
-                    <>
-                    <Button isSecondary icon={plus} onClick={ () => {
-                        console.log('test') 
-                    }} />
-                    <FontFamilies selector={`${selector}.fontFamilies.custom[0]`}/>
-                    </>
-                }
-
+				{
+					<FontFamilies
+						selector={ `${ selector }.fontFamilies.custom` }
+					/>
+				}
 			</div>
 		</>
 	);

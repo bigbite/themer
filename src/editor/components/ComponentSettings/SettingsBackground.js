@@ -11,34 +11,32 @@ const BackgroundSettings = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
-	const borderStyles = getThemeOption( selector, themeConfig );
 
-	const handleNewValue = ( value, key ) => {
-		const newBorderStyles = { ...borderStyles, [ key ]: value };
+	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set( config, selector, newBorderStyles );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 
 	return (
 		<>
 			<span className="themer--styles__item__title">
-				{ __( 'Border', 'themer' ) }
-				{ Object.keys( value ).map( ( key ) => {
-					if ( typeof value[ key ] !== 'object' ) {
-						return (
-							<ToggleControl
-								key={ key }
-								label={ key }
-								checked={ value[ key ] }
-								onChange={ ( newValue ) =>
-									handleNewValue( newValue, key )
-								}
-							/>
-						);
-					}
-				} ) }
+				{ __( 'Background', 'themer' ) }
 			</span>
+			<ToggleControl
+				label={ __( 'Background Image', 'themer' ) }
+				checked={ value?.backgroundImage }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'backgroundImage' )
+				}
+			/>
+			<ToggleControl
+				label={ __( 'Background Size', 'themer' ) }
+				checked={ value?.backgroundSize }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'backgroundSize' )
+				}
+			/>
 		</>
 	);
 };

@@ -1,7 +1,12 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
-import { ToggleControl, Button, TextControl, Modal } from '@wordpress/components';
+import {
+	ToggleControl,
+	Button,
+	TextControl,
+	Modal,
+} from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../../utils/get-theme-option';
@@ -9,59 +14,171 @@ import EditorContext from '../../../context/EditorContext';
 import StylesContext from '../../../context/StylesContext';
 
 const FontFace = ( { familyIndex, selector } ) => {
-    const { userConfig, themeConfig } = useContext( EditorContext );
+	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
 
-    const [ show, setShow ] = useState(false);
-    const [ newFontFace, setNewFontFace ] = useState({ fontFamily: '', fontStretch: '', fontStyle: '', fontWeight: '' });
+	const [ show, setShow ] = useState( false );
+	const [ newFontFace, setNewFontFace ] = useState( {
+		fontFamily: '',
+		fontStretch: '',
+		fontStyle: '',
+		fontWeight: '',
+	} );
+	const [ currentFontFace, setCurrentFontFace ] = useState( {
+		fontFamily: '',
+		fontStretch: '',
+		fontStyle: '',
+		fontWeight: '',
+	} );
 
-    const handleNewValue = ( newValue, key ) => {
+	const handleNewValue = ( newValue, key ) => {
+		setCurrentFontFace( { ...currentFontFace, [ key ]: newValue } );
 		let config = structuredClone( userConfig );
-		config = set( config, [ selector, key ].join( '.' ), newValue );
+		config = set(
+			config,
+			`${ selector }[${ familyIndex }.fontFace[${ currentFontFace.index }].${ key }`,
+			newValue
+		);
 		setUserConfig( config );
 	};
 
-    const pushNewFontFace = () => {
-        let config = structuredClone( userConfig );
-        let obj = get( config, `${ selector }` ) || [];
-        obj.push( { ...newFontFace } );
-        config = set( config, `${ selector }`, obj );
-        setUserConfig( config );
-    }
+	const pushNewFontFace = () => {
+		let config = structuredClone( userConfig );
+		let obj =
+			get( config, `${ selector }[${ familyIndex }].fontFace` ) || [];
+		obj.push( { ...newFontFace } );
+		config = set( config, `${ selector }[${ familyIndex }].fontFace`, obj );
+		setUserConfig( config );
+		setShow( false );
+	};
 
-    console.log(value);
+	const fontFaces = value[ familyIndex ]?.fontFace || [];
 
-    const fams = (themeConfig?.settings?.typography?.fontFamilies?.custom[0]?.fontFace);
+	return (
+		<div>
+			<h2>Font Face</h2>
+			<Button
+				disabled={ familyIndex === '' }
+				icon={ plus }
+				onClick={ () => setShow( ! show ) }
+			/>
+			{ fontFaces.map( ( fam, index ) => {
+				if ( familyIndex === '' ) {
+					return;
+				}
+				return (
+					<Button
+						onClick={ () =>
+							setCurrentFontFace( {
+								fontFamily: fam.fontFamily,
+								fontStretch: fam.fontStretch,
+								fontStyle: fam.fontStyle,
+								fontWeight: fam.fontWeight,
+								index,
+							} )
+						}
+					>
+						{ fam.fontFamily }
+					</Button>
+				);
+			} ) }
+			{ show && (
+				<Modal onRequestClose={ () => setShow( false ) }>
+					<TextControl
+						label={ 'Font Family' }
+						value={ value?.fontFamily }
+						onChange={ ( fontFamily ) => {
+							setNewFontFace( { ...newFontFace, fontFamily } );
+						} }
+					/>
+					<TextControl
+						label={ 'Font Stretch' }
+						value={ value?.fontStretch }
+						onChange={ ( fontStretch ) => {
+							setNewFontFace( { ...newFontFace, fontStretch } );
+						} }
+					/>
+					<TextControl
+						label={ 'Font Style' }
+						value={ value?.fontStyle }
+						onChange={ ( fontStyle ) => {
+							setNewFontFace( { ...newFontFace, fontStyle } );
+						} }
+					/>
+					<TextControl
+						label={ 'Font Weight' }
+						value={ value?.fontWeight }
+						onChange={ ( fontWeight ) => {
+							setNewFontFace( { ...newFontFace, fontWeight } );
+						} }
+					/>
 
-    return (
-        <div>
-            <h2>Font Face</h2>
-            <Button label={'Add Font Face'} icon={plus} onClick={ () => setShow( !show ) } />
-            
-            { fams.map( (fam, index) => {
-                console.log(fam);
-                return (
-                    <Button>{fam.fontFamily}</Button>
-                )
-        })
-            }
-            {/* Font Face - object { fontFamily, FontStretch, FontStyle, FontWeight } */
-            /* src - array with a url */}
-            {/* font family - string, name - string, slug - string */}
-            {show &&
-            <Modal onRequestClose={ ()=>setShow(false) }>
-            <TextControl label={'Font Family'} value={value?.fontFamily} onChange={(fontFamily)=>{ setNewFontFace( { ...newFontFace, fontFamily } )}} />
-            <TextControl label={'Font Stretch'} value={value?.fontStretch} onChange={(fontStretch)=>{ setNewFontFace( { ...newFontFace, fontStretch } )}} />
-            <TextControl label={'Font Style'} value={value?.fontStyle} onChange={(fontStyle)=>{ setNewFontFace( { ...newFontFace, fontStyle } )}} />
-            <TextControl label={'Font Weight'} value={value?.fontWeight} onChange={(fontWeight)=>{ setNewFontFace( { ...newFontFace, fontWeight } )}} />
-
-            {/* <TextControl label={'src'}/> */}
-            <Button label={'Save Font Face'} onClick={pushNewFontFace}>Save</Button>
-            </Modal>
-            }
-        </div>
-    )
-}
+					{ /* <TextControl label={'src'}/> */ }
+					<Button
+						label={ 'Save New Font Face' }
+						onClick={ pushNewFontFace }
+					>
+						Save
+					</Button>
+				</Modal>
+			) }
+			{ currentFontFace.fontFamily && (
+				<Modal
+					onRequestClose={ () =>
+						setCurrentFontFace( {
+							fontFamily: '',
+							fontStretch: '',
+							fontStyle: '',
+							fontWeight: '',
+						} )
+					}
+				>
+					<TextControl
+						label={ 'Font Family' }
+						value={ currentFontFace.fontFamily }
+						onChange={ ( fontFamily ) => {
+							handleNewValue( fontFamily, 'fontFamily' );
+						} }
+					/>
+					<TextControl
+						label={ 'Font Stretch' }
+						value={ currentFontFace.fontStretch }
+						onChange={ ( fontStretch ) => {
+							handleNewValue( fontStretch, 'fontStretch' );
+						} }
+					/>
+					<TextControl
+						label={ 'Font Style' }
+						value={ currentFontFace.fontStyle }
+						onChange={ ( fontStyle ) => {
+							handleNewValue( fontStyle, 'fontStyle' );
+						} }
+					/>
+					<TextControl
+						label={ 'Font Weight' }
+						value={ currentFontFace.fontWeight }
+						onChange={ ( fontWeight ) => {
+							handleNewValue( fontWeight, 'fontWeight' );
+						} }
+					/>
+					<Button
+						label={ 'Save Font Face' }
+						onClick={ () =>
+							setCurrentFontFace( {
+								fontFamily: '',
+								fontStretch: '',
+								fontStyle: '',
+								fontWeight: '',
+							} )
+						}
+					>
+						Save
+					</Button>
+				</Modal>
+			) }
+		</div>
+	);
+};
 
 export default FontFace;

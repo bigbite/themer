@@ -1,3 +1,6 @@
+import { Panel, PanelBody, PanelRow } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
+
 import SettingsComponent from './SettingsComponent';
 import SettingsBorder from './SettingsBorder';
 import SettingsColor from './SettingsColor';
@@ -7,7 +10,8 @@ import SettingsSpacing from './SettingsSpacing';
 import TypographySettings from './TypographySettings';
 import SettingsDimensions from './SettingsDimensions';
 import SettingsShadow from './SettingsShadow';
-// import BackgroundSettings from './BackgroundSettings';
+import SettingsPosition from './SettingsPosition';
+import SettingsBackground from './SettingsBackground';
 
 /**
  * Styles component
@@ -27,18 +31,80 @@ const Styles = ( { selector } ) => {
 
 	return (
 		<div className="themer--styles">
-			<div className="themer--styles__item">
-				{ /* <SettingsComponent selector={ `${ selector }` } />
-				<SettingsBorder selector={ `${ selector }.border` } />
-				<SettingsColor selector={ `${ selector }.color` } /> */ }
-				{ /* <CustomSettings selector={ `${ selector }.custom` } /> */ }
-				{ /* <SettingsLayout selector={ `${ selector }.layout` } />
-				<SettingsSpacing selector={ `${ selector }.spacing` } /> */ }
-				{/* <TypographySettings selector={ `${ selector }.typography` } /> */}
-				<SettingsDimensions selector={ `${ selector }.dimensions` } />
-				<SettingsShadow selector={ `${ selector }.shadow` } />
-				{ /* <BackgroundSettings selector={ `${ selector }.background` } /> */ }
-			</div>
+			<Panel header={ __( 'Site Settings', 'themer' ) }>
+				<PanelBody
+					title={ __( 'Site Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsComponent selector={ `${ selector }` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Border Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsBorder selector={ `${ selector }.border` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Color Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsColor selector={ `${ selector }.color` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Custom Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					{ /* <CustomSettings selector={ `${ selector }.custom` } /> */ }
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Layout Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsLayout selector={ `${ selector }.layout` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Spacing Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsSpacing selector={ `${ selector }.spacing` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Typography Settings', 'themer' ) }
+					initialOpen={ true }
+				>
+					<TypographySettings
+						selector={ `${ selector }.typography` }
+					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Dimensions Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsDimensions
+						selector={ `${ selector }.dimensions` }
+					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Shadow Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsShadow selector={ `${ selector }.shadow` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Position Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsPosition selector={ `${ selector }.position` } />
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Background Settings', 'themer' ) }
+					initialOpen={ false }
+				>
+					<SettingsBackground
+						selector={ `${ selector }.background` }
+					/>
+				</PanelBody>
+			</Panel>
 		</div>
 	);
 };

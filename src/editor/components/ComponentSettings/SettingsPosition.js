@@ -1,0 +1,37 @@
+import { set } from 'lodash';
+import { __ } from '@wordpress/i18n';
+import { useContext } from '@wordpress/element';
+import { ToggleControl } from '@wordpress/components';
+
+import getThemeOption from '../../../utils/get-theme-option';
+import EditorContext from '../../context/EditorContext';
+import StylesContext from '../../context/StylesContext';
+
+const SettingsPosition = ( { selector } ) => {
+	const { userConfig, themeConfig } = useContext( EditorContext );
+	const { setUserConfig } = useContext( StylesContext );
+	const value = getThemeOption( selector, themeConfig ) || [];
+
+	const handleNewValue = ( newValue, key ) => {
+		let config = structuredClone( userConfig );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
+		setUserConfig( config );
+	};
+
+	return (
+		<>
+			<span className="themer--styles__item__title">
+				{ __( 'Position', 'themer' ) }
+			</span>
+			<ToggleControl
+				label={ __( 'Sticky', 'themer' ) }
+				checked={ value?.sticky }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'sticky' )
+				}
+			/>
+		</>
+	);
+};
+
+export default SettingsPosition;
