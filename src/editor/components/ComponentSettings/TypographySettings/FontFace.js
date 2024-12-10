@@ -72,7 +72,9 @@ const FontFace = ( { familyIndex, selector } ) => {
 
 	return (
 		<div>
-			<h2>Font Face</h2>
+			<span className="themer--styles__item__title">
+				{ __( 'Font Face', 'themer' ) }
+			</span>
 			<Button
 				disabled={ familyIndex === '' }
 				icon={ plus }
@@ -129,6 +131,8 @@ const FontFace = ( { familyIndex, selector } ) => {
 							setNewFontFace( { ...newFontFace, fontWeight } );
 						} }
 					/>
+
+                    { /* Needs functionality for new font face src to be added here */ }
 					<Button
 						label={ 'Save New Font Face' }
 						onClick={ pushNewFontFace }
