@@ -1,8 +1,7 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
-import { ToggleControl, Button, TextControl } from '@wordpress/components';
-import { plus } from '@wordpress/icons';
+import { Button, TextControl } from '@wordpress/components';
 
 import FontFace from './FontFace';
 import getThemeOption from '../../../../utils/get-theme-option';
@@ -53,9 +52,27 @@ const FontFamilies = ( { selector } ) => {
 		} );
 	};
 
+	const handleDeleteFontFamily = ( index ) => {
+		let config = structuredClone( userConfig );
+		let obj = get( config, `${ selector }` );
+
+		obj.splice( index, 1 );
+
+		config = set( config, `${ selector }`, obj );
+		setUserConfig( config );
+		setCurrentFont( {
+			fontFamily: '',
+			name: '',
+			slug: '',
+			index: '',
+		} );
+	};
+
 	return (
 		<div>
-			<h2>Font Family</h2>
+			<span className="themer--styles__item__title">
+				{ __( 'Font Families', 'themer' ) }
+			</span>
 			{ value.map( ( font, index ) => {
 				return (
 					<Button
@@ -73,21 +90,21 @@ const FontFamilies = ( { selector } ) => {
 				);
 			} ) }
 			<TextControl
-				label={ 'Font Family' }
+				label={ __( 'Font Family', 'themer' ) }
 				value={ currentFont.fontFamily }
 				onChange={ ( fontFamily ) => {
 					handleNewValue( fontFamily, 'fontFamily' );
 				} }
 			/>
 			<TextControl
-				label={ 'name' }
+				label={ __( 'Name', 'themer' ) }
 				value={ currentFont.name }
 				onChange={ ( name ) => {
 					handleNewValue( name, 'name' );
 				} }
 			/>
 			<TextControl
-				label={ 'slug' }
+				label={ __( 'Slug', 'themer' ) }
 				value={ currentFont.slug }
 				onChange={ ( slug ) => {
 					handleNewValue( slug, 'slug' );
@@ -97,7 +114,7 @@ const FontFamilies = ( { selector } ) => {
 				disabled={ currentFont.index !== '' }
 				onClick={ () => handleFontFamilyChange( currentFont.index ) }
 			>
-				{ 'Add' }
+				{ __( 'Add', 'themer' ) }
 			</Button>
 			<Button
 				disabled={ ! currentFont.name }
@@ -110,7 +127,13 @@ const FontFamilies = ( { selector } ) => {
 					} )
 				}
 			>
-				Reset
+				{__('Reset', 'themer')}
+			</Button>
+			<Button
+				disabled={ currentFont.index === '' }
+				onClick={ () => handleDeleteFontFamily( currentFont.index ) }
+			>
+				{ __( 'Delete Font Family', 'themer' ) }
 			</Button>
 			<FontFace
 				familyIndex={ currentFont.index }

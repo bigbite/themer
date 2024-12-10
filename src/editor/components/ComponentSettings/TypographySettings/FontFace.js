@@ -1,22 +1,20 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
-import {
-	ToggleControl,
-	Button,
-	TextControl,
-	Modal,
-} from '@wordpress/components';
+import { Button, TextControl, Modal } from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../../utils/get-theme-option';
 import EditorContext from '../../../context/EditorContext';
 import StylesContext from '../../../context/StylesContext';
 
+import FontFaceSrc from './FontFaceSrc';
+
 const FontFace = ( { familyIndex, selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
+	const fontFaces = value[ familyIndex ]?.fontFace || [];
 
 	const [ show, setShow ] = useState( false );
 	const [ newFontFace, setNewFontFace ] = useState( {
@@ -24,12 +22,15 @@ const FontFace = ( { familyIndex, selector } ) => {
 		fontStretch: '',
 		fontStyle: '',
 		fontWeight: '',
+		tempSrc: '',
+		src: [],
 	} );
 	const [ currentFontFace, setCurrentFontFace ] = useState( {
 		fontFamily: '',
 		fontStretch: '',
 		fontStyle: '',
 		fontWeight: '',
+		src: [],
 	} );
 
 	const handleNewValue = ( newValue, key ) => {
@@ -53,7 +54,21 @@ const FontFace = ( { familyIndex, selector } ) => {
 		setShow( false );
 	};
 
-	const fontFaces = value[ familyIndex ]?.fontFace || [];
+	const handleDeleteFontFace = ( index ) => {
+		let config = structuredClone( userConfig );
+		let obj = get( config, `${ selector }[${ familyIndex }].fontFace` );
+
+		obj.splice( index, 1 );
+
+		config = set( config, `${ selector }[${ familyIndex }].fontFace`, obj );
+		setUserConfig( config );
+		setCurrentFontFace( {
+			fontFamily: '',
+			fontStretch: '',
+			fontStyle: '',
+			fontWeight: '',
+		} );
+	};
 
 	return (
 		<div>
@@ -63,7 +78,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 				icon={ plus }
 				onClick={ () => setShow( ! show ) }
 			/>
-			{ fontFaces.map( ( fam, index ) => {
+			{ fontFaces.map( ( fontFace, index ) => {
 				if ( familyIndex === '' ) {
 					return;
 				}
@@ -71,15 +86,16 @@ const FontFace = ( { familyIndex, selector } ) => {
 					<Button
 						onClick={ () =>
 							setCurrentFontFace( {
-								fontFamily: fam.fontFamily,
-								fontStretch: fam.fontStretch,
-								fontStyle: fam.fontStyle,
-								fontWeight: fam.fontWeight,
+								fontFamily: fontFace.fontFamily,
+								fontStretch: fontFace.fontStretch,
+								fontStyle: fontFace.fontStyle,
+								fontWeight: fontFace.fontWeight,
+								src: fontFace.src,
 								index,
 							} )
 						}
 					>
-						{ fam.fontFamily }
+						{ fontFace.fontFamily }
 					</Button>
 				);
 			} ) }
@@ -113,13 +129,11 @@ const FontFace = ( { familyIndex, selector } ) => {
 							setNewFontFace( { ...newFontFace, fontWeight } );
 						} }
 					/>
-
-					{ /* <TextControl label={'src'}/> */ }
 					<Button
 						label={ 'Save New Font Face' }
 						onClick={ pushNewFontFace }
 					>
-						Save
+						{ __( 'Save', 'themer' ) }
 					</Button>
 				</Modal>
 			) }
@@ -162,6 +176,18 @@ const FontFace = ( { familyIndex, selector } ) => {
 							handleNewValue( fontWeight, 'fontWeight' );
 						} }
 					/>
+                    <FontFaceSrc selector={ `${selector}` } familyIndex={familyIndex} fontFaceIndex={currentFontFace.index}  />
+					{/* { currentFontFace.src.map( ( val, index ) => {
+						return (
+							<TextControl
+								label={ `src ${ index }` }
+								value={ currentFontFace.src[ index ] }
+								onChange={ (src) =>
+									handleNewValue( src, 'src', index )
+								}
+							/>
+						);
+					} ) } */}
 					<Button
 						label={ 'Save Font Face' }
 						onClick={ () =>
@@ -173,7 +199,15 @@ const FontFace = ( { familyIndex, selector } ) => {
 							} )
 						}
 					>
-						Save
+						{ __( 'Save', 'themer' ) }
+					</Button>
+					<Button
+						label={ __( 'Delete Font Face', 'themer' ) }
+						onClick={ () =>
+							handleDeleteFontFace( currentFontFace.index )
+						}
+					>
+						{ __( 'Delete', 'themer' ) }
 					</Button>
 				</Modal>
 			) }

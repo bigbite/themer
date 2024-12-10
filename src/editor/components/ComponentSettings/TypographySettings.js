@@ -13,7 +13,7 @@ const TypographySettings = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
-	const fontFamilies = value?.fontFamilies?.custom || [];
+	console.log(value);
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
