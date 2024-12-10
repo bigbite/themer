@@ -6,7 +6,7 @@ import SettingsLayout from './SettingsLayout';
 import SettingsSpacing from './SettingsSpacing';
 import TypographySettings from './TypographySettings';
 import SettingsDimensions from './SettingsDimensions';
-import ShadowSettings from './ShadowSettings';
+import SettingsShadow from './SettingsShadow';
 // import BackgroundSettings from './BackgroundSettings';
 
 /**
@@ -36,7 +36,7 @@ const Styles = ( { selector } ) => {
 				<SettingsSpacing selector={ `${ selector }.spacing` } /> */ }
 				{/* <TypographySettings selector={ `${ selector }.typography` } /> */}
 				<SettingsDimensions selector={ `${ selector }.dimensions` } />
-				{ /* <ShadowSettings selector={ `${ selector }.shadow` } /> */ }
+				<SettingsShadow selector={ `${ selector }.shadow` } />
 				{ /* <BackgroundSettings selector={ `${ selector }.background` } /> */ }
 			</div>
 		</div>

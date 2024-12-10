@@ -10,7 +10,7 @@ import StylesContext from '../../context/StylesContext';
 const SettingsDimensions = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig ) || {};
+	const value = getThemeOption( selector, themeConfig ) || [];
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
