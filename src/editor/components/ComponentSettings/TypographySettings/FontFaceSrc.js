@@ -17,7 +17,7 @@ const FontFaceSrc = ( { selector, familyIndex, fontFaceIndex } ) => {
 
 	let srcOptions = [];
 
-	if ( fontFaceIndex ) {
+	if ( fontFaceIndex !== '' ) {
 		srcOptions = value[ familyIndex ].fontFace[ fontFaceIndex ]?.src || [];
 	}
 

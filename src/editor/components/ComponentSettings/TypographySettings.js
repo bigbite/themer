@@ -8,12 +8,12 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 import FontFamilies from './TypographySettings/FontFamilies';
+import FontSizes from './TypographySettings/FontSizes';
 
 const TypographySettings = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
-	console.log(value);
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
@@ -41,9 +41,12 @@ const TypographySettings = ( { selector } ) => {
 					} }
 				/>
 				{
+					<>
 					<FontFamilies
 						selector={ `${ selector }.fontFamilies.custom` }
 					/>
+					<FontSizes selector={ `${ selector }.fontSizes.custom` } />
+					</>
 				}
 			</div>
 		</>

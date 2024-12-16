@@ -1,7 +1,8 @@
 import { set, get } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
-import { Button, TextControl } from '@wordpress/components';
+import { Button, TextControl, Modal } from '@wordpress/components';
+import { plus } from '@wordpress/icons';
 
 import FontFace from './FontFace';
 import getThemeOption from '../../../../utils/get-theme-option';
@@ -19,18 +20,23 @@ const FontFamilies = ( { selector } ) => {
 		slug: '',
 		index: '',
 	} );
+	const [ newFont, setNewFont ] = useState( {
+		fontFamily: '',
+		name: '',
+		slug: '',
+	} );
 
-	const handleNewValue = ( newValue, key ) => {
-		setCurrentFont( { ...currentFont, [ key ]: newValue } );
-		if ( currentFont.index === '' ) {
-			return;
-		}
+	const [ isOpen, setIsOpen ] = useState( false );
+
+	const handleUpdateValue = ( index ) => {
 		let config = structuredClone( userConfig );
-		config = set(
-			config,
-			`${ selector }[${ currentFont.index }].${ key }`,
-			newValue
-		);
+		let obj = structuredClone( get( config, `${ selector }[${ index }]` ) );
+
+		obj = {
+			...obj,
+			...currentFont,
+		};
+		config = set( config, `${ selector }[${ index }]`, obj );
 		setUserConfig( config );
 	};
 
@@ -38,18 +44,19 @@ const FontFamilies = ( { selector } ) => {
 		let config = structuredClone( userConfig );
 		let obj = get( config, `${ selector }` ) || [];
 		obj.push( {
-			fontFamily: currentFont.fontFamily,
-			name: currentFont.name,
-			slug: currentFont.slug,
+			fontFamily: newFont.fontFamily,
+			name: newFont.name,
+			slug: newFont.slug,
 		} );
+
 		config = set( config, `${ selector }`, obj );
 		setUserConfig( config );
-		setCurrentFont( {
-			fontFamily: currentFont.fontFamily,
-			name: currentFont.name,
-			slug: currentFont.slug,
-			index: obj.length - 1,
+		setNewFont( {
+			fontFamily: '',
+			name: '',
+			slug: '',
 		} );
+		setIsOpen( false );
 	};
 
 	const handleDeleteFontFamily = ( index ) => {
@@ -89,56 +96,97 @@ const FontFamilies = ( { selector } ) => {
 					</Button>
 				);
 			} ) }
-			<TextControl
-				label={ __( 'Font Family', 'themer' ) }
-				value={ currentFont.fontFamily }
-				onChange={ ( fontFamily ) => {
-					handleNewValue( fontFamily, 'fontFamily' );
-				} }
-			/>
-			<TextControl
-				label={ __( 'Name', 'themer' ) }
-				value={ currentFont.name }
-				onChange={ ( name ) => {
-					handleNewValue( name, 'name' );
-				} }
-			/>
-			<TextControl
-				label={ __( 'Slug', 'themer' ) }
-				value={ currentFont.slug }
-				onChange={ ( slug ) => {
-					handleNewValue( slug, 'slug' );
-				} }
-			/>
-			<Button
-				disabled={ currentFont.index !== '' }
-				onClick={ () => handleFontFamilyChange( currentFont.index ) }
-			>
-				{ __( 'Add', 'themer' ) }
-			</Button>
-			<Button
-				disabled={ ! currentFont.name }
-				onClick={ () =>
-					setCurrentFont( {
-						fontFamily: '',
-						name: '',
-						slug: '',
-						index: '',
-					} )
-				}
-			>
-				{__('Reset', 'themer')}
-			</Button>
-			<Button
-				disabled={ currentFont.index === '' }
-				onClick={ () => handleDeleteFontFamily( currentFont.index ) }
-			>
-				{ __( 'Delete Font Family', 'themer' ) }
-			</Button>
-			<FontFace
-				familyIndex={ currentFont.index }
-				selector={ `${ selector }` }
-			/>
+			{ currentFont.index !== '' && (
+				<Modal
+					onRequestClose={ () =>
+						setCurrentFont( {
+							fontFamily: '',
+							name: '',
+							slug: '',
+							index: '',
+						} )
+					}
+				>
+					<TextControl
+						label={ __( 'Font Family', 'themer' ) }
+						value={ currentFont.fontFamily }
+						onChange={ ( fontFamily ) => {
+							setCurrentFont( { ...currentFont, fontFamily } );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Name', 'themer' ) }
+						value={ currentFont.name }
+						onChange={ ( name ) => {
+							setCurrentFont( { ...currentFont, name } );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Slug', 'themer' ) }
+						value={ currentFont.slug }
+						onChange={ ( slug ) => {
+							setCurrentFont( { ...currentFont, slug } );
+						} }
+					/>
+					<Button
+						onClick={ () => {
+							setCurrentFont( {
+								...currentFont,
+								index: currentFont.index,
+							} );
+							handleUpdateValue( currentFont.index );
+						} }
+					>
+						{ __( 'Save', 'themer' ) }
+					</Button>
+					<Button
+						disabled={ currentFont.index === '' }
+						onClick={ () =>
+							handleDeleteFontFamily( currentFont.index )
+						}
+					>
+						{ __( 'Delete Font Family', 'themer' ) }
+					</Button>
+					<FontFace
+						familyIndex={ currentFont.index }
+						selector={ `${ selector }` }
+					/>
+				</Modal>
+			) }
+			{ isOpen && (
+				<Modal onRequestClose={ () => setIsOpen( ! isOpen ) }>
+					<TextControl
+						label={ __( 'Font Family', 'themer' ) }
+						value={ newFont.fontFamily }
+						onChange={ ( fontFamily ) => {
+							setNewFont( { ...newFont, fontFamily } );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Name', 'themer' ) }
+						value={ newFont.name }
+						onChange={ ( name ) => {
+							setNewFont( { ...newFont, name } );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Slug', 'themer' ) }
+						value={ newFont.slug }
+						onChange={ ( slug ) => {
+							setNewFont( { ...newFont, slug } );
+						} }
+					/>
+					<Button
+						onClick={ () => {
+							handleFontFamilyChange();
+							setIsOpen( ! isOpen );
+						} }
+					>
+						{ __( 'Save', 'themer' ) }
+					</Button>
+				</Modal>
+			) }
+			<Button icon={ plus } onClick={ () => setIsOpen( ! isOpen ) } />
 		</div>
 	);
 };
