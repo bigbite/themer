@@ -42,12 +42,56 @@ const TypographySettings = ( { selector } ) => {
 				/>
 				{
 					<>
-					<FontFamilies
-						selector={ `${ selector }.fontFamilies.custom` }
-					/>
-					<FontSizes selector={ `${ selector }.fontSizes.custom` } />
+						<FontFamilies
+							selector={ `${ selector }.fontFamilies.custom` }
+						/>
+						<FontSizes
+							selector={ `${ selector }.fontSizes.custom` }
+						/>
 					</>
 				}
+				<ToggleControl
+					label={ __( 'Font Style', 'themer' ) }
+					checked={ value?.fontStyle }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'fontStyle' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Font Weight', 'themer' ) }
+					checked={ value?.fontWeight }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'fontWeight' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Letter Spacing', 'themer' ) }
+					checked={ value?.letterSpacing }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'letterSpacing' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Line Height', 'themer' ) }
+					checked={ value?.lineHeight }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'lineHeight' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Text Decoration', 'themer' ) }
+					checked={ value?.textDecoration }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'textDecoration' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Text Transform', 'themer' ) }
+					checked={ value?.textTransform }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'textTransform' );
+					} }
+				/>
 			</div>
 		</>
 	);
