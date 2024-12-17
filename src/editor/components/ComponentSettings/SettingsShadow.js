@@ -63,7 +63,7 @@ const SettingsShadow = ( { selector } ) => {
 
 	const pushNewPreset = () => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.presets.custom` ) || [];
+		const obj = get( config, `${ selector }.presets.custom` ) || [];
 		obj.push( { ...newPreset } );
 		config = set( config, `${ selector }.presets.custom`, obj );
 		setUserConfig( config );
@@ -72,7 +72,7 @@ const SettingsShadow = ( { selector } ) => {
 
 	const handleDeletePreset = ( index ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.presets.custom` );
+		const obj = get( config, `${ selector }.presets.custom` );
 		obj.splice( index, 1 );
 		config = set( config, `${ selector }.presets.custom`, obj );
 		setUserConfig( config );
@@ -105,9 +105,10 @@ const SettingsShadow = ( { selector } ) => {
 								name: preset?.name,
 								slug: preset?.slug,
 								shadow: preset?.shadow,
-								index: index,
+								index,
 							} );
 						} }
+						key={ index }
 					>
 						{ preset.name }
 					</Button>

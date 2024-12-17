@@ -1,4 +1,4 @@
-import { Panel, PanelBody, PanelRow } from '@wordpress/components';
+import { Panel, PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import SettingsComponent from './SettingsComponent';

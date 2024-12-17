@@ -14,13 +14,13 @@ const Nav = () => {
 	return (
 		<ul className="themer-nav-list">
 			<li className="themer-nav-list__item themer-nav-list__item--hasSettings">
-			<NavListItem
-				icon={ globe }
-				label={ __( 'Site', 'themer' ) }
-				route="/"
-				hasStyles
-			/>
-			<NavListItem icon={settings} route="/settings" hasStyles />
+				<NavListItem
+					icon={ globe }
+					label={ __( 'Site', 'themer' ) }
+					route="/"
+					hasStyles
+				/>
+				<NavListItem icon={ settings } route="/settings" hasStyles />
 			</li>
 			<NavListItem
 				icon={ blockDefault }

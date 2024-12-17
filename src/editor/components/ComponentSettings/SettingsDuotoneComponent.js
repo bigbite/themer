@@ -44,7 +44,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 
 	const handleDeleteDuotone = ( key ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.custom` );
+		const obj = get( config, `${ selector }.custom` );
 
 		obj.splice( key, 1 );
 
@@ -55,7 +55,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 
 	const handleNewDuotone = () => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.custom` ) || [];
+		const obj = get( config, `${ selector }.custom` ) || [];
 		obj.push( { ...newDuotone } );
 		config = set( config, `${ selector }.custom`, obj );
 		setIsOpen( false );
@@ -68,11 +68,11 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Duotone Settings', 'themer' ) }
 			</span>
-			<span class="themer--color-palette">
+			<span className="themer--color-palette">
 				{ value.map( ( duotone, index ) => {
 					const color = getGradientFromCSSColors( duotone.colors );
 					return (
-						<div>
+						<div key={index}>
 							<Button
 								className="components-color-list-picker__swatch-button"
 								icon={

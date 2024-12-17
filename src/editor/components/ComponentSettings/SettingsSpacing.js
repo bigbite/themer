@@ -29,7 +29,7 @@ const SettingsSpacing = ( { selector } ) => {
 
 	const handleDelete = ( index ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.units` );
+		const obj = get( config, `${ selector }.units` );
 		obj.splice( index, 1 );
 		config = set( config, `${ selector }.units`, obj );
 		setUserConfig( config );
@@ -37,7 +37,7 @@ const SettingsSpacing = ( { selector } ) => {
 
 	const handleNewUnit = () => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.units` ) || [];
+		const obj = get( config, `${ selector }.units` ) || [];
 		obj.push( newUnit );
 		config = set( config, `${ selector }.units`, obj );
 		setUserConfig( config );
@@ -77,7 +77,7 @@ const SettingsSpacing = ( { selector } ) => {
 						className="themer--styles__item__control"
 						key={ index }
 					>
-						<span class="themer--styles__inline-units">
+						<span className="themer--styles__inline-units">
 							<TextControl
 								value={ unit }
 								onChange={ ( newValue ) => {
@@ -96,7 +96,7 @@ const SettingsSpacing = ( { selector } ) => {
 			} ) }
 			{
 				<div>
-					<span class="themer--styles__inline-units">
+					<span className="themer--styles__inline-units">
 						<TextControl
 							value={ newUnit }
 							onChange={ ( val ) => {

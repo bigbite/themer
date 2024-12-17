@@ -46,7 +46,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 
 	const pushNewFontFace = () => {
 		let config = structuredClone( userConfig );
-		let obj =
+		const obj =
 			get( config, `${ selector }[${ familyIndex }].fontFace` ) || [];
 		obj.push( { ...newFontFace } );
 		config = set( config, `${ selector }[${ familyIndex }].fontFace`, obj );
@@ -56,7 +56,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 
 	const handleDeleteFontFace = ( index ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }[${ familyIndex }].fontFace` );
+		const obj = get( config, `${ selector }[${ familyIndex }].fontFace` );
 
 		obj.splice( index, 1 );
 
@@ -82,7 +82,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 			/>
 			{ fontFaces.map( ( fontFace, index ) => {
 				if ( familyIndex === '' ) {
-					return;
+					return null;
 				}
 				return (
 					<Button
@@ -96,6 +96,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 								index,
 							} )
 						}
+						key={ index }
 					>
 						{ fontFace.fontFamily }
 					</Button>

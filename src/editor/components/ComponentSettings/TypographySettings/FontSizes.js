@@ -24,9 +24,19 @@ const FontFaces = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
+	const handleNewFontSize = () => {
+		let config = structuredClone( userConfig );
+		const obj = get( config, selector ) || [];
+		obj.push( newSize );
+		config = set( config, selector, obj );
+		setUserConfig( config );
+		setNewSize( {} );
+		setIsOpen( false );
+	};
+
 	const handleDelete = ( index ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, selector );
+		const obj = get( config, selector );
 		obj.splice( index, 1 );
 		config = set( config, selector, obj );
 		setUserConfig( config );
@@ -47,6 +57,7 @@ const FontFaces = ( { selector } ) => {
 								index,
 							} );
 						} }
+						key={ index }
 					>
 						{ size?.name }
 					</Button>
@@ -98,13 +109,7 @@ const FontFaces = ( { selector } ) => {
 					/>
 					<Button
 						onClick={ () => {
-							let config = structuredClone( userConfig );
-							let obj = get( config, selector ) || [];
-							obj.push( newSize );
-							config = set( config, selector, obj );
-							setUserConfig( config );
-							setNewSize( {} );
-							setIsOpen( false );
+							handleNewFontSize();
 						} }
 					>
 						Save

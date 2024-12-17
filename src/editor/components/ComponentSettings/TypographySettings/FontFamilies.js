@@ -42,7 +42,7 @@ const FontFamilies = ( { selector } ) => {
 
 	const handleFontFamilyChange = () => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }` ) || [];
+		const obj = get( config, `${ selector }` ) || [];
 		obj.push( {
 			fontFamily: newFont.fontFamily,
 			name: newFont.name,
@@ -61,7 +61,7 @@ const FontFamilies = ( { selector } ) => {
 
 	const handleDeleteFontFamily = ( index ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }` );
+		const obj = get( config, `${ selector }` );
 
 		obj.splice( index, 1 );
 
@@ -88,9 +88,10 @@ const FontFamilies = ( { selector } ) => {
 								fontFamily: font.fontFamily,
 								name: font.name,
 								slug: font.slug,
-								index: index,
+								index,
 							} )
 						}
+						key={ index }
 					>
 						{ font.name }
 					</Button>

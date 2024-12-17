@@ -82,9 +82,7 @@ const SettingsBorder = ( { selector } ) => {
 					handleNewValue( newValue, 'defaultPalette' )
 				}
 			/>
-			<SettingsDuotoneComponent
-				selector={ `${ selector }.duotone` }
-			/>
+			<SettingsDuotoneComponent selector={ `${ selector }.duotone` } />
 			<SettingsGradientsComponent
 				selector={ `${ selector }.gradients` }
 			/>

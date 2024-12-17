@@ -43,7 +43,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 
 	const handleDeleteGradient = ( key ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.custom` );
+		const obj = get( config, `${ selector }.custom` );
 
 		obj.splice( key, 1 );
 
@@ -54,7 +54,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 
 	const handleNewGradient = () => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.custom` ) || [];
+		const obj = get( config, `${ selector }.custom` ) || [];
 		obj.push( { ...newGradient } );
 		config = set( config, `${ selector }.custom`, obj );
 		setIsOpen( false );
@@ -67,10 +67,10 @@ const SettingsGradientComponent = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Gradient Settings', 'themer' ) }
 			</span>
-			<span class="themer--color-palette">
+			<span className="themer--color-palette">
 				{ value.map( ( val, index ) => {
 					return (
-						<div>
+						<div key={ index }>
 							<Button
 								className="components-color-list-picker__swatch-button"
 								icon={

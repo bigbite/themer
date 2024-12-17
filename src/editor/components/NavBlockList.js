@@ -45,7 +45,7 @@ const NavBlockList = () => {
 						'/settings/' + encodeURIComponent( block.name );
 
 					return (
-						<span class="themer-nav-list__item themer-nav-list__item--hasSettings">
+						<span className="themer-nav-list__item themer-nav-list__item--hasSettings">
 							<NavListItem
 								key={ block.name }
 								icon={ block?.icon?.src }

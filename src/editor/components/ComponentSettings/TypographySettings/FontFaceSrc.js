@@ -1,7 +1,6 @@
 import { set, get } from 'lodash';
-import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
-import { Button, TextControl, Modal } from '@wordpress/components';
+import { Button, TextControl } from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../../utils/get-theme-option';
@@ -33,7 +32,7 @@ const FontFaceSrc = ( { selector, familyIndex, fontFaceIndex } ) => {
 
 	const pushNewSrc = () => {
 		let config = structuredClone( userConfig );
-		let obj =
+		const obj =
 			get(
 				config,
 				`${ selector }[${ familyIndex }].fontFace[${ fontFaceIndex }].src`
@@ -52,6 +51,7 @@ const FontFaceSrc = ( { selector, familyIndex, fontFaceIndex } ) => {
 		<div>
 			{ srcOptions.map( ( srcOption, index ) => (
 				<TextControl
+					key={ index }
 					label={ `Src ${ index }` }
 					value={ srcOption }
 					onChange={ ( val ) => handleNewValue( val, index ) }
