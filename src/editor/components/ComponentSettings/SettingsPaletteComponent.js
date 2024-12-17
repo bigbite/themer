@@ -118,7 +118,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 					<Button
 						isPrimary
 						onClick={ () => {
-							handleDeleteColor( currentColor.key );
+							handleDeleteColor( currentColor?.key );
 						} }
 					>
 						Delete Color
@@ -134,20 +134,20 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 				>
 					<TextControl
 						label={ __( 'Name', 'themer' ) }
-						value={ newColor.name }
+						value={ newColor?.name }
 						onChange={ ( name ) => {
 							setNewColor( { ...newColor, name } );
 						} }
 					/>
 					<TextControl
 						label={ __( 'Slug', 'themer' ) }
-						value={ newColor.slug }
+						value={ newColor?.slug }
 						onChange={ ( slug ) => {
 							setNewColor( { ...newColor, slug } );
 						} }
 					/>
 					<ColorPicker
-						color={ newColor.color }
+						color={ newColor?.color }
 						onChange={ ( color ) => {
 							setNewColor( { ...newColor, color } );
 						} }

@@ -1,8 +1,7 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { ToggleControl, Button } from '@wordpress/components';
-import { plus } from '@wordpress/icons';
+import { ToggleControl } from '@wordpress/components';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';

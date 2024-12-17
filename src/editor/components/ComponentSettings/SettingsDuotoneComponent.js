@@ -15,7 +15,7 @@ import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 import { getGradientFromCSSColors } from '../../../utils/style-helpers';
 
-const SettingsDuotoneComponent = ( { selector, label } ) => {
+const SettingsDuotoneComponent = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig )?.custom || [];
@@ -65,7 +65,9 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
 
 	return (
 		<div>
-			<span className="themer--styles__item__title">{ label }</span>
+			<span className="themer--styles__item__title">
+				{ __( 'Duotone Settings', 'themer' ) }
+			</span>
 			<span class="themer--color-palette">
 				{ value.map( ( duotone, index ) => {
 					const color = getGradientFromCSSColors( duotone.colors );
@@ -122,7 +124,7 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
 					<Button
 						isPrimary
 						onClick={ () => {
-							handleDeleteDuotone( currentDuotone.key );
+							handleDeleteDuotone( currentDuotone?.key );
 						} }
 					>
 						Delete Duotone
@@ -138,14 +140,14 @@ const SettingsDuotoneComponent = ( { selector, label } ) => {
 				>
 					<TextControl
 						label={ __( 'Name', 'themer' ) }
-						value={ newDuotone.name }
+						value={ newDuotone?.name }
 						onChange={ ( name ) => {
 							setNewDuotone( { ...newDuotone, name } );
 						} }
 					/>
 					<TextControl
 						label={ __( 'Slug', 'themer' ) }
-						value={ newDuotone.slug }
+						value={ newDuotone?.slug }
 						onChange={ ( slug ) => {
 							setNewDuotone( { ...newDuotone, slug } );
 						} }

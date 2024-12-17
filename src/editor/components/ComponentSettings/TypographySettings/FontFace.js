@@ -88,11 +88,11 @@ const FontFace = ( { familyIndex, selector } ) => {
 					<Button
 						onClick={ () =>
 							setCurrentFontFace( {
-								fontFamily: fontFace.fontFamily,
-								fontStretch: fontFace.fontStretch,
-								fontStyle: fontFace.fontStyle,
-								fontWeight: fontFace.fontWeight,
-								src: fontFace.src,
+								fontFamily: fontFace?.fontFamily,
+								fontStretch: fontFace?.fontStretch,
+								fontStyle: fontFace?.fontStyle,
+								fontWeight: fontFace?.fontWeight,
+								src: fontFace?.src,
 								index,
 							} )
 						}
@@ -132,7 +132,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 						} }
 					/>
 
-                    { /* Needs functionality for new font face src to be added here */ }
+					{ /* Needs functionality for new font face src to be added here */ }
 					<Button
 						label={ 'Save New Font Face' }
 						onClick={ pushNewFontFace }
@@ -180,18 +180,11 @@ const FontFace = ( { familyIndex, selector } ) => {
 							handleNewValue( fontWeight, 'fontWeight' );
 						} }
 					/>
-                    <FontFaceSrc selector={ `${selector}` } familyIndex={familyIndex} fontFaceIndex={currentFontFace.index}  />
-					{/* { currentFontFace.src.map( ( val, index ) => {
-						return (
-							<TextControl
-								label={ `src ${ index }` }
-								value={ currentFontFace.src[ index ] }
-								onChange={ (src) =>
-									handleNewValue( src, 'src', index )
-								}
-							/>
-						);
-					} ) } */}
+					<FontFaceSrc
+						selector={ `${ selector }` }
+						familyIndex={ familyIndex }
+						fontFaceIndex={ currentFontFace.index }
+					/>
 					<Button
 						label={ 'Save Font Face' }
 						onClick={ () =>

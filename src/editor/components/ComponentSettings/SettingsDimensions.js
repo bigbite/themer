@@ -23,20 +23,20 @@ const SettingsDimensions = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Dimensions Settings', 'themer' ) }
 			</span>
-				<ToggleControl
-					label={ __( 'Aspect Ratio', 'themer' ) }
-					checked={ value?.aspectRatio }
-					onChange={ ( val ) => {
-						handleNewValue( val, 'aspectRatio' );
-					} }
-				/>
-				<ToggleControl
-					label={ __( 'Min Height', 'themer' ) }
-					checked={ value?.minHeight }
-					onChange={ ( val ) => {
-						handleNewValue( val, 'minHeight' );
-					} }
-				/>
+			<ToggleControl
+				label={ __( 'Aspect Ratio', 'themer' ) }
+				checked={ value?.aspectRatio }
+				onChange={ ( val ) => {
+					handleNewValue( val, 'aspectRatio' );
+				} }
+			/>
+			<ToggleControl
+				label={ __( 'Min Height', 'themer' ) }
+				checked={ value?.minHeight }
+				onChange={ ( val ) => {
+					handleNewValue( val, 'minHeight' );
+				} }
+			/>
 		</>
 	);
 };

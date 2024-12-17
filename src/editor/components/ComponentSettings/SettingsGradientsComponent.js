@@ -14,7 +14,7 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsGradientComponent = ( { selector, label } ) => {
+const SettingsGradientComponent = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig )?.custom || [];
@@ -64,7 +64,9 @@ const SettingsGradientComponent = ( { selector, label } ) => {
 
 	return (
 		<div>
-			<span className="themer--styles__item__title">{ label }</span>
+			<span className="themer--styles__item__title">
+				{ __( 'Gradient Settings', 'themer' ) }
+			</span>
 			<span class="themer--color-palette">
 				{ value.map( ( val, index ) => {
 					return (
@@ -117,7 +119,7 @@ const SettingsGradientComponent = ( { selector, label } ) => {
 					<Button
 						isPrimary
 						onClick={ () => {
-							handleDeleteGradient( currentGradient.key );
+							handleDeleteGradient( currentGradient?.key );
 						} }
 					>
 						Delete Gradient
@@ -133,20 +135,20 @@ const SettingsGradientComponent = ( { selector, label } ) => {
 				>
 					<TextControl
 						label={ __( 'Name', 'themer' ) }
-						value={ newGradient.name }
+						value={ newGradient?.name }
 						onChange={ ( name ) => {
 							setNewGradient( { ...newGradient, name } );
 						} }
 					/>
 					<TextControl
 						label={ __( 'Slug', 'themer' ) }
-						value={ newGradient.slug }
+						value={ newGradient?.slug }
 						onChange={ ( slug ) => {
 							setNewGradient( { ...newGradient, slug } );
 						} }
 					/>
 					<GradientPicker
-						value={ newGradient.gradient ?? null }
+						value={ newGradient?.gradient ?? null }
 						onChange={ ( gradient ) => {
 							setNewGradient( { ...newGradient, gradient } );
 						} }

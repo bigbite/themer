@@ -11,12 +11,10 @@ const SettingsLayout = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
-	const layoutStyles = getThemeOption( selector, themeConfig );
 
-	const handleNewValue = ( value, key ) => {
-		const newLayoutStyles = { ...layoutStyles, [ key ]: value };
+	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
-		config = set( config, selector, newLayoutStyles );
+		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
 	};
 

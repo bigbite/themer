@@ -7,7 +7,7 @@ import {
 	Modal,
 	Button,
 } from '@wordpress/components';
-import { plus, cancelCircleFilled } from '@wordpress/icons';
+import { plus } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
@@ -25,11 +25,40 @@ const SettingsShadow = ( { selector } ) => {
 		slug: '',
 		shadow: '',
 	} );
+	const [ currentPreset, setCurrentPreset ] = useState( {
+		name: '',
+		slug: '',
+		shadow: '',
+		index: '',
+	} );
 
 	const handleNewValue = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
 		config = set( config, [ selector, key ].join( '.' ), newValue );
 		setUserConfig( config );
+	};
+
+	const handleNewPreset = ( index ) => {
+		let config = structuredClone( userConfig );
+		let obj = structuredClone(
+			get( config, `${ selector }.presets.custom[${ index }]` )
+		);
+
+		obj = {
+			...obj,
+			name: currentPreset?.name,
+			slug: currentPreset?.slug,
+			shadow: currentPreset?.shadow,
+		};
+		config = set( config, `${ selector }.presets.custom[${ index }]`, obj );
+		setUserConfig( config );
+
+		setCurrentPreset( {
+			name: '',
+			slug: '',
+			shadow: '',
+			index: '',
+		} );
 	};
 
 	const pushNewPreset = () => {
@@ -44,11 +73,15 @@ const SettingsShadow = ( { selector } ) => {
 	const handleDeletePreset = ( index ) => {
 		let config = structuredClone( userConfig );
 		let obj = get( config, `${ selector }.presets.custom` );
-
 		obj.splice( index, 1 );
-
 		config = set( config, `${ selector }.presets.custom`, obj );
 		setUserConfig( config );
+		setCurrentPreset( {
+			name: '',
+			slug: '',
+			shadow: '',
+			index: '',
+		} );
 	};
 
 	return (
@@ -66,43 +99,18 @@ const SettingsShadow = ( { selector } ) => {
 			{ __( 'Custom Presets', 'themer' ) }
 			{ customPresets.map( ( preset, index ) => {
 				return (
-					<div>
+					<Button
+						onClick={ () => {
+							setCurrentPreset( {
+								name: preset?.name,
+								slug: preset?.slug,
+								shadow: preset?.shadow,
+								index: index,
+							} );
+						} }
+					>
 						{ preset.name }
-						<TextControl
-							label={ __( 'Name', 'themer' ) }
-							value={ preset.name }
-							onChange={ ( val ) =>
-								handleNewValue(
-									val,
-									`presets.custom.${ index }.name`
-								)
-							}
-						/>
-						<TextControl
-							label={ __( 'Slug', 'themer' ) }
-							value={ preset.slug }
-							onChange={ ( val ) =>
-								handleNewValue(
-									val,
-									`presets.custom.${ index }.slug`
-								)
-							}
-						/>
-						<TextControl
-							label={ __( 'Shadow', 'themer' ) }
-							value={ preset.shadow }
-							onChange={ ( val ) =>
-								handleNewValue(
-									val,
-									`presets.custom.${ index }.shadow`
-								)
-							}
-						/>
-						<Button
-							icon={ cancelCircleFilled }
-							onClick={ () => handleDeletePreset( index ) }
-						/>
-					</div>
+					</Button>
 				);
 			} ) }
 			{
@@ -140,6 +148,54 @@ const SettingsShadow = ( { selector } ) => {
 					) }
 				</span>
 			}
+			{ currentPreset.index !== '' && (
+				<Modal
+					onRequestClose={ () =>
+						setCurrentPreset( {
+							name: '',
+							slug: '',
+							shadow: '',
+							index: '',
+						} )
+					}
+				>
+					<TextControl
+						label={ __( 'Name', 'themer' ) }
+						value={ currentPreset.name }
+						onChange={ ( name ) =>
+							setCurrentPreset( { ...currentPreset, name } )
+						}
+					/>
+					<TextControl
+						label={ __( 'Slug', 'themer' ) }
+						value={ currentPreset.slug }
+						onChange={ ( slug ) =>
+							setCurrentPreset( { ...currentPreset, slug } )
+						}
+					/>
+					<TextControl
+						label={ __( 'Shadow', 'themer' ) }
+						value={ currentPreset.shadow }
+						onChange={ ( shadow ) =>
+							setCurrentPreset( { ...currentPreset, shadow } )
+						}
+					/>
+					<Button
+						onClick={ () => {
+							handleNewPreset( currentPreset?.index );
+						} }
+					>
+						Save
+					</Button>
+					<Button
+						onClick={ () => {
+							handleDeletePreset( currentPreset?.index );
+						} }
+					>
+						Delete
+					</Button>
+				</Modal>
+			) }
 		</>
 	);
 };

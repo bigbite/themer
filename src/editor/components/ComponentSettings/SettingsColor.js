@@ -83,11 +83,9 @@ const SettingsBorder = ( { selector } ) => {
 				}
 			/>
 			<SettingsDuotoneComponent
-				label={ __( 'Duotone Settings', 'themer' ) }
 				selector={ `${ selector }.duotone` }
 			/>
 			<SettingsGradientsComponent
-				label={ __( 'Gradient Settings', 'themer' ) }
 				selector={ `${ selector }.gradients` }
 			/>
 			<ToggleControl
