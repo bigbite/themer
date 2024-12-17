@@ -42,7 +42,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
 	const handleDeleteColor = ( key ) => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.custom` );
+		const obj = get( config, `${ selector }.custom` );
 
 		obj.splice( key, 1 );
 
@@ -53,7 +53,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
 	const handleNewColor = () => {
 		let config = structuredClone( userConfig );
-		let obj = get( config, `${ selector }.custom` ) || [];
+		const obj = get( config, `${ selector }.custom` ) || [];
 
 		obj.push( { ...newColor } );
 
@@ -66,10 +66,10 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 	return (
 		<div>
 			<span className="themer--styles__item__title">{ label }</span>
-			<span class="themer--color-palette">
+			<span className="themer--color-palette">
 				{ value.map( ( val, index ) => {
 					return (
-						<div>
+						<div key={ index }>
 							<Button
 								className="components-color-list-picker__swatch-button"
 								icon={

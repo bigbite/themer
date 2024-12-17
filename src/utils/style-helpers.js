@@ -1,7 +1,7 @@
 /**
  * Generate a duotone gradient from a list of colors.
  *
- * @param {array} colors CSS color strings.
+ * @param {Array|undefined} colors CSS color strings.
  * @param {string} angle  CSS gradient angle.
  *
  * @return {string} CSS gradient string for the duotone swatch.

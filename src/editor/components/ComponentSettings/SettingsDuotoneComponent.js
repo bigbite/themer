@@ -72,7 +72,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 				{ value.map( ( duotone, index ) => {
 					const color = getGradientFromCSSColors( duotone.colors );
 					return (
-						<div key={index}>
+						<div key={ index }>
 							<Button
 								className="components-color-list-picker__swatch-button"
 								icon={

@@ -8,7 +8,7 @@ import {
 	Modal,
 	ColorIndicator,
 } from '@wordpress/components';
-import { plus } from '@wordpress/icons';
+import { plus, swatch } from '@wordpress/icons';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
