@@ -10,10 +10,11 @@ import StylesContext from '../../context/StylesContext';
 /**
  * Component for border settings
  *
- * @param {Object} props          Component props
- * @param {string} props.selector Property target selector
+ * @param {Object} props             Component props
+ * @param {string} props.selector    Property target selector
+ * @param {string} props.description Property description
  */
-const SettingsCustom = ( { selector } ) => {
+const SettingsCustom = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig );
@@ -65,6 +66,11 @@ const SettingsCustom = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Custom Settings Object', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<span>
 				<TextareaControl
 					value={ custom }

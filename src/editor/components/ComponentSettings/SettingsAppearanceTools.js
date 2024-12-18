@@ -10,10 +10,11 @@ import StylesContext from '../../context/StylesContext';
 /**
  * Component for site settings
  *
- * @param {Object} props          Component props
- * @param {string} props.selector Property target selector
+ * @param {Object} props             Component props
+ * @param {string} props.selector    Property target selector
+ * @param {string} props.description Property description
  */
-const SettingsComponent = ( { selector } ) => {
+const SettingsAppearanceTools = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
@@ -27,8 +28,13 @@ const SettingsComponent = ( { selector } ) => {
 	return (
 		<>
 			<span className="themer--styles__item__title">
-				{ __( 'Site Settings', 'themer' ) }
+				{ __( 'Appearance Tools', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<ToggleControl
 				label={ __( 'Appearance Tools', 'themer' ) }
 				checked={ value?.appearanceTools }
@@ -47,4 +53,4 @@ const SettingsComponent = ( { selector } ) => {
 	);
 };
 
-export default SettingsComponent;
+export default SettingsAppearanceTools;

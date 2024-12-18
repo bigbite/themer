@@ -14,10 +14,11 @@ import SettingsPaletteComponent from './SettingsPaletteComponent';
 /**
  * Component for color settings
  *
- * @param {Object} props          Component props
- * @param {string} props.selector Property target selector
+ * @param {Object} props             Component props
+ * @param {string} props.selector    Property target selector
+ * @param {string} props.description Property description
  */
-const SettingsBorder = ( { selector } ) => {
+const SettingsBorder = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
@@ -33,6 +34,11 @@ const SettingsBorder = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Color Settings', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<ToggleControl
 				label={ __( 'Background', 'themer' ) }
 				checked={ value?.background }

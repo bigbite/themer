@@ -13,7 +13,7 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsShadow = ( { selector } ) => {
+const SettingsShadow = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
@@ -89,6 +89,11 @@ const SettingsShadow = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Shadow Settings', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<ToggleControl
 				label={ __( 'Default Presets', 'themer' ) }
 				checked={ value?.defaultPresets }

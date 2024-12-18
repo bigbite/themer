@@ -7,7 +7,7 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsPosition = ( { selector } ) => {
+const SettingsPosition = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
@@ -23,6 +23,11 @@ const SettingsPosition = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Position', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<ToggleControl
 				label={ __( 'Sticky', 'themer' ) }
 				checked={ value?.sticky }

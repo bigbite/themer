@@ -8,7 +8,7 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsSpacing = ( { selector } ) => {
+const SettingsSpacing = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
@@ -49,6 +49,11 @@ const SettingsSpacing = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Spacing', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<ToggleControl
 				checked={ value?.blockGap }
 				label={ __( 'Block Gap', 'themer' ) }

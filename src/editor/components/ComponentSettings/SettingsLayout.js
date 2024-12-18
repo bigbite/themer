@@ -7,7 +7,7 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
-const SettingsLayout = ( { selector } ) => {
+const SettingsLayout = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || {};
@@ -22,21 +22,26 @@ const SettingsLayout = ( { selector } ) => {
 		<>
 			<span className="themer--styles__item__title">
 				{ __( 'Layout Settings', 'themer' ) }
-				<UnitControl
-					label={ __( 'Content Size', 'themer' ) }
-					value={ value?.contentSize }
-					onChange={ ( newValue ) =>
-						handleNewValue( newValue, 'contentSize' )
-					}
-				/>
-				<UnitControl
-					label={ __( 'Wide Size', 'themer' ) }
-					value={ value?.wideSize }
-					onChange={ ( newValue ) =>
-						handleNewValue( newValue, 'wideSize' )
-					}
-				/>
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
+			<UnitControl
+				label={ __( 'Content Size', 'themer' ) }
+				value={ value?.contentSize }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'contentSize' )
+				}
+			/>
+			<UnitControl
+				label={ __( 'Wide Size', 'themer' ) }
+				value={ value?.wideSize }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'wideSize' )
+				}
+			/>
 		</>
 	);
 };

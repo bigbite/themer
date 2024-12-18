@@ -9,7 +9,7 @@ import StylesContext from '../../context/StylesContext';
 import FontFamilies from './TypographySettings/FontFamilies';
 import FontSizes from './TypographySettings/FontSizes';
 
-const TypographySettings = ( { selector } ) => {
+const TypographySettings = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
@@ -24,6 +24,11 @@ const TypographySettings = ( { selector } ) => {
 			<span className="themer--styles__item__title">
 				{ __( 'Typography', 'themer' ) }
 			</span>
+			{ description && (
+				<p className="themer--styles__item__description">
+					{ description }
+				</p>
+			) }
 			<div>
 				<ToggleControl
 					label={ __( 'Custom Font Size', 'themer' ) }
