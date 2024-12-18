@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import SettingsComponent from './SettingsComponent';
 import SettingsBorder from './SettingsBorder';
 import SettingsColor from './SettingsColor';
-// import CustomSettings from './CustomSettings';
+import SettingsCustom from './SettingsCustom';
 import SettingsLayout from './SettingsLayout';
 import SettingsSpacing from './SettingsSpacing';
 import TypographySettings from './TypographySettings';
@@ -54,7 +54,7 @@ const Styles = ( { selector } ) => {
 					title={ __( 'Custom Settings', 'themer' ) }
 					initialOpen={ false }
 				>
-					{ /* <CustomSettings selector={ `${ selector }.custom` } /> */ }
+					<SettingsCustom selector={ `${ selector }.custom` } />
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Layout Settings', 'themer' ) }
@@ -70,7 +70,7 @@ const Styles = ( { selector } ) => {
 				</PanelBody>
 				<PanelBody
 					title={ __( 'Typography Settings', 'themer' ) }
-					initialOpen={ true }
+					initialOpen={ false }
 				>
 					<TypographySettings
 						selector={ `${ selector }.typography` }

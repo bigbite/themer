@@ -228,12 +228,14 @@ const ThemerComponent = () => {
 				>
 					<div className="themer-topbar">
 						<Button
+							className="themer-reset-button"
 							isSecondary
 							onClick={ () => reset() }
 							text="Reset"
 							disabled={ ! hasUnsavedChanges }
 						/>
 						<Button
+							className="themer-save-button"
 							isPrimary
 							onClick={ () => save() }
 							text="Save"
