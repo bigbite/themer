@@ -44,16 +44,10 @@ const TypographySettings = ( { selector, description } ) => {
 						handleNewValue( val, 'dropCap' );
 					} }
 				/>
-				{
-					<>
-						<FontFamilies
-							selector={ `${ selector }.fontFamilies.custom` }
-						/>
-						<FontSizes
-							selector={ `${ selector }.fontSizes.custom` }
-						/>
-					</>
-				}
+				<FontFamilies
+					selector={ `${ selector }.fontFamilies.custom` }
+				/>
+				<FontSizes selector={ `${ selector }.fontSizes.custom` } />
 				<ToggleControl
 					label={ __( 'Font Style', 'themer' ) }
 					checked={ value?.fontStyle }

@@ -44,7 +44,7 @@ const FontFaces = ( { selector } ) => {
 	};
 
 	return (
-		<div>
+		<div className="themer--typography-options">
 			<span className="themer--styles__item__title">
 				{ __( 'Font Sizes', 'themer' ) }
 			</span>

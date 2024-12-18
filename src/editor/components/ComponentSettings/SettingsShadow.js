@@ -101,24 +101,26 @@ const SettingsShadow = ( { selector, description } ) => {
 					handleNewValue( val, 'defaultPresets' );
 				} }
 			/>
-			{ __( 'Custom Presets', 'themer' ) }
-			{ customPresets.map( ( preset, index ) => {
-				return (
-					<Button
-						onClick={ () => {
-							setCurrentPreset( {
-								name: preset?.name,
-								slug: preset?.slug,
-								shadow: preset?.shadow,
-								index,
-							} );
-						} }
-						key={ index }
-					>
-						{ preset.name }
-					</Button>
-				);
-			} ) }
+			<div className="themer--shadow-options">
+				{ __( 'Custom Presets', 'themer' ) }
+				{ customPresets.map( ( preset, index ) => {
+					return (
+						<Button
+							onClick={ () => {
+								setCurrentPreset( {
+									name: preset?.name,
+									slug: preset?.slug,
+									shadow: preset?.shadow,
+									index,
+								} );
+							} }
+							key={ index }
+						>
+							{ preset.name }
+						</Button>
+					);
+				} ) }
+			</div>
 			{
 				<span>
 					<Button icon={ plus } onClick={ () => setShow( ! show ) }>
