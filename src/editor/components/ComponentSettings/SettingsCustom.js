@@ -73,6 +73,19 @@ const SettingsCustom = ( { selector, description } ) => {
 			) }
 			<span>
 				<TextareaControl
+					help={
+						<p>
+							<a
+								href={ encodeURI(
+									'https://developer.wordpress.org/news/2023/08/adding-and-using-custom-settings-in-theme-json/'
+								) }
+								target="_blank"
+								rel="noreferrer"
+							>
+								{ __( 'CSS syntax help', 'themer' ) }
+							</a>
+						</p>
+					}
 					value={ custom }
 					onChange={ ( val ) => setCustom( val ) }
 				/>
