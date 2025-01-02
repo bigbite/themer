@@ -7,6 +7,15 @@ import getThemeOption from '../../../../utils/get-theme-option';
 import EditorContext from '../../../context/EditorContext';
 import StylesContext from '../../../context/StylesContext';
 
+/**
+ * Component for Font Face source settings
+ *
+ * @param {Object} props               Component props
+ * @param {string} props.selector      Property target selector
+ * @param {number} props.familyIndex   Index of the font family
+ * @param {number} props.fontFaceIndex Index of the font face
+ *
+ */
 const FontFaceSrc = ( { selector, familyIndex, fontFaceIndex } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );

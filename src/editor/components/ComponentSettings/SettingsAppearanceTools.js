@@ -8,7 +8,7 @@ import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
 /**
- * Component for site settings
+ * Component for site appearance settings
  *
  * @param {Object} props             Component props
  * @param {string} props.selector    Property target selector

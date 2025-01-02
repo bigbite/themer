@@ -7,6 +7,13 @@ import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
 
+/**
+ * Component for background settings
+ *
+ * @param {Object} props             Component props
+ * @param {string} props.selector    Property target selector
+ * @param {string} props.description Property description
+ */
 const BackgroundSettings = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );

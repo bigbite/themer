@@ -10,6 +10,13 @@ import StylesContext from '../../../context/StylesContext';
 
 import FontFaceSrc from './FontFaceSrc';
 
+/**
+ * Component for Font Face settings within Typography settings
+ *
+ * @param {Object} props             Component props
+ * @param {number} props.familyIndex Index of the font family
+ * @param {string} props.selector    Property target selector
+ */
 const FontFace = ( { familyIndex, selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );

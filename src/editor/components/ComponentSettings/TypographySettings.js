@@ -9,6 +9,13 @@ import StylesContext from '../../context/StylesContext';
 import FontFamilies from './TypographySettings/FontFamilies';
 import FontSizes from './TypographySettings/FontSizes';
 
+/**
+ * Component for Typography settings
+ *
+ * @param {Object} props             Component props
+ * @param {string} props.selector    Property target selector
+ * @param {string} props.description Property description
+ */
 const TypographySettings = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );

@@ -9,6 +9,12 @@ import getThemeOption from '../../../../utils/get-theme-option';
 import EditorContext from '../../../context/EditorContext';
 import StylesContext from '../../../context/StylesContext';
 
+/**
+ * Component for site appearance settings
+ *
+ * @param {Object} props          Component props
+ * @param {string} props.selector Property target selector
+ */
 const FontFamilies = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
