@@ -7,7 +7,7 @@ import EditorContext from '../../context/EditorContext';
 import SettingsAppearanceTools from './SettingsAppearanceTools';
 import SettingsBorder from './SettingsBorder';
 import SettingsColor from './SettingsColor';
-import SettingsCustom from './SettingsCustom';
+import SettingsCustomCSS from './SettingsCustomCSS';
 import SettingsLayout from './SettingsLayout';
 import SettingsSpacing from './SettingsSpacing';
 import TypographySettings from './TypographySettings';
@@ -74,10 +74,10 @@ const Settings = ( { selector } ) => {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={ __( 'Custom Settings', 'themer' ) }
+					title={ __( 'Custom CSS', 'themer' ) }
 					initialOpen={ false }
 				>
-					<SettingsCustom
+					<SettingsCustomCSS
 						selector={ `${ selector }.custom` }
 						description={
 							definitions?.settingsCustomAdditionalProperties
