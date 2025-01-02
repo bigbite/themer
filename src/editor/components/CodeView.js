@@ -29,6 +29,14 @@ const CodeView = ( { themeConfig } ) => {
 		}
 
 		/**
+		 * If the current location is the site settings path, return the entire
+		 * settings object.
+		 */
+		if ( location.path === '/settings' ) {
+			const { blocks, elements, ...rest } = themeConfig.settings;
+			return rest;
+		}
+		/**
 		 * Remove the leading slash from the path so we don't end up with
 		 * an empty string as the first part of the pathParts array.
 		 */
