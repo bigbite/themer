@@ -72,7 +72,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 
 	return (
 		<div>
-			<span className="themer--styles__item__title">
+			<span className="themer--settings__item__title">
 				{ __( 'Font Face', 'themer' ) }
 			</span>
 			<Button

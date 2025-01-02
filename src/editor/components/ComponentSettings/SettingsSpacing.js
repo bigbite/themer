@@ -46,11 +46,11 @@ const SettingsSpacing = ( { selector, description } ) => {
 
 	return (
 		<>
-			<span className="themer--styles__item__title">
+			<span className="themer--settings__item__title">
 				{ __( 'Spacing', 'themer' ) }
 			</span>
 			{ description && (
-				<p className="themer--styles__item__description">
+				<p className="themer--settings__item__description">
 					{ description }
 				</p>
 			) }

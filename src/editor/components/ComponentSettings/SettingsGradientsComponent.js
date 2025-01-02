@@ -64,7 +64,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 
 	return (
 		<div>
-			<span className="themer--styles__item__title">
+			<span className="themer--settings__item__title">
 				{ __( 'Gradient Settings', 'themer' ) }
 			</span>
 			<span className="themer--color-palette">

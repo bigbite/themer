@@ -65,7 +65,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 
 	return (
 		<div>
-			<span className="themer--styles__item__title">
+			<span className="themer--settings__item__title">
 				{ __( 'Duotone Settings', 'themer' ) }
 			</span>
 			<span className="themer--color-palette">

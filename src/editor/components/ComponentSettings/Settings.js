@@ -17,17 +17,15 @@ import SettingsPosition from './SettingsPosition';
 import SettingsBackground from './SettingsBackground';
 
 /**
- * Styles component
+ * Settings component
  *
- * This component will render the styles components for the given selector.
+ * This component will render the settings components for the given selector.
  *
- * This can be reused with any selector that references the stylesProperties schema object:
- * https://raw.githubusercontent.com/WordPress/gutenberg/trunk/schemas/json/theme.json
  *
  * @param {Object} props          Component props
- * @param {string} props.selector Selector for styles object within theme config
+ * @param {string} props.selector Selector for settings object within theme config
  */
-const Styles = ( { selector } ) => {
+const Settings = ( { selector } ) => {
 	const { schema } = useContext( EditorContext );
 
 	if ( ! selector ) {
@@ -37,7 +35,7 @@ const Styles = ( { selector } ) => {
 	const definitions = schema?.definitions;
 
 	return (
-		<div className="themer--styles">
+		<div className="themer--settings">
 			<Panel header={ __( 'Site Settings', 'themer' ) }>
 				<PanelBody
 					title={ __( 'Appearance Tools', 'themer' ) }
@@ -176,4 +174,4 @@ const Styles = ( { selector } ) => {
 	);
 };
 
-export default Styles;
+export default Settings;

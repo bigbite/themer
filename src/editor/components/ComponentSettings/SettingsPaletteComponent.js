@@ -65,7 +65,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
 	return (
 		<div>
-			<span className="themer--styles__item__title">{ label }</span>
+			<span className="themer--settings__item__title">{ label }</span>
 			<span className="themer--color-palette">
 				{ value.map( ( val, index ) => {
 					return (

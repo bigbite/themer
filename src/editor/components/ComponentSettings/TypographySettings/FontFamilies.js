@@ -77,7 +77,7 @@ const FontFamilies = ( { selector } ) => {
 
 	return (
 		<div className="themer--typography-options">
-			<span className="themer--styles__item__title">
+			<span className="themer--settings__item__title">
 				{ __( 'Font Families', 'themer' ) }
 			</span>
 			{ value.map( ( font, index ) => {
