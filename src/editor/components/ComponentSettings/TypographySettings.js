@@ -52,9 +52,9 @@ const TypographySettings = ( { selector, description } ) => {
 					} }
 				/>
 				<FontFamilies
-					selector={ `${ selector }.fontFamilies.custom` }
+					selector={ `${ selector }.fontFamilies.theme` }
 				/>
-				<FontSizes selector={ `${ selector }.fontSizes.custom` } />
+				<FontSizes selector={ `${ selector }.fontSizes.theme` } />
 				<ToggleControl
 					label={ __( 'Font Style', 'themer' ) }
 					checked={ value?.fontStyle }

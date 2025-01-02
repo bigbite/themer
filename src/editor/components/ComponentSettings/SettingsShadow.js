@@ -24,7 +24,7 @@ const SettingsShadow = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
-	const customPresets = value?.presets?.custom || [];
+	const customPresets = value?.presets?.theme || [];
 
 	const [ show, setShow ] = useState( false );
 	const [ newPreset, setNewPreset ] = useState( {
@@ -48,7 +48,7 @@ const SettingsShadow = ( { selector, description } ) => {
 	const handleNewPreset = ( index ) => {
 		let config = structuredClone( userConfig );
 		let obj = structuredClone(
-			get( config, `${ selector }.presets.custom[${ index }]` )
+			get( config, `${ selector }.presets.theme[${ index }]` )
 		);
 
 		obj = {
@@ -57,7 +57,7 @@ const SettingsShadow = ( { selector, description } ) => {
 			slug: currentPreset?.slug,
 			shadow: currentPreset?.shadow,
 		};
-		config = set( config, `${ selector }.presets.custom[${ index }]`, obj );
+		config = set( config, `${ selector }.presets.theme[${ index }]`, obj );
 		setUserConfig( config );
 
 		setCurrentPreset( {
@@ -70,18 +70,18 @@ const SettingsShadow = ( { selector, description } ) => {
 
 	const pushNewPreset = () => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.presets.custom` ) || [];
+		const obj = get( config, `${ selector }.presets.theme` ) || [];
 		obj.push( { ...newPreset } );
-		config = set( config, `${ selector }.presets.custom`, obj );
+		config = set( config, `${ selector }.presets.theme`, obj );
 		setUserConfig( config );
 		setShow( false );
 	};
 
 	const handleDeletePreset = ( index ) => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.presets.custom` );
+		const obj = get( config, `${ selector }.presets.theme` );
 		obj.splice( index, 1 );
-		config = set( config, `${ selector }.presets.custom`, obj );
+		config = set( config, `${ selector }.presets.theme`, obj );
 		setUserConfig( config );
 		setCurrentPreset( {
 			name: '',

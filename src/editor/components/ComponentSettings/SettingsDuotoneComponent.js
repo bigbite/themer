@@ -24,7 +24,7 @@ import { getGradientFromCSSColors } from '../../../utils/style-helpers';
 const SettingsDuotoneComponent = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig )?.custom || [];
+	const value = getThemeOption( selector, themeConfig )?.theme || [];
 
 	const [ newDuotone, setNewDuotone ] = useState( {
 		colors: [],
@@ -42,7 +42,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
-			`${ selector }.custom[${ currentDuotone.key }].colors`,
+			`${ selector }.theme[${ currentDuotone.key }].colors`,
 			newValue
 		);
 		setUserConfig( config );
@@ -50,20 +50,20 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 
 	const handleDeleteDuotone = ( key ) => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.custom` );
+		const obj = get( config, `${ selector }.theme` );
 
 		obj.splice( key, 1 );
 
-		config = set( config, `${ selector }.custom`, obj );
+		config = set( config, `${ selector }.theme`, obj );
 		setCurrentDuotone( { value: '', key: '' } );
 		setUserConfig( config );
 	};
 
 	const handleNewDuotone = () => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.custom` ) || [];
+		const obj = get( config, `${ selector }.theme` ) || [];
 		obj.push( { ...newDuotone } );
-		config = set( config, `${ selector }.custom`, obj );
+		config = set( config, `${ selector }.theme`, obj );
 		setIsOpen( false );
 		setNewDuotone( { colors: [], name: '', slug: '' } );
 		setUserConfig( config );

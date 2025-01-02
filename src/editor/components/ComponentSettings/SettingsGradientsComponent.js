@@ -23,7 +23,7 @@ import StylesContext from '../../context/StylesContext';
 const SettingsGradientComponent = ( { selector } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
-	const value = getThemeOption( selector, themeConfig )?.custom || [];
+	const value = getThemeOption( selector, themeConfig )?.theme || [];
 
 	const [ newGradient, setNewGradient ] = useState( {
 		gradient: null,
@@ -41,7 +41,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
-			`${ selector }.custom[${ currentGradient.key }].gradient`,
+			`${ selector }.theme[${ currentGradient.key }].gradient`,
 			newValue
 		);
 		setUserConfig( config );
@@ -49,20 +49,20 @@ const SettingsGradientComponent = ( { selector } ) => {
 
 	const handleDeleteGradient = ( key ) => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.custom` );
+		const obj = get( config, `${ selector }.theme` );
 
 		obj.splice( key, 1 );
 
-		config = set( config, `${ selector }.custom`, obj );
+		config = set( config, `${ selector }.theme`, obj );
 		setCurrentGradient( { value: '', key: '' } );
 		setUserConfig( config );
 	};
 
 	const handleNewGradient = () => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.custom` ) || [];
+		const obj = get( config, `${ selector }.theme` ) || [];
 		obj.push( { ...newGradient } );
-		config = set( config, `${ selector }.custom`, obj );
+		config = set( config, `${ selector }.theme`, obj );
 		setIsOpen( false );
 		setNewGradient( { gradient: '', name: '', slug: '' } );
 		setUserConfig( config );
