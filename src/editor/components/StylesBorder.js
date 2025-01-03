@@ -58,9 +58,6 @@ const Border = ( { selector } ) => {
 					/>
 				</div>
 				<div>
-					<span className="themer--styles__item__label">
-						{ __( 'Radius', 'themer' ) }
-					</span>
 					<StylesBorderRadius
 						selector={ `${ selector }.radius` }
 						onChange={ onChange }
