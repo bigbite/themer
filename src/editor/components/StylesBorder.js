@@ -1,13 +1,15 @@
 import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext } from '@wordpress/element';
-import { __experimentalBorderBoxControl as BorderBoxControl } from '@wordpress/components';
+import {
+	Flex,
+	__experimentalBorderBoxControl as BorderBoxControl,
+} from '@wordpress/components';
+import { __experimentalBorderRadiusControl as BorderRadiusControl } from '@wordpress/block-editor';
 
 import getThemeOption from '../../utils/get-theme-option';
 import EditorContext from '../context/EditorContext';
 import StylesContext from '../context/StylesContext';
-
-import StylesBorderRadius from './StylesBorderRadius';
 
 /**
  * Reusable border control style component
@@ -24,6 +26,11 @@ const Border = ( { selector } ) => {
 		themeConfig
 	);
 
+	/**
+	 * General handler for border changes
+	 *
+	 * @param {Object} newValue - Updated border values
+	 */
 	const onChange = ( newValue ) => {
 		// If the value has a radius, we need to merge it with the new value
 		const valueRadius = value?.radius;
@@ -41,13 +48,24 @@ const Border = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
+	/**
+	 * Specific handler for radius changes
+	 *
+	 * @param {Object} newValue - Updated radius values
+	 */
+	const onRadiusChange = ( newValue ) => {
+		let config = structuredClone( userConfig );
+		config = set( config, `${ selector }.radius`, newValue );
+		setUserConfig( config );
+	};
+
 	return (
 		<>
 			<span className="themer--styles__item__title">
-				{ __( 'Border and radius', 'themer' ) }
+				{ __( 'Border', 'themer' ) }
 			</span>
 			<div className="themer--styles__item__columns themer--styles__item__columns--2">
-				<div>
+				<Flex direction="column" justify="flex-start">
 					<span className="themer--styles__item__label">
 						{ __( 'Border', 'themer' ) }
 					</span>
@@ -56,12 +74,11 @@ const Border = ( { selector } ) => {
 						onChange={ onChange }
 						value={ value }
 					/>
-				</div>
+				</Flex>
 				<div>
-					<StylesBorderRadius
-						selector={ `${ selector }.radius` }
-						onChange={ onChange }
-						value={ value }
+					<BorderRadiusControl
+						values={ value.radius }
+						onChange={ ( newValue ) => onRadiusChange( newValue ) }
 					/>
 				</div>
 			</div>
