@@ -54,6 +54,18 @@ const Border = ( { selector } ) => {
 	 * @param {Object} newValue - Updated radius values
 	 */
 	const onRadiusChange = ( newValue ) => {
+		/**
+		 * If the updated value is an object, ensure a value is present for each radius point.
+		 * If no value is present, set it to 0.
+		 * This avoids display issues when a radius value is missing.
+		 */
+		if ( typeof newValue === 'object' ) {
+			newValue.topLeft = newValue.topLeft ?? 0;
+			newValue.topRight = newValue.topRight ?? 0;
+			newValue.bottomRight = newValue.bottomRight ?? 0;
+			newValue.bottomLeft = newValue.bottomLeft ?? 0;
+		}
+
 		let config = structuredClone( userConfig );
 		config = set( config, `${ selector }.radius`, newValue );
 		setUserConfig( config );
