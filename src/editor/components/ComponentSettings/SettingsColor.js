@@ -47,6 +47,13 @@ const SettingsBorder = ( { selector, description } ) => {
 				}
 			/>
 			<ToggleControl
+				label={ __( 'Button', 'themer' ) }
+				checked={ value?.button }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'button' )
+				}
+			/>
+			<ToggleControl
 				label={ __( 'Custom', 'themer' ) }
 				checked={ value?.custom }
 				onChange={ ( newValue ) =>
