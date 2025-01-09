@@ -51,9 +51,7 @@ const TypographySettings = ( { selector, description } ) => {
 						handleNewValue( val, 'dropCap' );
 					} }
 				/>
-				<FontFamilies
-					selector={ `${ selector }.fontFamilies.theme` }
-				/>
+				<FontFamilies selector={ `${ selector }.fontFamilies.theme` } />
 				<FontSizes selector={ `${ selector }.fontSizes.theme` } />
 				<ToggleControl
 					label={ __( 'Font Style', 'themer' ) }

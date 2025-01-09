@@ -1,8 +1,7 @@
-import { set, get } from 'lodash';
+import { set } from 'lodash';
 import { __ } from '@wordpress/i18n';
-import { useContext, useState } from '@wordpress/element';
-import { TextControl, Button, ToggleControl } from '@wordpress/components';
-import { cancelCircleFilled, plus } from '@wordpress/icons';
+import { useContext, useState, useEffect } from '@wordpress/element';
+import { ToggleControl, CheckboxControl } from '@wordpress/components';
 
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
@@ -19,8 +18,9 @@ const SettingsSpacing = ( { selector, description } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );
 	const { setUserConfig } = useContext( StylesContext );
 	const value = getThemeOption( selector, themeConfig ) || [];
-	const units = value?.units || [];
-	const [ newUnit, setNewUnit ] = useState( '' );
+	const userValue = getThemeOption( selector, userConfig ) || [];
+
+	const [ units, setUnits ] = useState( userValue?.units || [] );
 
 	const onChange = ( newValue, key ) => {
 		let config = structuredClone( userConfig );
@@ -28,28 +28,24 @@ const SettingsSpacing = ( { selector, description } ) => {
 		setUserConfig( config );
 	};
 
-	const handleUpdateUnit = ( newValue, index ) => {
-		let config = structuredClone( userConfig );
-		config = set( config, `${ selector }.units[${ index }]`, newValue );
-		setUserConfig( config );
+	const handleUnitChange = ( val ) => {
+		if ( units.includes( val ) ) {
+			const index = units.indexOf( val );
+			const newUnits = [ ...units ];
+			newUnits.splice( index, 1 );
+			setUnits( newUnits );
+		} else if ( ! units.includes( val ) ) {
+			const newUnits = [ ...units, val ];
+			setUnits( newUnits );
+		}
 	};
 
-	const handleDelete = ( index ) => {
+	useEffect( () => {
 		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.units` );
-		obj.splice( index, 1 );
-		config = set( config, `${ selector }.units`, obj );
+		config = set( config, `${ selector }.units`, units );
 		setUserConfig( config );
-	};
-
-	const handleNewUnit = () => {
-		let config = structuredClone( userConfig );
-		const obj = get( config, `${ selector }.units` ) || [];
-		obj.push( newUnit );
-		config = set( config, `${ selector }.units`, obj );
-		setUserConfig( config );
-		setNewUnit( '' );
-	};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [ units ] );
 
 	return (
 		<>
@@ -82,48 +78,41 @@ const SettingsSpacing = ( { selector, description } ) => {
 					onChange( val, 'padding' );
 				} }
 			/>
-			Units
-			{ units.map( ( unit, index ) => {
-				return (
-					<div
-						className="themer--styles__item__control"
-						key={ index }
-					>
-						<span className="themer--styles__inline-units">
-							<TextControl
-								value={ unit }
-								onChange={ ( newValue ) => {
-									handleUpdateUnit( newValue, index );
-								} }
-							/>
-							<Button
-								onClick={ () => {
-									handleDelete( index );
-								} }
-								icon={ cancelCircleFilled }
-							/>
-						</span>
-					</div>
-				);
-			} ) }
-			{
-				<div>
-					<span className="themer--styles__inline-units">
-						<TextControl
-							value={ newUnit }
-							onChange={ ( val ) => {
-								setNewUnit( val );
-							} }
-						/>
-						<Button
-							icon={ plus }
-							onClick={ () => {
-								handleNewUnit();
-							} }
-						/>
-					</span>
-				</div>
-			}
+			<span className="themer--settings__item__title">
+				{ __( 'Units', 'themer' ) }
+			</span>
+			<div className="themer--styles__item__control">
+				<CheckboxControl
+					checked={ units.includes( 'px' ) }
+					label={ __( 'px', 'themer' ) }
+					onChange={ () => handleUnitChange( 'px' ) }
+				/>
+				<CheckboxControl
+					checked={ units.includes( 'em' ) }
+					label={ __( 'em', 'themer' ) }
+					onChange={ () => handleUnitChange( 'em' ) }
+				/>
+				<CheckboxControl
+					checked={ units.includes( 'rem' ) }
+					label={ __( 'rem', 'themer' ) }
+					onChange={ () => handleUnitChange( 'rem' ) }
+				/>
+				<CheckboxControl
+					checked={ units.includes( 'vh' ) }
+					label={ __( 'vh', 'themer' ) }
+					onChange={ () => handleUnitChange( 'vh' ) }
+				/>
+				<CheckboxControl
+					checked={ units.includes( 'vw' ) }
+					label={ __( 'vw', 'themer' ) }
+					onChange={ () => handleUnitChange( 'vw' ) }
+				/>
+				<CheckboxControl
+					checked={ units.includes( '%' ) }
+					label={ __( '%', 'themer' ) }
+					onChange={ () => handleUnitChange( '%' ) }
+				/>
+			</div>
 		</>
 	);
 };
