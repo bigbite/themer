@@ -9,8 +9,12 @@ import Settings from './Settings';
 const Site = () => {
 	return (
 		<section className="themer--panel">
-			<Heading level={ 4 }>{ __( 'Site', 'themer' ) }</Heading>
-			<p>{ __( 'Customise the appearance of the site.', 'themer' ) }</p>
+			<div className="themer--settings-header">
+				<Heading level={ 4 }>{ __( 'Site', 'themer' ) }</Heading>
+				<p>
+					{ __( 'Customise the appearance of the site.', 'themer' ) }
+				</p>
+			</div>
 			<Settings selector="settings" />
 		</section>
 	);

@@ -36,7 +36,7 @@ const Settings = ( { selector } ) => {
 
 	return (
 		<div className="themer--settings">
-			<Panel header={ __( 'Site Settings', 'themer' ) }>
+			<Panel>
 				<PanelBody
 					title={ __( 'Appearance Tools', 'themer' ) }
 					initialOpen={ false }
