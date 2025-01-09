@@ -20,7 +20,12 @@ const Nav = () => {
 					route="/"
 					hasStyles
 				/>
-				<NavListItem icon={ settings } route="/settings" hasStyles />
+				<NavListItem
+					icon={ settings }
+					route="/settings"
+					hasStyles
+					deselectable
+				/>
 			</li>
 			<NavListItem
 				icon={ blockDefault }
