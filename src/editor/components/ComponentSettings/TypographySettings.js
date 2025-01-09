@@ -45,6 +45,13 @@ const TypographySettings = ( { selector, description } ) => {
 					} }
 				/>
 				<ToggleControl
+					label={ __( 'Default Font Sizes', 'themer' ) }
+					checked={ value?.defaultFontSizes }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'defaultFontSizes' );
+					} }
+				/>
+				<ToggleControl
 					label={ __( 'Drop Cap', 'themer' ) }
 					checked={ value?.dropCap }
 					onChange={ ( val ) => {
@@ -93,6 +100,20 @@ const TypographySettings = ( { selector, description } ) => {
 					checked={ value?.textTransform }
 					onChange={ ( val ) => {
 						handleNewValue( val, 'textTransform' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Writing Mode', 'themer' ) }
+					checked={ value?.writingMode }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'writingMode' );
+					} }
+				/>
+				<ToggleControl
+					label={ __( 'Fluid', 'themer' ) }
+					checked={ value?.fluid }
+					onChange={ ( val ) => {
+						handleNewValue( val, 'fluid' );
 					} }
 				/>
 			</div>

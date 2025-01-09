@@ -54,6 +54,13 @@ const SettingsBorder = ( { selector, description } ) => {
 				}
 			/>
 			<ToggleControl
+				label={ __( 'Caption', 'themer' ) }
+				checked={ value?.caption }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'caption' )
+				}
+			/>
+			<ToggleControl
 				label={ __( 'Custom', 'themer' ) }
 				checked={ value?.custom }
 				onChange={ ( newValue ) =>
@@ -98,6 +105,13 @@ const SettingsBorder = ( { selector, description } ) => {
 			<SettingsDuotoneComponent selector={ `${ selector }.duotone` } />
 			<SettingsGradientsComponent
 				selector={ `${ selector }.gradients` }
+			/>
+			<ToggleControl
+				label={ __( 'Heading', 'themer' ) }
+				checked={ value?.heading }
+				onChange={ ( newValue ) =>
+					handleNewValue( newValue, 'heading' )
+				}
 			/>
 			<ToggleControl
 				label={ __( 'Link', 'themer' ) }

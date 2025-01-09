@@ -36,6 +36,13 @@ const SettingsDimensions = ( { selector, description } ) => {
 				</p>
 			) }
 			<ToggleControl
+				label={ __( 'Default Aspect Ratios', 'themer' ) }
+				checked={ value?.defaultAspectRatios }
+				onChange={ ( val ) => {
+					handleNewValue( val, 'defaultAspectRatios' );
+				} }
+			/>
+			<ToggleControl
 				label={ __( 'Aspect Ratio', 'themer' ) }
 				checked={ value?.aspectRatio }
 				onChange={ ( val ) => {
