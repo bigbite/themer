@@ -27,9 +27,6 @@ const SettingsPosition = ( { selector, description } ) => {
 
 	return (
 		<>
-			<span className="themer--settings__item__title">
-				{ __( 'Position', 'themer' ) }
-			</span>
 			{ description && (
 				<p className="themer--settings__item__description">
 					{ description }

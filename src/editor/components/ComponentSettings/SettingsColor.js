@@ -31,9 +31,6 @@ const SettingsBorder = ( { selector, description } ) => {
 
 	return (
 		<>
-			<span className="themer--settings__item__title">
-				{ __( 'Color Settings', 'themer' ) }
-			</span>
 			{ description && (
 				<p className="themer--settings__item__description">
 					{ description }

@@ -63,9 +63,6 @@ const SettingsCustom = ( { selector, description } ) => {
 
 	return (
 		<>
-			<span className="themer--settings__item__title">
-				{ __( 'Custom CSS', 'themer' ) }
-			</span>
 			{ description && (
 				<p className="themer--settings__item__description">
 					{ description }
