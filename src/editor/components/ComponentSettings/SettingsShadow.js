@@ -109,7 +109,9 @@ const SettingsShadow = ( { selector, description } ) => {
 				} }
 			/>
 			<div className="themer--shadow-options">
-				{ __( 'Custom Presets', 'themer' ) }
+				<div className="themer--settings__item__title">
+					{ __( 'Custom Presets', 'themer' ) }
+				</div>
 				{ customPresets.map( ( preset, index ) => {
 					return (
 						<Button
