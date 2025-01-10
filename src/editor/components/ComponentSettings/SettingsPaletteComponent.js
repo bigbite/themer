@@ -10,6 +10,7 @@ import {
 } from '@wordpress/components';
 import { plus, swatch } from '@wordpress/icons';
 
+import { formatSlug } from '../../../utils/style-helpers';
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
@@ -27,21 +28,25 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 	const value = getThemeOption( selector, themeConfig )?.theme || [];
 
 	const [ newColor, setNewColor ] = useState( {
-		color: '',
+		color: '#000',
 		name: '',
 		slug: '',
 	} );
 	const [ currentColor, setCurrentColor ] = useState( {
 		value: '',
+		name: '',
+		slug: '',
 		key: '',
 	} );
 	const [ isOpen, setIsOpen ] = useState( false );
 
-	const onChange = ( newValue ) => {
+	const onChange = ( newValue, field ) => {
+		setCurrentColor( { ...currentColor, [ field ]: newValue } );
+
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
-			`${ selector }.theme[${ currentColor.key }].color`,
+			`${ selector }.theme[${ currentColor.key }].${ field }`,
 			newValue
 		);
 		setUserConfig( config );
@@ -66,8 +71,75 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
 		config = set( config, `${ selector }.theme`, obj );
 		setIsOpen( false );
-		setNewColor( { color: '', name: '', slug: '' } );
+		setNewColor( { color: '#000', name: '', slug: '' } );
 		setUserConfig( config );
+	};
+
+	const renderModal = ( isNew ) => {
+		return (
+			<Modal
+				title={
+					isNew
+						? __( 'Add New Color', 'themer' )
+						: __( 'Edit Color', 'themer' )
+				}
+				shouldCloseOnEsc
+				shouldCloseOnClickOutside
+				onRequestClose={ () => {
+					setCurrentColor( { value: '', key: '' } );
+					setIsOpen( false );
+				} }
+			>
+				<TextControl
+					label={ __( 'Name', 'themer' ) }
+					value={ isNew ? newColor?.name : currentColor.name }
+					onChange={ ( name ) => {
+						return isNew
+							? setNewColor( { ...newColor, name } )
+							: onChange( name, 'name' );
+					} }
+				/>
+				<TextControl
+					label={ __( 'Slug', 'themer' ) }
+					value={ isNew ? newColor?.slug : currentColor.slug }
+					onChange={ ( slug ) => {
+						slug = formatSlug( slug );
+						return isNew
+							? setNewColor( { ...newColor, slug } )
+							: onChange( slug, 'slug' );
+					} }
+				/>
+				<ColorPicker
+					color={ isNew ? newColor?.color : currentColor?.value }
+					onChange={ ( newValue ) =>
+						isNew
+							? setNewColor( { ...newColor, color: newValue } )
+							: onChange( newValue, 'color' )
+					}
+				/>
+				<Button
+					isPrimary
+					onClick={ () => {
+						return isNew
+							? handleNewColor()
+							: setCurrentColor( { value: '', key: '' } );
+					} }
+				>
+					{ isNew
+						? __( 'Add Color', 'themer' )
+						: __( 'Save Color', 'themer' ) }
+				</Button>
+				<Button
+					isPrimary
+					disabled={ isNew }
+					onClick={ () => {
+						handleDeleteColor( currentColor?.key );
+					} }
+				>
+					{ __( 'Delete Color', 'themer' ) }
+				</Button>
+			</Modal>
+		);
 	};
 
 	return (
@@ -92,6 +164,8 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 								onClick={ () => {
 									setCurrentColor( {
 										value: val?.color,
+										name: val?.name,
+										slug: val?.slug,
 										key: index,
 									} );
 								} }
@@ -101,74 +175,8 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 				} ) }
 				<Button icon={ plus } onClick={ () => setIsOpen( ! isOpen ) } />
 			</span>
-			{ currentColor.value && (
-				<Modal
-					title={ __( 'Edit Color', 'themer' ) }
-					shouldCloseOnEsc
-					shouldCloseOnClickOutside
-					onRequestClose={ () =>
-						setCurrentColor( { value: '', key: '' } )
-					}
-				>
-					<ColorPicker
-						color={ currentColor.value }
-						onChange={ ( newValue ) => onChange( newValue ) }
-					/>
-					<Button
-						isPrimary
-						onClick={ () => {
-							setCurrentColor( { value: '', key: '' } );
-						} }
-					>
-						Save Color
-					</Button>
-					<Button
-						isPrimary
-						onClick={ () => {
-							handleDeleteColor( currentColor?.key );
-						} }
-					>
-						Delete Color
-					</Button>
-				</Modal>
-			) }
-			{ isOpen && (
-				<Modal
-					title={ __( 'Add New Color', 'themer' ) }
-					shouldCloseOnEsc
-					shouldCloseOnClickOutside
-					onRequestClose={ () => setIsOpen( ! isOpen ) }
-				>
-					<TextControl
-						label={ __( 'Name', 'themer' ) }
-						value={ newColor?.name }
-						onChange={ ( name ) => {
-							setNewColor( { ...newColor, name } );
-						} }
-					/>
-					<TextControl
-						label={ __( 'Slug', 'themer' ) }
-						value={ newColor?.slug }
-						onChange={ ( slug ) => {
-							setNewColor( { ...newColor, slug } );
-						} }
-					/>
-					<ColorPicker
-						color={ newColor?.color }
-						onChange={ ( color ) => {
-							setNewColor( { ...newColor, color } );
-						} }
-					/>
-					<Button
-						isPrimary
-						onClick={ () => {
-							handleNewColor();
-						} }
-					>
-						{ __( 'Add Color', 'themer' ) }
-					</Button>
-				</Modal>
-			) }
+			{ currentColor.value && renderModal() }
+			{ isOpen && renderModal( true ) }
 		</div>
 	);
 };
