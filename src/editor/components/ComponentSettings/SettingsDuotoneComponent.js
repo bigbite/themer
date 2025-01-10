@@ -1,4 +1,4 @@
-import { set, get } from 'lodash';
+import { set, get, isEmpty } from 'lodash';
 import { __ } from '@wordpress/i18n';
 import { useContext, useState } from '@wordpress/element';
 import {
@@ -13,7 +13,10 @@ import { plus, swatch } from '@wordpress/icons';
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
-import { getGradientFromCSSColors } from '../../../utils/style-helpers';
+import {
+	getGradientFromCSSColors,
+	formatSlug,
+} from '../../../utils/style-helpers';
 
 /**
  * Component for Duotone settings
@@ -32,17 +35,20 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 		slug: '',
 	} );
 	const [ currentDuotone, setCurrentDuotone ] = useState( {
-		value: '',
+		colors: [],
+		name: '',
+		slug: '',
 		key: '',
 	} );
+
 	const [ isOpen, setIsOpen ] = useState( false );
 
-	const onChange = ( newValue ) => {
-		setCurrentDuotone( { value: newValue, key: currentDuotone.key } );
+	const onChange = ( newValue, field ) => {
+		setCurrentDuotone( { ...currentDuotone, [ field ]: newValue } );
 		let config = structuredClone( userConfig );
 		config = set(
 			config,
-			`${ selector }.theme[${ currentDuotone.key }].colors`,
+			`${ selector }.theme[${ currentDuotone.key }].${ field }`,
 			newValue
 		);
 		setUserConfig( config );
@@ -69,6 +75,98 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 		setUserConfig( config );
 	};
 
+	const renderModal = ( isNew ) => {
+		return (
+			<Modal
+				title={
+					isNew
+						? __( 'Add New Duotone', 'themer' )
+						: __( 'Edit Duotone', 'themer' )
+				}
+				shouldCloseOnEsc
+				shouldCloseOnClickOutside
+				onRequestClose={ () => {
+					setCurrentDuotone( {
+						colors: [],
+						name: '',
+						slug: '',
+						key: '',
+					} );
+					setIsOpen( false );
+				} }
+			>
+				<TextControl
+					label={ __( 'Name', 'themer' ) }
+					value={ isNew ? newDuotone?.name : currentDuotone?.name }
+					onChange={ ( name ) => {
+						return isNew
+							? setNewDuotone( { ...newDuotone, name } )
+							: onChange( name, 'name' );
+					} }
+				/>
+				<TextControl
+					label={ __( 'Slug', 'themer' ) }
+					value={ isNew ? newDuotone?.slug : currentDuotone?.slug }
+					onChange={ ( slug ) => {
+						slug = formatSlug( slug );
+						return isNew
+							? setNewDuotone( { ...newDuotone, slug } )
+							: onChange( slug, 'slug' );
+					} }
+				/>
+				<DuotonePicker
+					value={
+						isNew
+							? newDuotone.colors ?? null
+							: currentDuotone.colors ?? null
+					}
+					duotonePalette={ [] }
+					colorPalette={ [] }
+					unsetable={ false }
+					clearable={ false }
+					onChange={ ( newValue ) => {
+						return isNew
+							? setNewDuotone( {
+									...newDuotone,
+									colors: newValue,
+							  } )
+							: onChange( newValue, 'colors' );
+					} }
+				/>
+				<Button
+					isPrimary
+					disabled={
+						isEmpty( newDuotone?.colors ) &&
+						isEmpty( currentDuotone?.colors )
+					}
+					onClick={ () => {
+						return isNew
+							? handleNewDuotone()
+							: setCurrentDuotone( {
+									colors: [],
+									name: '',
+									slug: '',
+									key: '',
+							  } );
+					} }
+				>
+					{ isNew
+						? __( 'Add Duotone', 'themer' )
+						: __( 'Save Duotone', 'themer' ) }
+				</Button>
+				<Button
+					isPrimary
+					disabled={ isNew }
+					onClick={ () => {
+						handleDeleteDuotone( currentDuotone?.key );
+					} }
+				>
+					{ __( 'Delete Duotone', 'themer' ) }
+				</Button>
+			</Modal>
+		);
+	};
+
 	return (
 		<div>
 			<span className="themer--settings__item__title">
@@ -93,7 +191,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 								}
 								onClick={ () => {
 									setCurrentDuotone( {
-										value: duotone?.colors,
+										...duotone,
 										key: index,
 									} );
 								} }
@@ -103,79 +201,8 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 				} ) }
 				<Button icon={ plus } onClick={ () => setIsOpen( ! isOpen ) } />
 			</span>
-			{ currentDuotone.value && (
-				<Modal
-					title={ __( 'Edit Duotone', 'themer' ) }
-					shouldCloseOnEsc
-					shouldCloseOnClickOutside
-					onRequestClose={ () =>
-						setCurrentDuotone( { value: '', key: '' } )
-					}
-				>
-					<DuotonePicker
-						value={ currentDuotone.value ?? null }
-						duotonePalette={ [] }
-						colorPalette={ [] }
-						unsetable={ false }
-						onChange={ ( newValue ) => onChange( newValue ) }
-					/>
-					<Button
-						isPrimary
-						onClick={ () => {
-							setCurrentDuotone( { value: '', key: '' } );
-						} }
-					>
-						Save Duotone
-					</Button>
-					<Button
-						isPrimary
-						onClick={ () => {
-							handleDeleteDuotone( currentDuotone?.key );
-						} }
-					>
-						Delete Duotone
-					</Button>
-				</Modal>
-			) }
-			{ isOpen && (
-				<Modal
-					title={ __( 'Add New Duotone', 'themer' ) }
-					shouldCloseOnEsc
-					shouldCloseOnClickOutside
-					onRequestClose={ () => setIsOpen( ! isOpen ) }
-				>
-					<TextControl
-						label={ __( 'Name', 'themer' ) }
-						value={ newDuotone?.name }
-						onChange={ ( name ) => {
-							setNewDuotone( { ...newDuotone, name } );
-						} }
-					/>
-					<TextControl
-						label={ __( 'Slug', 'themer' ) }
-						value={ newDuotone?.slug }
-						onChange={ ( slug ) => {
-							setNewDuotone( { ...newDuotone, slug } );
-						} }
-					/>
-					<DuotonePicker
-						value={ newDuotone.colors ?? null }
-						duotonePalette={ [] }
-						colorPalette={ [] }
-						onChange={ ( colors ) => {
-							setNewDuotone( { ...newDuotone, colors } );
-						} }
-					/>
-					<Button
-						isPrimary
-						onClick={ () => {
-							handleNewDuotone();
-						} }
-					>
-						{ __( 'Add Duotone', 'themer' ) }
-					</Button>
-				</Modal>
-			) }
+			{ ! isEmpty( currentDuotone?.colors ) && renderModal() }
+			{ isOpen && renderModal( true ) }
 		</div>
 	);
 };

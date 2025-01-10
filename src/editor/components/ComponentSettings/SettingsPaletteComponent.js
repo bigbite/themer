@@ -10,10 +10,10 @@ import {
 } from '@wordpress/components';
 import { plus, swatch } from '@wordpress/icons';
 
-import { formatSlug } from '../../../utils/style-helpers';
 import getThemeOption from '../../../utils/get-theme-option';
 import EditorContext from '../../context/EditorContext';
 import StylesContext from '../../context/StylesContext';
+import { formatSlug } from '../../../utils/style-helpers';
 
 /**
  * Component for Palette settings
@@ -28,7 +28,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 	const value = getThemeOption( selector, themeConfig )?.theme || [];
 
 	const [ newColor, setNewColor ] = useState( {
-		color: '#000',
+		color: '',
 		name: '',
 		slug: '',
 	} );
@@ -71,7 +71,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 
 		config = set( config, `${ selector }.theme`, obj );
 		setIsOpen( false );
-		setNewColor( { color: '#000', name: '', slug: '' } );
+		setNewColor( { color: '', name: '', slug: '' } );
 		setUserConfig( config );
 	};
 
@@ -119,6 +119,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 				/>
 				<Button
 					isPrimary
+					disabled={ ! currentColor?.value && ! newColor?.color }
 					onClick={ () => {
 						return isNew
 							? handleNewColor()
