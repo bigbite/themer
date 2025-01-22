@@ -26,6 +26,7 @@ import StylesContext from '../context/StylesContext';
 
 import fetchSchema from '../../utils/schema-helpers';
 import { getDefaultPreview } from '../../utils/blockPreviews';
+import GlobalContrastChecker from './GlobalContrastChecker';
 
 /**
  * main component
@@ -276,8 +277,13 @@ const ThemerComponent = () => {
 								<div className="themer-styles-container">
 									<StylesPanel />
 								</div>
-								<div className="themer-code-view-container">
-									<CodeView themeConfig={ themeConfig } />
+								<div>
+									<GlobalContrastChecker
+										themeConfig={ themeConfig }
+									/>
+									<div className="themer-code-view-container">
+										<CodeView themeConfig={ themeConfig } />
+									</div>
 								</div>
 							</div>
 						</div>
