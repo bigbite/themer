@@ -1,30 +1,28 @@
 import { createReduxStore, register } from '@wordpress/data';
 
 const DEFAULT_STATE = {
-	themeConfigColours: {},
+	colourViolations: [],
 };
 
 const store = createReduxStore( 'bigbite/themer', {
 	actions: {
-		setThemeConfigColours: ( themeConfigColours ) => {
-			return {
-				type: 'SET_THEME_CONFIG_COLOURS',
-				themeConfigColours,
-			};
-		},
+		setColourViolations: ( colourViolations ) => ( {
+			type: 'SET_COLOUR_VIOLATIONS',
+			colourViolations,
+		} ),
 	},
 	reducer: ( state = DEFAULT_STATE, action ) => {
 		switch ( action.type ) {
-			case 'SET_THEME_CONFIG_COLOURS':
+			case 'SET_COLOUR_VIOLATIONS':
 				return {
 					...state,
-					themeConfigColours: action.themeConfigColours,
+					colourViolations: action.colourViolations,
 				};
 		}
 		return state;
 	},
-	selector: {
-		getThemeConfigColours: ( state ) => state.themeConfigColours,
+	selectors: {
+		getColourViolations: ( state ) => state.colourViolations,
 	},
 } );
 

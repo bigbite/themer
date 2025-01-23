@@ -6,6 +6,7 @@ import { registerCoreBlocks } from '@wordpress/block-library';
 import { NAMESPACE } from './editor/settings';
 import ComponentWrapper from './editor/components/ComponentWrapper';
 
+import './editor/store';
 import './editor/styles/index.scss';
 
 // Register the plugin.
