@@ -4,10 +4,12 @@ import {
 	MenuItem,
 	DropdownMenu,
 } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 import { trash, moreVertical } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import ButtonExport from './ButtonExport';
+import TemplateManagerModal from './TemplateManagerModal';
 
 /**
  * Topbar component
@@ -21,6 +23,8 @@ import ButtonExport from './ButtonExport';
  * @param {Function} props.onClear Callback to clear all customisations
  */
 const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
+	const [ isTemplateManagerOpen, setIsTemplateManagerOpen ] =
+		useState( false );
 	return (
 		<div className="themer-topbar">
 			<Button
@@ -36,27 +40,51 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 				disabled={ ! isDirty }
 			/>
 			<DropdownMenu icon={ moreVertical }>
-				{ () => (
-					<MenuGroup
-						label={ __( 'Tools', 'themer' ) }
-						className="themer-more-menu"
-					>
-						<ButtonExport />
-						<MenuItem
-							role="menuitem"
-							icon={ trash }
-							info={ __(
-								'Resets all customisations to your initial theme.json configuration.',
-								'themer'
-							) }
-							onClick={ onClear }
-							isDestructive
+				{ ( { onClose } ) => (
+					<>
+						<MenuGroup
+							label={ __( 'Tools', 'themer' ) }
+							className="themer-more-menu"
 						>
-							{ __( 'Clear all customisations', 'themer' ) }
-						</MenuItem>
-					</MenuGroup>
+							<ButtonExport />
+							<MenuItem
+								role="menuitem"
+								icon={ trash }
+								info={ __(
+									'Resets all customisations to your initial theme.json configuration.',
+									'themer'
+								) }
+								onClick={ onClear }
+								isDestructive
+							>
+								{ __( 'Clear all customisations', 'themer' ) }
+							</MenuItem>
+						</MenuGroup>
+						<MenuGroup
+							label={ __( 'Management', 'themer' ) }
+							className="themer-more-menu"
+						>
+							<MenuItem
+								role="menuitem"
+								onClick={ () => {
+									onClose();
+									setIsTemplateManagerOpen( true );
+								} }
+								info={ __(
+									'Manage block templates.',
+									'themer'
+								) }
+							>
+								{ __( 'Block Templates', 'themer' ) }
+							</MenuItem>
+						</MenuGroup>
+					</>
 				) }
 			</DropdownMenu>
+			<TemplateManagerModal
+				isOpen={ isTemplateManagerOpen }
+				setIsOpen={ setIsTemplateManagerOpen }
+			/>
 		</div>
 	);
 };
