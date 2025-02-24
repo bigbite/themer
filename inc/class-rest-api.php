@@ -44,8 +44,18 @@ class Rest_API {
 			'themer/v1',
 			'/export',
 			array(
+				'args'                => array(
+					'include'           => array(
+						'description' => __( 'Array of theme.json data types to be merged', 'mediapress' ),
+						'type'        => 'array',
+						'items'       => array(
+							'type'    => 'string',
+							'enum'    => array( 'core', 'block', 'theme', 'user' ),
+						),
+					),
+				),
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_theme_json' ),
+				'callback'            => array( $this, 'get_theme_json'  ),
 				'permission_callback' => fn() => is_user_logged_in() && current_user_can( 'edit_theme_options' ),
 			)
 		);
@@ -119,17 +129,36 @@ class Rest_API {
 	 *
 	 * @return WP_REST_Response|WP_Error
 	 */
-	public function get_theme_json(): WP_REST_Response|WP_Error {
-		$all_theme_json_layers = WP_Theme_JSON_Resolver::get_merged_data();
+	public function get_theme_json( $request ): WP_REST_Response|WP_Error {
+		$include = $request->get_param( 'include' );
+		$include_core_data = in_array( 'core', $include, true );
+		$include_block_data = in_array( 'block', $include, true );;
+		$include_theme_data = in_array( 'theme', $include, true );;
+		$include_user_data = in_array( 'user', $include, true );
 
-		if ( ! $all_theme_json_layers instanceof WP_Theme_JSON ) {
+		$theme_json = new WP_Theme_JSON();
+		
+		if ( $include_core_data ) {
+			$theme_json->merge( WP_Theme_JSON_Resolver::get_core_data() );
+		}
+
+		if ( $include_block_data ) {
+			$theme_json->merge( WP_Theme_JSON_Resolver::get_block_data() );
+		}
+
+		if ( $include_theme_data ) {
+			$theme_json->merge( WP_Theme_JSON_Resolver::get_theme_data() );
+		}
+
+		if ( $include_user_data ) {
+			$theme_json->merge( WP_Theme_JSON_Resolver::get_user_data() );
+		}
+
+		if ( ! $theme_json instanceof WP_Theme_JSON ) {
 			return new WP_Error( 'no_theme_json', __( 'Unable to locate existing theme.json data', 'themer' ) );
 		}
 
-		$theme_json_raw_data  = new WP_Theme_JSON( $all_theme_json_layers->get_raw_data() );
-		$theme_json_flattened = $theme_json_raw_data->get_data();
-
-		return rest_ensure_response( $theme_json_flattened );
+		return rest_ensure_response( $theme_json->get_data() );
 	}
 
 	/**
