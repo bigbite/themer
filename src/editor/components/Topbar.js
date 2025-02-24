@@ -1,6 +1,10 @@
-import { Button, MenuGroup, MenuItem } from '@wordpress/components';
-import { MoreMenuDropdown } from '@wordpress/interface';
-import { trash } from '@wordpress/icons';
+import {
+	Button,
+	MenuGroup,
+	MenuItem,
+	DropdownMenu,
+} from '@wordpress/components';
+import { trash, moreVertical } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 
 import ButtonExport from './ButtonExport';
@@ -31,7 +35,7 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 				text={ __( 'Save', 'themer' ) }
 				disabled={ ! isDirty }
 			/>
-			<MoreMenuDropdown>
+			<DropdownMenu icon={ moreVertical }>
 				{ () => (
 					<MenuGroup
 						label={ __( 'Tools', 'themer' ) }
@@ -52,7 +56,7 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 						</MenuItem>
 					</MenuGroup>
 				) }
-			</MoreMenuDropdown>
+			</DropdownMenu>
 		</div>
 	);
 };
