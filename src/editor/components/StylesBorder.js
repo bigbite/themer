@@ -89,7 +89,7 @@ const Border = ( { selector } ) => {
 				</Flex>
 				<div>
 					<BorderRadiusControl
-						values={ value.radius }
+						values={ value?.radius }
 						onChange={ ( newValue ) => onRadiusChange( newValue ) }
 					/>
 				</div>
