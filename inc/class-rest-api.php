@@ -45,17 +45,17 @@ class Rest_API {
 			'/export',
 			array(
 				'args'                => array(
-					'include'           => array(
+					'include' => array(
 						'description' => __( 'Array of theme.json data types to be merged', 'mediapress' ),
 						'type'        => 'array',
 						'items'       => array(
-							'type'    => 'string',
-							'enum'    => array( 'core', 'block', 'theme', 'user' ),
+							'type' => 'string',
+							'enum' => array( 'core', 'block', 'theme', 'user' ),
 						),
 					),
 				),
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_theme_json'  ),
+				'callback'            => array( $this, 'get_theme_json' ),
 				'permission_callback' => fn() => is_user_logged_in() && current_user_can( 'edit_theme_options' ),
 			)
 		);
@@ -127,17 +127,20 @@ class Rest_API {
 	/**
 	 * Returns an updated theme.json with merged and flattened layers
 	 *
-	 * @return WP_REST_Response|WP_Error
+	 * @param WP_REST_Request $request The request object.
+	 * @return WP_REST_Response|WP_Error The theme.json data or an error if it cannot be located.
 	 */
 	public function get_theme_json( $request ): WP_REST_Response|WP_Error {
-		$include = $request->get_param( 'include' );
-		$include_core_data = in_array( 'core', $include, true );
-		$include_block_data = in_array( 'block', $include, true );;
-		$include_theme_data = in_array( 'theme', $include, true );;
+		$include            = $request->get_param( 'include' );
+		$include_core_data  = in_array( 'core', $include, true );
+		$include_block_data = in_array( 'block', $include, true );
+
+		$include_theme_data = in_array( 'theme', $include, true );
+
 		$include_user_data = in_array( 'user', $include, true );
 
 		$theme_json = new WP_Theme_JSON();
-		
+
 		if ( $include_core_data ) {
 			$theme_json->merge( WP_Theme_JSON_Resolver::get_core_data() );
 		}

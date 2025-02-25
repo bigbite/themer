@@ -12,7 +12,7 @@ namespace Big_Bite\themer;
  *
  * @return void
  */
-function setup() : void {
+function setup(): void {
 	new Admin();
 	new Rest_API();
 }
