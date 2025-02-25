@@ -81,10 +81,6 @@
 	justify-content: space-between;
 }
 
-.themer--styles__modal-wrapper {
-	width: 500px;
-}
-
 .themer--item-wrapper {
 	display: flex;
 	align-items: center;
@@ -121,4 +117,17 @@
 
 .themer--settings-header {
 	padding: 20px;
+}
+
+.themer-settings--modal {
+	max-height: 80%;
+}
+
+.themer-settings--modal__actions {
+	display: flex;
+	justify-content: space-between;
+}
+
+.themer-settings--modal__content > div {
+	padding-bottom: 20px;
 }

@@ -78,6 +78,7 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 	const renderModal = ( isNew ) => {
 		return (
 			<Modal
+				className="themer-settings--modal"
 				title={
 					isNew
 						? __( 'Add New Color', 'themer' )
@@ -90,55 +91,65 @@ const SettingsPaletteComponent = ( { selector, label } ) => {
 					setIsOpen( false );
 				} }
 			>
-				<TextControl
-					label={ __( 'Name', 'themer' ) }
-					value={ isNew ? newColor?.name : currentColor.name }
-					onChange={ ( name ) => {
-						return isNew
-							? setNewColor( { ...newColor, name } )
-							: onChange( name, 'name' );
-					} }
-				/>
-				<TextControl
-					label={ __( 'Slug', 'themer' ) }
-					value={ isNew ? newColor?.slug : currentColor.slug }
-					onChange={ ( slug ) => {
-						slug = formatSlug( slug );
-						return isNew
-							? setNewColor( { ...newColor, slug } )
-							: onChange( slug, 'slug' );
-					} }
-				/>
-				<ColorPicker
-					color={ isNew ? newColor?.color : currentColor?.value }
-					onChange={ ( newValue ) =>
-						isNew
-							? setNewColor( { ...newColor, color: newValue } )
-							: onChange( newValue, 'color' )
-					}
-				/>
-				<Button
-					isPrimary
-					disabled={ ! currentColor?.value && ! newColor?.color }
-					onClick={ () => {
-						return isNew
-							? handleNewColor()
-							: setCurrentColor( { value: '', key: '' } );
-					} }
-				>
-					{ isNew
-						? __( 'Add Color', 'themer' )
-						: __( 'Save Color', 'themer' ) }
-				</Button>
-				<Button
-					isPrimary
-					disabled={ isNew }
-					onClick={ () => {
-						handleDeleteColor( currentColor?.key );
-					} }
-				>
-					{ __( 'Delete Color', 'themer' ) }
-				</Button>
+				<div className="themer-settings--modal__content">
+					<TextControl
+						label={ __( 'Name', 'themer' ) }
+						value={ isNew ? newColor?.name : currentColor.name }
+						onChange={ ( name ) => {
+							return isNew
+								? setNewColor( { ...newColor, name } )
+								: onChange( name, 'name' );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Slug', 'themer' ) }
+						value={ isNew ? newColor?.slug : currentColor.slug }
+						onChange={ ( slug ) => {
+							slug = formatSlug( slug );
+							return isNew
+								? setNewColor( { ...newColor, slug } )
+								: onChange( slug, 'slug' );
+						} }
+					/>
+					<ColorPicker
+						color={ isNew ? newColor?.color : currentColor?.value }
+						onChange={ ( newValue ) =>
+							isNew
+								? setNewColor( {
+										...newColor,
+										color: newValue,
+								  } )
+								: onChange( newValue, 'color' )
+						}
+					/>
+					<div className="themer-settings--modal__actions">
+						<Button
+							isPrimary
+							disabled={
+								! currentColor?.value && ! newColor?.color
+							}
+							onClick={ () => {
+								return isNew
+									? handleNewColor()
+									: setCurrentColor( { value: '', key: '' } );
+							} }
+						>
+							{ isNew
+								? __( 'Add', 'default' )
+								: __( 'Save', 'default' ) }
+						</Button>
+						<Button
+							isPrimary
+							disabled={ isNew }
+							isDestructive
+							onClick={ () => {
+								handleDeleteColor( currentColor?.key );
+							} }
+						>
+							{ __( 'Delete', 'default' ) }
+						</Button>
+					</div>
+				</div>
 			</Modal>
 		);
 	};

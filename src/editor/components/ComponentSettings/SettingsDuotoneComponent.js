@@ -78,6 +78,7 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 	const renderModal = ( isNew ) => {
 		return (
 			<Modal
+				className="themer-settings--modal"
 				title={
 					isNew
 						? __( 'Add New Duotone', 'themer' )
@@ -95,74 +96,83 @@ const SettingsDuotoneComponent = ( { selector } ) => {
 					setIsOpen( false );
 				} }
 			>
-				<TextControl
-					label={ __( 'Name', 'themer' ) }
-					value={ isNew ? newDuotone?.name : currentDuotone?.name }
-					onChange={ ( name ) => {
-						return isNew
-							? setNewDuotone( { ...newDuotone, name } )
-							: onChange( name, 'name' );
-					} }
-				/>
-				<TextControl
-					label={ __( 'Slug', 'themer' ) }
-					value={ isNew ? newDuotone?.slug : currentDuotone?.slug }
-					onChange={ ( slug ) => {
-						slug = formatSlug( slug );
-						return isNew
-							? setNewDuotone( { ...newDuotone, slug } )
-							: onChange( slug, 'slug' );
-					} }
-				/>
-				<DuotonePicker
-					value={
-						isNew
-							? newDuotone.colors ?? null
-							: currentDuotone.colors ?? null
-					}
-					duotonePalette={ [] }
-					colorPalette={ [] }
-					unsetable={ false }
-					clearable={ false }
-					onChange={ ( newValue ) => {
-						return isNew
-							? setNewDuotone( {
-									...newDuotone,
-									colors: newValue,
-							  } )
-							: onChange( newValue, 'colors' );
-					} }
-				/>
-				<Button
-					isPrimary
-					disabled={
-						isEmpty( newDuotone?.colors ) &&
-						isEmpty( currentDuotone?.colors )
-					}
-					onClick={ () => {
-						return isNew
-							? handleNewDuotone()
-							: setCurrentDuotone( {
-									colors: [],
-									name: '',
-									slug: '',
-									key: '',
-							  } );
-					} }
-				>
-					{ isNew
-						? __( 'Add Duotone', 'themer' )
-						: __( 'Save Duotone', 'themer' ) }
-				</Button>
-				<Button
-					isPrimary
-					disabled={ isNew }
-					onClick={ () => {
-						handleDeleteDuotone( currentDuotone?.key );
-					} }
-				>
-					{ __( 'Delete Duotone', 'themer' ) }
-				</Button>
+				<div className="themer-settings--modal__content">
+					<TextControl
+						label={ __( 'Name', 'themer' ) }
+						value={
+							isNew ? newDuotone?.name : currentDuotone?.name
+						}
+						onChange={ ( name ) => {
+							return isNew
+								? setNewDuotone( { ...newDuotone, name } )
+								: onChange( name, 'name' );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Slug', 'themer' ) }
+						value={
+							isNew ? newDuotone?.slug : currentDuotone?.slug
+						}
+						onChange={ ( slug ) => {
+							slug = formatSlug( slug );
+							return isNew
+								? setNewDuotone( { ...newDuotone, slug } )
+								: onChange( slug, 'slug' );
+						} }
+					/>
+					<DuotonePicker
+						value={
+							isNew
+								? newDuotone.colors ?? null
+								: currentDuotone.colors ?? null
+						}
+						duotonePalette={ [] }
+						colorPalette={ [] }
+						unsetable={ false }
+						clearable={ false }
+						onChange={ ( newValue ) => {
+							return isNew
+								? setNewDuotone( {
+										...newDuotone,
+										colors: newValue,
+								  } )
+								: onChange( newValue, 'colors' );
+						} }
+					/>
+					<div className="themer-settings--modal__actions">
+						<Button
+							isPrimary
+							disabled={
+								isEmpty( newDuotone?.colors ) &&
+								isEmpty( currentDuotone?.colors )
+							}
+							onClick={ () => {
+								return isNew
+									? handleNewDuotone()
+									: setCurrentDuotone( {
+											colors: [],
+											name: '',
+											slug: '',
+											key: '',
+									  } );
+							} }
+						>
+							{ isNew
+								? __( 'Add', 'default' )
+								: __( 'Save', 'default' ) }
+						</Button>
+						<Button
+							isPrimary
+							disabled={ isNew }
+							isDestructive
+							onClick={ () => {
+								handleDeleteDuotone( currentDuotone?.key );
+							} }
+						>
+							{ __( 'Delete', 'default' ) }
+						</Button>
+					</div>
+				</div>
 			</Modal>
 		);
 	};

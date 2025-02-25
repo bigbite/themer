@@ -73,10 +73,9 @@ const SettingsGradientComponent = ( { selector } ) => {
 	const renderModal = ( isNew ) => {
 		return (
 			<Modal
+				className="themer-settings--modal"
 				title={
-					isNew
-						? __( 'Add New Gradient', 'themer' )
-						: __( 'Edit Gradient', 'themer' )
+					isNew ? __( 'Add', 'default' ) : __( 'Edit', 'default' )
 				}
 				shouldCloseOnEsc
 				shouldCloseOnClickOutside
@@ -90,69 +89,79 @@ const SettingsGradientComponent = ( { selector } ) => {
 					setIsOpen( false );
 				} }
 			>
-				<TextControl
-					label={ __( 'Name', 'themer' ) }
-					value={ isNew ? newGradient?.name : currentGradient?.name }
-					onChange={ ( name ) => {
-						return isNew
-							? setNewGradient( { ...newGradient, name } )
-							: onChange( name, 'name' );
-					} }
-				/>
-				<TextControl
-					label={ __( 'Slug', 'themer' ) }
-					value={ isNew ? newGradient?.slug : currentGradient?.slug }
-					onChange={ ( slug ) => {
-						slug = formatSlug( slug );
-						return isNew
-							? setNewGradient( { ...newGradient, slug } )
-							: onChange( slug, 'slug' );
-					} }
-				/>
-				<GradientPicker
-					value={
-						isNew
-							? newGradient?.gradient
-							: currentGradient.gradient ?? null
-					}
-					onChange={ ( gradient ) => {
-						return isNew
-							? setNewGradient( {
-									...newGradient,
-									gradient,
-							  } )
-							: onChange( gradient, 'gradient' );
-					} }
-				/>
-				<Button
-					isPrimary
-					disabled={
-						! currentGradient?.gradient && ! newGradient?.gradient
-					}
-					onClick={ () => {
-						return isNew
-							? handleNewGradient()
-							: setCurrentGradient( {
-									gradient: '',
-									name: '',
-									slug: '',
-									key: '',
-							  } );
-					} }
-				>
-					{ isNew
-						? __( 'Add Gradient', 'themer' )
-						: __( 'Save Gradient', 'themer' ) }
-				</Button>
-				<Button
-					isPrimary
-					disabled={ isNew }
-					onClick={ () => {
-						handleDeleteGradient( currentGradient?.key );
-					} }
-				>
-					{ __( 'Delete Gradient', 'themer' ) }
-				</Button>
+				<div className="themer-settings--modal__content">
+					<TextControl
+						label={ __( 'Name', 'themer' ) }
+						value={
+							isNew ? newGradient?.name : currentGradient?.name
+						}
+						onChange={ ( name ) => {
+							return isNew
+								? setNewGradient( { ...newGradient, name } )
+								: onChange( name, 'name' );
+						} }
+					/>
+					<TextControl
+						label={ __( 'Slug', 'themer' ) }
+						value={
+							isNew ? newGradient?.slug : currentGradient?.slug
+						}
+						onChange={ ( slug ) => {
+							slug = formatSlug( slug );
+							return isNew
+								? setNewGradient( { ...newGradient, slug } )
+								: onChange( slug, 'slug' );
+						} }
+					/>
+					<GradientPicker
+						value={
+							isNew
+								? newGradient?.gradient
+								: currentGradient.gradient ?? null
+						}
+						onChange={ ( gradient ) => {
+							return isNew
+								? setNewGradient( {
+										...newGradient,
+										gradient,
+								  } )
+								: onChange( gradient, 'gradient' );
+						} }
+					/>
+					<div className="themer-settings--modal__actions">
+						<Button
+							isPrimary
+							disabled={
+								! currentGradient?.gradient &&
+								! newGradient?.gradient
+							}
+							onClick={ () => {
+								return isNew
+									? handleNewGradient()
+									: setCurrentGradient( {
+											gradient: '',
+											name: '',
+											slug: '',
+											key: '',
+									  } );
+							} }
+						>
+							{ isNew
+								? __( 'Add', 'default' )
+								: __( 'Save', 'default' ) }
+						</Button>
+						<Button
+							isPrimary
+							disabled={ isNew }
+							isDestructive
+							onClick={ () => {
+								handleDeleteGradient( currentGradient?.key );
+							} }
+						>
+							{ __( 'Delete', 'default' ) }
+						</Button>
+					</div>
+				</div>
 			</Modal>
 		);
 	};
