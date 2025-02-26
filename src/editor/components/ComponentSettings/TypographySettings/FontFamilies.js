@@ -144,7 +144,7 @@ const FontFamilies = ( { selector } ) => {
 							onClick={ () => {
 								setCurrentFont( {
 									...currentFont,
-									index: currentFont.index,
+									index: '',
 								} );
 								handleUpdateValue( currentFont.index );
 							} }
