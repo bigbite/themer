@@ -2,6 +2,8 @@ import { __experimentalHeading as Heading } from '@wordpress/components';
 
 import Styles from './Styles';
 
+import PreviewExampleButton from './PreviewExampleButton';
+
 /**
  * Renders the pseudo styles visible in the styles panel
  *
@@ -16,6 +18,7 @@ const PseudoItem = ( { name, selector } ) => {
 		<>
 			<span className="themer-styles-heading">
 				<Heading level={ 4 }>{ name.replace( ':', '' ) }</Heading>
+				<PreviewExampleButton />
 			</span>
 			<Styles selector={ stylesSelector } />
 		</>
