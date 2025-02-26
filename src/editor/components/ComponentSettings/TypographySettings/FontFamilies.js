@@ -200,7 +200,7 @@ const FontFamilies = ( { selector } ) => {
 							handleFontFamilyChange();
 							setIsOpen( ! isOpen );
 						} }
-						variant='primary'
+						variant="primary"
 					>
 						{ __( 'Save', 'default' ) }
 					</Button>
