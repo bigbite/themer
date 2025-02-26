@@ -64,6 +64,7 @@ const FontFaces = ( { selector } ) => {
 							} );
 						} }
 						key={ index }
+						variant="secondary"
 					>
 						{ size?.name }
 					</Button>
@@ -117,8 +118,9 @@ const FontFaces = ( { selector } ) => {
 						onClick={ () => {
 							handleNewFontSize();
 						} }
+						variant="primary"
 					>
-						Save
+						{ __( 'Save', 'default' ) }
 					</Button>
 				</Modal>
 			) }
@@ -167,20 +169,25 @@ const FontFaces = ( { selector } ) => {
 							)
 						}
 					/>
-					<Button
-						onClick={ () => {
-							setCurrentSize( {} );
-						} }
-					>
-						Save
-					</Button>
-					<Button
-						onClick={ () => {
-							handleDelete( currentSize.index );
-						} }
-					>
-						Delete
-					</Button>
+					<div className="themer-settings--modal__actions">
+						<Button
+							onClick={ () => {
+								setCurrentSize( {} );
+							} }
+							variant="primary"
+						>
+							{ __( 'Save', 'default' ) }
+						</Button>
+						<Button
+							onClick={ () => {
+								handleDelete( currentSize.index );
+							} }
+							variant="primary"
+							isDestructive
+						>
+							{ __( 'Delete', 'default' ) }
+						</Button>
+					</div>
 				</Modal>
 			) }
 		</div>

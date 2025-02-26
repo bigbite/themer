@@ -108,7 +108,7 @@
 .themer--settings__item__title {
 	font-weight: 600;
 	font-size: 14px;
-	line-height: 20px;
+	line-height: 40px;
 }
 
 .themer-styles-container .components-navigator-screen:has(.themer--settings) {
@@ -130,4 +130,21 @@
 
 .themer-settings--modal__content > div {
 	padding-bottom: 20px;
+}
+
+.themer--typography-options {
+	padding-bottom: 20px;
+}
+
+.themer--typography-options button {
+	margin: 0 10px 10px 0;
+}
+
+.themer--typography-font-face-options {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.themer--typography-font-face-options > * {
+	margin-right: 10px;
 }

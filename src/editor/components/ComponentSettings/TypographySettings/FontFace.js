@@ -78,7 +78,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 	};
 
 	return (
-		<div>
+		<div className="themer--typography-font-face-options">
 			<span className="themer--settings__item__title">
 				{ __( 'Font Face', 'themer' ) }
 			</span>
@@ -86,6 +86,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 				disabled={ familyIndex === '' }
 				icon={ plus }
 				onClick={ () => setShow( ! show ) }
+				variant="secondary"
 			/>
 			{ fontFaces.map( ( fontFace, index ) => {
 				if ( familyIndex === '' ) {
@@ -104,6 +105,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 							} )
 						}
 						key={ index }
+						variant="secondary"
 					>
 						{ fontFace.fontFamily }
 					</Button>
@@ -144,6 +146,7 @@ const FontFace = ( { familyIndex, selector } ) => {
 					<Button
 						label={ 'Save New Font Face' }
 						onClick={ pushNewFontFace }
+						variant="primary"
 					>
 						{ __( 'Save', 'themer' ) }
 					</Button>
@@ -193,27 +196,32 @@ const FontFace = ( { familyIndex, selector } ) => {
 						familyIndex={ familyIndex }
 						fontFaceIndex={ currentFontFace.index }
 					/>
-					<Button
-						label={ 'Save Font Face' }
-						onClick={ () =>
-							setCurrentFontFace( {
-								fontFamily: '',
-								fontStretch: '',
-								fontStyle: '',
-								fontWeight: '',
-							} )
-						}
-					>
-						{ __( 'Save', 'themer' ) }
-					</Button>
-					<Button
-						label={ __( 'Delete Font Face', 'themer' ) }
-						onClick={ () =>
-							handleDeleteFontFace( currentFontFace.index )
-						}
-					>
-						{ __( 'Delete', 'themer' ) }
-					</Button>
+					<div className="themer-settings--modal__actions">
+						<Button
+							label={ 'Save Font Face' }
+							onClick={ () =>
+								setCurrentFontFace( {
+									fontFamily: '',
+									fontStretch: '',
+									fontStyle: '',
+									fontWeight: '',
+								} )
+							}
+							variant="primary"
+						>
+							{ __( 'Save', 'themer' ) }
+						</Button>
+						<Button
+							label={ __( 'Delete Font Face', 'themer' ) }
+							isDestructive
+							variant="primary"
+							onClick={ () =>
+								handleDeleteFontFace( currentFontFace.index )
+							}
+						>
+							{ __( 'Delete', 'themer' ) }
+						</Button>
+					</div>
 				</Modal>
 			) }
 		</div>

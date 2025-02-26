@@ -98,6 +98,7 @@ const FontFamilies = ( { selector } ) => {
 							} )
 						}
 						key={ index }
+						variant="secondary"
 					>
 						{ font.name }
 					</Button>
@@ -114,6 +115,9 @@ const FontFamilies = ( { selector } ) => {
 						} )
 					}
 				>
+					<div className="themer--settings__item__title">
+						{ __( 'Font Families', 'themer' ) }
+					</div>
 					<TextControl
 						label={ __( 'Font Family', 'themer' ) }
 						value={ currentFont.fontFamily }
@@ -135,25 +139,30 @@ const FontFamilies = ( { selector } ) => {
 							setCurrentFont( { ...currentFont, slug } );
 						} }
 					/>
-					<Button
-						onClick={ () => {
-							setCurrentFont( {
-								...currentFont,
-								index: currentFont.index,
-							} );
-							handleUpdateValue( currentFont.index );
-						} }
-					>
-						{ __( 'Save', 'themer' ) }
-					</Button>
-					<Button
-						disabled={ currentFont.index === '' }
-						onClick={ () =>
-							handleDeleteFontFamily( currentFont.index )
-						}
-					>
-						{ __( 'Delete Font Family', 'themer' ) }
-					</Button>
+					<div className="themer-settings--modal__actions">
+						<Button
+							onClick={ () => {
+								setCurrentFont( {
+									...currentFont,
+									index: currentFont.index,
+								} );
+								handleUpdateValue( currentFont.index );
+							} }
+							variant="primary"
+						>
+							{ __( 'Save', 'default' ) }
+						</Button>
+						<Button
+							disabled={ currentFont.index === '' }
+							isDestructive
+							variant="primary"
+							onClick={ () =>
+								handleDeleteFontFamily( currentFont.index )
+							}
+						>
+							{ __( 'Delete', 'default' ) }
+						</Button>
+					</div>
 					<FontFace
 						familyIndex={ currentFont.index }
 						selector={ `${ selector }` }
@@ -162,6 +171,9 @@ const FontFamilies = ( { selector } ) => {
 			) }
 			{ isOpen && (
 				<Modal onRequestClose={ () => setIsOpen( ! isOpen ) }>
+					<div className="themer--settings__item__title">
+						{ __( 'Font Families', 'themer' ) }
+					</div>
 					<TextControl
 						label={ __( 'Font Family', 'themer' ) }
 						value={ newFont.fontFamily }
@@ -188,8 +200,9 @@ const FontFamilies = ( { selector } ) => {
 							handleFontFamilyChange();
 							setIsOpen( ! isOpen );
 						} }
+						variant='primary'
 					>
-						{ __( 'Save', 'themer' ) }
+						{ __( 'Save', 'default' ) }
 					</Button>
 				</Modal>
 			) }
