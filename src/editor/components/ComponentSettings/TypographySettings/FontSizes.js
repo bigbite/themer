@@ -72,7 +72,13 @@ const FontFaces = ( { selector } ) => {
 			} ) }
 			<Button icon={ plus } onClick={ () => setIsOpen( true ) } />
 			{ isOpen && (
-				<Modal onRequestClose={ () => setIsOpen( false ) }>
+				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Add New Font Size', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
+					onRequestClose={ () => setIsOpen( false ) }
+				>
 					<TextControl
 						label={ __( 'Name', 'themer' ) }
 						value={ newSize?.name }
@@ -125,7 +131,13 @@ const FontFaces = ( { selector } ) => {
 				</Modal>
 			) }
 			{ currentSize?.name && (
-				<Modal onRequestClose={ () => setCurrentSize( {} ) }>
+				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Edit Font Size', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
+					onRequestClose={ () => setCurrentSize( {} ) }
+				>
 					<TextControl
 						label={ __( 'Name', 'themer' ) }
 						value={ currentSize?.name }

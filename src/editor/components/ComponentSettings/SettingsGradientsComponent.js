@@ -56,7 +56,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 		obj.splice( key, 1 );
 
 		config = set( config, `${ selector }.theme`, obj );
-		setCurrentGradient( { gradient: '', name: '', slug: '', key: '' } );
+		setCurrentGradient( { gradient: null, name: '', slug: '', key: '' } );
 		setUserConfig( config );
 	};
 
@@ -66,7 +66,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 		obj.push( { ...newGradient } );
 		config = set( config, `${ selector }.theme`, obj );
 		setIsOpen( false );
-		setNewGradient( { gradient: '', name: '', slug: '' } );
+		setNewGradient( { gradient: null, name: '', slug: '' } );
 		setUserConfig( config );
 	};
 
@@ -75,13 +75,15 @@ const SettingsGradientComponent = ( { selector } ) => {
 			<Modal
 				className="themer-settings--modal"
 				title={
-					isNew ? __( 'Add', 'default' ) : __( 'Edit', 'default' )
+					isNew
+						? __( 'Add New Gradient', 'default' )
+						: __( 'Edit Gradient', 'default' )
 				}
 				shouldCloseOnEsc
 				shouldCloseOnClickOutside
 				onRequestClose={ () => {
 					setCurrentGradient( {
-						gradient: '',
+						gradient: null,
 						name: '',
 						slug: '',
 						key: '',
@@ -129,6 +131,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 						} }
 					/>
 					<div className="themer-settings--modal__actions">
+						{console.log('currentGradient', currentGradient, 'newGradient', newGradient)}
 						<Button
 							isPrimary
 							disabled={
@@ -139,7 +142,7 @@ const SettingsGradientComponent = ( { selector } ) => {
 								return isNew
 									? handleNewGradient()
 									: setCurrentGradient( {
-											gradient: '',
+											gradient: null,
 											name: '',
 											slug: '',
 											key: '',

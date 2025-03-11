@@ -121,6 +121,7 @@
 
 .themer-settings--modal {
 	max-height: 80%;
+	max-width: 450px;
 }
 
 .themer-settings--modal__actions {
@@ -143,8 +144,17 @@
 .themer--typography-font-face-options {
 	display: flex;
 	flex-wrap: wrap;
+	padding-bottom: 10px;
 }
 
 .themer--typography-font-face-options > * {
-	margin-right: 10px;
+	margin: 5px;
+}
+
+.themer--shadow-options {
+	padding-bottom: 20px;
+}
+
+.themer--shadow-options button {
+	margin: 0 10px 10px 0;
 }

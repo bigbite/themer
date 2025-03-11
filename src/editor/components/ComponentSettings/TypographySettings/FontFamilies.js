@@ -106,6 +106,10 @@ const FontFamilies = ( { selector } ) => {
 			} ) }
 			{ currentFont.index !== '' && (
 				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Edit Font Family', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
 					onRequestClose={ () =>
 						setCurrentFont( {
 							fontFamily: '',
@@ -139,6 +143,10 @@ const FontFamilies = ( { selector } ) => {
 							setCurrentFont( { ...currentFont, slug } );
 						} }
 					/>
+					<FontFace
+						familyIndex={ currentFont.index }
+						selector={ `${ selector }` }
+					/>
 					<div className="themer-settings--modal__actions">
 						<Button
 							onClick={ () => {
@@ -163,14 +171,16 @@ const FontFamilies = ( { selector } ) => {
 							{ __( 'Delete', 'default' ) }
 						</Button>
 					</div>
-					<FontFace
-						familyIndex={ currentFont.index }
-						selector={ `${ selector }` }
-					/>
 				</Modal>
 			) }
 			{ isOpen && (
-				<Modal onRequestClose={ () => setIsOpen( ! isOpen ) }>
+				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Add New Font Family', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
+					onRequestClose={ () => setIsOpen( ! isOpen ) }
+				>
 					<div className="themer--settings__item__title">
 						{ __( 'Font Families', 'themer' ) }
 					</div>

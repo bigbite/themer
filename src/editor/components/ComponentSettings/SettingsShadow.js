@@ -121,6 +121,7 @@ const SettingsShadow = ( { selector, description } ) => {
 								} );
 							} }
 							key={ index }
+							variant="secondary"
 						>
 							{ preset.name }
 						</Button>
@@ -133,7 +134,13 @@ const SettingsShadow = ( { selector, description } ) => {
 						{ __( 'Add New Shadow Preset', 'themer' ) }
 					</Button>
 					{ show && (
-						<Modal onRequestClose={ () => setShow( false ) }>
+						<Modal
+							className="themer-settings--modal"
+							title={ __( 'Add New Shadow', 'themer' ) }
+							shouldCloseOnEsc
+							shouldCloseOnClickOutside
+							onRequestClose={ () => setShow( false ) }
+						>
 							<TextControl
 								label={ __( 'Name', 'themer' ) }
 								value={ newPreset.name }
@@ -164,6 +171,10 @@ const SettingsShadow = ( { selector, description } ) => {
 			}
 			{ currentPreset.index !== '' && (
 				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Edit Shadow', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
 					onRequestClose={ () =>
 						setCurrentPreset( {
 							name: '',

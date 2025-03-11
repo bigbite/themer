@@ -107,12 +107,18 @@ const FontFace = ( { familyIndex, selector } ) => {
 						key={ index }
 						variant="secondary"
 					>
-						{ fontFace.fontFamily }
+						{ `${ fontFace.fontFamily } - ${ fontFace.fontStyle }` }
 					</Button>
 				);
 			} ) }
 			{ show && (
-				<Modal onRequestClose={ () => setShow( false ) }>
+				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Add New Font Face', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
+					onRequestClose={ () => setShow( false ) }
+				>
 					<TextControl
 						label={ 'Font Family' }
 						value={ value?.fontFamily }
@@ -154,6 +160,10 @@ const FontFace = ( { familyIndex, selector } ) => {
 			) }
 			{ currentFontFace.fontFamily && (
 				<Modal
+					className="themer-settings--modal"
+					title={ __( 'Edit Font Face', 'themer' ) }
+					shouldCloseOnEsc
+					shouldCloseOnClickOutside
 					onRequestClose={ () =>
 						setCurrentFontFace( {
 							fontFamily: '',
