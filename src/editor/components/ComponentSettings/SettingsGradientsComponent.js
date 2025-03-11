@@ -131,7 +131,6 @@ const SettingsGradientComponent = ( { selector } ) => {
 						} }
 					/>
 					<div className="themer-settings--modal__actions">
-						{console.log('currentGradient', currentGradient, 'newGradient', newGradient)}
 						<Button
 							isPrimary
 							disabled={
