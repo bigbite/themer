@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { globe, blockDefault, html } from '@wordpress/icons';
+import { globe, blockDefault, html, settings } from '@wordpress/icons';
 
 import NavListItem from './NavListItem';
 import NavBlockList from './NavBlockList';
@@ -13,12 +13,20 @@ import NavElementList from './NavElementList';
 const Nav = () => {
 	return (
 		<ul className="themer-nav-list">
-			<NavListItem
-				icon={ globe }
-				label={ __( 'Site', 'themer' ) }
-				route="/"
-				hasStyles
-			/>
+			<li className="themer-nav-list__item themer-nav-list__item--hasSettings">
+				<NavListItem
+					icon={ globe }
+					label={ __( 'Site', 'themer' ) }
+					route="/"
+					hasStyles
+				/>
+				<NavListItem
+					icon={ settings }
+					route="/settings"
+					hasStyles
+					deselectable
+				/>
+			</li>
 			<NavListItem
 				icon={ blockDefault }
 				label={ __( 'Blocks', 'themer' ) }

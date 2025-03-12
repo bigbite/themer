@@ -9,27 +9,40 @@ import { useState } from '@wordpress/element';
 /**
  * Nav List Item
  *
- * @param {Object}      props           Component props
- * @param {JSX.Element} props.children  Child elements
- * @param {string}      props.icon      Item icon
- * @param {Object}      props.label     Item label
- * @param {string}      props.route     Navigation route this item should link to
- * @param {boolean}     props.hasStyles Whether or not this item has styles
+ * @param {Object}      props              Component props
+ * @param {JSX.Element} props.children     Child elements
+ * @param {string}      props.icon         Item icon
+ * @param {Object}      props.label        Item label
+ * @param {string}      props.route        Navigation route this item should link to
+ * @param {boolean}     props.hasStyles    Whether or not this item has styles
+ * @param {boolean}     props.deselectable Whether or not this item can be deselected
  */
-const NavListItem = ( { children, icon, label, route, hasStyles } ) => {
+const NavListItem = ( {
+	children,
+	icon,
+	label,
+	route,
+	hasStyles,
+	deselectable,
+} ) => {
 	const [ isOpen, setIsOpen ] = useState( false );
+	const [ prevPath, setPrevPath ] = useState( null );
 	const { goTo, location } = useNavigator();
 
-	const handleClick = () => {
-		if ( route ) goTo( route );
-	};
+	const isActive = location.path === route;
 
 	const handleExpandClick = ( event ) => {
 		event.stopPropagation();
 		setIsOpen( ( prev ) => ! prev );
 	};
 
-	const isActive = location.path === route;
+	const handleClick = () => {
+		setPrevPath( location.path );
+		if ( route ) goTo( route );
+		if ( deselectable && isActive ) {
+			goTo( prevPath );
+		}
+	};
 
 	const renderIcon = () => {
 		if ( ! children ) {

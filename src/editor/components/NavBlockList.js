@@ -42,18 +42,23 @@ const NavBlockList = () => {
 					const elementsSelector = `blocks.${ block.name }.elements`;
 
 					return (
-						<NavListItem
-							key={ block.name }
-							icon={ block?.icon?.src }
-							label={ block.title }
-							route={ route }
-							hasStyles={ hasBlockStyles }
+						<span
+							className="themer-nav-list__item themer-nav-list__item--hasSettings"
+							key={ block?.name }
 						>
-							<NavElementList
-								selector={ elementsSelector }
+							<NavListItem
+								key={ block.name }
+								icon={ block?.icon?.src }
+								label={ block.title }
 								route={ route }
-							/>
-						</NavListItem>
+								hasStyles={ hasBlockStyles }
+							>
+								<NavElementList
+									selector={ elementsSelector }
+									route={ route }
+								/>
+							</NavListItem>
+						</span>
 					);
 				} ) }
 			</ul>
