@@ -8,6 +8,7 @@ import Site from './Site';
 import BlockItem from './BlockItem';
 import ElementItem from './ElementItem';
 import PseudoItem from './PseudoItem';
+import SiteSettings from './ComponentSettings/SiteSettings';
 
 /**
  * Styles Panel
@@ -25,6 +26,11 @@ const StylesPanel = () => {
 			{ /* site screen */ }
 			<NavigatorScreen path="/">
 				<Site />
+			</NavigatorScreen>
+
+			{ /* site settings screen */ }
+			<NavigatorScreen path="/settings">
+				<SiteSettings />
 			</NavigatorScreen>
 
 			{ /* block screen */ }
