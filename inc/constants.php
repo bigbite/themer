@@ -8,5 +8,5 @@
 namespace Big_Bite\themer;
 
 if ( ! defined( 'THEMER_DIR' ) ) {
-	define( 'THEMER_DIR', rtrim( \dirname( __FILE__, 2 ), '/' ) );
+	define( 'THEMER_DIR', rtrim( \dirname( __DIR__, 1 ), '/' ) );
 }

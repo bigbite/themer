@@ -22,6 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once rtrim( \dirname( __FILE__ ) ) . '/vendor/autoload_packages.php';
+require_once rtrim( __DIR__ ) . '/vendor/autoload_packages.php';
 
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\setup', 0 );
