@@ -5,11 +5,8 @@ import TemplateManagerModal from './TemplateManagerModal';
 
 /**
  * Renders the button to export theme.json
- *
- * @param {Object} props
- * @param {Function} props.onClose Callback to close the modal
  */
-const ButtonTemplateManager = ( { onClose } ) => {
+const ButtonTemplateManager = () => {
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 
 	return (

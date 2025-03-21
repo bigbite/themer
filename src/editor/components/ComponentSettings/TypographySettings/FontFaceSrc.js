@@ -14,7 +14,6 @@ import StylesContext from '../../../context/StylesContext';
  * @param {string} props.selector      Property target selector
  * @param {number} props.familyIndex   Index of the font family
  * @param {number} props.fontFaceIndex Index of the font face
- *
  */
 const FontFaceSrc = ( { selector, familyIndex, fontFaceIndex } ) => {
 	const { userConfig, themeConfig } = useContext( EditorContext );

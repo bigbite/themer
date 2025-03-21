@@ -1,10 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import {
-	Button,
-	Modal,
-	__experimentalHStack as HStack,
-	ExternalLink,
-} from '@wordpress/components';
+import { Button, Modal, ExternalLink } from '@wordpress/components';
 import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch } from '@wordpress/data';
 
@@ -14,8 +9,9 @@ import { download, backup } from '@wordpress/icons';
 /**
  * Renders the button to export theme.json
  *
- * @param {Object}  props
- * @param {boolean} props.isOpen Whether the modal is open
+ * @param {Object}   props
+ * @param {boolean}  props.isOpen    Whether the modal is open
+ * @param {Function} props.setIsOpen Function to set the modal open state
  */
 const TemplateManagerModal = ( { isOpen, setIsOpen } ) => {
 	const { deleteEntityRecord } = useDispatch( coreStore );
