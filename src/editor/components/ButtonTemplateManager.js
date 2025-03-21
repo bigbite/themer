@@ -13,10 +13,7 @@ const ButtonTemplateManager = () => {
 		<>
 			<MenuItem
 				role="menuitem"
-				onClick={ () => {
-					// onClose();
-					setIsModalOpen( true );
-				} }
+				onClick={ () => setIsModalOpen( true ) }
 				info={ __( 'Manage block templates.', 'themer' ) }
 			>
 				{ __( 'Block Templates', 'themer' ) }
