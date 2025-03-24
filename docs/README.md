@@ -30,13 +30,14 @@ When installing to your site, add the following to you `composer.json` file. Thi
 	"repositories": [
 		{
 			"type": "vcs",
-			"url": "git@github.com:@bigbite/themer.git"
+			"url": "git@github.com:bigbite/themer.git"
 		}
 	],
 	"require": {
-		"@bigbite/themer": "^1.1.0"
+		"bigbite/themer": "^1.1.0"
 	},
 	"extra": {
+
 		"installer-paths": {
 			"plugins/{$name}/": [ "type:wordpress-plugin" ]
 		}
@@ -49,7 +50,7 @@ When installing to your site, add the following to you `composer.json` file. Thi
 Clone the repository into your `plugins` or `client-mu-plugins` directory.
 
 ```
-git clone git@github.com:@bigbite/themer.git && cd themer
+git clone git@github.com:bigbite/themer.git && cd themer
 ```
 
 Install JS packages.
