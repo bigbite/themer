@@ -3,8 +3,8 @@ import { Button, Modal, ExternalLink } from '@wordpress/components';
 import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch } from '@wordpress/data';
 
-import saveTemplate from '../../utils/save-template';
 import { download, trash } from '@wordpress/icons';
+import saveHelper from '../../utils/save-helper';
 
 /**
  * SavedPatternsModal Component
@@ -24,6 +24,7 @@ const SavedPatternsModal = ( { isOpen, setIsOpen } ) => {
 	const { records: patterns } = useEntityRecords( 'postType', 'wp_block', {
 		per_page: 100,
 		status: [ 'publish', 'draft' ],
+		_embed: true,
 	} );
 
 	if ( ! isOpen ) {
@@ -43,7 +44,9 @@ const SavedPatternsModal = ( { isOpen, setIsOpen } ) => {
 						<tr key={ pattern.id }>
 							<td>
 								<ExternalLink href={ editUrl }>
-									{ pattern.title.raw }
+									{ pattern.title.raw
+										? pattern.title.raw
+										: __( '(no title)', 'default' ) }
 								</ExternalLink>
 							</td>
 							<td>
@@ -64,7 +67,7 @@ const SavedPatternsModal = ( { isOpen, setIsOpen } ) => {
 							<td>
 								<Button
 									icon={ download }
-									onClick={ () => saveTemplate( pattern ) }
+									onClick={ () => saveHelper( pattern ) }
 								>
 									{ __( 'Export', 'themer' ) }
 								</Button>
