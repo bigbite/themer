@@ -26,7 +26,7 @@ import SavedPatternsModal from './SavedPatternsModal';
 const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 	const [ isTemplateManagerOpen, setIsTemplateManagerOpen ] =
 		useState( false );
-	const [ savedPatternsOpen, setIsSavedPatternsOpen ] = useState( false );
+	const [ isSavedPatternsOpen, setIsSavedPatternsOpen ] = useState( false );
 	return (
 		<div className="themer-topbar">
 			<Button
@@ -101,7 +101,7 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 				setIsOpen={ setIsTemplateManagerOpen }
 			/>
 			<SavedPatternsModal
-				isOpen={ savedPatternsOpen }
+				isOpen={ isSavedPatternsOpen }
 				setIsOpen={ setIsSavedPatternsOpen }
 			/>
 		</div>
