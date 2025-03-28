@@ -10,6 +10,7 @@ import { __ } from '@wordpress/i18n';
 
 import ButtonExport from './ButtonExport';
 import TemplateManagerModal from './TemplateManagerModal';
+import SavedPatternsModal from './SavedPatternsModal';
 
 /**
  * Topbar component
@@ -25,6 +26,7 @@ import TemplateManagerModal from './TemplateManagerModal';
 const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 	const [ isTemplateManagerOpen, setIsTemplateManagerOpen ] =
 		useState( false );
+	const [ isSavedPatternsOpen, setIsSavedPatternsOpen ] = useState( false );
 	return (
 		<div className="themer-topbar">
 			<Button
@@ -77,6 +79,19 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 							>
 								{ __( 'Block Templates', 'themer' ) }
 							</MenuItem>
+							<MenuItem
+								role="menuitem"
+								onClick={ () => {
+									onClose();
+									setIsSavedPatternsOpen( true );
+								} }
+								info={ __(
+									'Manage saved patterns.',
+									'themer'
+								) }
+							>
+								{ __( 'Saved Patterns', 'themer' ) }
+							</MenuItem>
 						</MenuGroup>
 					</>
 				) }
@@ -84,6 +99,10 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 			<TemplateManagerModal
 				isOpen={ isTemplateManagerOpen }
 				setIsOpen={ setIsTemplateManagerOpen }
+			/>
+			<SavedPatternsModal
+				isOpen={ isSavedPatternsOpen }
+				setIsOpen={ setIsSavedPatternsOpen }
 			/>
 		</div>
 	);
