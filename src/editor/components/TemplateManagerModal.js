@@ -3,7 +3,7 @@ import { Button, Modal, ExternalLink } from '@wordpress/components';
 import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch } from '@wordpress/data';
 
-import saveHelper from '../../utils/save-helper';
+import saveFile from '../../utils/save-helper';
 import { download, backup } from '@wordpress/icons';
 
 /**
@@ -66,7 +66,7 @@ const TemplateManagerModal = ( { isOpen, setIsOpen } ) => {
 							<td>
 								<Button
 									icon={ download }
-									onClick={ () => saveHelper( template ) }
+									onClick={ () => saveFile( template ) }
 								>
 									{ __( 'Export', 'themer' ) }
 								</Button>

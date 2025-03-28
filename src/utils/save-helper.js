@@ -3,7 +3,7 @@
  *
  * @param {Object} data block template
  */
-const saveHelper = async ( data ) => {
+const saveFile = async ( data ) => {
 	// Create PHP template header
 	let phpContent = '';
 	if ( 'wp_block' === data.type ) {
@@ -61,4 +61,4 @@ ${ data.content.raw }`;
 	await stream.close();
 };
 
-export default saveHelper;
+export default saveFile;
