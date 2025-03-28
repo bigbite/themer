@@ -4,7 +4,7 @@ import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch } from '@wordpress/data';
 
 import { download, trash } from '@wordpress/icons';
-import saveFile from '../../utils/save-helper';
+import { savePhpFile } from '../../utils/save-file';
 
 /**
  * SavedPatternsModal Component
@@ -67,7 +67,7 @@ const SavedPatternsModal = ( { isOpen, setIsOpen } ) => {
 							<td>
 								<Button
 									icon={ download }
-									onClick={ () => saveFile( pattern ) }
+									onClick={ () => savePhpFile( pattern ) }
 								>
 									{ __( 'Export', 'themer' ) }
 								</Button>
