@@ -17,7 +17,7 @@ export const saveJsonFile = async ( filename, data ) => {
 };
 
 /**
- * Save JSON blob to a file as a PHP template
+ * Save JSON blob to a file as a PHP template or pattern depending on the type
  *
  * @param {Object} data block template
  */
