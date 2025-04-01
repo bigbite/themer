@@ -38,43 +38,46 @@ const SavedPatternsModal = ( { isOpen, setIsOpen } ) => {
 			onRequestClose={ () => setIsOpen( false ) }
 		>
 			<table>
-				{ patterns.map( ( pattern ) => {
-					const editUrl = `site-editor.php?postId=${ pattern.id }&postType=wp_block&canvas=edit`;
-					return (
-						<tr key={ pattern.id }>
-							<td>
-								<ExternalLink href={ editUrl }>
-									{ pattern.title.raw
-										? pattern.title.raw
-										: __( '(no title)', 'default' ) }
-								</ExternalLink>
-							</td>
-							<td>
-								<Button
-									icon={ trash }
-									isDestructive
-									onClick={ () =>
-										deleteEntityRecord(
-											'postType',
-											'wp_block',
-											pattern.id
-										)
-									}
-								>
-									{ __( 'Remove', 'themer' ) }
-								</Button>
-							</td>
-							<td>
-								<Button
-									icon={ download }
-									onClick={ () => savePhpFile( pattern ) }
-								>
-									{ __( 'Export', 'themer' ) }
-								</Button>
-							</td>
-						</tr>
-					);
-				} ) }
+				<tbody>
+					{ patterns.map( ( pattern ) => {
+						const editUrl = `site-editor.php?postId=${ pattern.id }&postType=wp_block&canvas=edit`;
+
+						return (
+							<tr key={ pattern.id }>
+								<td>
+									<ExternalLink href={ editUrl }>
+										{ pattern.title.raw
+											? pattern.title.raw
+											: __( '(no title)', 'default' ) }
+									</ExternalLink>
+								</td>
+								<td>
+									<Button
+										icon={ trash }
+										isDestructive
+										onClick={ () =>
+											deleteEntityRecord(
+												'postType',
+												'wp_block',
+												pattern.id
+											)
+										}
+									>
+										{ __( 'Remove', 'default' ) }
+									</Button>
+								</td>
+								<td>
+									<Button
+										icon={ download }
+										onClick={ () => savePhpFile( pattern ) }
+									>
+										{ __( 'Export', 'default' ) }
+									</Button>
+								</td>
+							</tr>
+						);
+					} ) }
+				</tbody>
 			</table>
 		</Modal>
 	);
