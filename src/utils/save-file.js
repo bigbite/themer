@@ -5,7 +5,7 @@
  * @param {Object} data     theme.json data
  */
 export const saveJsonFile = async ( filename, data ) => {
-	const blob = new Blob( [ data ], { type: 'application/json' } ); // eslint-disable-line no-undef -- Blob available in browser environment
+	const blob = new Blob( [ data ], { type: 'application/json' } );
 
 	const handle = await window.showSaveFilePicker( {
 		suggestedName: filename,
@@ -17,7 +17,7 @@ export const saveJsonFile = async ( filename, data ) => {
 };
 
 /**
- * Save JSON blob to a file as a PHP template or pattern depending on the type
+ * Save a block pattern as a PHP file
  *
  * @param {Object} data block template
  */
@@ -65,7 +65,7 @@ ${ data.content.raw }`;
 };
 
 /**
- * Save JSON blob to a file as a PHP template or pattern depending on the type
+ * Save a block template to a HTML file
  *
  * @param {Object} data block template
  */
