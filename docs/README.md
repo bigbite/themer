@@ -34,10 +34,9 @@ When installing to your site, add the following to you `composer.json` file. Thi
 		}
 	],
 	"require": {
-		"bigbite/themer": "^1.2.0"
+		"bigbite/themer": "^1.2.1"
 	},
 	"extra": {
-
 		"installer-paths": {
 			"plugins/{$name}/": [ "type:wordpress-plugin" ]
 		}
