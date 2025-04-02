@@ -186,7 +186,7 @@ const Themer = ( { editorSettings } ) => {
 			'root',
 			'globalStyles',
 			globalStylesId,
-			baseConfig
+			{ id: globalStylesId, settings: {}, styles: {} }
 		);
 	};
 

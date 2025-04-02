@@ -34,7 +34,7 @@ When installing to your site, add the following to you `composer.json` file. Thi
 		}
 	],
 	"require": {
-		"bigbite/themer": "^1.2.1"
+		"bigbite/themer": "^1.2.2"
 	},
 	"extra": {
 		"installer-paths": {
