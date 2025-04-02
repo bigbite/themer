@@ -40,10 +40,20 @@ const SavedPatternsModal = ( { isOpen, setIsOpen } ) => {
 			<table>
 				<tbody>
 					{ patterns.map( ( pattern ) => {
+						const isSynced =
+							pattern.wp_pattern_sync_status !== 'unsynced';
+
 						const editUrl = `site-editor.php?postId=${ pattern.id }&postType=wp_block&canvas=edit`;
 
 						return (
 							<tr key={ pattern.id }>
+								<td>
+									{ isSynced && (
+										<span className="themer--tag">
+											{ __( 'Synced', 'themer' ) }
+										</span>
+									) }
+								</td>
 								<td>
 									<ExternalLink href={ editUrl }>
 										{ pattern.title.raw
