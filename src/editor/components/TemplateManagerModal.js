@@ -3,7 +3,7 @@ import { Button, Modal, ExternalLink } from '@wordpress/components';
 import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch } from '@wordpress/data';
 
-import { savePhpFile } from '../../utils/save-file';
+import { saveHtmlFile } from '../../utils/save-file';
 import { download, backup } from '@wordpress/icons';
 
 /**
@@ -35,45 +35,53 @@ const TemplateManagerModal = ( { isOpen, setIsOpen } ) => {
 			onRequestClose={ () => setIsOpen( false ) }
 		>
 			<table>
-				{ templates.map( ( template ) => {
-					const isCustomised =
-						template.has_theme_file && template.source === 'custom';
-					const editUrl = `site-editor.php?postId=${ template.id }&postType=wp_template&canvas=edit`;
-					return (
-						<tr key={ template.id }>
-							<td>
-								<ExternalLink href={ editUrl }>
-									{ template.title.raw }
-								</ExternalLink>
-							</td>
-							<td>
-								{ isCustomised && (
+				<tbody>
+					{ templates.map( ( template ) => {
+						const isCustom = template.source === 'custom';
+						const hasThemeFile = template.has_theme_file;
+
+						const editUrl = `site-editor.php?postId=${ template.id }&postType=wp_template&canvas=edit`;
+
+						return (
+							<tr key={ template.id }>
+								<td>
+									<ExternalLink href={ editUrl }>
+										{ template.title.raw }
+									</ExternalLink>
+								</td>
+								<td>
+									{ isCustom && (
+										<Button
+											icon={ backup }
+											isDestructive
+											onClick={ () =>
+												deleteEntityRecord(
+													'postType',
+													'wp_template',
+													template.id
+												)
+											}
+										>
+											{ hasThemeFile
+												? __( 'Reset', 'default' )
+												: __( 'Remove', 'default' ) }
+										</Button>
+									) }
+								</td>
+								<td>
 									<Button
-										icon={ backup }
-										isDestructive
+										icon={ download }
 										onClick={ () =>
-											deleteEntityRecord(
-												'postType',
-												'wp_template',
-												template.id
-											)
+											saveHtmlFile( template )
 										}
 									>
-										{ __( 'Reset', 'themer' ) }
+										{ __( 'Export', 'themer' ) }
 									</Button>
-								) }
-							</td>
-							<td>
-								<Button
-									icon={ download }
-									onClick={ () => savePhpFile( template ) }
-								>
-									{ __( 'Export', 'themer' ) }
-								</Button>
-							</td>
-						</tr>
-					);
-				} ) }
+								</td>
+							</tr>
+						);
+					} ) }
+				</tbody>
 			</table>
 		</Modal>
 	);
