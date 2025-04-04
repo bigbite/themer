@@ -10,6 +10,7 @@ import { __ } from '@wordpress/i18n';
 
 import ButtonExport from './ButtonExport';
 import TemplateManagerModal from './TemplateManagerModal';
+import TemplatePartManagerModal from './TemplatePartManagerModal';
 import SavedPatternsModal from './SavedPatternsModal';
 
 /**
@@ -25,6 +26,8 @@ import SavedPatternsModal from './SavedPatternsModal';
  */
 const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 	const [ isTemplateManagerOpen, setIsTemplateManagerOpen ] =
+		useState( false );
+	const [ isTemplatePartManagerOpen, setIsTemplatePartManagerOpen ] =
 		useState( false );
 	const [ isSavedPatternsOpen, setIsSavedPatternsOpen ] = useState( false );
 	return (
@@ -83,6 +86,19 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 								role="menuitem"
 								onClick={ () => {
 									onClose();
+									setIsTemplatePartManagerOpen( true );
+								} }
+								info={ __(
+									'Manage template parts.',
+									'themer'
+								) }
+							>
+								{ __( 'Template Parts', 'themer' ) }
+							</MenuItem>
+							<MenuItem
+								role="menuitem"
+								onClick={ () => {
+									onClose();
 									setIsSavedPatternsOpen( true );
 								} }
 								info={ __(
@@ -99,6 +115,10 @@ const Topbar = ( { isDirty, onReset, onSave, onClear } ) => {
 			<TemplateManagerModal
 				isOpen={ isTemplateManagerOpen }
 				setIsOpen={ setIsTemplateManagerOpen }
+			/>
+			<TemplatePartManagerModal
+				isOpen={ isTemplatePartManagerOpen }
+				setIsOpen={ setIsTemplatePartManagerOpen }
 			/>
 			<SavedPatternsModal
 				isOpen={ isSavedPatternsOpen }
