@@ -15,7 +15,7 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {

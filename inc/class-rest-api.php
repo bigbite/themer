@@ -5,15 +5,15 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 /**
  * Custom REST routes.
  */
-class Rest_API {
-		/**
-		 * Rest_API constructor.
-		 */
+class REST_API {
+	/**
+	 * REST_API constructor.
+	 */
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'init' ) );
 	}

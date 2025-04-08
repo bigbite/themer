@@ -2,7 +2,7 @@
 
 declare( strict_types = 1 );
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 use WP_Error;
 use WP_REST_Controller;
