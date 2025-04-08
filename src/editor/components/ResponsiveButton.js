@@ -3,63 +3,62 @@ import {
 	MenuGroup,
 	MenuItemsChoice,
 } from '@wordpress/components';
+import { useSelect, useDispatch } from '@wordpress/data';
+import { store as editorStore } from '@wordpress/editor';
 import { desktop, tablet, mobile } from '@wordpress/icons';
 import { useContext } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import EditorContext from '../context/EditorContext';
 
-const options = [
+const OPTIONS = [
 	{
 		label: 'Desktop',
-		value: 'desktop',
+		value: 'Desktop',
 	},
 	{
 		label: 'Tablet',
-		value: 'tablet',
+		value: 'Tablet',
 	},
 	{
 		label: 'Mobile',
-		value: 'mobile',
+		value: 'Mobile',
 	},
 ];
+
+const ICON_MAP = {
+	Desktop: desktop,
+	Tablet: tablet,
+	Mobile: mobile,
+};
 
 /**
  * button to handle responsive preview options
  *
  */
 const ResponsiveButton = () => {
-	const { previewSize, setPreviewSize, previewMode } =
-		useContext( EditorContext );
-	/**
-	 * Updates icon depending on chosen screen size
-	 */
-	const handleIcon = () => {
-		switch ( previewSize ) {
-			case 'desktop':
-				return desktop;
-			case 'tablet':
-				return tablet;
-			case 'mobile':
-				return mobile;
-			default:
-				return desktop;
-		}
-	};
+	const { previewMode } = useContext( EditorContext );
+
+	const deviceType = useSelect(
+		( select ) => select( editorStore ).getDeviceType(),
+		[]
+	);
+
+	const { setDeviceType } = useDispatch( editorStore );
 
 	return (
 		<DropdownMenu
-			icon={ handleIcon }
+			icon={ ICON_MAP[ deviceType ] }
 			label={ __( 'Select a size', 'themer' ) }
 			toggleProps={ { disabled: previewMode === 'code' } }
 		>
 			{ () => (
 				<MenuGroup>
 					<MenuItemsChoice
-						choices={ options }
-						value={ previewSize }
+						choices={ OPTIONS }
+						value={ deviceType }
 						onSelect={ ( size ) => {
-							setPreviewSize( size );
+							setDeviceType( size );
 						} }
 					/>
 				</MenuGroup>

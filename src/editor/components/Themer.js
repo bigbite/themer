@@ -29,7 +29,6 @@ import { getDefaultPreview } from '../../utils/blockPreviews';
  */
 const Themer = ( { editorSettings } ) => {
 	const [ previewMode, setPreviewMode ] = useState( 'visual' );
-	const [ previewSize, setPreviewSize ] = useState( 'desktop' );
 	const [ previewBlocks, setPreviewBlocks ] = useState();
 	const [ previewExampleIsActive, setPreviewExampleIsActive ] = useState();
 	const [ schema, setSchema ] = useState( {} );
@@ -229,8 +228,6 @@ const Themer = ( { editorSettings } ) => {
 					resetPreviewBlocks,
 					previewMode,
 					setPreviewMode,
-					previewSize,
-					setPreviewSize,
 					previewExampleIsActive,
 					setPreviewExampleIsActive,
 				} }
