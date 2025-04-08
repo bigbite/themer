@@ -1,4 +1,9 @@
 <?php
+/**
+ * REST API controller for Themer.
+ *
+ * @package themer
+ */
 
 declare( strict_types = 1 );
 
