@@ -16,8 +16,12 @@ import { useEntityRecords } from '@wordpress/core-data';
  * Dropdown menu to select the preview template
  */
 const PreviewModeSelector = () => {
-	const { previewBlocks, resetPreviewBlocks, setPreviewBlocks } =
-		useContext( EditorContext );
+	const {
+		previewBlocks,
+		resetPreviewBlocks,
+		setPreviewBlocks,
+		setPreviewExampleIsActive,
+	} = useContext( EditorContext );
 
 	const templates = useEntityRecords( 'postType', 'wp_template', {
 		per_page: -1,
@@ -30,7 +34,7 @@ const PreviewModeSelector = () => {
 		};
 	} );
 
-	const handleSelect = ( value ) => {
+	const handleSelect = ( value, onClose ) => {
 		if ( value === 'default' ) {
 			resetPreviewBlocks();
 			return;
@@ -44,6 +48,9 @@ const PreviewModeSelector = () => {
 			name: value,
 			blocks: parse( rawContent ),
 		} );
+
+		setPreviewExampleIsActive( false );
+		onClose();
 	};
 
 	const currentTemplate = templates.records?.find(
@@ -64,7 +71,7 @@ const PreviewModeSelector = () => {
 						__( 'Default', 'themer' ) }
 				</Button>
 			) }
-			renderContent={ () => (
+			renderContent={ ( { onClose } ) => (
 				<MenuGroup>
 					<MenuItemsChoice
 						choices={ [
@@ -75,7 +82,7 @@ const PreviewModeSelector = () => {
 							...templateOptions,
 						] }
 						value={ previewBlocks.name }
-						onSelect={ handleSelect }
+						onSelect={ ( value ) => handleSelect( value, onClose ) }
 					/>
 				</MenuGroup>
 			) }

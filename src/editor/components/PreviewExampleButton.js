@@ -29,15 +29,8 @@ const PreviewExampleButton = () => {
 		if ( previewExampleIsActive ) {
 			const preview = getPreviewFromRouteParams( params );
 			setPreviewBlocks( preview );
-		} else {
-			resetPreviewBlocks();
 		}
-	}, [
-		params,
-		previewExampleIsActive,
-		resetPreviewBlocks,
-		setPreviewBlocks,
-	] );
+	}, [ params, previewExampleIsActive, setPreviewBlocks ] );
 
 	const handlePreviewExampleToggle = () => {
 		if ( previewExampleIsActive ) {
@@ -46,6 +39,8 @@ const PreviewExampleButton = () => {
 			return;
 		}
 		setPreviewExampleIsActive( true );
+		const preview = getPreviewFromRouteParams( params );
+		setPreviewBlocks( preview );
 	};
 
 	return (
