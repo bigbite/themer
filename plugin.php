@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Themer
  * Description:       A plugin to help you style themes faster.
- * Version:           1.0.0
+ * Version:           1.2.2
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            Big Bite
@@ -15,13 +15,13 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-require_once rtrim( \dirname( __FILE__ ) ) . '/vendor/autoload_packages.php';
+require_once rtrim( __DIR__ ) . '/vendor/autoload_packages.php';
 
 add_action( 'plugins_loaded', __NAMESPACE__ . '\\setup', 0 );

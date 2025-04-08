@@ -5,8 +5,8 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 if ( ! defined( 'THEMER_DIR' ) ) {
-	define( 'THEMER_DIR', rtrim( \dirname( __FILE__, 2 ), '/' ) );
+	define( 'THEMER_DIR', rtrim( \dirname( __DIR__, 1 ), '/' ) );
 }

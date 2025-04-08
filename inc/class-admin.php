@@ -5,7 +5,7 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 /**
  * Generate an admin screen we can use for the plugin.
@@ -23,7 +23,7 @@ class Admin {
 	 *
 	 * @return void
 	 */
-	public function enqueue_assets() : void {
+	public function enqueue_assets(): void {
 
 		$plugin_name = basename( THEMER_DIR );
 		$asset_file  = include THEMER_DIR . '/build/index.asset.php';
@@ -51,7 +51,7 @@ class Admin {
 	 *
 	 * @return void
 	 */
-	public function create_admin_screen() : void {
+	public function create_admin_screen(): void {
 		add_theme_page(
 			__( 'Styles Editor' ),
 			'Styles Editor',
