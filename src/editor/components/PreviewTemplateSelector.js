@@ -46,6 +46,10 @@ const PreviewModeSelector = () => {
 		} );
 	};
 
+	const currentTemplate = templates.records?.find(
+		( template ) => template.id === previewBlocks.name
+	);
+
 	return (
 		<Dropdown
 			icon={ moreVertical }
@@ -56,14 +60,18 @@ const PreviewModeSelector = () => {
 					onClick={ onToggle }
 					aria-expanded={ isOpen }
 				>
-					{ previewBlocks?.name }
+					{ currentTemplate?.title.rendered ||
+						__( 'Default', 'themer' ) }
 				</Button>
 			) }
 			renderContent={ () => (
 				<MenuGroup>
 					<MenuItemsChoice
 						choices={ [
-							{ label: 'Default', value: 'default' },
+							{
+								label: __( 'Default', 'themer' ),
+								value: 'default',
+							},
 							...templateOptions,
 						] }
 						value={ previewBlocks.name }
