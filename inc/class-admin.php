@@ -5,7 +5,7 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 /**
  * Generate an admin screen we can use for the plugin.

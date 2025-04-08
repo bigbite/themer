@@ -5,7 +5,7 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 /**
  * Retrieves all of the `wp_global_styles` posts linked to the active theme.

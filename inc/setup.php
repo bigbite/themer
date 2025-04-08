@@ -5,7 +5,7 @@
  * @package themer
  */
 
-namespace Big_Bite\themer;
+namespace Big_Bite\Themer;
 
 /**
  * Runs the plugin setup sequence.
@@ -14,5 +14,5 @@ namespace Big_Bite\themer;
  */
 function setup(): void {
 	new Admin();
-	new Rest_API();
+	new REST_API();
 }
