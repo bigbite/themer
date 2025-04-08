@@ -1,10 +1,16 @@
 import { __ } from '@wordpress/i18n';
-import { Button, Modal, ExternalLink } from '@wordpress/components';
+import {
+	Button,
+	Icon,
+	Modal,
+	Tooltip,
+	ExternalLink,
+} from '@wordpress/components';
 import { useEntityRecords, store as coreStore } from '@wordpress/core-data';
 import { useDispatch } from '@wordpress/data';
 
 import { saveHtmlFile } from '../../utils/save-file';
-import { download, backup } from '@wordpress/icons';
+import { download, backup, warning } from '@wordpress/icons';
 
 /**
  * Renders the button to export theme.json
@@ -39,11 +45,29 @@ const TemplateManagerModal = ( { isOpen, setIsOpen } ) => {
 					{ templates.map( ( template ) => {
 						const isCustom = template.source === 'custom';
 						const hasThemeFile = template.has_theme_file;
+						const hasChanges = template.themer_has_changes;
 
 						const editUrl = `site-editor.php?postId=${ template.id }&postType=wp_template&canvas=edit`;
 
 						return (
 							<tr key={ template.id }>
+								<td>
+									{ hasChanges && (
+										<Tooltip
+											text={ __(
+												'Database may have changes',
+												'themer'
+											) }
+										>
+											<Icon
+												icon={ warning }
+												style={ {
+													fill: 'var(--wp--preset--color--luminous-vivid-amber)',
+												} }
+											/>
+										</Tooltip>
+									) }
+								</td>
 								<td>
 									<ExternalLink href={ editUrl }>
 										{ template.title.raw }
