@@ -39,8 +39,6 @@ class REST_API {
 				'themer_has_changes',
 				array(
 					'get_callback' => function ( $data ) {
-						$content = $data['content']['raw'] ?? null;
-
 						$template_files = _get_block_templates_files( $data['type'] );
 
 						$template_file = current(
