@@ -45,7 +45,7 @@ class REST_API {
 					'get_callback' => array( $this, 'get_has_changes' ),
 					'schema'       => array(
 						'type'        => 'boolean',
-						'description' => 'Whether the template part matches the file content',
+						'description' => __( 'Whether the template part matches the file content', 'themer' ),
 					),
 				)
 			);
