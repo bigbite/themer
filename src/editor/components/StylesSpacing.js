@@ -7,6 +7,7 @@ import {
 } from '@wordpress/components';
 
 import {
+	hasCssUnit,
 	isCssLengthUnit,
 	spacingToVar,
 	varToSpacing,
@@ -90,16 +91,6 @@ const Spacing = ( { selector } ) => {
 	}
 
 	/**
-	 * If the value is no unit, add 'px' as a default.
-	 *
-	 * @param {string} value
-	 * @return {string} value - The value with 'px' as a default or just the value.
-	 */
-	const addUnitIfMissing = ( value ) => {
-		// Check if the value already includes a unit; if not, add 'px' as a default
-		return value && /^[0-9.]+$/.test( value ) ? `${ value }px` : value;
-	};
-	/**
 	 * Updates the theme config with the new value.
 	 *
 	 * @param {string|Object} newVal - The new value.
@@ -107,6 +98,7 @@ const Spacing = ( { selector } ) => {
 	 */
 	const handleNewValue = ( newVal, type ) => {
 		let newSpacingStyles = { ...spacingStyles };
+
 		if ( type === 'margin' || type === 'padding' ) {
 			const spacingKeys = Object.keys( newVal );
 			spacingKeys.forEach( ( key ) => {
@@ -117,7 +109,10 @@ const Spacing = ( { selector } ) => {
 					newVal[ key ],
 					themeSpacingSizes
 				);
-				newVal[ key ] = addUnitIfMissing( newVal[ key ] );
+
+				if ( ! hasCssUnit( newVal[ key ] ) ) {
+					newVal[ key ] = `${ newVal[ key ] }px`;
+				}
 			} );
 			newSpacingStyles = { ...spacingStyles, [ type ]: { ...newVal } };
 		} else {
