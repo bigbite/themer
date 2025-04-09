@@ -60,21 +60,21 @@ class REST_API {
 	 * @return bool True if the template has changes in the database more recent than the file.
 	 */
 	public function get_has_changes( $data ): bool {
-			$template_files = _get_block_templates_files( $data['type'] );
+		$template_files = _get_block_templates_files( $data['type'] );
 
-			$template_file = current(
-				array_filter(
-					$template_files,
-					fn ( $template_file ) => $template_file['slug'] === $data['slug']
-				)
-			);
+		$template_file = current(
+			array_filter(
+				$template_files,
+				fn ( $template_file ) => $template_file['slug'] === $data['slug']
+			)
+		);
 
 		if ( empty( $template_file ) ) {
 			return array();
 		}
 
 		$saved_date = $data['modified'] ? strtotime( get_gmt_from_date( $data['modified'] ) ) : 0;
-		$modified   = filemtime( $template_file['path'] );
+		$modified   = file_exists( $template_file['path'] ) ? filemtime( $template_file['path'] ) : 0;
 
 		return $saved_date > $modified;
 	}
