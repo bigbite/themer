@@ -7,6 +7,7 @@ import {
 } from '@wordpress/components';
 
 import {
+	hasCssUnit,
 	isCssLengthUnit,
 	spacingToVar,
 	varToSpacing,
@@ -30,7 +31,7 @@ const parseUserValue = (
 ) => {
 	const convertedValue = varToSpacing( value, themeSpacingSizes );
 	if ( convertedValue === '' || ! isCssLengthUnit( convertedValue ) ) {
-		return '0px';
+		return value;
 	}
 
 	if ( ! allowNegativeValues && convertedValue.startsWith( '-' ) ) {
@@ -97,6 +98,7 @@ const Spacing = ( { selector } ) => {
 	 */
 	const handleNewValue = ( newVal, type ) => {
 		let newSpacingStyles = { ...spacingStyles };
+
 		if ( type === 'margin' || type === 'padding' ) {
 			const spacingKeys = Object.keys( newVal );
 			spacingKeys.forEach( ( key ) => {
@@ -107,6 +109,10 @@ const Spacing = ( { selector } ) => {
 					newVal[ key ],
 					themeSpacingSizes
 				);
+
+				if ( ! hasCssUnit( newVal[ key ] ) ) {
+					newVal[ key ] = `${ newVal[ key ] }px`;
+				}
 			} );
 			newSpacingStyles = { ...spacingStyles, [ type ]: { ...newVal } };
 		} else {

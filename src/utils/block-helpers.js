@@ -330,3 +330,18 @@ export const varToSpacing = ( spacingValue, themeSpacingSizes ) => {
 
 	return getCustomValueFromPreset( valueInCorrectFormat, themeSpacingSizes );
 };
+
+/**
+ * Checks whether a value has a CSS unit
+ *
+ * @param {string} value
+ *
+ * @return {boolean} True if the value ends with a valid CSS unit
+ */
+export const hasCssUnit = ( value ) => {
+	if ( ! value ) return value;
+
+	const units = [ 'px', 'em', 'rem', '%', 'vh', 'vw' ];
+
+	return units.some( ( unit ) => value.endsWith( unit ) );
+};
