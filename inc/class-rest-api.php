@@ -21,6 +21,8 @@ class REST_API {
 
 	/**
 	 * Register the custom REST API routes.
+	 *
+	 * @return void
 	 */
 	public function register_routes(): void {
 		$controller = new WP_REST_Themer_Controller();
@@ -29,6 +31,8 @@ class REST_API {
 
 	/**
 	 * Register custom fields for the REST API.
+	 *
+	 * @return void
 	 */
 	public function register_fields(): void {
 		$template_types = array( 'wp_template_part', 'wp_template' );
@@ -38,27 +42,7 @@ class REST_API {
 				$template_type,
 				'themer_has_changes',
 				array(
-					'get_callback' => function ( $data ) {
-						$template_files = _get_block_templates_files( $data['type'] );
-
-						$template_file = current(
-							array_filter(
-								$template_files,
-								function ( $template_file ) use ( $data ) {
-										return $template_file['slug'] === $data['slug'];
-								}
-							)
-						);
-
-						if ( empty( $template_file ) ) {
-							return array();
-						}
-
-						$saved_date = $data['modified'] ? strtotime( get_gmt_from_date( $data['modified'] ) ) : 0;
-						$modified   = filemtime( $template_file['path'] );
-
-						return $saved_date > $modified;
-					},
+					'get_callback' => array( $this, 'get_has_changes' ),
 					'schema'       => array(
 						'type'        => 'boolean',
 						'description' => 'Whether the template part matches the file content',
@@ -66,5 +50,34 @@ class REST_API {
 				)
 			);
 		}
+	}
+
+	/**
+	 * Get the template changes.
+	 *
+	 * @param array $data The object data.
+	 *
+	 * @return bool True if the template has changes in the database more recent than the file.
+	 */
+	public function get_has_changes( $data ): bool {
+			$template_files = _get_block_templates_files( $data['type'] );
+
+			$template_file = current(
+				array_filter(
+					$template_files,
+					function ( $template_file ) use ( $data ) {
+							return $template_file['slug'] === $data['slug'];
+					}
+				)
+			);
+
+		if ( empty( $template_file ) ) {
+			return array();
+		}
+
+		$saved_date = $data['modified'] ? strtotime( get_gmt_from_date( $data['modified'] ) ) : 0;
+		$modified   = filemtime( $template_file['path'] );
+
+		return $saved_date > $modified;
 	}
 }
