@@ -70,7 +70,7 @@ class REST_API {
 		);
 
 		if ( empty( $template_file ) ) {
-			return array();
+			return false;
 		}
 
 		$saved_date = $data['modified'] ? strtotime( get_gmt_from_date( $data['modified'] ) ) : 0;
