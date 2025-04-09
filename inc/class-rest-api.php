@@ -65,9 +65,7 @@ class REST_API {
 			$template_file = current(
 				array_filter(
 					$template_files,
-					function ( $template_file ) use ( $data ) {
-							return $template_file['slug'] === $data['slug'];
-					}
+					fn ( $template_file ) => $template_file['slug'] === $data['slug']
 				)
 			);
 
