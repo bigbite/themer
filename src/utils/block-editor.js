@@ -47,7 +47,7 @@ export function getCustomValueFromPreset( value, spacingSizes ) {
 	}
 
 	const slug = getSpacingPresetSlug( value );
-	const spacingSize = spacingSizes.find(
+	const spacingSize = spacingSizes?.find(
 		( size ) => String( size.slug ) === slug
 	);
 

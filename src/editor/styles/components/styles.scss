@@ -53,7 +53,7 @@
 }
 
 .themer--styles__item__label {
-	font-weight: 600;
+	font-weight: 500;
 	font-size: 11px;
 	line-height: 25.4px;
 	text-transform: uppercase;
@@ -74,4 +74,96 @@
 	~ .components-circular-option-picker
 	.components-color-list-picker {
 	display: none;
+}
+
+.themer--styles__colorPicker-wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.themer--item-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+.themer--item-wrapper .components-panel__body {
+	border: none;
+	width: 700px;
+	padding: 10px 0;
+}
+
+.themer--color-palette {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.themer--color-palette .components-circular-option-picker {
+	min-width: unset;
+}
+
+.themer--styles__inline-units {
+	display: flex;
+}
+
+.themer--settings__item__title {
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 40px;
+}
+
+.themer-styles-container .components-navigator-screen:has(.themer--settings) {
+	padding: 0;
+}
+
+.themer--settings-header {
+	padding: 20px;
+}
+
+.themer-settings--modal {
+	max-height: 80%;
+	max-width: 450px;
+}
+
+.themer-settings--modal__actions {
+	display: flex;
+	justify-content: space-between;
+}
+
+.themer-settings--modal__content > div {
+	padding-bottom: 20px;
+}
+
+.themer--typography-options {
+	padding-bottom: 20px;
+}
+
+.themer--typography-options button {
+	margin: 0 10px 10px 0;
+}
+
+.themer--typography-font-face-options {
+	display: flex;
+	flex-wrap: wrap;
+	padding-bottom: 10px;
+}
+
+.themer--typography-font-face-options > * {
+	margin: 5px;
+}
+
+.themer--shadow-options {
+	padding-bottom: 20px;
+}
+
+.themer--shadow-options button {
+	margin: 0 10px 10px 0;
+}
+
+.themer--tag {
+	border-radius: 3px;
+	background-color: #ccc;
+	text-transform: uppercase;
+	font-size: 0.6rem;
+	font-weight: 500;
+	padding: 2px 4px;
 }

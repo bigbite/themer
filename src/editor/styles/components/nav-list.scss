@@ -93,3 +93,11 @@
 	left: calc(var(--themer-nav-list-indent) - 22px);
 	top: 2px;
 }
+
+.themer-nav-list__item--hasSettings {
+	display: flex;
+}
+
+.themer-nav-list__item--hasSettings .themer-nav-list__item:first-of-type {
+	flex: 1;
+}

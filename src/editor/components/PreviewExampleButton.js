@@ -20,6 +20,7 @@ const PreviewExampleButton = () => {
 		setPreviewExampleIsActive,
 		setPreviewBlocks,
 		resetPreviewBlocks,
+		previewMode,
 	} = useContext( EditorContext );
 
 	const { params } = useNavigator();
@@ -28,15 +29,8 @@ const PreviewExampleButton = () => {
 		if ( previewExampleIsActive ) {
 			const preview = getPreviewFromRouteParams( params );
 			setPreviewBlocks( preview );
-		} else {
-			resetPreviewBlocks();
 		}
-	}, [
-		params,
-		previewExampleIsActive,
-		resetPreviewBlocks,
-		setPreviewBlocks,
-	] );
+	}, [ params, previewExampleIsActive, setPreviewBlocks ] );
 
 	const handlePreviewExampleToggle = () => {
 		if ( previewExampleIsActive ) {
@@ -45,6 +39,8 @@ const PreviewExampleButton = () => {
 			return;
 		}
 		setPreviewExampleIsActive( true );
+		const preview = getPreviewFromRouteParams( params );
+		setPreviewBlocks( preview );
 	};
 
 	return (
@@ -52,7 +48,8 @@ const PreviewExampleButton = () => {
 			className="themer-styles-heading__right"
 			onClick={ handlePreviewExampleToggle }
 			icon={ seen }
-			isPressed={ previewExampleIsActive }
+			isPressed={ previewExampleIsActive && previewMode !== 'code' }
+			disabled={ previewMode === 'code' }
 			label={ __( 'Toggle example', 'themer' ) }
 		/>
 	);
