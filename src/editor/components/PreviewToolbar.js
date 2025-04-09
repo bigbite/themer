@@ -1,3 +1,4 @@
+import PreviewTemplateSelector from './PreviewTemplateSelector';
 import PreviewModeSelector from './PreviewModeSelector';
 import ResponsiveButton from './ResponsiveButton';
 
@@ -8,8 +9,11 @@ import ResponsiveButton from './ResponsiveButton';
 const PreviewToolbar = () => {
 	return (
 		<div className="themer-preview__toolbar">
-			<ResponsiveButton />
-			<PreviewModeSelector />
+			<PreviewTemplateSelector />
+			<div>
+				<ResponsiveButton />
+				<PreviewModeSelector />
+			</div>
 		</div>
 	);
 };
