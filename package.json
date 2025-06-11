@@ -1,7 +1,7 @@
 {
 	"name": "@bigbite/themer",
 	"description": "A plugin to help you style themes faster.",
-	"version": "1.2.2",
+	"version": "1.3.0",
 	"author": "Big Bite",
 	"engines": {
 		"node": ">=16.16.0",

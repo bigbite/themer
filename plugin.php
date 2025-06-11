@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Themer
  * Description:       A plugin to help you style themes faster.
- * Version:           1.2.2
+ * Version:           1.3.0
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            Big Bite
